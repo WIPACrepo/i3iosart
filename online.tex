@@ -1,0 +1,61 @@
+%!TEX TS-program = pdflatex
+%!TEX root = i3det-top.tex
+%!TEX encoding = UTF-8 Unicode
+
+\section{IceCube Online Systems}
+\textsl{(John K; 12-15 pages)}
+
+%The division between \textit{triggering} and
+%\textit{filtering} is the urgency of the processing.
+%Triggers must operate within a bounded time and if not
+%data is lost.  Filters operate behind such large buffers
+%that this is not a consideration.  Historically this means
+%that the triggers have been rather \emph{dumb} but there
+%is in principle no ceiling to the trigger complexity.
+
+\subsection{Data Flow Overview}
+
+\subsection{SPS and SPTS}
+
+\subsection{Data Readout and Timing}
+\subsubsection{Communications and Cable Bandwidth}
+\subsubsection{Master Clock System}
+\subsubsection{DOR Card and Linux Driver}
+
+\subsection{Processing at the Surface}
+\textsl{(Dave G; 2-3 pages)}
+\subsubsection{DOMHub and Hit Spooling}
+\subsubsection{Supernova System}
+\subsubsection{Triggers}
+\subsubsection{Event Building}
+\subsubsection{The Secondary Streams (SN/Moni/TCAL)}
+\subsubsection{Configuration}
+\subsubsection{Distributed Network Control}
+
+\subsection{Online Filtering}
+\textsl{(Erik B.; 3-4 pages)}
+\subsubsection{Overview}
+Big picture view of what PnF is and does (route data from DAQ output to
+files for pickup by data handling, applying calibration, recos and
+filters along the way, TFT content, etc)
+
+\subsubsection{System Design}
+Cover the overall system design and tech used (CORBA, I3Inlet/I3Outlets,
+etc) and how all pieces fit together and are controlled (mention
+pf2live). Words about historical operation in Plan B in early seasons,
+plan A.
+
+\subsubsection{Components}
+A brief description of each PnF component
+\paragraph{I3DAQDispatch}
+\paragraph{PnF Server}
+\paragraph{PnF Clients}
+\paragraph{DB Cache}
+\paragraph{Realtime Followup server and clients}
+
+\subsubsection{Performance}
+\paragraph{Overall rates and known limits (server + I/O limits)}
+\paragraph{Average system latency}
+
+
+\subsection{Data Handling}
