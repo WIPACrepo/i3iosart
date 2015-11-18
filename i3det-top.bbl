@@ -1,0 +1,42 @@
+\begin{thebibliography}{1}
+
+\bibitem{ICECUBE:DC}
+R.~Abbasi, Y.~Abdou, T.~Abu-Zayyad, M.~Ackermann, J.~Adams, J.~Aguilar,
+  M.~Ahlers, M.~Allen, D.~Altmann, K.~Andeen, et~al.
+\newblock {The design and performance of IceCube DeepCore}.
+\newblock {\em Astroparticle physics}, 35(10):615--624, 2012.
+
+\bibitem{ICECUBE:PMT}
+R.~Abbasi, Y.~Abdou, T.~Abu-Zayyad, J.~Adams, J.~Aguilar, M.~Ahlers, K.~Andeen,
+  J.~Auffenberg, X.~Bai, M.~Baker, et~al.
+\newblock {Calibration and characterization of the IceCube photomultiplier
+  tube}.
+\newblock {\em Nuclear Instruments and Methods in Physics Research Section A:
+  Accelerators, Spectrometers, Detectors and Associated Equipment},
+  618(1):139--152, 2010.
+
+\bibitem{ICECUBE:AtmNu}
+R.~Abbasi, Y.~Abdou, T.~Abu-Zayyad, J.~Adams, J.~Aguilar, M.~Ahlers, K.~Andeen,
+  J.~Auffenberg, X.~Bai, M.~Baker, et~al.
+\newblock {Measurement of the atmospheric neutrino energy spectrum from 100 GeV
+  to 400 TeV with IceCube}.
+\newblock {\em Physical Review D}, 83(1):012001, 2011.
+
+\bibitem{ICECUBE:IceTop}
+R.~Abbasi, Y.~Abdou, M.~Ackermann, J.~Adams, J.~Aguilar, M.~Ahlers, D.~Altmann,
+  K.~Andeen, J.~Auffenberg, X.~Bai, et~al.
+\newblock {IceTop: The surface component of IceCube}.
+\newblock {\em Nuclear Instruments and Methods in Physics Research Section A:
+  Accelerators, Spectrometers, Detectors and Associated Equipment},
+  700:188--220, 2013.
+
+\bibitem{ICECUBE:DAQ}
+R.~Abbasi, M.~Ackermann, J.~Adams, M.~Ahlers, J.~Ahrens, K.~Andeen,
+  J.~Auffenberg, X.~Bai, M.~Baker, S.~Barwick, et~al.
+\newblock {The IceCube data acquisition system: Signal capture, digitization,
+  and timestamping}.
+\newblock {\em Nuclear Instruments and Methods in Physics Research Section A:
+  Accelerators, Spectrometers, Detectors and Associated Equipment},
+  601(3):294--316, 2009.
+
+\end{thebibliography}

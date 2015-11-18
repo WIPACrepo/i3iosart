@@ -1,0 +1,17 @@
+% This file was created with JabRef 2.10b2.
+% Encoding: ISO8859_1
+
+
+@Article{abbasi2012design,
+  Title                    = {The design and performance of IceCube DeepCore},
+  Author                   = {Abbasi, Rasha and Abdou, Yasser and Abu-Zayyad, T and Ackermann, M and Adams, J and Aguilar, JA and Ahlers, M and Allen, MM and Altmann, D and Andeen, K and others},
+  Journal                  = {Astroparticle physics},
+  Year                     = {2012},
+  Number                   = {10},
+  Pages                    = {615--624},
+  Volume                   = {35},
+
+  Collaboration            = {IceCube},
+  Publisher                = {Elsevier}
+}
+
