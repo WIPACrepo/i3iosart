@@ -2,8 +2,82 @@
 %!TEX root = i3det-top.tex
 %!TEX encoding = UTF-8 Unicode
 
-\section{IceCube Online Systems}
+\section{\label{online}Online Systems}
 \textsl{(John K; 12-15 pages)}
+
+The IceCube online systems comprise both the software and hardware 
+at the detector site responsible for data acquisition, event selection,
+monitoring, and data storage and movement.  As one of the goals of IceCube
+operations is to maximize the fraction of time the detector is sensitive
+to neutrino interactions (``uptime''), the online systems are modular so
+that failures in one 
+particular component do not necessarily prevent the continuation of basic
+data acquisition. Additionally, all systems are monitored with a combination of
+custom-designed and industry-standard tools so that detector operators can
+be alerted in case of abnormal conditions.
+
+\subsection{\label{online:dataflow}Data Flow Overview}
+
+The online data flow consists of a number of steps of data reduction and
+selection in the progression from photon detection in the glacial ice to
+candidate neutrino event selection, along with associated secondary data
+streams and monitoring.  An overview of the data flow is shown in
+Fig.~\ref{fig:dataflow}.  
+
+Since the majority of photons detected by the DOMs are dark noise, a
+first-level \emph{local coincidence} (LC) is formed between neighboring
+DOMs deployed along the same cable, using dedicated wire pairs within the
+in-ice cable.  DOM-level triggers, or \emph{hits}, with corresponding
+neighbor hits are flagged with the LC condition, while hits without the
+condition are compressed more aggressively.  The LC time window as well as
+the span of neighbor DOMs up and down the cable can both be configured,
+with standard settings of a $\pm1 \mu s$ coincidence window and neighbor
+span of 2 DOMs. 
+
+All DOM hits are read out to dedicated computers on the surface by the data
+acquisition system (DAQ).  The next level of data selection is the
+formation of \emph{triggers} by the DAQ system.  LC-flagged hits across the
+detector are examined for temporal and in some cases spatial patterns that
+suggest a common causal relationship.  A number of different trigger
+algorithms run in parallel, described in Sect.~\ref{sect:trigger}.  All hits
+(both LC-flagged and non-LC hits) within a window around the trigger are
+combined into \emph{events}, the fundamental output of the DAQ, and written
+to disk.  The event rate is approximately 2.5 kHz but varies with the
+seasonal atmopheric muon flux, and the total DAQ data rate is approximately
+1TB/day.   
+
+The DAQ also produces \emph{secondary streams} that include time
+calibration, monitoring, and DOM scaler data.  The scaler data, which is
+monitoring the noise rate of each DOM in 1.6 ms bins, is used in the
+supernova data acquisition system \cite{sndaq} to detect a global rise from
+many $O(10)$ MeV neutrino interactions occuring in the ice from a
+Galactic core-collapse supernova.  The time calibration and monitoring
+streams are used to monitor the health and quality of the data-taking runs.
+
+The raw DAQ event data is then processed further with a number of
+\emph{filters} in order to select a subset of events (less than 10\%) to
+transfer over satellite to the Northern Hemisphere (see
+Sect.~\ref{sect:filter}).  Each 
+filter, typically designed to select events useful for a particular physics
+analysis, is run 
+over all events using a computing cluster in the IceCube Lab.  Because of
+limitations both on total computing power and bounds on the processing time
+of each event, only fast directional and energy reconstructions are used.
+The processing and filtering system is also responsible for applying
+up-to-date calibrations to the DAQ data; processed events, even those not
+selected by the online filters, are stored locally for archival.
+
+A dedicated system for data movement handles the local archival storage to
+tape or disk, as well as the handoff of satellite data (see Sect.~\ref{sec:jade}).
+This includes not only primary data streams but also monitoring data,
+calibration runs, and other data streams.
+
+[Add experiment control paragraph]
+
+%An overview of the data flow from DOMs to the satellite.  Description of
+%architecture and levels of data reduction, starting with a review of LC and
+%proceeding to triggers and then filters.  Secondary streams and SNDAQ.
+%I3Live, experiment control, and monitoring.
 
 %The division between \textit{triggering} and
 %\textit{filtering} is the urgency of the processing.
@@ -12,13 +86,6 @@
 %that this is not a consideration.  Historically this means
 %that the triggers have been rather \emph{dumb} but there
 %is in principle no ceiling to the trigger complexity.
-
-\subsection{Data Flow Overview}
-
-An overview of the data flow from DOMs to the satellite.  Description of
-architecture and levels of data reduction, starting with a review of LC and
-proceeding to triggers and then filters.  Secondary streams and SNDAQ.
-I3Live, experiment control, and monitoring.
 
 Figure: data flow diagram indicating major subsystems to be described in
 this section: DAQ (incl. SNDAQ), PnF, I3Live, and SPADE/JADE.
@@ -36,7 +103,7 @@ capabilities.
 \subsubsection{Communications and Cable Bandwidth}
 
 Description of communications protocol and messaging strategy.  Reference
-to RAPCal and how it fits in.
+to RAPCal and how it fits in.  Event compression.
 
 % Q: is LC signaling documented anywhere yet?  Should it go here?
 
@@ -108,7 +175,7 @@ Tree of XML configuration files for components, triggers, and DOM settings.
 
 \subsubsection{Distributed Network Control}
 
-CnC server description.  XML-RPC.  
+CnC server description.  XML-RPC.  % Plus ZMQ?
 
 \subsection{Online Filtering}
 \textsl{(Erik B.; 3-4 pages)}
