@@ -3,8 +3,82 @@
 %!TEX encoding = UTF-8 Unicode
 
 
-\section{IceCube Online Systems}
+\section{\label{online}Online Systems}
 \textsl{(John K; 12-15 pages)}
+
+The IceCube online systems comprise both the software and hardware 
+at the detector site responsible for data acquisition, event selection,
+monitoring, and data storage and movement.  As one of the goals of IceCube
+operations is to maximize the fraction of time the detector is sensitive
+to neutrino interactions (``uptime''), the online systems are modular so
+that failures in one 
+particular component do not necessarily prevent the continuation of basic
+data acquisition. Additionally, all systems are monitored with a combination of
+custom-designed and industry-standard tools so that detector operators can
+be alerted in case of abnormal conditions.
+
+\subsection{\label{online:dataflow}Data Flow Overview}
+
+The online data flow consists of a number of steps of data reduction and
+selection in the progression from photon detection in the glacial ice to
+candidate neutrino event selection, along with associated secondary data
+streams and monitoring.  An overview of the data flow is shown in
+Fig.~\ref{fig:dataflow}.  
+
+Since the majority of photons detected by the DOMs are dark noise, a
+first-level \emph{local coincidence} (LC) is formed between neighboring
+DOMs deployed along the same cable, using dedicated wire pairs within the
+in-ice cable.  DOM-level triggers, or \emph{hits}, with corresponding
+neighbor hits are flagged with the LC condition, while hits without the
+condition are compressed more aggressively.  The LC time window as well as
+the span of neighbor DOMs up and down the cable can both be configured,
+with standard settings of a $\pm1 \mu s$ coincidence window and neighbor
+span of 2 DOMs. 
+
+All DOM hits are read out to dedicated computers on the surface by the data
+acquisition system (DAQ).  The next level of data selection is the
+formation of \emph{triggers} by the DAQ system.  LC-flagged hits across the
+detector are examined for temporal and in some cases spatial patterns that
+suggest a common causal relationship.  A number of different trigger
+algorithms run in parallel, described in Sect.~\ref{sect:trigger}.  All hits
+(both LC-flagged and non-LC hits) within a window around the trigger are
+combined into \emph{events}, the fundamental output of the DAQ, and written
+to disk.  The event rate is approximately 2.5 kHz but varies with the
+seasonal atmopheric muon flux, and the total DAQ data rate is approximately
+1TB/day.   
+
+The DAQ also produces \emph{secondary streams} that include time
+calibration, monitoring, and DOM scaler data.  The scaler data, which is
+monitoring the noise rate of each DOM in 1.6 ms bins, is used in the
+supernova data acquisition system \cite{sndaq} to detect a global rise from
+many $O(10)$ MeV neutrino interactions occuring in the ice from a
+Galactic core-collapse supernova.  The time calibration and monitoring
+streams are used to monitor the health and quality of the data-taking runs.
+
+The raw DAQ event data is then processed further with a number of
+\emph{filters} in order to select a subset of events (less than 10\%) to
+transfer over satellite to the Northern Hemisphere (see
+Sect.~\ref{sect:filter}).  Each 
+filter, typically designed to select events useful for a particular physics
+analysis, is run 
+over all events using a computing cluster in the IceCube Lab.  Because of
+limitations both on total computing power and bounds on the processing time
+of each event, only fast directional and energy reconstructions are used.
+The processing and filtering system is also responsible for applying
+up-to-date calibrations to the DAQ data; processed events, even those not
+selected by the online filters, are stored locally for archival.
+
+A dedicated system for data movement handles the local archival storage to
+tape or disk, as well as the handoff of satellite data (see Sect.~\ref{sec:jade}).
+This includes not only primary data streams but also monitoring data,
+calibration runs, and other data streams.
+
+[Add experiment control paragraph]
+
+%An overview of the data flow from DOMs to the satellite.  Description of
+%architecture and levels of data reduction, starting with a review of LC and
+%proceeding to triggers and then filters.  Secondary streams and SNDAQ.
+%I3Live, experiment control, and monitoring.
 
 %The division between \textit{triggering} and
 %\textit{filtering} is the urgency of the processing.
@@ -13,13 +87,6 @@
 %that this is not a consideration.  Historically this means
 %that the triggers have been rather \emph{dumb} but there
 %is in principle no ceiling to the trigger complexity.
-
-\subsection{Data Flow Overview}
-
-An overview of the data flow from DOMs to the satellite.  Description of
-architecture and levels of data reduction, starting with a review of LC and
-proceeding to triggers and then filters.  Secondary streams and SNDAQ.
-I3Live, experiment control, and monitoring.
 
 Figure: data flow diagram indicating major subsystems to be described in
 this section: DAQ (incl. SNDAQ), PnF, I3Live, and SPADE/JADE.
@@ -37,7 +104,7 @@ capabilities.
 \subsubsection{Communications and Cable Bandwidth}
 
 Description of communications protocol and messaging strategy.  Reference
-to RAPCal and how it fits in.
+to RAPCal and how it fits in.  Event compression.
 
 % Q: is LC signaling documented anywhere yet?  Should it go here?
 
@@ -109,7 +176,7 @@ Tree of XML configuration files for components, triggers, and DOM settings.
 
 \subsubsection{Distributed Network Control}
 
-CnC server description.  XML-RPC.  
+CnC server description.  XML-RPC.  % Plus ZMQ?
 
 \subsection{Online Filtering}
 \textsl{(Erik B.; 3-4 pages)}
@@ -141,8 +208,39 @@ Figure: plot of typical latency including run transition?
 \subsection{Data Handling}
 \textsl{(P. Meade; 1 page)}
 
-Generation description of system architecture.  Stream definitions, dropboxes,
-and data pickup.  Archival vs. transfer to TDRSS system.  
+\textsl{Generation description of system architecture.  Stream definitions, dropboxes,
+and data pickup.  Archival vs. transfer to TDRSS system.  }
+
+Data handling is provided by three servers named jade02, jade03, and jade04. The jade servers operate independently of one another and 
+each of them are capable of handling the nominal data volume by itself. Having three servers allows for data handling to continue seamlessly 
+in case of hardware failure or maintenance.
+
+Each server runs a copy of the Java Archival and Data Exchange (JADE) software (stylized “jade”). As its name implies, the jade software 
+is written in the Java programming language. It is a reimplementation and expansion of earlier prototype software called South Pole Archival
+and Data Exchange (SPADE), written by Cindy Mackenzie. The jade software has four primary tasks: consumption, archival, satellite transmission, and real-time
+transmission.
+
+The jade software is configured with a number of data streams, which consist of a data server, a dropbox directory, and a filename pattern. 
+The data stream dropbox directories are checked on a regular basis for new files. A file pairing scheme (binary and semaphore) prevents files 
+from being consumed before they are finished being produced. For each file, a checksum calculated on the data server is compared to a checksum 
+calculated on the jade server. This method ensures that the file was copied without error. After this, the original data file is removed from the data host.
+
+After consumption, files are routed according to the configuration of their data stream. Files that are too large to send via the satellite link are archived to
+a configurable number of archival media copies. The prototype SPADE software archived to LTO tapes, while the later jade software archives to large (2+ TB) hard
+disk drives. All of the archival data is buffered on the jade server until the archival media is complete. In case of failure while creating the archival media, 
+all of the files can be immediately written to fresh archival media with a single command.
+
+Files that are too large to send via the real-time link, but small enough to send via the satellite link are queued for satellite transmission. The jade software
+attempts to bundle multiple files together into 1 GB bundle archives to allow satellite link operators to manage the daily data transmission. Very large files
+(>1 GB) are split apart into multiple 1 GB bundles for the same reason. The jade software will only transfer a configurable number of bundles to the satellite
+relay server. If satellite transmission is not possible, the jade software will buffer the excess bundles on the jade server, to avoid flooding the relay server
+unnecessarily.
+
+
+Small files (<50 KB) with high priority status information are sent via the real-time link. The real-time link is provided by the IceCube Messaging Service
+(I3MS). The jade software uses JeroMQ, a pure Java implementation of the ZeroMQ (ZMQ) protocol, to connect to I3MS. In cases where the real-time link is not
+available, I3MS will queue the messages to be sent when the link becomes available. All I3MS messages are also sent to jade to send via the satellite link to
+ensure delivery if the real-time link should be unavailable for an extended period of time.
 
 \subsection{I3Live and Remote Monitoring}
 \textsl{(J. Braun; 1 page)}
