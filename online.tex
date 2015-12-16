@@ -128,17 +128,113 @@ cards, power distribution).
 \subsection{Processing at the Surface}
 \textsl{(Dave G; 2-3 pages)}
 
-Big-picture description of what DAQ does: collecting hits from the DOMs,
-triggering on HLC hits, and packaging waveforms into events.  
+IceCube's data acquisition system (DAQ) is a set of components running on
+dedicated servers in the IceCube Lab.  As described in
+\ref{sect:online:dataflow}, physics data is read from the DOMs by the StringHub
+component and a minimal representation of each HLC hit is forwarded to the
+``local'' Trigger components.  The ``local'' Trigger components run these
+minimal hits through a configurable set of algorithms and form windows around
+interesting temporal and/or spatial patterns.  These time windows are collected
+by the ``global'' Trigger and used to form non-overlapping trigger requests.
+These trigger requests are used by the Event Builder component as templates to
+gather the complete hit data from each StringHub and assemble the final events.
 
 \subsubsection{DOMHub and Hit Spooling}
 
-Responsibility of StringHub.  Splicer and description of HKN1 algorithm.
-Forwarding of HLC hit times to trigger.  Translation of DOR times into
-UTC.  Servicing event readout requests (defer discussion to event builder
-section).  Generation of secondary streams. 
+%Responsibility of StringHub.
+The \emph{StringHub} is responsible for periodically reading all available data
+from each of its connected DOMs and passing that data onto the downstream
+consumers.  It also saves all hits to a local ``hit spool'' disk cache, as
+well as queuing them in an in-memory cache to service future requests from
+the \emph{Event Builder} for full waveform data.
 
-Hitspooling.  Mention of hit daemon plans.  
+%Division of front end (Omicron) and back end (Sender).
+The StringHub component is divided into two logical pieces.  The front-end
+\emph{Omicron} controls all of the connected DOMs, forwarding any
+non-physics data to its downstream consumers and sorting the hits using
+an HKN1 tree before passing them to the back-end \emph{Sender}.  The Sender
+caches SLC and HLC hits in memory, then forwards a few fields from each HLC
+hit to the local Triggers.
+
+%Servicing event readout requests (defer discussion to event builder section).
+After the
+Trigger components have determined interesting time intervals, the Event
+Builder will send each interval to the Sender, and it will return a list of
+all hits within the interval, pruning the in-memory hit cache of all older hits
+after each interval.
+
+%Forwarding of HLC hit times to trigger.
+In order to avoid saturating the 2006-era network, the StringHub sends only
+simplified HLC hit data to the local Triggers.  Fields extracted from the
+full HLC are the string and DOM, the time of the hit, and a few DOM trigger
+fields (type, mode, configuration ID), for a total of 38 bytes per hit.
+
+
+%Translation of DOR times into UTC.
+\textsl{Dave G doesn't know the details of this}
+
+%Splicer and description of HKN1 algorithm.
+One core assumption of the DAQ is that each component operates on a
+time-ordered stream of data.  IceCube's DAQ uses its \emph{Splicer} to
+accomplish this.  The Splicer is a common object which gathers all input
+streams during the setup phase; no inputs can be added once it's started.  Each
+stream pushes new data onto a ``tail'' and the Splicer uses the HKN1 algorithm
+to collate the data from all streams into a single output stream.  When a
+stream is closed, it pushes an end-of-stream marker onto its tail which causes
+the Splicer to ignore all further data.
+
+The HKN1 (Hansen-Krasberg-1) algorithm at the core of the Splicer uses a tree
+of \emph{Nodes} to sort a constant number of time-ordered data streams.  Each
+Node contains a queue of pending data, a handle for a peer Node, and another
+handle for a sink Node (shared with the peer) to which sorted data is sent.
+
+The tree is assembled by associating each input stream with a separate Node
+and adding the Node to a list.  This list is then run through a loop which
+pulls off the first two Nodes, links them together as peers and creates a
+new Node which will act as the sink for both Nodes.  The new Node is then added
+to the list.  The loop exits when there is only one Node left.
+
+When a new piece of data arrives, it is added to the associated Node's queue.
+That Node then goes into a loop where it compares the top item from its queue
+with the top item from the peer's queue and the older of the two items is passed
+onto the sink Node (which adds the item to its queue and starts its own
+comparison loop.)  This loop stops as soon as the original Node or its peer
+has no more data.
+
+%Generation of secondary streams.
+%Most of this is stolen from the Overview section above
+%I'm not sure what else is needed here.
+Along with physics data, DOMs produce three additional streams of data.
+The scaler data, which is monitoring the noise rate of each DOM in 1.6 ms bins,
+is used in the supernova data acquisition system \cite{sndaq} to detect a
+global rise from many $O(10)$ MeV neutrino interactions occuring in the ice
+from a Galactic core-collapse supernova.  The time calibration and monitoring
+streams are used to monitor the health and quality of the data-taking runs.
+
+%Hitspooling.
+As hits move from the front end to the back end, they are written to the
+``hit spool'', a disk-based cache of files containing hits.  These files are
+written in a circular order so that the newest hits overwrite the oldest data,
+and the first hit time for each file is stored in an SQLite database.
+
+Subsystems such as SnDAQ and HESE can send time interval requests to a HitSpool
+master daemon which then gathers the hits in that interval from each hub and
+forwards them to a final ``sender'' daemon which bundles them up and submits
+them to JADE for transfer to the North where the full waveforms can be used for
+further analysis.
+
+%Mention of hit daemon plans.
+One problem with the current DAQ design is that it only reads data when the
+DAQ is running, so the detector is essentially ``off'' during hardware failures
+or the periodic full restarts of the system.  There is a plan to split the
+StringHub into several independent pieces to eliminate these blind spots.
+The front end (Omicron) piece will be moved to an always-on daemon which
+continuously writes data (including secondary, non-physics data and other
+metadata) to the disk cache.  Part of the back end (Sender) piece will become a
+simple HitSpool client which reads data from the disk cache and sends it to
+the downstream consumers, while another simple component will listen for time
+intervals from the Event Builder and send back lists of hits taken from the
+hit spool.
 
 \subsubsection{Supernova System}
 
