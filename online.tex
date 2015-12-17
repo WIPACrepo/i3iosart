@@ -2,7 +2,6 @@
 %!TEX root = i3det-top.tex
 %!TEX encoding = UTF-8 Unicode
 
-
 \section{\label{online}Online Systems}
 \textsl{(John K; 12-15 pages)}
 
@@ -338,13 +337,75 @@ Small files (<50 KB) with high priority status information are sent via the real
 available, I3MS will queue the messages to be sent when the link becomes available. All I3MS messages are also sent to jade to send via the satellite link to
 ensure delivery if the real-time link should be unavailable for an extended period of time.
 
-\subsection{I3Live and Remote Monitoring}
-\textsl{(J. Braun; 1 page)}
+\subsection{IceCube-Live and Remote Monitoring}
 
-I3Live duties of experiment control and realtime monitoring.  Component
-descriptions.  Failover modes, alarms, and interface to paging system.
-Monitoring system and Moni2.0.  Interface to ITS and its replacement
-system, I3MS. 
+IceCube operations are controlled and monitored centrally by IceCube-Live, a suite of high-level software implemented mostly in the Python language.
+IceCube-Live consists of two major components: LiveControl, responsible for controlling data taking operations and
+collecting monitoring data, and the IceCube-Live website, responsible for processing and storing monitoring data as well as presenting this data
+in webpages and plots that characterize the state of the IceCube detector.
+
+\subsubsection{LiveControl}
+
+LiveControl is the central control component of IceCube operations.  The program executes in the background as a daemon and accepts user input
+through XML-RPC.  Operators typically enter commands and check the basic detector status using a command-line interface.  LiveControl is
+responsible for controlling the state of DAQ and online-processing, starting and stopping data-taking runs, and recording
+the parameters of these runs.  Stardard operation is to request a run start, supplying a configuration file specifying the DOMs to include in
+data taking.  LiveControl then records the run number, configuration, start time, etc. and sends a request for DAQ to
+begin data taking.  After data taking commences successfully, LiveControl waits a specified amount of time, generally eight
+hours, then stops the current run and automatically starts a new run using the same configuration.  This cycle continues until
+stopped by a user request or a run fails.  In case of failure, LiveControl attempts to restart data taking by starting a new
+run.  Occasionally a hardware failure occurs, and it is impossible to start a run with the supplied configuration because requested DOMs are
+unpowered or temporarily unable to communicate with the IceCube DAQ.  In this case, LiveControl cycles through predefined partial-detector
+configurations in an attempt to exclude problematic DOMs.  This results in taking data with half of the IceCube strings or fewer, but it
+greatly reduces the chance of a prolonged complete outage where no data at all is recorded.
+
+A secondary function of LiveControl is the collection, processing, and forwarding of monitoring data from DAQ, online-processing, and other components.
+Monitoring data consists of a JSON dictionary with a well-definied format including a creation time, sender name, priority, data name, and either JSON data
+or a single integer or floating-point value.  This data is forwarded to LiveControl using ZeroMQ and queued internally for processing.  A few monitoring
+quantities indicate serious problems with the detector, e.g. the online-processing latency is too high.  LiveControl provides a database of checked monitoring
+values indexed by service and data name and raises an alert if the value is out of the specified range or hasn't been received in a specified amount of time.
+The alert usually includes an email to parties responsible for the affected subsystem and, for serious problems, triggers an automated page to winterover operators.
+Several other types of monitoring data trigger a response by LiveControl.  These include alerts generated internally by subsystems, and such alerts may trigger emails
+and pages from LiveControl.  All monitoring data are forwarded to the IceCube-Live website for further processing and display.
+
+\subsubsection{IceCube-Live Website}
+
+\begin{table}[!ht]
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Priority & Transport System & Daily Messages & Daily Data & Typical Latency\\
+\hline
+1 & ITS & 10,000 & 1 MB & 1 minute \\
+\hline
+2 & I3MS & 150,000 & 5 MB & 1--5 minutes \\
+\hline
+3 & JADE & 300,000 & 100 MB & 1 day \\
+\hline
+\end{tabular}
+\caption{Statistics for IceCube monitoring messages}
+\label{i3messages}
+\end{table}
+
+Two operational copies of the IceCube-Live website exist: one inside the IceCube network at the South Pole, fed directly by LiveControl using ZeroMQ, and
+one in the Northern Hemisphere fed by several message transport systems depending on the priority of the particular monitoring data, summarized in table
+\ref{i3messages}.  
+IceCube generates approximately 300,000 monitoring messages daily.  These compress to $\sim$100 MB, are sent over JADE, and are typically available
+in the Northern Hemisphere within 24 hours.  Messages of priority level 2 or higher are additionally sent over the Iridium RUDICS link using I3MS,
+and messages of priority 1 and higher are sent over the Iridium ITS link.
+
+Messages reaching the website are ingested by the DBServer daemon, processed, and inserted into one of several SQL database tables or
+a MongoDB database depending on content.  Messages also may contain directives requesting DBServer to send email, specifying recipients and content,
+or requesting that the monitoring message be published using ZeroMQ PUB-SUB so it can be ingested by an external process.  The IceCube-Live
+website itself uses the Django framework and contains pages that create sophisticated views of monitoring data stored in either SQL or MongoDB.
+These pages include a front page that displays active alerts and plots of event rates and processing latencies from the previous few hours and
+a page for each run that displays start time, stop time, and other essential data.  The run page contains low-level diagnostic data that
+includes e.g. charge histograms, digitizer baselines, and occupancy for each DOM, and is used to diagnose problems with detector components
+during the run and to determine if the run can be used in physics analysis.
+
+Finally, the IceCube website transmits messages using ITS and I3MS to LiveControl running at the South Pole.  This capability is used to connect
+the popular Slack chat service with the IceCube-Live website running at the South Pole, allowing the IceCube winterover operators to chat with
+experts in the Northern Hemisphere during periods with no geosynchronous satellite connectivity.  Southbound messages are also used to trigger
+the HitSpool service by the request of experts in the Northern Hemisphere if an interesting event (e.g. a SNEWS alert) occurs.
 
 \subsection{Operational Performance}
 \textsl{(John K.; 1 page)}
