@@ -181,29 +181,124 @@ CnC server description.  XML-RPC.  % Plus ZMQ?
 \subsection{Online Filtering}
 \textsl{(Erik B.; 3-4 pages)}
 \subsubsection{Overview}
-Big picture view of what PnF is and does (route data from DAQ output to
-files for pickup by data handling, applying calibration, recos and
-filters along the way, TFT content, etc)
+
+The online processing and filtering system is charged with the immediate handling of all triggered events collected by the data
+acquisition system.  This treatment includes application of calibration constants, application of event characterization and filtering software,  
+extracting data quality monitoring information, generation of realtime alerts for events of astrophysical interest
+and creation of data files and metadata information for long term cataloging.  The online processing and filtering system
+is a custom software suite that utilizes a computer cluster of $\sim$20 standard servers located in SPS computing cluster
+at the experimental site at South Pole, Antarctica.The online processing and filtering system has been in operation since the
+start of operation of the 22 string configuration of IceCube in 2007.
+
+In IceCube, each triggered event consists of a collection of digitized waveforms recorded by the digital optical modules (ref daq-dom paper).
+To be useful for physics, each of these waveforms requires application of calibration constants that allow the waveform units
+to be converted from the raw units (ADC counts per sample bin) to more physical units (mV measured in each fixed time, $\sim$ns bin).  These
+calibration constants are independently measured (domcal ref?) and stored in an online database for use by
+the online processing and filtering system.  Next, each DOM's waveform is deconvolved using the known DOM response
+to photons to extract the light arrival time and amplitude information.  This series of time and amplitude light arrival information
+for each DOM is the base until for event reconstruction and characterization.  The online processing and filtering system encodes
+this information for each DOM in a compact data format known as the SuperDST, and occupies $\sim$5\%  of the file size
+of the full waveform information.  Any DOM readout whose SuperDST information is found not to a good representation of the
+original waveform, or sees very high amounts of light also have the full waveform readout saved in addition to the SuperDST.
+
+Each event is then characterized with a series of event reconstruction algorithms that attempt to match
+the observed patterns of recorded light in the SuperDST with known patterns of light
+from track and showering event hypotheses (ref reco papers?  e-reco paper?).  These characterizations (location, direction, and energy) and their 
+overall goodness-of-fit produced by these reconstructions are used to select interesting 
+events by a filter selection.  The filter criteria are set by the IceCube collaboration for each season
+and are tuned to select events of interest to specific analyses.  Each season there are
+about 2 dozen unique filter selections in operation.  Some of these filters trigger are
+designed to search for events of wide astrophysical interest to the scientific community and trigger
+alerts that are distributed to followup observatories worldwide.
+
+The online processing and filtering system also extracts and aggregates data quality and monitoring information
+from the data as is it processed.  This information includes stability and quality information from the
+DOM waveform and calibration process, rates of DOM readouts, and rates and stability
+information for all detector triggers and filters.  This information is aggregated for each data segment and
+reported to the IceCube Live monitoring system.  
+
+Finally the online processing and filtering system writes several data files that make up the long-term data catalog of the IceCube
+experiment.  These include:
+\begin{itemize}
+\item \emph {Filtered data files} These files contain only events selected by the online filter selections.  These events
+generally only include the SuperDST version of the DOM information and results from the online event reconstructions.  These
+files are queued for transmission to the IceCube data warehouse by the data handling system using the TDRS satellites. 
+\item \emph {SuperDST data files} These files contain the SuperDST version of DOM readout information for all triggered events as well as summary
+information from the online filtering process.  This file set is intended as the long-term archive version of IceCube data.
+\item \emph {Raw data files}  These files contain all uncalibrated waveforms from all DOMs for every event.  This large data
+set is saved until final data quality assurance on the SuperDST sample can be completed.
+\end{itemize}
+
+(Q:  include some information on file catalog sizes per day?)
 
 \subsubsection{System Design}
-Cover the overall system design and tech used (CORBA, I3Inlet/I3Outlets,
-etc) and how all pieces fit together and are controlled (mention
-pf2live). Words about historical operation in Plan B in early seasons,
-plan A.
+
+The online processing and filtering system uses a modular design, where each module
+is responsible for a portion of data processing built around a central master server node and a
+scalable number of processing client nodes.  The central master server focuses on
+data distribution and aggregation tasks (requesting data blocks from the DAQ, collating event
+monitoring information and writing data files), while the client process focus on the per-event
+processing tasks (event calibration, reconstruction, analysis, and filtering).  
+
+The system is built upon the IceCube analysis software framework, IceTray (ref?), allowing standard IceCube algorithms to
+be used in the online processing and filtering system without modifications.  Additionally, the system uses the 
+Common Object Request Broker Architecture (CORBA) system as means for interconnecting
+the modular portions of the system.  Specialized classes are used to provide CORBA interconnections
+within the IceTray system, allowing file-like interfaces that let data to stream from one component to another 
+using native IceTray formats.  Use of a CORBA name server and a dynamic architecture allow for the
+addition and remove of filtering clients as needed to meet the processing load from annual filtering
+changes and overall rate variations from seasonal variations in the detector trigger rate.
 
 \subsubsection{Components}
-A brief description of each PnF component.
-\paragraph{I3DAQDispatch}
-\paragraph{PnF Server}
-\paragraph{PnF Clients}
-\paragraph{DB Cache}
-\paragraph{Realtime Followup server and clients}
+The flow of triggered event data in the online processing and filtering system is shown in Figure~\ref{fig:online_pnf_internals}
+highlighting the flow of data from the DAQ system, though the master server and clients, to files on disk and
+online alerts.  Several standard components in the online processing and filtering system include:
+\begin{itemize}
+\item \emph {I3DAQDispatch} is a process to pickup event data from the data acquisition system data cache and forward to
+the PFServer components.
+\item \emph {PFServers} are central data flow managers within the  online processing and filtering system.  These servers 
+receive data from the I3DAQDispatch event source, distribute events to and record results returning from the PFClient farm,
+and send filtered events to file writer, online monitoring and alert components.  Typically there are 4 servers used
+in operation.
+\item \emph {PFClient} is the core calibration, reconstruction and filtering process that is applied to each triggered event.  
+In normal operation, $\sim$ 400 of these clients operate in parallel to filter events in real time.
+\item \emph {GCDDispatch} is a DB caching system to prevent the ~400 PFClient processes from overwhelming the 
+DB system when requesting calibration information.  This system aggregates DB requests, makes a single
+database query and shares the results with all PFClients.
+\item \emph {PFWriters} are responsible for creation of files and meta-data for the IceCube data catalog.  These
+files are written in standard IceTray file format.  There is one writer component for each file type created.
+\item \emph {PFOnlineWriter} is responsible for extracting alert information from the data and forwarding these
+alerts in real time to the IceCube Live system.
+\item \emph {PFMoniWriter} is responsible for aggregating per-event monitoring information, creating histograms
+and forwarding them to the IceCube Live monitoring system.  
+\item \emph {PFFiltDispatch} and FollowUp clients are responsible for looking for bursts of neutrino events on timescales from 100 seconds up to
+3 weeks in duration.  Any significant burst of neutrinos found generates alerts sent to partner observatories worldwide.
+\end{itemize}
+
+(Q: remove discussion of GFU, OFU, and PFFiltDispatch since this is being moved north?)
+
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.8\textwidth]{graphics/online/pnf/PnF_Internals.pdf}
+ \caption{Internal components of the Online Processing and Filtering System.  Arrows highlight the flow of data within the system.}
+ \label{fig:online_pnf_internals}
+\end{figure}
 
 \subsubsection{Performance}
-\paragraph{Overall rates and known limits (server + I/O limits)}
-\paragraph{Average system latency}
+The online processing and filtering system is designed to filter triggered events as quickly as possible after collection by
+the data acquisition system.   A key metric is processing system latency, defined as the duration of time between the data acquisition trigger 
+and the completion of event processing and filtering.  A typical latency history for the system is shown in Figure~\ref{fig:online_pnf_latency}, showing
+typical system latencies of $\sim$20 seconds.
 
-Figure: plot of typical latency including run transition?
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.8\textwidth]{graphics/online/pnf/pnf_latency.png}
+ \caption{Typical Online Processing and Filtering System latency for a several day period.  The latency defined as the time between DAQ event time and time when the
+ online filtering processing is complete.  The spikes in latency correspond to DAQ run transitions.}
+ \label{fig:online_pnf_latency}
+\end{figure}
+
+(Q: include other system performance information?  Performance bottlenecks?)
 
 \subsection{Data Handling}
 \textsl{(P. Meade; 1 page)}
