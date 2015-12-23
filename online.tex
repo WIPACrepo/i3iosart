@@ -303,6 +303,25 @@ Figure: plot of typical latency including run transition?
 \subsection{Data Handling}
 \textsl{(P. Meade; 1 page)}
 
+\textsl{(J. Braun, background and additional description of communications modes)}
+
+The bulk of South Pole Station data traffic is handled by geosynchronous satellite links.  Due to the unfavorable
+location at the South Pole, only geosynchronous satellites with steeply inclined orbits reach far enough above the
+horizon to establish a link.  For a given satellite, this link provides four to six hours of communications once per
+sidereal day.  Multiple geosynchronous satellites are currently utilized by USAP, providing a $\sim$12-hour window
+of connectivity with bandwidth of 1 Mbps or higher.  For the remainder of the day, Iridium satellites allow
+limited voice and data connectivity and provide up to 2.4 kbit/s of bandwidth per connection.
+
+IceCube incorporates Iridium modems into two separate systems.  The IceCube Teleport System (ITS) uses the Iridium short burst
+data mode to send short messages of 1.8 kB or smaller with a typical latency of 30 seconds.  Messages may both originate or terminate
+at the ITS Iridium modem at the South Pole.  Messages also contain a recipient ID indicating the intendend host to receive
+the message, allowing a many-to-many communications infrastructure between systems running at the South Pole and systems
+in the Northern Hemisphere.  The IceCube Messaging System (I3MS) incorporates multiple Iridium modems and uses the Iridium RUDICS
+data mode, providing a 2.4 kbit/s bidirectional serial stream per modem and a minimum latency of $\sim$1.5 seconds.
+I3MS runs as a daemon on both ends of the link, accepts messages via ZeroMQ, and transports those messages across the link
+based on message priority and fair sharing of bandwidth among all users.  I3MS message recipients listen for messages
+using ZeroMQ PUB-SUB, allowing a given message to be sent to multiple recipients.
+
 \textsl{Generation description of system architecture.  Stream definitions, dropboxes,
 and data pickup.  Archival vs. transfer to TDRSS system.  }
 
@@ -340,16 +359,14 @@ ensure delivery if the real-time link should be unavailable for an extended peri
 \subsection{IceCube-Live and Remote Monitoring}
 
 IceCube operations are controlled and monitored centrally by IceCube-Live, a suite of high-level software implemented mostly in the Python language.
-IceCube-Live consists of two major components: LiveControl, responsible for controlling data taking operations and
+IceCube-Live consists of two major components: LiveControl, responsible for controlling data-taking operations and
 collecting monitoring data, and the IceCube-Live website, responsible for processing and storing monitoring data as well as presenting this data
 in webpages and plots that characterize the state of the IceCube detector.
 
-Figure: I3Live diagram
-
 \subsubsection{LiveControl}
 
-LiveControl is the central control component of IceCube operations.  The program executes in the background as a daemon and accepts user input
-through XML-RPC.  Operators typically enter commands and check the basic detector status using a command-line interface.  LiveControl is
+LiveControl executes in the background as a daemon and accepts user input via XML-RPC.
+Operators typically enter commands and check the basic detector status using a command-line interface.  LiveControl is
 responsible for controlling the state of DAQ and online-processing, starting and stopping data-taking runs, and recording
 the parameters of these runs.  Stardard operation is to request a run start, supplying a configuration file specifying the DOMs to include in
 data taking.  LiveControl then records the run number, configuration, start time, etc. and sends a request for DAQ to
@@ -359,7 +376,7 @@ stopped by a user request or a run fails.  In case of failure, LiveControl attem
 run.  Occasionally a hardware failure occurs, and it is impossible to start a run with the supplied configuration because requested DOMs are
 unpowered or temporarily unable to communicate with the IceCube DAQ.  In this case, LiveControl cycles through predefined partial-detector
 configurations in an attempt to exclude problematic DOMs.  This results in taking data with half of the IceCube strings or fewer, but it
-greatly reduces the chance of a prolonged complete outage where no data at all is recorded.
+greatly reduces the chance of a prolonged complete outage where no IceCube data is recorded.
 
 A secondary function of LiveControl is the collection, processing, and forwarding of monitoring data from DAQ, online-processing, and other components.
 Monitoring data consists of a JSON dictionary with a well-definied format including a creation time, sender name, priority, data name, and either JSON data
@@ -377,37 +394,34 @@ and pages from LiveControl.  All monitoring data are forwarded to the IceCube-Li
 \hline
 Priority & Transport System & Daily Messages & Daily Data & Typical Latency\\
 \hline
-1 & ITS & 10,000 & 1 MB & 1 minute \\
+1 & ITS (Iridium) & 10,000 & 1 MB & 1 minute \\
 \hline
-2 & I3MS & 150,000 & 5 MB & 1--5 minutes \\
+2 & I3MS (Iridium) & 150,000 & 5 MB & 1--5 minutes \\
 \hline
-3 & JADE & 300,000 & 100 MB & 1 day \\
+3 & JADE (Geosynchronous) & 300,000 & 100 MB & 1 day \\
 \hline
 \end{tabular}
 \caption{Statistics for IceCube monitoring messages}
 \label{i3messages}
 \end{table}
 
-Two operational copies of the IceCube-Live website exist: one inside the IceCube network at the South Pole, fed directly by LiveControl using ZeroMQ, and
-one in the Northern Hemisphere fed by several message transport systems depending on the priority of the particular monitoring data, summarized in table
-\ref{i3messages}.  
-IceCube generates approximately 300,000 monitoring messages daily.  These compress to $\sim$100 MB, are sent over JADE, and are typically available
-in the Northern Hemisphere within 24 hours.  Messages of priority level 2 or higher are additionally sent over the Iridium RUDICS link using I3MS,
-and messages of priority 1 and higher are sent over the Iridium ITS link.
+Two operational copies of the IceCube-Live website exist: one inside the IceCube network at the South Pole, and
+one in the Northern Hemisphere.  Monitoring data reaches the northern website based on priority and using
+both geosynchronous and Iridium data transport, summarized in table \ref{i3messages}.
 
-Messages reaching the website are ingested by the DBServer daemon, processed, and inserted into one of several SQL database tables or
-a MongoDB database depending on content.  Messages also may contain directives requesting DBServer to send email, specifying recipients and content,
-or requesting that the monitoring message be published using ZeroMQ PUB-SUB so it can be ingested by an external process.  The IceCube-Live
-website itself uses the Django framework and contains pages that create sophisticated views of monitoring data stored in either SQL or MongoDB.
-These pages include a front page that displays active alerts and plots of event rates and processing latencies from the previous few hours and
+Messages reaching the website are processed by the DBServer daemon and inserted into one of several database tables depending on content.
+Messages also may contain directives requesting DBServer to send email, by specifying email recipients and content,
+or requesting that the monitoring message be published using ZeroMQ PUB-SUB, allowing the message to be passed to an external process.  The IceCube-Live
+website itself uses the Django framework and contains pages that create sophisticated views of monitoring data stored in the database.
+These pages include a front page displaying active alerts and plots of event rates and processing latencies from the previous few hours, and
 a page for each run that displays start time, stop time, and other essential data.  The run page contains low-level diagnostic data that
 includes e.g. charge histograms, digitizer baselines, and occupancy for each DOM, and is used to diagnose problems with detector components
-during the run and to determine if the run can be used in physics analysis.
+that occurred during the run and to determine if the run can be used in physics analysis.
 
-Finally, the IceCube website transmits messages using ITS and I3MS to LiveControl running at the South Pole.  This capability is used to connect
-the popular Slack chat service with the IceCube-Live website running at the South Pole, allowing the IceCube winterover operators to chat with
-experts in the Northern Hemisphere during periods with no geosynchronous satellite connectivity.  Southbound messages are also used to trigger
-the HitSpool service by the request of experts in the Northern Hemisphere if an interesting event (e.g. a SNEWS alert) occurs.
+Finally, the IceCube-Live website in the Northern Hemisphere transmits messages to LiveControl using ITS and I3MS.  This capability is used to retransmit
+messages sent using the popular Slack chat service to the South Pole, allowing the IceCube winterover operators to chat with
+experts in the Northern Hemisphere during periods with no geosynchronous satellite connectivity.  This connection also provides a limited
+capability to control the detector, allowing operators in the north to e.g. remotely issue HitSpool requests.
 
 \subsection{Operational Performance}
 \textsl{(John K.; 1 page)}
