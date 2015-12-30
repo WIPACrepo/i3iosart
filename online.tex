@@ -5,12 +5,12 @@
 \section{\label{online}Online Systems}
 \textsl{(John K; 12-15 pages)}
 
-The IceCube online systems comprise both the software and hardware 
+The IceCube online systems comprise both the software and hardware
 at the detector site responsible for data acquisition, event selection,
 monitoring, and data storage and movement.  As one of the goals of IceCube
 operations is to maximize the fraction of time the detector is sensitive
 to neutrino interactions (``uptime''), the online systems are modular so
-that failures in one 
+that failures in one
 particular component do not necessarily prevent the continuation of basic
 data acquisition. Additionally, all systems are monitored with a combination of
 custom-designed and industry-standard tools so that detector operators can
@@ -22,7 +22,7 @@ The online data flow consists of a number of steps of data reduction and
 selection in the progression from photon detection in the glacial ice to
 candidate neutrino event selection, along with associated secondary data
 streams and monitoring.  An overview of the data flow is shown in
-Fig.~\ref{fig:dataflow}.  
+Fig.~\ref{fig:dataflow}.
 
 Since the majority of photons detected by the DOMs are dark noise, a
 first-level \emph{local coincidence} (LC) is formed between neighboring
@@ -32,7 +32,7 @@ neighbor hits are flagged with the LC condition, while hits without the
 condition are compressed more aggressively.  The LC time window as well as
 the span of neighbor DOMs up and down the cable can both be configured,
 with standard settings of a $\pm1 \mu s$ coincidence window and neighbor
-span of 2 DOMs. 
+span of 2 DOMs.
 
 All DOM hits are read out to dedicated computers on the surface by the data
 acquisition system (DAQ).  The next level of data selection is the
@@ -44,7 +44,7 @@ algorithms run in parallel, described in Sect.~\ref{sect:trigger}.  All hits
 combined into \emph{events}, the fundamental output of the DAQ, and written
 to disk.  The event rate is approximately 2.5 kHz but varies with the
 seasonal atmopheric muon flux, and the total DAQ data rate is approximately
-1TB/day.   
+1TB/day.
 
 The DAQ also produces \emph{secondary streams} that include time
 calibration, monitoring, and DOM scaler data.  The scaler data, which is
@@ -57,9 +57,9 @@ streams are used to monitor the health and quality of the data-taking runs.
 The raw DAQ event data is then processed further with a number of
 \emph{filters} in order to select a subset of events (less than 10\%) to
 transfer over satellite to the Northern Hemisphere (see
-Sect.~\ref{sect:filter}).  Each 
+Sect.~\ref{sect:filter}).  Each
 filter, typically designed to select events useful for a particular physics
-analysis, is run 
+analysis, is run
 over all events using a computing cluster in the IceCube Lab.  Because of
 limitations both on total computing power and bounds on the processing time
 of each event, only fast directional and energy reconstructions are used.
@@ -81,7 +81,7 @@ calibration runs, and other data streams.
 
 %The division between \textit{triggering} and
 %\textit{filtering} is the urgency of the processing.
-%Triggers must operate within a bounded time and if not
+%Triggers must operate within a bounded time or
 %data is lost.  Filters operate behind such large buffers
 %that this is not a consideration.  Historically this means
 %that the triggers have been rather \emph{dumb} but there
@@ -97,7 +97,7 @@ hubs, DAQ, PnF, other machines, and infrastructure.  Internal network
 bandwidth.  Redundancy, system monitoring (Nagios), and paging system.
 
 Brief mention of SPTS as northern test and validation system.  Replay
-capabilities.  
+capabilities.
 
 \subsection{Data Readout and Timing}
 \subsubsection{Communications and Cable Bandwidth}
@@ -119,7 +119,7 @@ RAPCal initiation, and clock string readout.  Clock modes (internal /
 external).  DOMs per card and cards per hub.
 
 Brief description of driver.  Proc file interface.  Data transfer over PCI
-bus via DMA.  
+bus via DMA.
 
 Figure: Combined clock fanout tree hierarchy and hub diagram (DSB and DOR
 cards, power distribution).
@@ -131,7 +131,8 @@ IceCube's data acquisition system (DAQ) is a set of components running on
 dedicated servers in the IceCube Lab.  As described in
 \ref{sect:online:dataflow}, physics data is read from the DOMs by the StringHub
 component and a minimal representation of each HLC hit is forwarded to the
-``local'' Trigger components.  The ``local'' Trigger components run these
+``local'' Trigger components (either in-ice or icetop.)
+The ``local'' Trigger components run these
 minimal hits through a configurable set of algorithms and form windows around
 interesting temporal and/or spatial patterns.  These time windows are collected
 by the ``global'' Trigger and used to form non-overlapping trigger requests.
@@ -150,17 +151,11 @@ the \emph{Event Builder} for full waveform data.
 %Division of front end (Omicron) and back end (Sender).
 The StringHub component is divided into two logical pieces.  The front-end
 \emph{Omicron} controls all of the connected DOMs, forwarding any
-non-physics data to its downstream consumers and sorting the hits using
-an HKN1 tree before passing them to the back-end \emph{Sender}.  The Sender
+non-physics data to its downstream consumers and sorting the hits from all
+DOMs into a single time-ordered stream
+before passing them to the back-end \emph{Sender}.  The Sender
 caches SLC and HLC hits in memory, then forwards a few fields from each HLC
-hit to the local Triggers.
-
-%Servicing event readout requests (defer discussion to event builder section).
-After the
-Trigger components have determined interesting time intervals, the Event
-Builder will send each interval to the Sender, and it will return a list of
-all hits within the interval, pruning the in-memory hit cache of all older hits
-after each interval.
+hit to the appropriate local Trigger.
 
 %Forwarding of HLC hit times to trigger.
 In order to avoid saturating the 2006-era network, the StringHub sends only
@@ -168,6 +163,11 @@ simplified HLC hit data to the local Triggers.  Fields extracted from the
 full HLC are the string and DOM, the time of the hit, and a few DOM trigger
 fields (type, mode, configuration ID), for a total of 38 bytes per hit.
 
+%Servicing event readout requests (defer discussion to event builder section).
+After the Trigger components have determined interesting time intervals, the
+Event Builder will send each interval to the Sender, and it will return a list
+of all hits within the interval, pruning all older
+hits from the in-memory hit cache after each interval.
 
 %Translation of DOR times into UTC.
 \textsl{Dave G doesn't know the details of this}
@@ -177,8 +177,8 @@ One core assumption of the DAQ is that each component operates on a
 time-ordered stream of data.  IceCube's DAQ uses its \emph{Splicer} to
 accomplish this.  The Splicer is a common object which gathers all input
 streams during the setup phase; no inputs can be added once it's started.  Each
-stream pushes new data onto a ``tail'' and the Splicer uses the HKN1 algorithm
-to collate the data from all streams into a single output stream.  When a
+stream pushes new data onto a ``tail'' and the Splicer collates
+the data from all streams into a single output stream.  When a
 stream is closed, it pushes an end-of-stream marker onto its tail which causes
 the Splicer to ignore all further data.
 
@@ -212,15 +212,10 @@ streams are used to monitor the health and quality of the data-taking runs.
 
 %Hitspooling.
 As hits move from the front end to the back end, they are written to the
-``hit spool'', a disk-based cache of files containing hits.  These files are
-written in a circular order so that the newest hits overwrite the oldest data,
-and the first hit time for each file is stored in an SQLite database.
-
-Subsystems such as SnDAQ and HESE can send time interval requests to a HitSpool
-master daemon which then gathers the hits in that interval from each hub and
-forwards them to a final ``sender'' daemon which bundles them up and submits
-them to JADE for transfer to the North where the full waveforms can be used for
-further analysis.
+Hit Spool, a disk-based cache of files containing hits.  These files are
+written in a circular order so that the newest hits overwrite the oldest data.
+The first hit time for each file is stored in an SQLite database to aid in fast
+retrieval of raw hit data.
 
 %Mention of hit daemon plans.
 One problem with the current DAQ design is that it only reads data when the
@@ -230,22 +225,29 @@ StringHub into several independent pieces to eliminate these blind spots.
 The front end (Omicron) piece will be moved to an always-on daemon which
 continuously writes data (including secondary, non-physics data and other
 metadata) to the disk cache.  Part of the back end (Sender) piece will become a
-simple HitSpool client which reads data from the disk cache and sends it to
+simple Hit Spool client which reads data from the disk cache and sends it to
 the downstream consumers, while another simple component will listen for time
 intervals from the Event Builder and send back lists of hits taken from the
-hit spool.
+Hit Spool.
+
+\subsubsection{Hitspool Request System}
+
+Subsystems such as SnDAQ and HESE can send time interval requests to a HitSpool
+Request daemon. This daemon passed the request onto every hub, where another
+daemon gathers the hits in that interval from each hub and forwards them to the
+final ``sender'' daemon which bundles them up to be transferred to the
+North where the full waveforms can be used for further analysis.
 
 \subsubsection{Supernova System}
 
-SN secondary stream from DOMs and SNDAQ reference.  Interface to
-hitspooling.  
+SN secondary stream from DOMs and SNDAQ reference.
 
 \subsubsection{Triggers}
 
 General description of trigger architecture.  Separation of trigger window
 and readout window.  How trigger windows depend on geometry.  Thorough
-escription of all different trigger algorithms. Trigger and readout window
-merging. 
+description of all different trigger algorithms. Trigger and readout window
+merging.
 
 % Note: JK VLVnT proceedings may be useful here
 
@@ -253,25 +255,98 @@ Table: standard settings for triggers
 
 Figure: trigger windows and readout windows.
 
-Figure: example bright multi-trigger event.  
+Figure: example bright multi-trigger event.
 
 Figure: SLOP triplet geometry?
 
 \subsubsection{Event Building}
 
-Readout requests to StringHub components and packaging of waveforms into
-events.  Spooling to disk and interface to PnF.
+%Readout requests to StringHub components
+When the Event Builder receives a request from the Global Trigger, it extracts
+the individual readout windows and sends them to the appropriate subset of the
+hubs.  The hubs each send back a list of all hits within the window.  When all
+hubs have returned a list of hits, the event is assembled.
+
+%Packaging of waveforms into events.
+Extraneous data is stripped from the trigger and hit payloads and bundled into
+an event payload.
+
+%Spooling to disk and interface to PnF.
+Events are written to a temporary file.  When the temporary
+file reaches a configurable size, it is renamed to a standard unique name
+(made up of a ``physics\_'' prefix, the run number, a sequentially increasing
+file number, and the starting and ending times contained within the file).
+When the PnF system sees a file with the agreed-upon name, it accepts it for
+processing (and filtering).
 
 %\subsubsection{The Secondary Streams (SN/Moni/TCAL)}
 %Is this necessary or can we just mention these in the StringHub section?
 
 \subsubsection{Configuration}
 
-Tree of XML configuration files for components, triggers, and DOM settings.  
+Configuration of the DAQ is managed by two sets of files; a cluster
+configuration file and a hierarchical tree of run configuration files.
+
+The cluster configuration file is used to launch the detector components.
+It specifies component hosts, startup paths, and other options needed to start
+each component on the appropriate host in the cluster.  This allows components
+(other than StringHub) to be easily moved to different hosts for
+troubleshooting, load balancing, maintenance, etc.
+
+The run configuration file specifies settings which may vary between runs.
+It includes the name of a trigger configuration file as well as the names of
+DOM configuration files for all hubs included in a run.
+
+The trigger configuration file specifies configuration parameters for all
+trigger components (in-ice, icetop, and global).  These include the list of
+algorithms run by each component, along with readout window sizes and any other
+variable parameters (frequency, threshold, etc.)
+
+The DOM configuration file holds a list of all DOMs which a hub should read from
+for the run.  Every configuration parameter for each DOM is specified.
+
+%Modification of config files
+The cluster configuration file may be modified but a note should be sent to the
+``logbook'' email list.  Run configuration files are treated as static once
+they've been used for data taking.  If a configuration file needs to be
+altered, the modified file is given a new name (often with an incremented
+``-V\#\#\#'' suffix indicating the version number) to ensure that the exact
+detector configuration is always discoverable.
 
 \subsubsection{Distributed Network Control}
 
-CnC server description.  XML-RPC.  % Plus ZMQ?
+%CnC server description.
+The central coordination point for the DAQ is a ``command-and-control'' daemon
+named CnCServer.  It manages and monitors components, and acts as the main
+external interface for the DAQ.
+
+CnCServer uses a standard component interface to query and
+control the components, and a separate interface for components to expose
+internal data used for monitoring the health of the detector and tracking
+down bugs and/or performance problems.
+
+CnCServer starts out knowing nothing about the detector components.  During the
+DAQ's launch phase, components are given the host and port used by CnCServer.
+When components start up, each one sends CnCServer its name, host/port pairs,
+and the types of inputs and outputs it expects, and CnCServer adds them to its
+internal list.
+
+To start a run, CnCServer is given the name of the run configuration.  That
+run configuration may include all components or only a subset.  Using
+that file, CnCServer builds a list of components required for the run.
+Each of the included components is told to connect to their downstream
+neighbor, then to use the run configuration to initialize as appropriate
+(configure DOM hardware, initialize trigger algorithms, etc.).
+Once all components are successfully
+configured CnCServer instructs them to start, working its way from the Event
+Builder back to the String Hubs.
+
+When a run is in progress, CnCServer regularly checks that components are still
+active and that data is flowing between components.  If it detects a problem,
+it stops the run and relaunches all the components.  CnCServer also
+periodically collects all components' monitoring data and writes it to
+monitoring files which can be used for post-mortem diagnosis of detector
+failures.
 
 \subsection{Online Filtering}
 \textsl{(Erik B.; 3-4 pages)}
@@ -420,23 +495,23 @@ using ZeroMQ PUB-SUB, allowing a given message to be sent to multiple recipients
 \textsl{Generation description of system architecture.  Stream definitions, dropboxes,
 and data pickup.  Archival vs. transfer to TDRSS system.  }
 
-Data handling is provided by three servers named jade02, jade03, and jade04. The jade servers operate independently of one another and 
-each of them are capable of handling the nominal data volume by itself. Having three servers allows for data handling to continue seamlessly 
+Data handling is provided by three servers named jade02, jade03, and jade04. The jade servers operate independently of one another and
+each of them are capable of handling the nominal data volume by itself. Having three servers allows for data handling to continue seamlessly
 in case of hardware failure or maintenance.
 
-Each server runs a copy of the Java Archival and Data Exchange (JADE) software (stylized “jade”). As its name implies, the jade software 
+Each server runs a copy of the Java Archival and Data Exchange (JADE) software (stylized “jade”). As its name implies, the jade software
 is written in the Java programming language. It is a reimplementation and expansion of earlier prototype software called South Pole Archival
 and Data Exchange (SPADE), written by Cindy Mackenzie. The jade software has four primary tasks: consumption, archival, satellite transmission, and real-time
 transmission.
 
-The jade software is configured with a number of data streams, which consist of a data server, a dropbox directory, and a filename pattern. 
-The data stream dropbox directories are checked on a regular basis for new files. A file pairing scheme (binary and semaphore) prevents files 
-from being consumed before they are finished being produced. For each file, a checksum calculated on the data server is compared to a checksum 
+The jade software is configured with a number of data streams, which consist of a data server, a dropbox directory, and a filename pattern.
+The data stream dropbox directories are checked on a regular basis for new files. A file pairing scheme (binary and semaphore) prevents files
+from being consumed before they are finished being produced. For each file, a checksum calculated on the data server is compared to a checksum
 calculated on the jade server. This method ensures that the file was copied without error. After this, the original data file is removed from the data host.
 
 After consumption, files are routed according to the configuration of their data stream. Files that are too large to send via the satellite link are archived to
 a configurable number of archival media copies. The prototype SPADE software archived to LTO tapes, while the later jade software archives to large (2+ TB) hard
-disk drives. All of the archival data is buffered on the jade server until the archival media is complete. In case of failure while creating the archival media, 
+disk drives. All of the archival data is buffered on the jade server until the archival media is complete. In case of failure while creating the archival media,
 all of the files can be immediately written to fresh archival media with a single command.
 
 Files that are too large to send via the real-time link, but small enough to send via the satellite link are queued for satellite transmission. The jade software
@@ -523,8 +598,8 @@ capability to control the detector, allowing operators in the north to e.g. remo
 
 Explanation of how design choices, system monitoring, and winterovers result in
 high uptime.  Discussion of median downtime and various causes of downtime.
-Possible basic failure analysis of hardware components.  
+Possible basic failure analysis of hardware components.
 
 Figure: DAQ full uptime and clean uptime percentage.
 
-Figure (optional): Downtime histogram.  
+Figure (optional): Downtime histogram.
