@@ -437,6 +437,78 @@ B5-433-B505 & 505 nm& 494 nm& 6.4$^{\circ}$ &	4.5$^{\circ}$ 	&4.9$^{\circ}$ \\
 
 \subsubsection{\label{sec:domcal} DOMCal}
 
+The calibration of the PMT waveforms recorded by the DOMs, i.e. translation
+of digitized samples into voltage and time, as well as the gain of the PMT
+itself, is achieved via DOM-by-DOM calibration constants determined by the
+modules themselves.  The calibration software, DOMCal, uses precision calibration
+circuits on the DOM Main Board as well as single photons as inputs
+for a ladder of calibration routines.  Analysis and fitting of the
+calibration results is done by the DOMCal software, with the results being
+transmitted from each DOM to the surface as an XML file of fit parameters.
+
+The ladder of calibration routines is shown in Fig.~\ref{fig:domcal_ladder}. The
+primary reference inputs to the calibration are a precision electronic
+pulser circuit providing known charges; a circuit providing a reference DC
+bias level; the 20 MHz oscillator on the Main
+Board, used as the timing reference; and single photoelectrons, either from
+ambient ``dark noise'' photons or a low-luminosity LED on the Main Board.
+
+Because the operating conditions for
+the in-ice DOMs are so stable, DOMCal is only run once a year on the full
+detector. IceTop DOMs are calibrated once per month.  Calibration is
+typically performed on half the detector at at time, the other half
+remaining in data-taking mode.  Because the calibration procedure produces
+light, however, these runs are not used in normal analysis.
+
+% FIX ME: ATWD reference?
+
+First, the discriminator circuits used to trigger the DOM are calibrated
+using the electronic pulser circuit.  This calibration is later refined using actual
+PMT waveforms, once the PMT gain is known.  Next, the ATWD voltage levels
+are calibrated by sweeping the input DC bias voltage and recording the
+response; because of the slight variations in the ATWD circuits, this
+calibration is produced for every sample and every channel.
+
+This ATWD calibration also in principle allows determination of the baseline
+voltage levels of each channel, needed for charge integration.  However, in
+practice, these baselines are extremely sensitive to the operation
+condition of the DOMs, and since data-taking conditions cannot be exactly
+replicated while running DOMCal, the baselines used during data-taking are
+determined instead by using averaged forced triggers taken during a normal
+run.  DOMCal can still use its own baselines, though, for charge integration
+during the calibration procedure.
+
+The highest-gain channels of the two ATWDs are calibrated using the electronic
+pulser circuit, and then the gains of the other ATWD channels and the FADC
+are determined by varying the pulser output and comparing the charges
+simultaneously recorded in multiple gain channels.  This relative
+calibration is later refined using PMT waveforms stimulated by the Main
+Board LED.
+
+The ATWD sampling speed is calibrated by digitizing the Main Board oscillator
+waveform and recording the number of clock cycles as a function of ATWD
+speed setting.  The FADC sampling speed is slaved to the 20 MHz
+oscillator, which is used as a timing reference.  The relative timing of
+the ATWD and FADC waveforms is determined using the electronic pulser circuit;
+non-linear fitting of the digitized waveforms to known templates is
+required in order to determine the FADC offset to the required accuracy.
+The transit time of the PMT and delay board as a function of PMT high
+voltage is determined by calculating the delay between the digitized
+current pulse through the Main Board LED and the observed light pulse in
+the ATWDs.   
+
+The PMT gain as a function of high voltage is calibrated using ambient
+``dark noise'' photons --- the charge $e$ prior to amplification is quantized
+and known.  At each voltage level, a histogram of many waveform charges is recorded,
+and each histogram is fit with an exponential plus Gaussian model (see
+Fig.~\ref{fig:domcal_hvfit}).  The peak of the Gaussian component is used to
+determine the amplification of the PMT at each voltage, and a linear fit
+of $\log_{10}(\mathrm{gain})$ versus $\log_{10}(\mathrm{voltage})$ allows
+the high voltage of each PMT to be tuned to desired operating point ($10^7$
+for in-ice DOMs; see Fig.~\ref{fig:domcal_hv_settings}).  Small ($3-5\%$)
+corrections to the gain of each DOM are determined using charge
+distributions recorded during normal data-taking.
+
 \subsubsection{Flasher Calibrations}
 
 \subsection{Performance and Reliability}
