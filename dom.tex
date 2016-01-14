@@ -524,8 +524,83 @@ gain.
 \subsubsection{Flasher Calibrations}
 
 \subsection{Performance and Reliability}
-We have over $N$ DOM years in ice.  What can be said about 
-the reliability?  This section could be quite important.
+
+As the DOMs are not serviceable after deployment, an extensive testing
+protocol including temperature-cycling and cold-soaking ensured that bad
+modules and early component failures were identified before shipping.
+All DOMs were also re-tested at the South Pole before final deployment, to
+screen out any modules damaged during transit.
+
+As of 2016, 5397 of the 5484 deployed DOMs ($98.4\%$) are operating in
+data-taking mode in the data acquisition system (see Table
+\ref{tab:dom_failures}.  We classify DOM 
+failures into two broad categories: failures during deployment and
+freeze-in, and failures during subsequent operation.  The majority of the
+failures (55) occurred before post-deployment commissioning; we hypothesize
+that these are primarily attributable to cable failures, water leaks,
+or freeze-in damage.  32 DOMs have failed after commissioning, and
+we include in this count modules on a wire pair taken out of service when
+the partner DOM on the same pair failed.  No particular pattern in the
+failures is observed, other than they are typically during non-standard
+operation or an exceptional event: a power outage, calibration run, or
+flash filesystem upgrade.  The most recent two DOMs failed on May 23, 2013,
+losing communications after a power outage.  Diagnosis of DOM failures
+beyond identifying electrical shorts is challenging.
+
+A number of DOMs have developed issues that affect their data-taking
+configuration but are still usable.  The local coincidence settings of DOMs of
+functional DOMs adjacent on a string to dead DOMs must also be
+modified. These are enumerated in Table \ref{tab:dom_failures}.  
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{| r | c |}
+    \hline
+    \bf{DOM failures} & \bf{87} \\
+    \hline    
+    deployment / freeze-in & 55 \\
+    post-commissioning & 32 \\
+    \hline
+    \hline
+    \bf{DOMs in Non-standard Mode} & \bf{167} \\
+    \hline
+    bad digitizer & 12 \\
+    reduced PMT gain & 1 \\
+    non-standard local coincidence & 154 \\
+    \hline    
+  \end{tabular}
+  \caption{Number of DOM failures during deployment/freeze-in and after
+    commissioning during detector operation, as well as DOMs with various
+    issues (including a failed neighbor) causing them to be operated in a
+    non-standard data-taking mode.} 
+  \label{tab:dom_failures}
+\end{table}
+
+We can estimate the surviving fraction of DOMs 20 years after the original
+deployment, assuming a constant, random failure rate after freeze-in.
+Specifically, we calculate the Wilson score binomial confidence interval of
+survival probability using the post-commissioning failure rate of DOMs
+\cite{Wilson_Score}.  The estimated survival fraction as a function of
+time is shown in Fig.~\ref{fig:dom_survival}; currently we estimate the
+surviving fraction in 2025 to be $97.7\pm0.2\%$.  While this model does not
+account for an increase in failure rate due to component aging, the
+observed failure rate since detector completion of $2.0~\mathrm{yr}^{-1}$ is
+significantly 
+lower than the mean predicted rate of $4.5~\mathrm{yr}^{-1}$.  We attribute
+this to infant mortality and/or to improved operational protocols that
+minimize the number of DOM power cycles.
+
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.95\textwidth]{graphics/dom/reliability/dom_survival.pdf}
+ \caption{Predicted fraction of surviving DOMs in 2025 versus time, based on an assumed
+ constant post-freeze-in failure rate.  Statistics improve during
+ construction as more DOMs are deployed.}
+ \label{fig:dom_survival}
+\end{figure}
+
+%We have over $N$ DOM years in ice.  What can be said about 
+%the reliability?  This section could be quite important.
 
 \subsubsection{Baseline Stability}
 
