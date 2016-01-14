@@ -3,3 +3,67 @@
 %!TEX encoding = UTF-8 Unicode
 
 \section{Drilling and Deployment}
+
+\subsection{Geometry Calibration}
+
+The geometry of the detector is determined using drill and survey data
+during deployment (stage 1), and then corrected and refined using the LED
+flashers in ice (stage 2).
+\subsubsection{Stage 1 Geometry Calibration}
+The (x,y) coordinates of the string are calculated using the position
+of the drill tower. Before deployment, when the drill tower is in position, at least three
+of the tower corners are surveyed from at least one control point.
+The coordinates for the center of the hole in the tower floor are
+calculated from the corner coordinates. If x-y drift vs. depth has been calculated for the hole from drill
+data, the drifts are added to the (x,y) coordinates of individual
+DOMs, assuming that the string follows the hole center. 
+
+The depth of the lowest DOM on the string is calculated using pressure
+readings from the Paro/Keller pressure sensor, converted to depth by correcting
+for the compressibility of the water in the hole and the ambient (air)
+pressure measured before the pressure sensor hits the water. The
+distance from the tower floor to the water surface is measured with a
+laser ranger. The vertical DOM spacings are also measured with a laser
+ranger. 
+
+\subsubsection{Stage 2 Geometry Calibration}
+
+
+The LED flashers are used to correct the relative depths of the
+strings. This correction is typically less than 1~m relative to the
+stage 1 data, but can be as large as 20~m (larger than the 17~m DOM
+spacing) in cases where the pressure sensor fails during string
+deployment before it takes the final depth reading. The correction is
+calculated by finding the leading edge of the time distribution of the
+light recorded by the
+receiving DOM, denoted $t_0$. The distance corresponding to the
+leading edge time is $d = c_{ice} \cdot t_0$, and the distances for
+all receiving DOMs are plotted as a function of the vertical distance
+between the flasher and the receiver, $z' = z_{receiver} -
+z_{flasher}$. The resulting plot described a hyperbola, $d = \sqrt{D^2
++ (z' -\Delta z)^2}$, where $D$ is the horizontal distance between the
+flasher string and the receiver string, calculated from stage~1 data,
+and $\Delta z$ is the relative offset between the depths of the
+flashing and receiving string. The hyperbola fit is done
+simultaneously for each flashing string and all surrounding receiving
+strings in order to calculate the relative offsets, which are then
+applied to the z coordinate of all DOMs on the string.
+
+{\it Trilateration}
+
+Flasher corrections to the (x,y) coordinates of some DOMs in the
+center of the DeepCore subarray were calculated using the
+trilateration method. In this analysis, the 5~DOMs closest to the
+flasher on each of the three closest strings surrounding the flasher are selected,
+and a circle of radius $r = \sqrt{(d)^2 - (\Delta z)^2)}$ is drawn
+around each receiving DOM, where $d$ is the distance between the DOM and the flasher calculated from the leading edge time of the received
+light, and  $\Delta z$ is the relative depth of the flashing and
+receiving DOMs calculated from the method described above. The
+intersection points of all the circles are calculated, and the (x,y)
+position of the flashing DOM is taken to be the average of the
+centroid of the intersection points. The error bars on the positions
+are $1 \sigma$ from a Gaussian fit to all centroid values; the x and y
+corrdinates are fitted independently. The shifts relative to the
+deployment data are found to be less than 1~m, and agree with the
+drill head coordinates within the error bars.
+
