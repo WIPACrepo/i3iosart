@@ -2,7 +2,7 @@
 %!TEX root = i3det-top.tex
 %!TEX encoding = UTF-8 Unicode
 
-\section{\label{online}Online Systems}
+\section{\label{sect:online}Online Systems}
 \textsl{(John K; 12-15 pages)}
 
 The IceCube online systems comprise both the software and hardware
@@ -16,7 +16,7 @@ data acquisition. Additionally, all systems are monitored with a combination of
 custom-designed and industry-standard tools so that detector operators can
 be alerted in case of abnormal conditions.
 
-\subsection{\label{online:dataflow}Data Flow Overview}
+\subsection{\label{sect:online:dataflow}Data Flow Overview}
 
 The online data flow consists of a number of steps of data reduction and
 selection in the progression from photon detection in the glacial ice to
@@ -97,7 +97,7 @@ health.
 Figure: data flow diagram indicating major subsystems to be described in
 this section: DAQ (incl. SNDAQ), PnF, I3Live, and SPADE/JADE.
 
-\subsection{SPS and SPTS}
+\subsection{\label{sect:sps}SPS and SPTS}
 
 The South Pole System (SPS) comprises 18 racks of computing and
 network hardware in the ICL that run the various online systems described in this
@@ -169,38 +169,80 @@ higher-level DAQ and PnF components identical to SPS.
 
 \subsection{Data Readout and Timing}
 
-\subsubsection{Communications and Cable Bandwidth}
+While the low-level communications and timing systems of the DOM are
+described in detail in Ref.~\cite{ref:domdaq}, we review those here in the
+context of the broader online systems.
 
-Description of communications protocol and messaging strategy.  Reference
-to RAPCal and how it fits in.  Event compression.
+\subsubsection{\label{sect:online:comms}Communications}
+
+Digital communication between the DOR card and DOM occurs via copper
+twisted pairs, with two DOMs per pair on the in-ice cable, and one IceTop
+DOM per pair for increased bandwidth.  The physical
+layer signaling is via amplitude shift key (ASK) modulation.  The protocol
+is a custom packet-based scheme.  Each packet is assigned a sequence 
+number, and all received packets are acknowledged if the sequence number is
+correct.  Each packet also contains a CRC checksum to detect transmission
+errors.  Out-of-sequence packets received are ignored, and non-acknowledged
+packets are retransmitted.  
+
+Messaging is managed from the surface, in that the DOR requests data
+from each DOM in turn; only one DOM can transmit at a time.  Communication
+is stopped every second to perform a timing calibration (RAPCal) via
+reciprocal bimodal pulse transmission \cite{ref:domdaq}; this provides a
+time-dependent translation of DOM clock to DOR clock for every module.  The
+total bandwidth of the communication channel is 90 kB/s per twisted pair.  
+
+% Add more details about actual usage
+
+% Make sure PCTS is covered
 
 % Q: is LC signaling documented anywhere yet?  Should it go here?
 
 \subsubsection{\label{sect:online:master_clock}Master Clock System}
 
-The GPS clock and time string fanout tree, from master clock (and hot
-spare), to Tier I and Tier II fanouts, the DSB card, and into the DOR card.
+The DOR clocks themselves are synchronized to UTC via an active fanout
+system from a single Symmetricom ET6000 GPS receiver with a
+temperature-stabilized 10 MHz oscillator.  The 10 MHz output, a 1 Hz (PPS)
+output, and a serial time string indicating the UTC date and time are distributed
+to the DOMHubs via a series of fanouts, using shielded, delay-matched
+twisted-pair cables.  Within the DOMHub, the DSB card continues the fanout
+via shorter delay-matched patch cables to each DOR card.  The local 20 MHz
+clocks of each DOR card are phase-locked to the distributed 10 MHz signal.
 
-% Q: do we correct for fanout delay of ~150 ns anywhere?
-
-\subsubsection{DOR Card and Driver}
-
-DOR card description: comms / readout, power control and measurement,
-RAPCal initiation, and clock string readout.  Clock modes (internal /
-external).  DOMs per card and cards per hub.
-
-Brief description of driver.  Proc file interface.  Data transfer over PCI
-bus via DMA.
+Since the master GPS receiver is a single-point failure for the detector, a
+hot spare receiver, using its own GPS antenna and powered through a
+dedicated UPS, is continuously active and locked in case of problems with
+the primary.  
 
 Figure: Combined clock fanout tree hierarchy and hub diagram (DSB and DOR
 cards, power distribution).
+
+% Q: do we correct for fanout delay of ~150 ns anywhere?
+% Q: say anything about leap seconds?
+
+\subsubsection{DOR Card and Driver}
+
+Each DOR card is connected to up to 8 DOMs, and with 8 DOR cards in a
+DOMHub, a single in-ice string of 60 DOMs can be connected to each hub. The
+DOR card controls the 96V DC power supply to the DOMs and multiplexes the
+ASK communications signaling on top of this DC level.  Dedicated circuitry
+monitors the current draw and voltage levels on each twisted pair, and in
+addition to physical fuses, a ``firmware fuse'' can disable power if the
+current draw deviates from predefined maximum or minimum levels.
+
+The software interface to the DOR card, and thus to the DOMs, is provided
+with a custom Linux device driver.  Access to DOR card functions,
+including DOM power control, communication statistics, RAPCal, current and
+voltage monitoring, etc.~is facilitated using the Linux \texttt{/proc}
+filesystem interface.  Data transfer from the cards to the single-board
+computer is acheived via DMA over the PCI bus.  The driver provides a
+device file for each DOM for read/write access by higher-level software.
 
 \subsection{Processing at the Surface}
 %Dave G; 2-3 pages
 
 IceCube's data acquisition system (DAQ) is a set of components running on
-dedicated servers in the IceCube Lab.  As described in
-\ref{sect:online:dataflow}, physics data is read from the DOMs by the StringHub
+dedicated servers in the IceCube Lab.  As described in \ref{sect:online:dataflow}, physics data is read from the DOMs by the StringHub
 component and a minimal representation of each HLC hit is forwarded to the
 ``local'' Trigger components (either in-ice or icetop.)
 The ``local'' Trigger components run these
@@ -316,7 +358,7 @@ for further analysis.
 
 SN secondary stream from DOMs and SNDAQ reference.
 
-\subsubsection{Triggers}
+\subsubsection{\label{sect:online:trigger}Triggers}
 
 General description of trigger architecture.  Separation of trigger window
 and readout window.  How trigger windows depend on geometry.  Thorough
