@@ -39,7 +39,7 @@ acquisition system (DAQ).  The next level of data selection is the
 formation of \emph{triggers} by the DAQ system.  LC-flagged hits across the
 detector are examined for temporal and in some cases spatial patterns that
 suggest a common causal relationship.  A number of different trigger
-algorithms run in parallel, described in Sect.~\ref{sect:trigger}.  All hits
+algorithms run in parallel, described in Sect.~\ref{sect:online:trigger}.  All hits
 (both LC-flagged and non-LC hits) within a window around the trigger are
 combined into \emph{events}, the fundamental output of the DAQ, and written
 to disk.  The event rate is approximately 2.5 kHz but varies with the
@@ -57,22 +57,29 @@ streams are used to monitor the health and quality of the data-taking runs.
 The raw DAQ event data is then processed further with a number of
 \emph{filters} in order to select a subset of events (less than 10\%) to
 transfer over satellite to the Northern Hemisphere (see
-Sect.~\ref{sect:filter}).  Each
+Sect.~\ref{sect:online:filter}).  Each
 filter, typically designed to select events useful for a particular physics
 analysis, is run
 over all events using a computing cluster in the IceCube Lab.  Because of
 limitations both on total computing power and bounds on the processing time
 of each event, only fast directional and energy reconstructions are used.
-The processing and filtering system is also responsible for applying
+The processing and filtering (PnF) system is also responsible for applying
 up-to-date calibrations to the DAQ data; processed events, even those not
 selected by the online filters, are stored locally for archival.
 
 A dedicated system for data movement handles the local archival storage to
-tape or disk, as well as the handoff of satellite data (see Sect.~\ref{sec:jade}).
+tape or disk, as well as the handoff of satellite data (see Sect.~\ref{sect:online:jade}).
 This includes not only primary data streams but also monitoring data,
 calibration runs, and other data streams.
 
-[Add experiment control paragraph]
+Experiment control and detector monitoring are handled by IceCube Live.
+LiveControl interfaces with online software components and provides a
+command-line and web interface to each of them, along with higher-level
+operations such as starting or stopping runs, setting special run modes for
+commissioining and calibration data, and specifying detector
+configurations.  The web site component, LiveView, runs both in the ICL and
+in the Northern Hemisphere, and provides a near-real-time view of detector
+health.  
 
 %An overview of the data flow from DOMs to the satellite.  Description of
 %architecture and levels of data reduction, starting with a review of LC and
@@ -92,14 +99,76 @@ this section: DAQ (incl. SNDAQ), PnF, I3Live, and SPADE/JADE.
 
 \subsection{SPS and SPTS}
 
-South Pole System: breakdown of computing hardware used at the pole between
-hubs, DAQ, PnF, other machines, and infrastructure.  Internal network
-bandwidth.  Redundancy, system monitoring (Nagios), and paging system.
+The South Pole System (SPS) comprises 18 racks of computing and
+network hardware in the ICL that run the various online systems described in this
+section.  The DOM surface cables are connected via passive patch panels to
+custom 4U DOMHub computers, one DOMHub per in-ice string and 11 additional
+hubs for IceTop.  The remaining servers, including those for higher-level
+data acquisition, event filtering, detector monitoring, and core
+infrastructure, are currently 2U Dell PowerEdge R720 servers (see Table
+\ref{tab:sps_breakdown}).  The servers are typically upgraded every 3 to 4
+years.  The custom hardware components in the DOMHubs are replaced with spares as
+failures warrant, and the disks and single-board computer (SBC) were
+upgraded in 2013--14.
 
-Brief mention of SPTS as northern test and validation system.  Replay
-capabilities.
+\begin{table}[h]
+  \centering
+  \begin{tabular}{ r | c }
+    \bf{Component} & \bf{\#} \\
+    \hline
+    DOMHubs & 97 \\
+    Data acquisition & 4 \\   
+    Event filtering & 23 \\
+    Monitoring & 3 \\
+    Infrastructure & 7 \\
+  \end{tabular}
+  \caption{Breakdown of computing equipment at SPS, indicating number of
+    machines used for each task. CHECK NUMBERS} 
+  \label{tab:sps_breakdown}
+\end{table}
+
+The DOMHub is an industrial computer chassis with custom components for
+DOM power, timing, and communication.  A low-power single-board computer
+communicates with 8 custom PCI DOM Readout (DOR) cards via a backplane.  A
+dual-redundant ATX power supply powers the DOMHub, while two 48V Acopian
+power supplies, mounted and connected in series inside the chassis, supply
+power to the DOMs.  The DOM power is switched and monitoring by the DOR
+cards and is controllable by software.  Another PCI card, the DOMHub
+Service Board (DSB), is responsible for GPS timing fanout (see
+Sect.~\ref{sect:online:master_clock}).
+
+Include Fig.7 from DOM/DAQ paper (hub diagram)?
+
+The SPS computers are connected via a 48 Gbps switch that in turn fans out
+to switches in each DOMHub rack; the DOMHub switches are connected with
+dual bonded 10 Gbps links.  The hubs and servers are connected to local
+switches with dual bonded 1 Gpbs links.  Typical network I/O during data-taking for the
+DAQ event builder (see Sect.~\ref{sect:online:evbuilder}) is $\sim30$ MBps in each
+direction, while the master PnF node sees 25 MBps in and 80 MBps out.
+
+Redundancy and continuous monitoring of SPS is one of the keys to a high
+detector livetime.  Nagios monitoring software detects and flags problems,
+including issues with DOM power and communication on the hubs.  Severe
+problems impacting data-taking result in a page to the IceCube
+winterover personnel via the station's Land Moble Radio (LMR) system. 
+A dedicated hot spare server can replace any failed DAQ
+node, while spare PnF filtering clients can be started to increase
+throughput in case of a data filtering backlog.  SPS hardware is also
+connected to dual redundant uninterruptible power supplies 
+(UPS) in order to continue data-taking through station power outages of up
+to 15 minutes.  
+
+A scaled-down version of SPS, the South Pole Test System (SPTS), allows
+testing and validation of both hardware and software in the Northern
+Hemisphere before rollout to SPS.  Servers and DOMHubs identical to those
+at SPS, along with a small number of DOMs in chest freezers, are used in
+the test system.  Although the number of DOMs available is much smaller
+than in the real detector, recent software improvements have allowed the
+``replay'' of pre-recorded raw SPS hit data on SPTS systems, providing a data stream to
+higher-level DAQ and PnF components identical to SPS.
 
 \subsection{Data Readout and Timing}
+
 \subsubsection{Communications and Cable Bandwidth}
 
 Description of communications protocol and messaging strategy.  Reference
@@ -107,10 +176,12 @@ to RAPCal and how it fits in.  Event compression.
 
 % Q: is LC signaling documented anywhere yet?  Should it go here?
 
-\subsubsection{Master Clock System}
+\subsubsection{\label{sect:online:master_clock}Master Clock System}
 
 The GPS clock and time string fanout tree, from master clock (and hot
 spare), to Tier I and Tier II fanouts, the DSB card, and into the DOR card.
+
+% Q: do we correct for fanout delay of ~150 ns anywhere?
 
 \subsubsection{DOR Card and Driver}
 
@@ -262,7 +333,7 @@ Figure: example bright multi-trigger event.
 
 Figure: SLOP triplet geometry?
 
-\subsubsection{Event Building}
+\subsubsection{\label{sect:online:evbuilder}Event Building}
 
 %Readout requests to StringHub components
 The Event Builder receives requests from the Global Trigger, extracts
