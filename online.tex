@@ -485,13 +485,19 @@ start of operation of the 22 string configuration of IceCube in 2007.
 In IceCube, each triggered event consists of a collection of digitized waveforms recorded by the digital optical modules (ref daq-dom paper).
 To be useful for physics, each of these waveforms requires application of calibration constants that allow the waveform units
 to be converted from the raw units (ADC counts per sample bin) to more physical units (mV measured in each fixed time, 3.3 ns bin).  These
-calibration constants are independently measured (domcal ref?) and stored in an online database for use by
+calibration constants are independently measured (see domcal section) and stored in an online database for use by
 the online processing and filtering system.  Next, each DOM's waveform is deconvolved using the known DOM response
-to photons to extract the light arrival time and amplitude information.  This series of time and amplitude light arrival information
+to photons to extract the light arrival time and amplitude information~\cite{IC3:ereco}.  
+This series of time and amplitude light arrival information
 for each DOM is the base for event reconstruction and characterization.  The online processing and filtering system encodes
-this information for each DOM in a compact data format known as the SuperDST, and occupies $\sim$5\%  of the file size
-of the full waveform information.  Any DOM readout whose SuperDST information is found not to be a good representation of the
+this information for each DOM in a compact data format known as the SuperDST, and occupies 9\%  of the file size
+of the full waveform information.  This encoding does introduce a small level of discretization error to the
+data in SuperDST format, measured to be $1.1ns$ in time and $0.04pe$ in charge, and smaller than the calibration
+uncertainties on these values.  Any DOM readout whose SuperDST information is found not to be a good representation of the
 original waveform, or sees very high amounts of light also have the full waveform readout saved as an addition to the SuperDST record.
+
+% JVS internal study on discretization:  
+% https://events.icecube.wisc.edu/getFile.py/access?contribId=140&sessionId=4&resId=0&materialId=slides&confId=33
 
 Each event is then characterized with a series of event reconstruction algorithms that attempt to match
 the observed patterns of recorded light in the SuperDST with known patterns of light
