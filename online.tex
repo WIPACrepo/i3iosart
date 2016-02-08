@@ -2,7 +2,7 @@
 %!TEX root = i3det-top.tex
 %!TEX encoding = UTF-8 Unicode
 
-\section{\label{online}Online Systems}
+\section{\label{sect:online}Online Systems}
 \textsl{(John K; 12-15 pages)}
 
 The IceCube online systems comprise both the software and hardware
@@ -16,7 +16,7 @@ data acquisition. Additionally, all systems are monitored with a combination of
 custom-designed and industry-standard tools so that detector operators can
 be alerted in case of abnormal conditions.
 
-\subsection{\label{online:dataflow}Data Flow Overview}
+\subsection{\label{sect:online:dataflow}Data Flow Overview}
 
 The online data flow consists of a number of steps of data reduction and
 selection in the progression from photon detection in the glacial ice to
@@ -39,7 +39,7 @@ acquisition system (DAQ).  The next level of data selection is the
 formation of \emph{triggers} by the DAQ system.  LC-flagged hits across the
 detector are examined for temporal and in some cases spatial patterns that
 suggest a common causal relationship.  A number of different trigger
-algorithms run in parallel, described in Sect.~\ref{sect:trigger}.  All hits
+algorithms run in parallel, described in Sect.~\ref{sect:online:trigger}.  All hits
 (both LC-flagged and non-LC hits) within a window around the trigger are
 combined into \emph{events}, the fundamental output of the DAQ, and written
 to disk.  The event rate is approximately 2.5 kHz but varies with the
@@ -57,22 +57,29 @@ streams are used to monitor the health and quality of the data-taking runs.
 The raw DAQ event data is then processed further with a number of
 \emph{filters} in order to select a subset of events (less than 10\%) to
 transfer over satellite to the Northern Hemisphere (see
-Sect.~\ref{sect:filter}).  Each
+Sect.~\ref{sect:online:filter}).  Each
 filter, typically designed to select events useful for a particular physics
 analysis, is run
 over all events using a computing cluster in the IceCube Lab.  Because of
 limitations both on total computing power and bounds on the processing time
 of each event, only fast directional and energy reconstructions are used.
-The processing and filtering system is also responsible for applying
+The processing and filtering (PnF) system is also responsible for applying
 up-to-date calibrations to the DAQ data; processed events, even those not
 selected by the online filters, are stored locally for archival.
 
 A dedicated system for data movement handles the local archival storage to
-tape or disk, as well as the handoff of satellite data (see Sect.~\ref{sec:jade}).
+tape or disk, as well as the handoff of satellite data (see Sect.~\ref{sect:online:jade}).
 This includes not only primary data streams but also monitoring data,
 calibration runs, and other data streams.
 
-[Add experiment control paragraph]
+Experiment control and detector monitoring are handled by IceCube Live.
+LiveControl interfaces with online software components and provides a
+command-line and web interface to each of them, along with higher-level
+operations such as starting or stopping runs, setting special run modes for
+commissioining and calibration data, and specifying detector
+configurations.  The web site component, LiveView, runs both in the ICL and
+in the Northern Hemisphere, and provides a near-real-time view of detector
+health.  
 
 %An overview of the data flow from DOMs to the satellite.  Description of
 %architecture and levels of data reduction, starting with a review of LC and
@@ -90,46 +97,152 @@ calibration runs, and other data streams.
 Figure: data flow diagram indicating major subsystems to be described in
 this section: DAQ (incl. SNDAQ), PnF, I3Live, and SPADE/JADE.
 
-\subsection{SPS and SPTS}
+\subsection{\label{sect:sps}SPS and SPTS}
 
-South Pole System: breakdown of computing hardware used at the pole between
-hubs, DAQ, PnF, other machines, and infrastructure.  Internal network
-bandwidth.  Redundancy, system monitoring (Nagios), and paging system.
+The South Pole System (SPS) comprises 18 racks of computing and
+network hardware in the ICL that run the various online systems described in this
+section.  The DOM surface cables are connected via passive patch panels to
+custom 4U DOMHub computers, one DOMHub per in-ice string and 11 additional
+hubs for IceTop.  The remaining servers, including those for higher-level
+data acquisition, event filtering, detector monitoring, and core
+infrastructure, are currently 2U Dell PowerEdge R720 servers (see Table
+\ref{tab:sps_breakdown}).  The servers are typically upgraded every 3 to 4
+years.  The custom hardware components in the DOMHubs are replaced with spares as
+failures warrant, and the disks and single-board computer (SBC) were
+upgraded in 2013--14.
 
-Brief mention of SPTS as northern test and validation system.  Replay
-capabilities.
+\begin{table}[h]
+  \centering
+  \begin{tabular}{ r | c }
+    \bf{Component} & \bf{\#} \\
+    \hline
+    DOMHubs & 97 \\
+    Data acquisition & 4 \\   
+    Event filtering & 23 \\
+    Monitoring & 3 \\
+    Infrastructure & 7 \\
+  \end{tabular}
+  \caption{Breakdown of computing equipment at SPS, indicating number of
+    machines used for each task. CHECK NUMBERS} 
+  \label{tab:sps_breakdown}
+\end{table}
+
+The DOMHub is an industrial computer chassis with custom components for
+DOM power, timing, and communication.  A low-power single-board computer
+communicates with 8 custom PCI DOM Readout (DOR) cards via a backplane.  A
+dual-redundant ATX power supply powers the DOMHub, while two 48V Acopian
+power supplies, mounted and connected in series inside the chassis, supply
+power to the DOMs.  The DOM power is switched and monitoring by the DOR
+cards and is controllable by software.  Another PCI card, the DOMHub
+Service Board (DSB), is responsible for GPS timing fanout (see
+Sect.~\ref{sect:online:master_clock}).
+
+Include Fig.7 from DOM/DAQ paper (hub diagram)?
+
+The SPS computers are connected via a 48 Gbps switch that in turn fans out
+to switches in each DOMHub rack; the DOMHub switches are connected with
+dual bonded 10 Gbps links.  The hubs and servers are connected to local
+switches with dual bonded 1 Gpbs links.  Typical network I/O during data-taking for the
+DAQ event builder (see Sect.~\ref{sect:online:evbuilder}) is $\sim30$ MBps in each
+direction, while the master PnF node sees 25 MBps in and 80 MBps out.
+
+Redundancy and continuous monitoring of SPS is one of the keys to a high
+detector livetime.  Nagios monitoring software detects and flags problems,
+including issues with DOM power and communication on the hubs.  Severe
+problems impacting data-taking result in a page to the IceCube
+winterover personnel via the station's Land Moble Radio (LMR) system. 
+A dedicated hot spare server can replace any failed DAQ
+node, while spare PnF filtering clients can be started to increase
+throughput in case of a data filtering backlog.  SPS hardware is also
+connected to dual redundant uninterruptible power supplies 
+(UPS) in order to continue data-taking through station power outages of up
+to 15 minutes.  
+
+A scaled-down version of SPS, the South Pole Test System (SPTS), allows
+testing and validation of both hardware and software in the Northern
+Hemisphere before rollout to SPS.  Servers and DOMHubs identical to those
+at SPS, along with a small number of DOMs in chest freezers, are used in
+the test system.  Although the number of DOMs available is much smaller
+than in the real detector, recent software improvements have allowed the
+``replay'' of pre-recorded raw SPS hit data on SPTS systems, providing a data stream to
+higher-level DAQ and PnF components identical to SPS.
 
 \subsection{Data Readout and Timing}
-\subsubsection{Communications and Cable Bandwidth}
 
-Description of communications protocol and messaging strategy.  Reference
-to RAPCal and how it fits in.  Event compression.
+While the low-level communications and timing systems of the DOM are
+described in detail in Ref.~\cite{ref:domdaq}, we review those here in the
+context of the broader online systems.
+
+\subsubsection{\label{sect:online:comms}Communications}
+
+Digital communication between the DOR card and DOM occurs via copper
+twisted pairs, with two DOMs per pair on the in-ice cable, and one IceTop
+DOM per pair for increased bandwidth.  The physical
+layer signaling is via amplitude shift key (ASK) modulation.  The protocol
+is a custom packet-based scheme.  Each packet is assigned a sequence 
+number, and all received packets are acknowledged if the sequence number is
+correct.  Each packet also contains a CRC checksum to detect transmission
+errors.  Out-of-sequence packets received are ignored, and non-acknowledged
+packets are retransmitted.  
+
+Messaging is managed from the surface, in that the DOR requests data
+from each DOM in turn; only one DOM can transmit at a time.  Communication
+is stopped every second to perform a timing calibration (RAPCal) via
+reciprocal bimodal pulse transmission \cite{ref:domdaq}; this provides a
+time-dependent translation of DOM clock to DOR clock for every module.  The
+total bandwidth of the communication channel is 90 kB/s per twisted pair.  
+
+% Add more details about actual usage
+
+% Make sure PCTS is covered
 
 % Q: is LC signaling documented anywhere yet?  Should it go here?
 
-\subsubsection{Master Clock System}
+\subsubsection{\label{sect:online:master_clock}Master Clock System}
 
-The GPS clock and time string fanout tree, from master clock (and hot
-spare), to Tier I and Tier II fanouts, the DSB card, and into the DOR card.
+The DOR clocks themselves are synchronized to UTC via an active fanout
+system from a single Symmetricom ET6000 GPS receiver with a
+temperature-stabilized 10 MHz oscillator.  The 10 MHz output, a 1 Hz (PPS)
+output, and a serial time string indicating the UTC date and time are distributed
+to the DOMHubs via a series of fanouts, using shielded, delay-matched
+twisted-pair cables.  Within the DOMHub, the DSB card continues the fanout
+via shorter delay-matched patch cables to each DOR card.  The local 20 MHz
+clocks of each DOR card are phase-locked to the distributed 10 MHz signal.
 
-\subsubsection{DOR Card and Driver}
-
-DOR card description: comms / readout, power control and measurement,
-RAPCal initiation, and clock string readout.  Clock modes (internal /
-external).  DOMs per card and cards per hub.
-
-Brief description of driver.  Proc file interface.  Data transfer over PCI
-bus via DMA.
+Since the master GPS receiver is a single-point failure for the detector, a
+hot spare receiver, using its own GPS antenna and powered through a
+dedicated UPS, is continuously active and locked in case of problems with
+the primary.  
 
 Figure: Combined clock fanout tree hierarchy and hub diagram (DSB and DOR
 cards, power distribution).
+
+% Q: do we correct for fanout delay of ~150 ns anywhere?
+% Q: say anything about leap seconds?
+
+\subsubsection{DOR Card and Driver}
+
+Each DOR card is connected to up to 8 DOMs, and with 8 DOR cards in a
+DOMHub, a single in-ice string of 60 DOMs can be connected to each hub. The
+DOR card controls the 96V DC power supply to the DOMs and multiplexes the
+ASK communications signaling on top of this DC level.  Dedicated circuitry
+monitors the current draw and voltage levels on each twisted pair, and in
+addition to physical fuses, a ``firmware fuse'' can disable power if the
+current draw deviates from predefined maximum or minimum levels.
+
+The software interface to the DOR card, and thus to the DOMs, is provided
+with a custom Linux device driver.  Access to DOR card functions,
+including DOM power control, communication statistics, RAPCal, current and
+voltage monitoring, etc.~is facilitated using the Linux \texttt{/proc}
+filesystem interface.  Data transfer from the cards to the single-board
+computer is acheived via DMA over the PCI bus.  The driver provides a
+device file for each DOM for read/write access by higher-level software.
 
 \subsection{Processing at the Surface}
 %Dave G; 2-3 pages
 
 IceCube's data acquisition system (DAQ) is a set of components running on
-dedicated servers in the IceCube Lab.  As described in
-\ref{sect:online:dataflow}, physics data is read from the DOMs by the StringHub
+dedicated servers in the IceCube Lab.  As described in \ref{sect:online:dataflow}, physics data is read from the DOMs by the StringHub
 component and a minimal representation of each HLC hit is forwarded to the
 ``local'' Trigger components (either in-ice or icetop.)
 The ``local'' Trigger components run these
@@ -245,7 +358,7 @@ for further analysis.
 
 SN secondary stream from DOMs and SNDAQ reference.
 
-\subsubsection{Triggers}
+\subsubsection{\label{sect:online:trigger}Triggers}
 
 General description of trigger architecture.  Separation of trigger window
 and readout window.  How trigger windows depend on geometry.  Thorough
@@ -262,7 +375,7 @@ Figure: example bright multi-trigger event.
 
 Figure: SLOP triplet geometry?
 
-\subsubsection{Event Building}
+\subsubsection{\label{sect:online:evbuilder}Event Building}
 
 %Readout requests to StringHub components
 The Event Builder receives requests from the Global Trigger, extracts
@@ -372,13 +485,19 @@ start of operation of the 22 string configuration of IceCube in 2007.
 In IceCube, each triggered event consists of a collection of digitized waveforms recorded by the digital optical modules (ref daq-dom paper).
 To be useful for physics, each of these waveforms requires application of calibration constants that allow the waveform units
 to be converted from the raw units (ADC counts per sample bin) to more physical units (mV measured in each fixed time, 3.3 ns bin).  These
-calibration constants are independently measured (domcal ref?) and stored in an online database for use by
+calibration constants are independently measured (see domcal section) and stored in an online database for use by
 the online processing and filtering system.  Next, each DOM's waveform is deconvolved using the known DOM response
-to photons to extract the light arrival time and amplitude information.  This series of time and amplitude light arrival information
+to photons to extract the light arrival time and amplitude information~\cite{IC3:ereco}.  
+This series of time and amplitude light arrival information
 for each DOM is the base for event reconstruction and characterization.  The online processing and filtering system encodes
-this information for each DOM in a compact data format known as the SuperDST, and occupies $\sim$5\%  of the file size
-of the full waveform information.  Any DOM readout whose SuperDST information is found not to be a good representation of the
+this information for each DOM in a compact data format known as the SuperDST, and occupies 9\%  of the file size
+of the full waveform information.  This encoding does introduce a small level of discretization error to the
+data in SuperDST format, measured to be $1.1ns$ in time and $0.04pe$ in charge, and smaller than the calibration
+uncertainties on these values.  Any DOM readout whose SuperDST information is found not to be a good representation of the
 original waveform, or sees very high amounts of light also have the full waveform readout saved as an addition to the SuperDST record.
+
+% JVS internal study on discretization:  
+% https://events.icecube.wisc.edu/getFile.py/access?contribId=140&sessionId=4&resId=0&materialId=slides&confId=33
 
 Each event is then characterized with a series of event reconstruction algorithms that attempt to match
 the observed patterns of recorded light in the SuperDST with known patterns of light
