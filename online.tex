@@ -883,12 +883,29 @@ experts in the Northern Hemisphere during periods with no geosynchronous satelli
 capability to control the detector, allowing operators in the north to e.g. remotely issue HitSpool requests.
 
 \subsection{Operational Performance}
-\textsl{(John K.; 1 page)}
+\textsl{(Matt K; 1 page)}
 
-Explanation of how design choices, system monitoring, and winterovers result in
+(Explanation of how design choices, system monitoring, and winterovers result in
 high uptime.  Discussion of median downtime and various causes of downtime.
-Possible basic failure analysis of hardware components.
+Possible basic failure analysis of hardware components.)
 
-Figure: DAQ full uptime and clean uptime percentage.
+Full detector operational uptime is highly valued. Many redundancies and fail-safes have been implemented to achieve an average uptime of greater than 99\,\%. Each computing hub and server is equipped with redundant power supplies which are buffered with redundant UPSs. The detector can remain fully operational for 25 minutes in the event of a power outage. 
 
-Figure (optional): Downtime histogram.
+The Nagios monitoring infrastructure is incorporated into all IceCube subsystems and communicates with IceCube LiveControl to send out alerts, page the Winter Overs, and/or automatically initiate an alternate run configuration in the event of component failure. 
+
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.8\textwidth]{graphics/uptime/downtime.jpg}
+ \caption{Downtime of the IceCube detector.}
+ \label{fig:downtime}
+\end{figure}
+
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.8\textwidth]{graphics/uptime/uptime.jpg}
+ \caption{Uptime of the IceCube detector.}
+ \label{fig:uptime}
+\end{figure}
+
+
+
