@@ -882,6 +882,8 @@ messages sent using the popular Slack chat service to the South Pole, allowing t
 experts in the Northern Hemisphere during periods with no geosynchronous satellite connectivity.  This connection also provides a limited
 capability to control the detector, allowing operators in the north to e.g. remotely issue HitSpool requests.
 
+
+
 \subsection{Operational Performance}
 \textsl{(Matt K; 1 page)}
 
@@ -895,17 +897,27 @@ The Nagios monitoring infrastructure is incorporated into all IceCube subsystems
 
 \begin{figure}[!h]
  \centering
- \includegraphics[width=0.8\textwidth]{graphics/uptime/downtime.jpg}
+ \includegraphics[width=0.8\textwidth]{graphics/uptime/downtime.png}
  \caption{Downtime of the IceCube detector.}
  \label{fig:downtime}
 \end{figure}
 
+The current feature to track portions of failed runs as good, allows the recovery of data from all but the last few minutes of runs that fail, and the recent implementation of continuous data-taking, have improved detector stability and decreased detector downtime. These features contribute to an average “clean uptime” of around 97-98\,\% of full-detector, analysis-ready data. We are now regularly exceeding our target clean uptime of 95\,\%.
+
 \begin{figure}[!h]
  \centering
- \includegraphics[width=0.8\textwidth]{graphics/uptime/uptime.jpg}
- \caption{Uptime of the IceCube detector.}
- \label{fig:uptime}
+ \includegraphics[width=0.8\textwidth]{graphics/uptime/clean-uptime.png}
+ \caption{Uptime of the IceCube detector since IC86-2011.}
+ \label{fig:clean-uptime}
 \end{figure}
 
+About 0.2\,\% of the loss in clean uptime is due to the failed portions of runs that are not usable for analysis. There is around 1\,\% of clean uptime loss due to runs not using the full-detector configuration. This occurs when certain components of the detector are excluded from the run configuration during required repairs and maintenance. This data is still good for analyses that have less strict requirements on the active detector volume. There is approximately a 1\,\% loss of clean uptime due to maintenance, commissioning, and verification runs, and short runs that are less than 10 minutes in duration. The experiment control system and DAQ have recently implemented 32-hour periods of continuous data-taking. This new feature has eliminated approximately 90–120 seconds of downtime between each run transition, gaining roughly 0.5\,\% of uptime.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{graphics/uptime/bar-chart.png}
+	\caption{Detector performance by run period.}
+	\label{fig:period-performace}
+\end{figure}
 
 
