@@ -24,13 +24,20 @@ candidate neutrino event selection, along with associated secondary data
 streams and monitoring.  An overview of the data flow is shown in
 Fig.~\ref{fig:dataflow}.
 
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.6\textwidth]{graphics/online/online_dataflow.pdf}
+ \caption{Data flow in the primary IceCube online systems.}
+ \label{fig:online_dataflow}
+\end{figure}
+
 Since the majority of photons detected by the DOMs are dark noise, a
 first-level \emph{local coincidence} (LC) is formed between neighboring
 DOMs deployed along the same cable, using dedicated wire pairs within the
 in-ice cable.  DOM-level triggers, or \emph{hits}, with corresponding
-neighbor hits are flagged with the LC condition, while hits without the
-condition are compressed more aggressively.  The LC time window as well as
-the span of neighbor DOMs up and down the cable can both be configured,
+neighbor hits are flagged with the LC condition (HLC hits), while hits without the
+condition (SLC hits) are compressed more aggressively.  The LC time window
+as well as the span of neighbor DOMs up and down the cable can both be configured,
 with standard settings of a $\pm1 \mu s$ coincidence window and neighbor
 span of 2 DOMs.
 
@@ -49,7 +56,7 @@ seasonal atmopheric muon flux, and the total DAQ data rate is approximately
 The DAQ also produces \emph{secondary streams} that include time
 calibration, monitoring, and DOM scaler data.  The scaler data, which is
 monitoring the noise rate of each DOM in 1.6 ms bins, is used in the
-supernova data acquisition system \cite{sndaq} to detect a global rise from
+supernova data acquisition system \cite{IC3:supernova} to detect a global rise from
 many $O(10)$ MeV neutrino interactions occuring in the ice from a
 Galactic core-collapse supernova.  The time calibration and monitoring
 streams are used to monitor the health and quality of the data-taking runs.
@@ -93,9 +100,6 @@ health.
 %that this is not a consideration.  Historically this means
 %that the triggers have been rather \emph{dumb} but there
 %is in principle no ceiling to the trigger complexity.
-
-Figure: data flow diagram indicating major subsystems to be described in
-this section: DAQ (incl. SNDAQ), PnF, I3Live, and SPADE/JADE.
 
 \subsection{\label{sect:sps}SPS and SPTS}
 
@@ -318,7 +322,7 @@ the Splicer to ignore all further data.
 %I'm not sure what else is needed here.
 Along with physics data, DOMs produce three additional streams of data.
 The scaler data, monitoring the noise rate of each DOM in 1.6 ms bins,
-is used in the supernova data acquisition system \cite{sndaq} to detect a
+is used in the supernova data acquisition system \cite{IC3:supernova} to detect a
 global rise from many $O(10)$ MeV neutrino interactions occuring in the ice
 from a Galactic core-collapse supernova.  The time calibration and monitoring
 streams are used to monitor the health and quality of the data-taking runs.
@@ -360,20 +364,176 @@ SN secondary stream from DOMs and SNDAQ reference.
 
 \subsubsection{\label{sect:online:trigger}Triggers}
 
-General description of trigger architecture.  Separation of trigger window
-and readout window.  How trigger windows depend on geometry.  Thorough
-description of all different trigger algorithms. Trigger and readout window
-merging.
+The DAQ trigger algorithms look for clusters of HLC hits in space and time
+that could indicate Cherenkov light deposition in the detector, as opposed
+to uncorrelated dark noise.  A trigger searches for a given multiplicity of
+LC hits, possibly with an additional geometric requirement, within a trigger time window.  The time scale of the
+window is set by the light travel time in ice and the geometry involved.
+Longer readout windows 
+are appended before and after the trigger windows to capture early and late
+hits.
 
-% Note: JK VLVnT proceedings may be useful here
+Triggers are generally restricted to a subset of DOMs, such as in-ice DOMs,
+IceTop DOMs, or DeepCore DOMs.  The algorithms run in parallel over all
+hits in the DOM set, and then overlapping triggers are merged (see
+Sect.~\ref{sect:online:trigger_merging}).   The various trigger algorithms
+are described below, and a summary of the algorithm parameter settings is
+found in Table \ref{tab:triggers}.  
 
-Table: standard settings for triggers
+\paragraph{Simple Multiplicity Trigger}
 
-Figure: trigger windows and readout windows.
+The fundamental trigger for IceCube, IceTop, and DeepCore is the \emph{simple
+multiplicity trigger} (SMT, a.k.a.~\emph{simple majority trigger}).  The
+SMT looks for $N$ or more HLC hits within a sliding time window of several
+$\mu\mathrm{s}$, without any locality conditions.  The trigger window is
+extended for as long as the multiplicity condition is satisfied.
+trigger window is extended.  The multiplicity value $N$ is tuned to the
+energy threshold of the detector, which fundamentally is set by the string
+or tank spacing. 
 
-Figure: example bright multi-trigger event.
+\paragraph{Volume and String Triggers}
 
-Figure: SLOP triplet geometry?
+The SMT trigger threshold can be lowered if additional requirements on the
+hit topology are imposed.  The \emph{volume trigger} (a.k.a.~\emph{cylinder
+  trigger}) defines a cylinder of fixed size around each hit DOM and
+searches for a given multiplicity within this cylinder
+(Fig.~\ref{fig:trig_cylinder}); this allows one to trigger on localized
+low-energy events that do not satisfy the SMT trigger. 
+The \emph{string trigger} (a.k.a.~\emph{cluster trigger}) searches for a
+certain number of hits within a span of DOMs along a single
+string (Fig.~\ref{fig:trig_string}); this allows one to trigger on
+low-energy muons that pass vertically 
+through the detector.  The time windows for each trigger are based upon the
+size of the locality volume.
+
+
+\begin{figure}[ht]
+  \centering
+  \subfloat[Schematic representation of the volume trigger (HLC hit DOMs are
+      darkened).]{
+    \includegraphics[scale=0.45]{graphics/online/trigger/trig_cylinder}
+    \label{fig:trig_cylinder}
+  }
+  \quad
+  \subfloat[Schematic representation of the string trigger.]{
+    \includegraphics[scale=0.5]{graphics/online/trigger/trig_string}
+    \label{fig:trig_string}
+  }
+  \caption{IceCube triggers using spatial coincidences.  Shaded circles represent hit DOMs.}
+\end{figure}
+
+
+\paragraph{Slow Particle Trigger}
+
+IceCube has the potential to detect hypothetical subrelativistic heavy
+particles such as magnetic monopoles, via catalyzed nucleon decays along
+the particle trajectory \cite{IC3:monopole}.  However, because these
+particles travel at velocities $v \sim 0.001c - 0.01c$, the
+time windows used in the standard triggers are too short.  Therefore, a
+dedicated \emph{slow particle (SLOP) trigger} has been developed to
+search for slow track-like particle signatures.
+
+The SLOP trigger operates in several stages.  HLC hits, which by
+design come in at least pairs along a string, are cleaned by removing pairs
+that are too close in time ($\Delta t < T_{\mathrm{prox}}$), removing
+many muon hits.  Next, 3-tuples of HLC pairs within a time window
+$T_{\mathrm{max}}$ are formed.  The geometry of each
+3-tuple formed must satisfy track-like conditions: the obtuse inner angle
+of the triangle formed must be larger than $\alpha_{\mathrm{min}}$, and the
+``velocities'' along the triangle sides must be consistent.  Specifically,
+the normalized velocity difference, defined as
+
+\begin{equation}
+  v_{\mathrm{rel}} =
+  3(v^{-1}_{12} - v^{-1}_{23})/(v^{-1}_{12} + v^{-1}_{23} +
+  v^{-1}_{13})
+\end{equation}
+
+\noindent where $\ v_{ij} = \Delta x_{ij}/\Delta t_{ij}$, must be less than
+or equal to a pre-definined maximum value
+$v_{\mathrm{rel}}^{\mathrm{max}}$.  Figure \ref{fig:slop} 
+shows the geometry parameters of the 3-tuple.  Finally, the number of track-like
+3-tuples must be greater than or equal to $N_{\mathrm{tuple}}$.  
+
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.8\textwidth]{graphics/online/trigger/slop.pdf}
+ \caption{Geometry of a SLOP trigger HLC pair 3-tuple.}
+ \label{fig:slop}
+\end{figure}
+
+\paragraph{Other Triggers}
+
+Other special-purpose triggers exist to collect minimum bias data of
+various sorts.  The \emph{fixed-rate trigger (FRT)} triggers at a given
+rate and reads out 10 ms of data from the full detector.  This is especially useful
+for studies of DOM noise.
+
+FIX ME: minbias and calibration triggers
+
+\begin{table}
+  \centering
+  \footnotesize
+\begin{tabular}{lrrrrr}
+  \hline
+  Trigger & DOM set & $N$ HLC hits & Window ($\mu$s) & Topology & Rate (Hz) \\
+  \hline
+  SMT & in-ice & 8 & 5 & --- & 2100\\
+  SMT & DeepCore & 3 & 2.5 & --- & 250\\
+  SMT & IceTop & 6 & 5 & --- & 25\\
+  Volume & in-ice & 4 & 1 & cylinder (r=175m, h=75m) & 3700\\
+  String & in-ice & 5 & 1.5 & 7 adjacent vertical DOMs & 2200\\
+  SLOP & in-ice & $N_{\mathrm{tuple}} = 5$ & $T_{\mathrm{prox}} = 2.5,
+  T_{\mathrm{max}} = 500$ & $\alpha_{\mathrm{min}} =
+  140^\circ,\ v_{\mathrm{rel}}^{\mathrm{max}} = 0.5$ & 12\\
+  FRT & all & --- & --- & --- & 0.003\\
+\hline
+\end{tabular}
+\caption{IceCube trigger parameters (as of May 2013) and typical trigger rates of
+  each algorithm.  Most rates vary seasonally with the atmopheric muon flux.} 
+\label{tab:triggers}
+\end{table}
+
+\paragraph{Trigger and Readout Window Merging}
+
+Bright or long events will satisfy more than one of the trigger conditions,
+sometimes multiple times (see Fig.~\ref{fig:trigger_example}).  In order to
+avoid overlapping events, possibly containing the same DOM hits, the
+triggers and their associated readout windows are merged, while retaining
+information about the separate 
+triggers.  The merged trigger is referred to as the \emph{global trigger}.  
+
+Each trigger has defined readout windows around the trigger window;
+all hits (including those without LC conditions) from the full detector,
+including those DOM sets not involved in the trigger, are built into
+events.  For the DOM set involved in the trigger, the readout 
+windows are appended to the trigger window; for other DOM sets, the readout
+windows are centered around the trigger start time.  The union of
+overlapping readout windows defines an event; an example is shown in
+Fig.~\ref{fig:trigger_readout}.  Long events (SLOP, FRT) typically contain several
+independent ``physics'' events; these typically have to be re-split for
+reconstruction and analysis.
+
+\begin{figure}[ht]
+  \centering
+  \subfloat[Sample bright event satisfying multiple triggers.  The vertical ticks
+    indicate the time of DOM hits (including SLC hits).  Trigger windows are
+    illustrated with solid horizontal lines, readout windows by dashed lines.]{
+    \includegraphics[scale=0.5]{graphics/online/trigger/trigger_example}
+    \label{fig:trigger_example}
+  }
+  \quad
+  \subfloat[In-ice and IceTop readout windows for a long event (SLOP trigger).]{
+    \includegraphics[scale=0.5]{graphics/online/trigger/trigger_readout}
+    \label{fig:trigger_readout}
+  }
+  \caption{IceCube trigger and readout window merging.}
+\end{figure}
+
+%General description of trigger architecture.  Separation of trigger window
+%and readout window.  How trigger windows depend on geometry.  Thorough
+%description of all different trigger algorithms. Trigger and readout window
+%merging.
 
 \subsubsection{\label{sect:online:evbuilder}Event Building}
 
@@ -722,13 +882,42 @@ messages sent using the popular Slack chat service to the South Pole, allowing t
 experts in the Northern Hemisphere during periods with no geosynchronous satellite connectivity.  This connection also provides a limited
 capability to control the detector, allowing operators in the north to e.g. remotely issue HitSpool requests.
 
+
+
 \subsection{Operational Performance}
-\textsl{(John K.; 1 page)}
+\textsl{(Matt K; 1 page)}
 
-Explanation of how design choices, system monitoring, and winterovers result in
+(Explanation of how design choices, system monitoring, and winterovers result in
 high uptime.  Discussion of median downtime and various causes of downtime.
-Possible basic failure analysis of hardware components.
+Possible basic failure analysis of hardware components.)
 
-Figure: DAQ full uptime and clean uptime percentage.
+Full detector operational uptime is highly valued. Many redundancies and fail-safes have been implemented to achieve an average uptime of greater than 99\,\%. Each computing hub and server is equipped with redundant power supplies which are buffered with redundant UPSs. The detector can remain fully operational for 25 minutes in the event of a power outage. 
 
-Figure (optional): Downtime histogram.
+The Nagios monitoring infrastructure is incorporated into all IceCube subsystems and communicates with IceCube LiveControl to send out alerts, page the Winter Overs, and/or automatically initiate an alternate run configuration in the event of component failure. 
+
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.8\textwidth]{graphics/uptime/downtime.png}
+ \caption{Downtime of the IceCube detector.}
+ \label{fig:downtime}
+\end{figure}
+
+The current feature to track portions of failed runs as good, allows the recovery of data from all but the last few minutes of runs that fail, and the recent implementation of continuous data-taking, have improved detector stability and decreased detector downtime. These features contribute to an average “clean uptime” of around 97-98\,\% of full-detector, analysis-ready data. We are now regularly exceeding our target clean uptime of 95\,\%.
+
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.8\textwidth]{graphics/uptime/clean-uptime.png}
+ \caption{Uptime of the IceCube detector since IC86-2011.}
+ \label{fig:clean-uptime}
+\end{figure}
+
+About 0.2\,\% of the loss in clean uptime is due to the failed portions of runs that are not usable for analysis. There is around 1\,\% of clean uptime loss due to runs not using the full-detector configuration. This occurs when certain components of the detector are excluded from the run configuration during required repairs and maintenance. This data is still good for analyses that have less strict requirements on the active detector volume. There is approximately a 1\,\% loss of clean uptime due to maintenance, commissioning, and verification runs, and short runs that are less than 10 minutes in duration. The experiment control system and DAQ have recently implemented 32-hour periods of continuous data-taking. This new feature has eliminated approximately 90–120 seconds of downtime between each run transition, gaining roughly 0.5\,\% of uptime.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{graphics/uptime/bar-chart.png}
+	\caption{Detector performance by run period.}
+	\label{fig:period-performace}
+\end{figure}
+
+
