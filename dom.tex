@@ -533,12 +533,12 @@ screen out any modules damaged during transit.
 
 As of 2016, 5397 of the 5484 deployed DOMs ($98.4\%$) are operating in
 data-taking mode in the data acquisition system (see Table
-\ref{tab:dom_failures}.  We classify DOM 
+\ref{tab:dom_failures}).  We classify DOM 
 failures into two broad categories: failures during deployment and
 freeze-in, and failures during subsequent operation.  The majority of the
 failures (55) occurred before post-deployment commissioning; we hypothesize
 that these are primarily attributable to cable failures, water leaks,
-or freeze-in damage.  32 DOMs have failed after commissioning, and
+or freeze-in damage. 32 DOMs have failed after commissioning, and
 we include in this count modules on a wire pair taken out of service when
 the partner DOM on the same pair failed.  No particular pattern in the
 failures is observed, other than they are typically during non-standard
@@ -667,6 +667,50 @@ The detector response stability is also measured with the {\it in
   situ} light sources in IceCube. Both the in-ice calibration laser
 \cite{IC3:SC} and the flasher LEDs show less than 1\% difference in the total
 charge collected between 2012 and 2015. 
+
+\subsubsection{Dark Noise}
+
+
+The vast majority of background hits result from dark noise, i.e. effects that lead to the emission of an electron from the cathode of the PMT in the absence of an external photon. The total hit rate of DOMs with normal quantum efficiency PMTs is on average \SI{560}{\hertz} and \SI{780}{\hertz} for high QE DOMs. 
+The dark noise is composed of two major components. Electronics noise and radioactive decay in the material form the uncorrelated noise pulses of Poissonian nature with a rate between \SI{230}{\hertz} and \SI{250}{\hertz} that follows the Richardson law for thermal emission. 
+The remaining component is the so-called correlated noise
+with a hit rate that increases with decreasing temperature from \SI{280}{\hertz} to \SI{340}{\hertz} (Figure \ref{fig:dom_darknoise_vs_temperature}). 
+This temperature dependent noise rate profile was acomplished by combining a measured temperture profile of the the South Pole ice cap \cite{price2002temperature} with a fit of the Poissonian expectation to the total dark noise rate to every individual DOM.
+
+\begin{figure}
+ \begin{minipage}[t]{0.45\linewidth}
+ \centering
+  \includegraphics[width=\textwidth]{graphics/dom/performance/darknoise/HitRatevsTemp_inice_nomuons_nofit_bigfont.pdf}
+ \caption{Dark noise rate in IceCube as a function of temperature, obtained from hitspooling
+ data. Each data point represents the average of 12 DOM layers from 78 strings (DeepCore excluded)}
+ \label{fig:dom_darknoise_vs_temperature}
+ \end{minipage}
+\hfill
+ \begin{minipage}[t]{0.45\linewidth}
+ \centering
+  \includegraphics[width=\textwidth]{graphics/dom/performance/darknoise/DarkNoise_Layer2Doms.pdf}
+ \caption{Time interval between successive hits for all next-to-top layer DOMs (DeepCore excluded).}
+ \label{fig:darknoise_deltaT}
+ \end{minipage}
+\end{figure}
+
+The correlated noise component manifests itself in an overabundance of short time intervals between hits in a single DOM compared to the expectation from random (Figure \ref{fig:darknoise_deltaT}). The short time intervals are correlated and clustered in bursts with an average number of hits per burst rising from \num{3.3} at \SI{-10}{\celsius} to \num{3.8} at \SI{-30}{\celsius}. A detailed study with hitspooling data shows that the phenomenology of the correlated noise component in Icecube is in general in good agreement with results reported in the literature with a satisfying physical explanation still to be determined. Best candidate for the source of the entire process is luminescence triggered by radioactive decay of elements like Thorium and Uranium in the glass of the DOM.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 %
