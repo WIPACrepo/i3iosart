@@ -446,10 +446,11 @@ for a ladder of calibration routines.  Analysis and fitting of the
 calibration results is done by the DOMCal software, with the results being
 transmitted from each DOM to the surface as an XML file of fit parameters.
 
-The ladder of calibration routines is shown in Fig.~\ref{fig:domcal_ladder}. The
-primary reference inputs to the calibration are a precision electronic
+%The ladder of calibration routines is shown in
+%Fig.~\ref{fig:domcal_ladder}.
+The primary reference inputs to the calibration are a precision electronic
 pulser circuit providing known charges; a circuit providing a reference DC
-bias level; the 20 MHz oscillator on the Main
+bias voltage level; the 20 MHz oscillator on the Main
 Board, used as the timing reference; and single photoelectrons, either from
 ambient ``dark noise'' photons or a low-luminosity LED on the Main Board.
 
@@ -507,19 +508,26 @@ of $\log_{10}(\mathrm{gain})$ versus $\log_{10}(\mathrm{voltage})$ allows
 the high voltage of each PMT to be tuned to desired operating point ($10^7$
 for in-ice DOMs; see Fig.~\ref{fig:domcal_hv_settings}).  Small ($3-5\%$)
 corrections to the gain of each DOM are determined using charge
-distributions recorded during normal data-taking.
+distributions recorded during normal data-taking; this corrects for a small
+systematic difference in the charge as determined by DOMCal's integration
+and the waveform pulse unfolding used in data processing.
 
-The PMT gain stability is monitored during data taking using the
-single photoelectron peak of the charge distribution on each DOM. A
-gaussian is fit to the peak region and the mean of the gaussian is
-tracked throughout the year. The peak position is calibrated to 1~PE
-and is stable to within 0.01~PE for 95\% of all DOMs. There are on the
-order of 12~DOMs which show unpredictable, abrupt shifts in the SPE peak
-position of 0.05~PE or more. Figure XX shows the time history of the
-SPE peak position of one of these DOMs over XX months. The peak shift
-corresponds to increases or decreases in the MPE discriminator rate,
-indicating that the SPE peak shift is caused by a change in the DOM
-gain. 
+% From JK DOMCal Hist.ipynb
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.6\textwidth]{graphics/dom/domcal/hvfit.pdf}
+ \caption{Sample SPE charge spectrum as recorded by DOMCal and fit
+   \textit{in situ} with a Gaussian+exponential model.} 
+ \label{fig:domcal_hvfit}
+\end{figure}
+
+% From JK DOMCal HV Settings.ipynb
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.6\textwidth]{graphics/dom/domcal/inice_hv_2016.pdf}
+ \caption{PMT high voltage at $10^7$ gain for in-ice DOMs.}
+ \label{fig:domcal_hv_settings}
+\end{figure}
 
 \subsubsection{Flasher Calibrations}
 
@@ -562,11 +570,11 @@ modified. These are enumerated in Table \ref{tab:dom_failures}.
     post-commissioning & 32 \\
     \hline
     \hline
-    \bf{DOMs in Non-standard Mode} & \bf{167} \\
+    \bf{DOMs in Non-standard Mode} & \bf{171} \\
     \hline
     bad digitizer & 12 \\
     reduced PMT gain & 1 \\
-    non-standard local coincidence & 154 \\
+    non-standard local coincidence & 158 \\
     \hline    
   \end{tabular}
   \caption{Number of DOM failures during deployment/freeze-in and after
@@ -635,6 +643,49 @@ voltage setting during DOM calibration, and appeared to begin
 sparking, causing sinusoidal waveforms to appear in the baselines of
 neighboring DOMs.
 %more figures go here: waveforms from Krabba disaster and Meteor radar
+
+\subsubsection{Gain Stability}
+
+The gain stability of the DOM, or the stability of the amplified charge
+from converted photons, depends on a number of factors including stability
+of the PMT high voltage, Main Board channel amplifiers, and the digitizers.
+We can examine these subsystems using both historical calibration results
+as well as by tracking the SPE charge during data-taking.
+
+The electronic gain stability of the DOM includes variations in the
+front-end electronic amplifiers and the digitizers themselves.  The
+stability is checked by comparing the Main Board channel amplifier gains
+from sets of calibrations taken from 2011 to 2016 (see
+Fig.~\ref{fig:domcal_ch_gain}).  From year to year, the amplifier gain
+calibration is repeatable to 0.1\%, 0.2\%, and 0.5\% in the high-gain,
+medium-gain, and low-gain channels respectively.  Since detector completion
+in 2011, a small systematic shift of $-0.3\%$ is visible in the low-gain
+channel, but this is corrected by updating the calibration constants of
+each DOM.
+
+% JK: DOMCal History.ipynb
+\begin{figure}[!h]
+  \captionsetup[subfigure]{labelformat=empty}
+  \centering
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/channel_gain_shift_2016_2015.pdf}}
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/channel_gain_shift_2016_2011.pdf}}
+  \caption{Fractional DOM channel amplifier gain shifts, from 2015 to
+    2016 (left) and 2011 to 2016 (right).  Channels 0, 1, and 2 are
+    high-gain, medium-gain, and low-gain respectively.}
+  \label{fig:domcal_ch_gain}
+\end{figure}
+
+The PMT gain stability is monitored during data-taking using the
+single photoelectron peak of the charge distribution on each DOM. A
+Gaussian is fit to the peak region and the mean of the Gaussian is
+tracked throughout the year. The peak position is calibrated to 1~PE
+and is stable to within 0.01~PE for 95\% of all DOMs. There are on the
+order of 12~DOMs which show unpredictable, abrupt shifts in the SPE peak
+position of 0.05~PE or more. Figure XX shows the time history of the
+SPE peak position of one of these DOMs over XX months. The peak shift
+corresponds to increases or decreases in the MPE discriminator rate,
+indicating that the SPE peak shift is caused by a change in the DOM
+gain. 
 
 \subsubsection{Optical Sensitivity Stability}
 
