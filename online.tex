@@ -350,27 +350,23 @@ Hit Spool.
 \subsubsection{Hitspool Request System}
 
 Subsystems such as SnDAQ and HESE can send time interval requests to a HitSpool
-Request daemon. This daemon passed the request onto every hub,
-where ``worker'' daemons gather the hits in each interval from the hubs
-and forward them to the
-final ``sender'' daemon which bundles them up to be transferred to the
-North
+Request daemon. At the moment this writing, the Hitspool Request System has three clients with their basic characteristics described in Table \ref{hsclients}. This central daemon passes the request onto every hub, where ``worker'' daemons gather the hits in the requested time interval from the hubs and forward them to the final ``sender'' daemon which bundles them up to be transferred to the North for further analysis. The data requests are triggered totally differently for each client due to the divers physical motivation of the requesting services. For instance, the Supernova System issues a request for an asymmetrical time window of $90 \,\mathrm{s}$ around a high significant suprenova candidate trigger in order to analyze the atmospheric muon hit content in these data and in the end to improve the significance statement. 
 % where the full waveforms can be used
-for further analysis.
+
 
 \begin{table}
-  \centering
+  \caption{Hitspool data requesting services.} 
+    \centering
   \footnotesize
-\begin{tabular}{lrrrrrr}
-  \hline
-  Client &  Trigger value & time window & length & data size & frequency & bandwidth \\
-  \hline
-  Supernova & $7.65 \xi$ ($10.00 \xi$) & & & & & \\
-  HESE & & & & & & \\
-  Solar Flare & & & & & & \\
-\hline
-\end{tabular}
-\caption{Hitspooling clients. } 
+\begin{tabularx}{\textwidth}{XXXXXXX}
+  \toprule
+  Client &  Trigger Threshold & Time Window & Request Length & Raw Data Size & Frequency & Bandwidth \\
+  \midrule
+  Supernova & $7.65 \,\xi$ ($10.00 \,\xi$) & $[-30\,\mathrm{s},+60\,\mathrm{s}]$  ($[\pm250 \,\mathrm{s}]$)& $90 \,\mathrm{s}$& ~ $18 \,\mathrm{GB}$& $0.5/\mathrm{week}$ ($0.0006 / \mathrm{week}$)& $1.3 \,\mathrm{GB} / \mathrm{day}$\\
+  HESE & $1500 \,\mathrm{pe} $  ($6000 \,\mathrm{pe} $) & $[\pm0.5\,\mathrm{s}]$& $1\,\mathrm{s}$  &  $~150\,\mathrm{MB}$ &  $4/\mathrm{day}$ ($1/\,\mathrm{month}$) & $0.4\,\mathrm{GB}/\mathrm{day}$  \\
+  Solar Flare & FERMI-LAT significanct event & $[\pm30\,\mathrm{min}]$ & $1\,\mathrm{h}$& $~600\,\mathrm{GB}$& $ 7 / \mathrm{year}$& $ 1.7 \,\mathrm{GB}/\mathrm{day}$\\
+\bottomrule
+\end{tabularx}
 \label{tab:hsclients}
 \end{table}
 
