@@ -695,13 +695,70 @@ This temperature dependent noise rate profile was acomplished by combining a mea
 \end{figure}
 
 The correlated noise component manifests itself in an overabundance of short time intervals between hits in a single DOM compared to the expectation from random (Figure \ref{fig:darknoise_deltaT}). The short time intervals are correlated and clustered in bursts with an average number of hits per burst rising from \num{3.3} at \SI{-10}{\celsius} to \num{3.8} at \SI{-30}{\celsius}. A detailed study with hitspooling data shows that the phenomenology of the correlated noise component in Icecube is in general in good agreement with results reported in the literature with a satisfying physical explanation still to be determined. Best candidate for the source of the entire process is luminescence triggered by radioactive decay of elements like Thorium and Uranium in the glass of the DOM.
+The various sources of dark noise are best visible when histogramming the time between susequent hits in a DOM on a logarithmic scale, as shown in Figure \ref{fig:darknoise_deltaT_components}. Several noise components could be identified and are summerized in Table \ref{tab:noise}.
+Icecube uses the result of these studies to build a parametrized noise model that is needed for an acurate detector simulation \cite{larson2013simulation}.
+
+\begin{table}[h!]
+\caption{Characteristics of noise components in IceCube DOMs, adapted from \cite{stanisha_noise_14}.}
+  \centering
+  \footnotesize
+\begin{tabularx}{\textwidth}{lXXX}
+\toprule
+Noise Component& Origin & Distribution & Parameters \\
+\midrule
+Afterpulses & PMT & Gaussian & $\mu = \SI{6}{\micro\second}$ \newline $\sigma = \SI{2}{\micro\second}$\\
+Uncorrelated & Thermal noise\newline Radioactive Decay & Poissonian & $\lambda = \sim \SI{250}{\hertz}$\\
+Correlated & Luminescence (?) & Log-normal & $\mu = \num{-6} [\log_{10}(\frac{\Delta T}{s})]$ \newline $\sigma = \num{0.85} [\log_{10}(\frac{\Delta T}{s})]$\\
+\bottomrule
+\end{tabularx}
+\label{tab:noise}
+\end{table}
+
+\begin{figure}[!h]
+ \centering
+  \includegraphics[width=0.8\textwidth]{graphics/dom/performance/darknoise/SingleDOM_HitSpool_Hits_deltaT_fits_example.pdf}
+ \caption{Histogram of time differences between successive hits from HitSpool data of
+DOM 15-27 (blue) on a logarithmic scale in order to visualize the different noise components
+(without prepulses which are comparatively insignificant) \cite{heereman2015hitspooling}.}
+ \label{fig:darknoise_deltaT_components}
+\end{figure}
 
 
+The dark noise evolution over time was investigated using data from the supernova scaler stream \cite{briedel_phd}. There is a exponential decay over the course of the data set. This is especially recognizable in the standard deviation of the distribution. The standard deviation decreases by 25\% over the
+course of the three years, and is not noticeably effected by the seasonal modulation. Changes in the mean are initially
+dominated by the decay component and later by the seasonal variation of the atmopsheric muons. 
 
 
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.95\textwidth]{graphics/dom/performance/darknoise/briedel1.png}
+ \caption{Mean and variance of the supernova scaler distribution for the entire detector over the course of the first three
+years of the completed IceCube \cite{briedel_phd}.}
+ \label{fig:noise_over_time_briedel}
+\end{figure}
 
 
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.95\textwidth]{graphics/dom/performance/darknoise/briedel4.png}
+ \caption{Mean and standard deviation of the scaler rate of strings deployed in the last deployment season (austral summer of 2010/2011) \cite{briedel_phd}.}
+ \label{fig:noise_over_time_briedel}
+\end{figure}
 
+
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.95\textwidth]{graphics/dom/performance/darknoise/briedel2.png}
+ \caption{Mean and standard deviation of the HLC rate distribution \cite{briedel_phd}.}
+ \label{fig:slc_over_time_briedel}
+\end{figure}
+
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.95\textwidth]{graphics/dom/performance/darknoise/briedel3.png}
+ \caption{Mean and standard deviation of the SLC rate distribution. The decay and jump in both quantities result from a change in the DOM deadtime by 10\%. \cite{briedel_phd}.}
+ \label{fig:hlc_over_time_briedel}
+\end{figure}
 
 
 
