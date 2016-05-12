@@ -899,22 +899,17 @@ capability to control the detector, allowing operators in the north to e.g. remo
 
 
 \subsection{Operational Performance}
-\textsl{(Matt K; 1 page)}
 
-(Explanation of how design choices, system monitoring, and winterovers result in
-high uptime.  Discussion of median downtime and various causes of downtime.
-Possible basic failure analysis of hardware components.)
+Full detector operational uptime is highly valued. Many redundancies and fail-safes have been implemented to achieve an average uptime of greater than 99\,\%. Each computing hub and server is equipped with redundant power supplies which are buffered with redundant UPSs. The UPS backup battery power allows the detector to remain fully operational for 25 minutes in the event of an AC power outage. 
 
-Full detector operational uptime is highly valued. Many redundancies and fail-safes have been implemented to achieve an average uptime of greater than 99\,\%. Each computing hub and server is equipped with redundant power supplies which are buffered with redundant UPSs. The detector can remain fully operational for 25 minutes in the event of a power outage. 
+The Nagios systems monitoring software is incorporated into all IceCube subsystems and communicates with IceCube LiveControl. In the event of predefined detector failure modes, alerts are sent via email and in more urgent scenarios the Winter Overs are paged via hand-held radio. Detector data taking is automatically restarted with an alternate or partial detector run configuration in the event of component failure.  This automation maintains as large a fraction of the detector operational as possible. 
 
-The Nagios monitoring infrastructure is incorporated into all IceCube subsystems and communicates with IceCube LiveControl to send out alerts, page the Winter Overs, and/or automatically initiate an alternate run configuration in the event of component failure. 
-
-\begin{figure}[!h]
- \centering
- \includegraphics[width=0.8\textwidth]{graphics/uptime/downtime.png}
- \caption{Downtime of the IceCube detector.}
- \label{fig:downtime}
-\end{figure}
+%\begin{figure}[!h]
+% \centering
+% \includegraphics[width=0.8\textwidth]{graphics/uptime/downtime.png}
+% \caption{Downtime of the IceCube detector.}
+% \label{fig:downtime}
+%\end{figure}
 
 The current feature to track portions of failed runs as good, allows the recovery of data from all but the last few minutes of runs that fail, and the recent implementation of continuous data-taking, have improved detector stability and decreased detector downtime. These features contribute to an average “clean uptime” of around 97-98\,\% of full-detector, analysis-ready data. We are now regularly exceeding our target clean uptime of 95\,\%.
 
