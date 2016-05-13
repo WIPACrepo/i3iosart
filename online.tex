@@ -257,6 +257,7 @@ These trigger requests are used by the Event Builder component as templates to
 gather the complete hit data from each StringHub and assemble the final events.
 
 \subsubsection{DOMHub and Hit Spooling}
+\label{sec:domhub_hitspool}
 
 %Responsibility of StringHub.
 The \emph{StringHub} is responsible for periodically reading all available data
@@ -350,7 +351,9 @@ Hit Spool.
 \subsubsection{Hitspool Request System}
 
 Subsystems such as SnDAQ and HESE can send time interval requests to a HitSpool
-Request daemon. At the moment this writing, the Hitspool Request System has three clients with their basic characteristics described in Table \ref{hsclients}. This central daemon passes the request onto every hub, where ``worker'' daemons gather the hits in the requested time interval from the hubs and forward them to the final ``sender'' daemon which bundles them up to be transferred to the North for further analysis. The data requests are triggered totally differently for each client due to the divers physical motivation of the requesting services. For instance, the Supernova System issues a request for an asymmetrical time window of $90 \,\mathrm{s}$ around a high significant suprenova candidate trigger in order to analyze the atmospheric muon hit content in these data and in the end to improve the significance statement. 
+Request daemon. At the moment this writing, the Hitspool Request System has three clients with their basic characteristics described in Table \ref{hsclients}. This central daemon passes the request onto every hub, where ``worker'' daemons gather the hits in the requested time interval from the hubs and forward them to the final ``sender'' daemon which bundles them up to be transferred to the North for further analysis. The data requests are triggered totally differently for each client due to the divers physical motivation of the requesting services. The Supernova System requests an asymmetrical time window of $90 \,\mathrm{s}$ of hitspooling data around a high significant supernova candidate trigger and a symmetrical $500\,\mathrm{s}$ data set in case of a trigger higher than $10.0$.
+Similar to the suprenova system, the online High Energy Starting Event (HESE) analysis system provides two thresholds. Online reconstructed events with a total charge of more than $1500 \,\mathrm{pe}$ issue a hitspool request at a frequency of about four times per day whereas higher energy events, represented by  trigger threshold of $6000 \,\mathrm{pe}$ occur about once per month.
+The recently implemented hitpool client for Solar flare analyses is triggered externally by significant FERMI-LAT events and stores a symmetrical time window of one hour of hitpool data around the trigger time. The Solar flare hitspool client is estimated to trigger about seven times per year. Opposed to the other two cleints and due to the shear size, these data sets are not transferred over satellite but are stored on tape at Pole although is case of an extremely high significant solar flare, the event is allowed to go over satellite but will be transferred in parts over the course of one month.
 % where the full waveforms can be used
 
 

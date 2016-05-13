@@ -758,10 +758,10 @@ charge collected between 2012 and 2015.
 
 
 The vast majority of background hits result from dark noise, i.e. effects that lead to the emission of an electron from the cathode of the PMT in the absence of an external photon. The total hit rate of DOMs with normal quantum efficiency PMTs is on average \SI{560}{\hertz} and \SI{780}{\hertz} for high QE DOMs. 
-The dark noise is composed of two major components. Electronics noise and radioactive decay in the material form the uncorrelated noise pulses of Poissonian nature with a rate between \SI{230}{\hertz} and \SI{250}{\hertz} that follows the Richardson law for thermal emission. 
+The dark noise is composed of two major components. Electronics noise and radioactive decays in the material form the uncorrelated noise pulses of Poissonian nature with a rate between \SI{230}{\hertz} and \SI{250}{\hertz} that follows the Richardson law for thermal emission. 
 The remaining component is the so-called correlated noise
 with a hit rate that increases with decreasing temperature from \SI{280}{\hertz} to \SI{340}{\hertz} (Figure \ref{fig:dom_darknoise_vs_temperature}). 
-This temperature dependent noise rate profile was acomplished by combining a measured temperture profile of the the South Pole ice cap \cite{price2002temperature} with a fit of the Poissonian expectation to the total dark noise rate to every individual DOM.
+This temperature dependent noise rate profile was acomplished by combining a measured temperture profile of the the South Pole ice cap \cite{price2002temperature} with a fit of the Poissonian expectation of the total dark noise rate to every individual DOM.
 
 \begin{figure}
  \begin{minipage}[t]{0.45\linewidth}
@@ -780,9 +780,11 @@ This temperature dependent noise rate profile was acomplished by combining a mea
  \end{minipage}
 \end{figure}
 
-The correlated noise component manifests itself in an overabundance of short time intervals between hits in a single DOM compared to the expectation from random (Figure \ref{fig:darknoise_deltaT}). The short time intervals are correlated and clustered in bursts with an average number of hits per burst rising from \num{3.3} at \SI{-10}{\celsius} to \num{3.8} at \SI{-30}{\celsius}. A detailed study with hitspooling data shows that the phenomenology of the correlated noise component in Icecube is in general in good agreement with results reported in the literature with a satisfying physical explanation still to be determined. Best candidate for the source of the entire process is luminescence triggered by radioactive decay of elements like Thorium and Uranium in the glass of the DOM.
-The various sources of dark noise are best visible when histogramming the time between susequent hits in a DOM on a logarithmic scale, as shown in Figure \ref{fig:darknoise_deltaT_components}. Several noise components could be identified and are summerized in Table \ref{tab:noise}.
-Icecube uses the result of these studies to build a parametrized noise model that is needed for an acurate detector simulation \cite{larson2013simulation}.
+The correlated noise component manifests itself in an overabundance of short time intervals between hits in a single DOM compared to the expectation from random (Figure \ref{fig:darknoise_deltaT}). The short time intervals are correlated and clustered in bursts with an average number of hits per burst rising from \num{3.3} at \SI{-10}{\celsius} to \num{3.8} at \SI{-30}{\celsius}. A detailed study with hitspooling data shows that the phenomenology of the correlated noise component in IceCube is in general in good agreement with results reported in the literature with a satisfying physical explanation still to be determined. Best candidate for the source of the entire process is luminescence triggered by radioactive decay of elements like Thorium and Uranium in the glass of the DOM.
+The various sources of dark noise present in a DOM are best visible when histogramming the time between subsequent raw data hits ( or hitspool data, see Section \ref{sec:domhub_hitspool}) in a DOM on a logarithmic scale, as shown in Figure \ref{fig:darknoise_deltaT_components}. An overview of the various noise components is also given in Table \ref{tab:noise}. The so far unmentioned afterpulses, a common feature of PMTs, is attributed to ionization
+of residual gases by electrons that were accelerated in between the dynodes. 
+
+IceCube uses the result of these noise studies to build a parametrized noise model that is needed for an accurate detector simulation \cite{larson2013simulation}.
 
 \begin{table}[h!]
 \caption{Characteristics of noise components in IceCube DOMs, adapted from \cite{stanisha_noise_14}.}
@@ -810,9 +812,9 @@ DOM 15-27 (blue) on a logarithmic scale in order to visualize the different nois
 \end{figure}
 
 
-The dark noise evolution over time was investigated using data from the supernova scaler stream \cite{briedel_phd}. There is a exponential decay over the course of the data set. This is especially recognizable in the standard deviation of the distribution. The standard deviation decreases by 25\% over the
-course of the three years, and is not noticeably effected by the seasonal modulation. Changes in the mean are initially
-dominated by the decay component and later by the seasonal variation of the atmopsheric muons. 
+The evolution of the dark noise rate over time was investigated using data from the supernova scaler stream \cite{IC3:supernova, briedel_phd}. There is a exponential decay over the course of the data set which is caused by a decreasing triboluminescence in general arising from a `freeze-in` procedure of newly deployed DOMs. As the ice refreezes after deployment, it becomes cleaner and impurities introduced during the drill process (mainly trapped gas) are pushed inwards into a column nearly at the center of the drill hole. This mechanical stress requires breaking bonds in the ice which in turn can lead to triboluminescence. This effect is studied preferably
+in the scaler stream since the supernova analysis, compared to most other analyses, relies on low energy events buried in the noise level.  
+This effect is especially recognizable in the standard deviation of the scaler distribution. The standard deviation decreases by 25\% over the course of the three years, and is not noticeably effected by the seasonal modulation of the cosmic ray induced atmospheric muon rate. Changes in the mean are initially dominated by the decay component and later by the seasonal variation of atmospheric muons. 
 
 
 \begin{figure}[!h]
@@ -824,11 +826,13 @@ years of the completed IceCube \cite{briedel_phd}.}
 \end{figure}
 
 
+The above mentioned 'freeze-in' related noise rate decay is even more clearly visible when we concentrate only on string deployed in the last drill season of IceCube, see Figure \ref{fig:noise_over_time_briedel_lastseasondepoyed}. Since the dark noise components are not correlated over several DOMs but are intrinsic to each individual DOM, the dark noise decay is not prominent in hits where neighboring DOMs are hit as well in a given time range (called HLC hits). Single DOM (or SLC) hits, on the other hand, represent exactly the decreasing noise rate behavior in the standard deviation of their corresponding SLC rate, as shown in Figure \ref{fig:slc_over_time_briedel}.
+
 \begin{figure}[!h]
  \centering
  \includegraphics[width=0.95\textwidth]{graphics/dom/performance/darknoise/briedel4.png}
  \caption{Mean and standard deviation of the scaler rate of strings deployed in the last deployment season (austral summer of 2010/2011) \cite{briedel_phd}.}
- \label{fig:noise_over_time_briedel}
+ \label{fig:noise_over_time_briedel_lastseasondepoyed}
 \end{figure}
 
 
@@ -836,14 +840,14 @@ years of the completed IceCube \cite{briedel_phd}.}
  \centering
  \includegraphics[width=0.95\textwidth]{graphics/dom/performance/darknoise/briedel2.png}
  \caption{Mean and standard deviation of the HLC rate distribution \cite{briedel_phd}.}
- \label{fig:slc_over_time_briedel}
+ \label{fig:hlc_over_time_briedel}
 \end{figure}
 
 \begin{figure}[!h]
  \centering
  \includegraphics[width=0.95\textwidth]{graphics/dom/performance/darknoise/briedel3.png}
  \caption{Mean and standard deviation of the SLC rate distribution. The decay and jump in both quantities result from a change in the DOM deadtime by 10\%. \cite{briedel_phd}.}
- \label{fig:hlc_over_time_briedel}
+ \label{fig:slc_over_time_briedel}
 \end{figure}
 
 
