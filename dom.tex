@@ -446,10 +446,11 @@ for a ladder of calibration routines.  Analysis and fitting of the
 calibration results is done by the DOMCal software, with the results being
 transmitted from each DOM to the surface as an XML file of fit parameters.
 
-The ladder of calibration routines is shown in Fig.~\ref{fig:domcal_ladder}. The
-primary reference inputs to the calibration are a precision electronic
+%The ladder of calibration routines is shown in
+%Fig.~\ref{fig:domcal_ladder}.
+The primary reference inputs to the calibration are a precision electronic
 pulser circuit providing known charges; a circuit providing a reference DC
-bias level; the 20 MHz oscillator on the Main
+bias voltage level; the 20 MHz oscillator on the Main
 Board, used as the timing reference; and single photoelectrons, either from
 ambient ``dark noise'' photons or a low-luminosity LED on the Main Board.
 
@@ -507,19 +508,126 @@ of $\log_{10}(\mathrm{gain})$ versus $\log_{10}(\mathrm{voltage})$ allows
 the high voltage of each PMT to be tuned to desired operating point ($10^7$
 for in-ice DOMs; see Fig.~\ref{fig:domcal_hv_settings}).  Small ($3-5\%$)
 corrections to the gain of each DOM are determined using charge
-distributions recorded during normal data-taking.
+distributions recorded during normal data-taking; this corrects for a small
+systematic difference in the charge as determined by DOMCal's integration
+and the waveform pulse unfolding used in data processing.
 
-The PMT gain stability is monitored during data taking using the
-single photoelectron peak of the charge distribution on each DOM. A
-gaussian is fit to the peak region and the mean of the gaussian is
-tracked throughout the year. The peak position is calibrated to 1~PE
-and is stable to within 0.01~PE for 95\% of all DOMs. There are on the
-order of 12~DOMs which show unpredictable, abrupt shifts in the SPE peak
-position of 0.05~PE or more. Figure XX shows the time history of the
-SPE peak position of one of these DOMs over XX months. The peak shift
-corresponds to increases or decreases in the MPE discriminator rate,
-indicating that the SPE peak shift is caused by a change in the DOM
-gain. 
+% From JK DOMCal Hist.ipynb
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.6\textwidth]{graphics/dom/domcal/hvfit.pdf}
+ \caption{Sample SPE charge spectrum as recorded by DOMCal and fit
+   \textit{in situ} with a Gaussian+exponential model.} 
+ \label{fig:domcal_hvfit}
+\end{figure}
+
+% From JK DOMCal HV Settings.ipynb
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.6\textwidth]{graphics/dom/domcal/inice_hv_2016.pdf}
+ \caption{PMT high voltage at $10^7$ gain for in-ice DOMs.}
+ \label{fig:domcal_hv_settings}
+\end{figure}
+
+\subsubsection{RAPCal}
+
+The Reciprocal Active Pulsing calibration (RAPCal) is a
+continuously-running method for translating hit timestamps from the the
+individual free-running DOM clock domains to the clock domain in the
+IceCube Lab, which is synchronized to UTC.  A bipolar pulse is sent to each
+DOM over the power/communications wire pair and then returned, with each
+transmission and receive point timestamped locally.  The symmetry of the down-
+and up-transmission allows a translation from each DOM clock domain to the
+surface clock domain at the midpoint, without prior knowledge of cable lengths.
+The base implementation is described in Ref.~\cite{ICECUBE:DAQ}; we
+describe here the details of the time translation algorithm and validation
+of the DOM relative synchronization. 
+
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.4\textwidth]{graphics/dom/rapcal/rapcal_symmetry.pdf}
+ \caption{The Reciprocal Active Pulsing calibration (RAPCal) allows
+   translation from the free-running clocks of each DOM to the GPS-slaved
+   clocks in the IceCube lab.  Each transmit and receive pair is
+   timestamped in the local clock domain, and by the symmetry of the
+   situation the midpoints are synchronous.}
+ \label{fig:rapcal_symmetry}
+\end{figure}
+
+\begin{figure}[h]
+ \centering
+ \includegraphics[width=0.8\textwidth]{graphics/dom/rapcal/zero_crossing.png}
+ \caption{Digitized DOM and surface (DOR) RAPCal pulses, after cable
+   dispersion.  The zero-crossing of the baseline-subtracted pulse is used as a
+   fine-delay correction to the received timestamp.  FIX ME CLEAN UP}
+ \label{fig:rapcal_zero_crossing}
+\end{figure}
+
+A RAPCal pulse sequence to each DOM results in a series of four timestamps
+$T_{\mathrm{tx}}^{\mathrm{DOR}}$, $T_{\mathrm{rx}}^{\mathrm{DOM}}$, 
+$T_{\mathrm{tx}}^{\mathrm{DOM}}$,  and $T_{\mathrm{rx}}^{\mathrm{DOR}}$
+(Fig.~\ref{fig:rapcal_symmetry}), with timestamps in 20 MHz units
+of the DOM and surface (DOR, see Sect.~\ref{sect:online:master_clock}) clocks.  The received dispersed bipolar pulses
+are digitized by the communications ADCs and 
+timestamped.  A ``fine delay'' correction $f$ to
+$T_{\mathrm{rx}}^{\mathrm{DOM}}$ and $T_{\mathrm{rx}}^{\mathrm{DOR}}$ is calculated by interpolating
+to find the negative-going zero crossing, relative to a baseline voltage
+calculated using the initial samples of the waveform (Fig.~\ref{fig:rapcal_zero_crossing}):
+
+\begin{equation}
+  \tilde{T}_{\mathrm{rx}} = T_{\mathrm{rx}} - f\ .
+\end{equation}
+
+
+\noindent The midpoints $T_C^{\mathrm{DOR,DOM}}$ halfway between $T_\mathrm{tx}^{\mathrm{DOR,DOM}}$ and
+$\tilde{T}_\mathrm{rx}^{\mathrm{DOR,DOM}}$ are identified as synchronous.
+
+To translate an arbitrary DOM timestamp $t$ to UTC
+time, we use the RAPCal results bracketing $t$ to derive a linear
+relationship
+
+\begin{equation}
+  \mathrm{UTC}(t) = (1+\epsilon)(t - T_C^{\mathrm{DOM}}) +
+  T_C^{\mathrm{DOR}} + \Delta\ .
+\end{equation}
+
+\noindent The slope $(1+\epsilon)$ accounts for drifts in the 20 MHz DOM
+clocks and is calculated from the midpoints $T_C$ of the bracketing RAPCal
+results: 
+
+\begin{equation}
+  1+\epsilon = \frac{T_{C,2}^{\mathrm{DOR}} -
+    T_{C,1}^{\mathrm{DOR}}}{T_{C,2}^{\mathrm{DOM}} -
+    T_{C,1}^{\mathrm{DOM}}}\ .
+\end{equation}
+
+\noindent Finally, because the timestamps $T^{\mathrm{DOR}}$ count the offset into
+the current UTC second, the UTC time offset $\Delta$ of the previous
+1-second boundary, provided by the master clock, is added.
+
+The stability and repeatability of the calibration is monitored by
+tracking the cable delay from multiple measurements, defined as
+
+\begin{equation}
+  T_{\mathrm{cable}} = \frac{1}{2} \left( ( T_{\mathrm{rx}}^{\mathrm{DOR}} -
+  T_{\mathrm{tx}}^{\mathrm{DOR}} ) - (1+\epsilon)(T_{\mathrm{tx}}^{\mathrm{DOM}} -
+  T_{\mathrm{rx}}^{\mathrm{DOM}} )\right) \ .
+\end{equation}
+
+\noindent A representative distribution of $T_{\mathrm{cable}}$ from one DOM over an 8-hour
+data-taking run is shown in Fig.~\ref{fig:rapcal_cable_len}, with a
+standard deviation of 0.6 ns.
+
+
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.6\textwidth]{graphics/dom/rapcal/tcal_hist_22-60.pdf}
+ \caption{Distribution of one-way cable delays from multiple RAPCal
+   measurements on DOM 22-60 (bottom of string 22).}
+ \label{fig:rapcal_cable_len}
+\end{figure}
+
+FIX ME add flasher deltaT information and plot
 
 \subsubsection{Flasher Calibrations}
 
@@ -562,11 +670,11 @@ modified. These are enumerated in Table \ref{tab:dom_failures}.
     post-commissioning & 32 \\
     \hline
     \hline
-    \bf{DOMs in Non-standard Mode} & \bf{167} \\
+    \bf{DOMs in Non-standard Mode} & \bf{171} \\
     \hline
     bad digitizer & 12 \\
     reduced PMT gain & 1 \\
-    non-standard local coincidence & 154 \\
+    non-standard local coincidence & 158 \\
     \hline    
   \end{tabular}
   \caption{Number of DOM failures during deployment/freeze-in and after
@@ -635,6 +743,49 @@ voltage setting during DOM calibration, and appeared to begin
 sparking, causing sinusoidal waveforms to appear in the baselines of
 neighboring DOMs.
 %more figures go here: waveforms from Krabba disaster and Meteor radar
+
+\subsubsection{Gain Stability}
+
+The gain stability of the DOM, or the stability of the amplified charge
+from converted photons, depends on a number of factors including stability
+of the PMT high voltage, Main Board channel amplifiers, and the digitizers.
+We can examine these subsystems using both historical calibration results
+as well as by tracking the SPE charge during data-taking.
+
+The electronic gain stability of the DOM includes variations in the
+front-end electronic amplifiers and the digitizers themselves.  The
+stability is checked by comparing the Main Board channel amplifier gains
+from sets of calibrations taken from 2011 to 2016 (see
+Fig.~\ref{fig:domcal_ch_gain}).  From year to year, the amplifier gain
+calibration is repeatable to 0.1\%, 0.2\%, and 0.5\% in the high-gain,
+medium-gain, and low-gain channels respectively.  Since detector completion
+in 2011, a small systematic shift of $-0.3\%$ is visible in the low-gain
+channel, but this is corrected by updating the calibration constants of
+each DOM.
+
+% JK: DOMCal History.ipynb
+\begin{figure}[!h]
+  \captionsetup[subfigure]{labelformat=empty}
+  \centering
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/channel_gain_shift_2016_2015.pdf}}
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/channel_gain_shift_2016_2011.pdf}}
+  \caption{Fractional DOM channel amplifier gain shifts, from 2015 to
+    2016 (left) and 2011 to 2016 (right).  Channels 0, 1, and 2 are
+    high-gain, medium-gain, and low-gain respectively.}
+  \label{fig:domcal_ch_gain}
+\end{figure}
+
+The PMT gain stability is monitored during data-taking using the
+single photoelectron peak of the charge distribution on each DOM. A
+Gaussian is fit to the peak region and the mean of the Gaussian is
+tracked throughout the year. The peak position is calibrated to 1~PE
+and is stable to within 0.01~PE for 95\% of all DOMs. There are on the
+order of 12~DOMs which show unpredictable, abrupt shifts in the SPE peak
+position of 0.05~PE or more. Figure XX shows the time history of the
+SPE peak position of one of these DOMs over XX months. The peak shift
+corresponds to increases or decreases in the MPE discriminator rate,
+indicating that the SPE peak shift is caused by a change in the DOM
+gain. 
 
 \subsubsection{Optical Sensitivity Stability}
 
