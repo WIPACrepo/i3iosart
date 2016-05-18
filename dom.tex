@@ -529,6 +529,106 @@ and the waveform pulse unfolding used in data processing.
  \label{fig:domcal_hv_settings}
 \end{figure}
 
+\subsubsection{RAPCal}
+
+The Reciprocal Active Pulsing calibration (RAPCal) is a
+continuously-running method for translating hit timestamps from the the
+individual free-running DOM clock domains to the clock domain in the
+IceCube Lab, which is synchronized to UTC.  A bipolar pulse is sent to each
+DOM over the power/communications wire pair and then returned, with each
+transmission and receive point timestamped locally.  The symmetry of the down-
+and up-transmission allows a translation from each DOM clock domain to the
+surface clock domain at the midpoint, without prior knowledge of cable lengths.
+The base implementation is described in Ref.~\cite{ICECUBE:DAQ}; we
+describe here the details of the time translation algorithm and validation
+of the DOM relative synchronization. 
+
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.4\textwidth]{graphics/dom/rapcal/rapcal_symmetry.pdf}
+ \caption{The Reciprocal Active Pulsing calibration (RAPCal) allows
+   translation from the free-running clocks of each DOM to the GPS-slaved
+   clocks in the IceCube lab.  Each transmit and receive pair is
+   timestamped in the local clock domain, and by the symmetry of the
+   situation the midpoints are synchronous.}
+ \label{fig:rapcal_symmetry}
+\end{figure}
+
+\begin{figure}[h]
+ \centering
+ \includegraphics[width=0.8\textwidth]{graphics/dom/rapcal/zero_crossing.png}
+ \caption{Digitized DOM and surface (DOR) RAPCal pulses, after cable
+   dispersion.  The zero-crossing of the baseline-subtracted pulse is used as a
+   fine-delay correction to the received timestamp.  FIX ME CLEAN UP}
+ \label{fig:rapcal_zero_crossing}
+\end{figure}
+
+A RAPCal pulse sequence to each DOM results in a series of four timestamps
+$T_{\mathrm{tx}}^{\mathrm{DOR}}$, $T_{\mathrm{rx}}^{\mathrm{DOM}}$, 
+$T_{\mathrm{tx}}^{\mathrm{DOM}}$,  and $T_{\mathrm{rx}}^{\mathrm{DOR}}$
+(Fig.~\ref{fig:rapcal_symmetry}), with timestamps in 20 MHz units
+of the DOM and surface (DOR, see Sect.~\ref{sect:online:master_clock}) clocks.  The received dispersed bipolar pulses
+are digitized by the communications ADCs and 
+timestamped.  A ``fine delay'' correction $f$ to
+$T_{\mathrm{rx}}^{\mathrm{DOM}}$ and $T_{\mathrm{rx}}^{\mathrm{DOR}}$ is calculated by interpolating
+to find the negative-going zero crossing, relative to a baseline voltage
+calculated using the initial samples of the waveform (Fig.~\ref{fig:rapcal_zero_crossing}):
+
+\begin{equation}
+  \tilde{T}_{\mathrm{rx}} = T_{\mathrm{rx}} - f\ .
+\end{equation}
+
+
+\noindent The midpoints $T_C^{\mathrm{DOR,DOM}}$ halfway between $T_\mathrm{tx}^{\mathrm{DOR,DOM}}$ and
+$\tilde{T}_\mathrm{rx}^{\mathrm{DOR,DOM}}$ are identified as synchronous.
+
+To translate an arbitrary DOM timestamp $t$ to UTC
+time, we use the RAPCal results bracketing $t$ to derive a linear
+relationship
+
+\begin{equation}
+  \mathrm{UTC}(t) = (1+\epsilon)(t - T_C^{\mathrm{DOM}}) +
+  T_C^{\mathrm{DOR}} + \Delta\ .
+\end{equation}
+
+\noindent The slope $(1+\epsilon)$ accounts for drifts in the 20 MHz DOM
+clocks and is calculated from the midpoints $T_C$ of the bracketing RAPCal
+results: 
+
+\begin{equation}
+  1+\epsilon = \frac{T_{C,2}^{\mathrm{DOR}} -
+    T_{C,1}^{\mathrm{DOR}}}{T_{C,2}^{\mathrm{DOM}} -
+    T_{C,1}^{\mathrm{DOM}}}\ .
+\end{equation}
+
+\noindent Finally, because the timestamps $T^{\mathrm{DOR}}$ count the offset into
+the current UTC second, the UTC time offset $\Delta$ of the previous
+1-second boundary, provided by the master clock, is added.
+
+The stability and repeatability of the calibration is monitored by
+tracking the cable delay from multiple measurements, defined as
+
+\begin{equation}
+  T_{\mathrm{cable}} = \frac{1}{2} \left( ( T_{\mathrm{rx}}^{\mathrm{DOR}} -
+  T_{\mathrm{tx}}^{\mathrm{DOR}} ) - (1+\epsilon)(T_{\mathrm{tx}}^{\mathrm{DOM}} -
+  T_{\mathrm{rx}}^{\mathrm{DOM}} )\right) \ .
+\end{equation}
+
+\noindent A representative distribution of $T_{\mathrm{cable}}$ from one DOM over an 8-hour
+data-taking run is shown in Fig.~\ref{fig:rapcal_cable_len}, with a
+standard deviation of 0.6 ns.
+
+
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.6\textwidth]{graphics/dom/rapcal/tcal_hist_22-60.pdf}
+ \caption{Distribution of one-way cable delays from multiple RAPCal
+   measurements on DOM 22-60 (bottom of string 22).}
+ \label{fig:rapcal_cable_len}
+\end{figure}
+
+FIX ME add flasher deltaT information and plot
+
 \subsubsection{Flasher Calibrations}
 
 \subsection{Performance and Reliability}
