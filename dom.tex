@@ -631,16 +631,31 @@ FIX ME add flasher deltaT information and plot
 
 \subsubsection{\label{sec:domeff} DOM Optical Efficiency}
 
-The UV photon detection efficiency in air is measured in the lab using a
-pulsed 337~nm laser beam through a nitrogen gas chamber~\cite{ICECUBE:PMT}. Photons
-which are Rayleigh scattered 90$^{\circ}$ from the beam illuminate the PMT,
-which is rotated at various angles to measure different sections of
-the photocathode surface. The quantum efficiency at the center of the
-photocathode, where collection efficiency is nearly 100\%, was found
-to be 20\% at 337~nm, which agrees well with the Hamamatsu
-specification of 25\% at 390~nm. Lab measurements of the absolute efficiency of the DOM efficiency in water are ongoing~\cite{ICECUBE:DOMEFF}. The absolute calibration was performed on a small subset of IceCube DOMs. The relative efficiency of all DOMs was measured in the FAT process using a 405~nm pulsed laser and a system of fibers and diffusers to illuminate the DOM evenly within 50$^{\circ}$ of the optical axis; the DOM was not rotated for this measurement. The efficiency of each DOM was measured relative to a 2~inch reference PMT. The PMTs in most DeepCore DOMs are high quantum efficiency, nominally 40\% higher than PMTs in standard IceCube DOMs. FAT measurements found that the high quantum efficiency PMTs were 39\% more efficient than standard IceCube PMTs~\cite{ICECUBE:DC}.
+A baseline value for the photon detection efficiency was established
+by combining PMT measurements at 337~nm and a separate model of
+wavelength- and angle-dependent effects.  Absolute sensitivity
+measurements were performed on 13 IceCube PMTs, using photons that
+were Rayleigh scattered by 90$^{\circ}$  from a primary 337~nm laser
+beam of known intensity~\cite{ICECUBE:PMT}. The results agreed well
+with independent Hamamatsu measurements of sensitivity in the range
+270~nm - 730~nm, which were then normalized to the 33~7nm measurement.  The resulting quantum efficiency at the center of the PMT and at 390~nm is 25\%.  A full simulation model for the DOM includes the wavelength dependence of the PMT response, optical absorption in the DOM glass and gel, discriminator threshold effects and photocathode nonuniformity.   The angle dependence is dominated by the shape of the photocathode and its response variation away from the center, which was measured for 135 PMTs~\cite{ICECUBE:PMT}.   
 
-Laboratory measurements of PMT efficiency are supplemented with in situ measurements using Cherenkov light from muons in the ice. Low energy muons (median energy 82~GeV) with inclination angles between 45$^{\circ}$ and 70$^{\circ}$ have well understood light emission and illuminate the downward-facing PMTs in the ice as directly as possible. The deposited charge from these muons is compared to simulation to adjust the effective efficiency of the PMTs in ice~\cite{IC3:ereco}. DOM occupancy from muons was used to measure the relative efficiency of the HQE and standard DOMs in ice, which was found to be 35\%~\cite{ICECUBE:DC}. The dark noise rates in HQE DOMs are 33\% higher than in standard DOMs.
+The laboratory-based efficiency model was supplemented with \textit{in situ} measurements using Cherenkov light from muons in the ice.  In one study, low energy muons (median energy 82~GeV) with well understood light emission were selected to illuminate the downward-facing PMTs in the ice as directly as possible. The numbers of photons detected at different distances from these muons were then compared to predictions of the simulation model~\cite{IC3:ereco}.  Based on this and other \textit{in situ}  analysis, the central value for the efficiency was adjusted upward by 10\% in the simulation, compared to the baseline.  For physics analysis, DOM efficiency is generally included as a nuisance parameter with prior uncertainty of 10\%,  which includes other uncertainties related to generation and propagation of the light. Additional laboratory measurements on assembled DOMs are in progress, including wavelength and angle dependent effects, and are expected to reduce uncertainties~\cite{ICECUBE:DOMEFF}.
+
+The absolute calibration at 33~7nm was performed at room temperature
+on a small subset of IceCube PMTs. The relative efficiency of all
+assembled DOMs was separately measured as part of production testing,
+using a 405~nm pulsed laser and a system of fibers and diffusers to
+illuminate DOMs evenly within 50$^{\circ}$ of the optical axis.  Using
+this system, the relative efficiency of DeepCore DOMs (high quantum
+efficiency type) was measured to be higher by a factor 1.39 compared
+to standard IceCube DOMs, agreeing well with a specified value of
+1.40. Further \textit{in situ}  studies using muons yielded a factor of
+1.35~\cite{ICECUBE:DC}, which is an effective value including the
+Cherenkov spectrum folded with the different wavelength sensitivity
+curves of the two types of PMTs.  The production testing system also
+established the efficiency change from room temperature to
+-40$^{\circ}$~C is less than 1\% when gain is maintained at the design value of $10^7$.  
 
 
 %\subsubsection{Flasher Calibrations}
@@ -764,12 +779,67 @@ each DOM, ranging from 112 to 161 counts in the fACD and 109 to 172
 counts in the ATWD. The baselines for each digitizer channel in each DOM are monitored with
 beacon hits, forced triggers which are collected at a rate of 1.2~Hz
 per DOM
-in in-ice DOMs and 4.8~Hz in IceTop DOMs. The average value of the
+in in-ice DOMs and 4.8~Hz in IceTop DOMs. Beacon waveforms
+from the FADC and ATWD of a typical DOM are shown in Figure~\ref{fig:raw_baselines}.
+
+\begin{figure}[!h]
+  \captionsetup[subfigure]{labelformat=empty}
+  \centering
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/fadc_average_beacon_raw.pdf}}
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/ATWD_average_beacon_raw.pdf}}
+  \caption{Beacon waveforms from the FADC (left) and ATWD (right) of
+    an IceCube DOM. The baseline, which is the mean value of the
+    beacon waveform, is shown as a horizontal red line.}
+  \label{fig:raw_baselines}
+\end{figure}
+
+
+The average value of the
 beacon baselines are very stable, with shifts of no more than
-0.2~counts year to year, which corresponds to a stability of 0.05~PE
-in the single photoelectron charge peak. 
-%igures go here: average beacon waveform, stability, sample values
-%for beacon baselines
+0.2~counts year to year, which corresponds to 0.018~mV in the FADC and
+0.025~mV in the high gain ATWD channel. The single photoelectron
+charge peak is stable to within 0.05~PE. The baseline shifts from May
+2015 to April 2016 are shown in
+Figure~\ref{fig:baseline_stability_2015}. 
+
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.6\textwidth]{graphics/dom/reliability/baseline_stability_2015.pdf}
+ \caption{Distribution of shifts in baseline values in all ATWD
+   channels and the FADC for all DOMs between May 2015 and April
+   2016. The DOM configuration was unchanged during this period.}
+ \label{fig:baseline_stability_2015}
+\end{figure}
+
+Every year when the detector
+is recalibrated, adjustments in the SPE discriminator threshold can
+cause shifts of up to 0.6~counts (0.54~mV) in the FADC
+baselines. Correcting recorded waveforms for the effect of transformer
+coupling (essentially a high pass filter with time constant xxx) has
+the side effect that small DC offset errors are converted into
+apparent PMT current that increases linearly in time over the course
+of a few microseconds.The effect is stronger for DOMs with original
+type toroid transformers, where a baseline error of 0.6~counts can
+turn an actual deposited charge of 1~PE into a measured charge of over
+2~PE with an unphysical time structure. The observed distortion in a
+simulated single photoelectron charge due to FADC baseline shifts is
+shown in Figure~\ref{fig:charge_fadcshift}  Therefore, whenever the
+discriminator thresholds are changed, the FADC baselines are measured
+again and the values used for calibration are refreshed. As long as
+the discriminator thresholds are unchanged, the baselines are stable
+to within 0.2~counts
+as shown above, and no charge distortion is seen at that level of
+baselines stability.
+
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.6\textwidth]{graphics/dom/reliability/charge_fadcshift.pdf}
+ \caption{Reconstructed charge from a simulated single photoelectron
+   deposit as a function of FADC baseline shift, for both old and new
+   toroid DOMs.}
+ \label{fig:charge_fadcshift}
+\end{figure}
+
 The baselines are sensitive to radio frequency interference (RFI). In
 2009, RF signals from a radar transmitter broadcasting at 46.3~MHz
 appeared as sinusoidal or spiky signatures in the waveform
@@ -811,16 +881,41 @@ each DOM.
 \end{figure}
 
 The PMT gain stability is monitored during data-taking using the
-single photoelectron peak of the charge distribution on each DOM. A
-Gaussian is fit to the peak region and the mean of the Gaussian is
+single photoelectron peak of the charge distribution on each DOM due
+to cosmic ray muons. A
+Gaussian + exponential function is fit to the peak region as in Figure~\ref{fig:domcal_hvfit} and the mean of the Gaussian is
 tracked throughout the year. The peak position is calibrated to 1~PE
-and is stable to within 0.01~PE for 95\% of all DOMs. There are on the
+and is stable to within 0.01~PE for 95\% of all DOMs as shown in
+Figure~\ref{fig:gain_spe_stability}.
+
+\begin{figure}[!h]
+  \captionsetup[subfigure]{labelformat=empty}
+  \centering
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/mean_value_2015.pdf}}
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/meandiff_2015.pdf}}
+  \caption{Distribution of the mean of the Gaussian fit to the SPE
+    peak (left) and the shift in this value in every in-ice DOM between  May 2015 and April
+   2016.}
+  \label{fig:gain_spe_stability}
+\end{figure} 
+
+There are on the
 order of 12~DOMs which show unpredictable, abrupt shifts in the SPE peak
-position of 0.05~PE or more. Figure XX shows the time history of the
-SPE peak position of one of these DOMs over XX months. The peak shift
+position of 0.05~PE or more. Figure~\ref{fig:gainshift_spe} shows the time history of the
+SPE peak position of one of these DOMs over 4~months. The peak shift
 corresponds to increases or decreases in the MPE discriminator rate,
 indicating that the SPE peak shift is caused by a change in the DOM
 gain. 
+
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.6\textwidth]{graphics/dom/reliability/gainshift.pdf}
+ \caption{Mean of the Gaussian fit to the SPE peak (top) and the MPE
+   scaler rate (bottom) from July 2015 to November 2015 for a DOM
+   which shows unpredictable gain shift behavior. The DOM
+   configuration was unchanged during this period.}
+ \label{fig:gainshift_spe}
+\end{figure}
 
 \subsubsection{Optical Sensitivity Stability}
 
@@ -837,17 +932,29 @@ the DOM. This ratio depends both on the optical properties of the ice
 near the DOM and the optical efficiency of the DOM. We do not attempt
 to separate
 these effects in the TDP, but rather use the TDP to monitor the
-overall stability of the detector response. Figure XX shows the TDP on
+overall stability of the detector response. Figure~\ref{fig:tdp} shows the TDP on
 string 80, which includes both standard and HQE DOMs; the TDP is
 20\% - 25\% higher for HQE DOMs than for neighboring standard
 DOMs. The TDP is stable to within 1\% since 2012, when the baselines
-were stabilized by being set in the DAQ configuration. Figure XX shows
+were stabilized by being set in the DAQ configuration. Figure~\ref{fig:tdp} shows
 the difference in the TDP for all DOMs between a run in 2012 and a run
 in 2015.
 %Figure goes here: TDP on string 80, showing the jump in DOMs 30-43
 %which are HQE
 %Figure goes here: TDP difference between 2012 run (after April 29)
 %and 2015 run.
+
+\begin{figure}[!h]
+  \captionsetup[subfigure]{labelformat=empty}
+  \centering
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/tdp_onestring.pdf}}
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/tdpcomparison.pdf}}
+  \caption{Left: Track detection probability in string 80, with a
+    mixture of standard DOMs (red crosses) and HQE DOMs (blue
+    circles). Right: Shift in track detection probability for all in
+    ice DOMs between 2012 and 2015.}
+  \label{fig:tdp}
+\end{figure}
 
 The detector response stability is also measured with the {\it in
   situ} light sources in IceCube. Both the in-ice calibration laser
