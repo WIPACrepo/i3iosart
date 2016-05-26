@@ -2,7 +2,37 @@
 %!TEX root = i3det-top.tex
 %!TEX encoding = UTF-8 Unicode
 
+% (KDH) put overall electrical connection schematic diagram in 
+% this section and include some brief details on cable specs 
+% 19 AWG (to be confirmed) and 
+ 
 \section{The Cable Systems}
+
+The IceCube detector may be viewed as a digital network of optical sensors.  The
+IceCube cable systems form the physical backbone of this network, supplying
+simultaneously power to the DOMs and bi-directional digital communications between
+the DOMs and the readout hardware at the surface.  Copper was chosen over optical 
+fiber at an early stage in the project due to concerns with mechanical robustness
+of fiber during freeze-in in the deep ice and a previous successful demonstration 
+of the digitally-readout optical modules contained within the AMANDA detector 
+(String 18).
+
+The IceCube cable systems are broken down into the surface cables which stretch
+from the ICL to surface junction boxes (SJBs) located near the top of each hole and
+surface-to-DOM cables continuing from the SJBs into the deep ice.  All surface
+cables and 85 of the 86 surface-to-DOM cables were manufactured by Ericsson, the 
+Swedish telecommunications company.  The remaining surface-to-DOM cable, String 29,
+was manufactured by JDR.  A depiction of the logical connection architecture
+of the IceCube sensor network is shown in Figure~\ref{fig:icecube-cables-logical}.
+
+\begin{figure}
+\fbox{\vspace{2in}}
+\label{fig:icecube-cables-logical}
+\caption{Schematic of the IceCube cable network architecture.}
+\end{figure}
+
+ 
 \subsection{Surface Cables}
 \subsection{Surface-to-DOM Cables}
 \subsection{Surface Junction Boxes}
+ 
