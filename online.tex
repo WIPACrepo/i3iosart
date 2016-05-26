@@ -141,7 +141,7 @@ cards and is controllable by software.  Another PCI card, the DOMHub
 Service Board (DSB), is responsible for GPS timing fanout (see
 Sect.~\ref{sect:online:master_clock}).
 
-Include Fig.7 from DOM/DAQ paper (hub diagram)?
+%Include Fig.7 from DOM/DAQ paper (hub diagram)?
 
 The SPS computers are connected via a 48 Gbps switch that in turn fans out
 to switches in each DOMHub rack; the DOMHub switches are connected with
@@ -169,7 +169,9 @@ at SPS, along with a small number of DOMs in chest freezers, are used in
 the test system.  Although the number of DOMs available is much smaller
 than in the real detector, recent software improvements have allowed the
 ``replay'' of pre-recorded raw SPS hit data on SPTS systems, providing a data stream to
-higher-level DAQ and PnF components identical to SPS.
+higher-level DAQ and PnF components identical to SPS.  Another test system
+includes a full-length in-ice cable and is used primary for validation of
+DOM communications and timing.
 
 \subsection{Data Readout and Timing}
 
@@ -191,14 +193,13 @@ packets are retransmitted.
 
 Messaging is managed from the surface, in that the DOR requests data
 from each DOM in turn; only one DOM can transmit at a time.  Communication
-is stopped every second to perform a timing calibration (RAPCal) via
-reciprocal bimodal pulse transmission \cite{ref:domdaq}; this provides a
+is stopped every second to perform a timing calibration (RAPCal; see
+Sect.~\ref{sect:dom:rapcal})) via 
+reciprocal bimodal pulse transmission; this provides a
 time-dependent translation of DOM clock to DOR clock for every module.  The
 total bandwidth of the communication channel is 90 kB/s per twisted pair.  
 
 % Add more details about actual usage
-
-% Make sure PCTS is covered
 
 % Q: is LC signaling documented anywhere yet?  Should it go here?
 
@@ -206,20 +207,27 @@ total bandwidth of the communication channel is 90 kB/s per twisted pair.
 
 The DOR clocks themselves are synchronized to UTC via an active fanout
 system from a single Symmetricom ET6000 GPS receiver with a
-temperature-stabilized 10 MHz oscillator.  The 10 MHz output, a 1 Hz (PPS)
-output, and a serial time string indicating the UTC date and time are distributed
+temperature-stabilized 10 MHz oscillator, also known as the Master Clock.
+The 10 MHz output, a 1 Hz (PPS) output, and a serial time string indicating
+the UTC date and time are distributed 
 to the DOMHubs via a series of fanouts, using shielded, delay-matched
 twisted-pair cables.  Within the DOMHub, the DSB card continues the fanout
-via shorter delay-matched patch cables to each DOR card.  The local 20 MHz
+via short delay-matched patch cables to each DOR card.  The local 20 MHz
 clocks of each DOR card are phase-locked to the distributed 10 MHz signal.
+The fanout tree is shown in Fig.~\ref{fig:clock_fanout}.
 
 Since the master GPS receiver is a single-point failure for the detector, a
 hot spare receiver, using its own GPS antenna and powered through a
 dedicated UPS, is continuously active and locked in case of problems with
-the primary.  
+the primary.
 
-Figure: Combined clock fanout tree hierarchy and hub diagram (DSB and DOR
-cards, power distribution).
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.8\textwidth]{graphics/online/data_readout/clock_fanout.pdf}
+ \caption{Master clock fanout system, from GPS receiver to DOR cards in
+   each DOMHub.}
+ \label{fig:clock_fanout}
+\end{figure}
 
 % Q: do we correct for fanout delay of ~150 ns anywhere?
 % Q: say anything about leap seconds?
@@ -275,6 +283,13 @@ before passing them to the back-end \emph{Sender}.  The Sender
 caches SLC and HLC hits in memory, then forwards a condensed version of
 each HLC hit to the appropriate local Trigger.
 
+Omicron is also responsible for translating DOM hit times into
+UTC-compatible ``DAQ time'', which counts the number of 100-ns periods
+since the UTC start of the year (including leap seconds).  The translation
+uses the RAPCal procedure as described in Sect.~\ref{sect:dom:rapcal},
+performed for each DOM every second. Occasional outliers from the RAPCal time
+calibrations are discarded.
+
 %Forwarding of HLC hit times to trigger.
 %In order to avoid saturating the 2006-era network, the StringHub sends only
 %simplified HLC hit data to the local Triggers.  Fields extracted from the
@@ -288,17 +303,19 @@ of all hits within the interval, pruning all older
 hits from the in-memory hit cache after each interval.
 
 %Translation of DOR times into UTC.
-\marginpar{Dave G doesn't know the details of DOR->UTC translation}
+%\marginpar{Dave G doesn't know the details of DOR->UTC translation}
 
 %Splicer and description of HKN1 algorithm.
 One core assumption of the DAQ is that each component operates on a
 time-ordered stream of data.  IceCube's DAQ uses its \emph{Splicer} to
 accomplish this.  The Splicer is a common object which gathers all input
-streams during the setup phase; no inputs can be added once it's started.  Each
-stream pushes new data onto a ``tail'' and the Splicer collates
-the data from all streams into a single output stream.  When a
+streams during the setup phase; no inputs can be added once started.  Each
+stream pushes new data onto a ``tail'' and the Splicer merges
+the data from all streams into a single sorted output stream.  When a
 stream is closed, it pushes an end-of-stream marker onto its tail which causes
 the Splicer to ignore all further data.
+
+% Add HKN1 figure and short description
 
 %The HKN1 (Hansen-Krasberg-1) algorithm at the core of the Splicer uses a tree
 %of \emph{Nodes} to sort a constant number of time-ordered data streams.  Each
@@ -319,18 +336,17 @@ the Splicer to ignore all further data.
 %peer has no more data.
 
 %Generation of secondary streams.
-%Most of this is stolen from the Overview section above
-%I'm not sure what else is needed here.
-Along with physics data, DOMs produce three additional streams of data.
-The scaler data, monitoring the noise rate of each DOM in 1.6 ms bins,
-is used in the supernova data acquisition system \cite{IC3:supernova} to detect a
-global rise from many $O(10)$ MeV neutrino interactions occuring in the ice
-from a Galactic core-collapse supernova.  The time calibration and monitoring
-streams are used to monitor the health and quality of the data-taking runs.
+
+%Along with physics data, DOMs produce three additional streams of data.
+%The scaler data, monitoring the noise rate of each DOM in 1.6 ms bins,
+%is used in the supernova data acquisition system \cite{IC3:supernova} to detect a
+%global rise from many $O(10)$ MeV neutrino interactions occuring in the ice
+%from a Galactic core-collapse supernova.  The time calibration and monitoring
+%streams are used to monitor the health and quality of the data-taking runs.
 
 %Hitspooling.
 As hits move from the front end to the back end, they are written to the
-Hit Spool, a disk-based cache of files containing hits.  These files are
+HitSpool, a disk-based cache of files containing hits.  These files are
 written in a circular order so that the newest hits overwrite the oldest data.
 The first hit time for each file is stored in an SQLite database to aid in fast
 retrieval of raw hit data.
@@ -348,7 +364,7 @@ the downstream consumers, while another simple component will listen for time
 intervals from the Event Builder and return lists of hits taken from the
 Hit Spool.
 
-\subsubsection{Hitspool Request System}
+\subsubsection{\label{sect:hitspool}Hitspool Request System}
 
 Subsystems such as SnDAQ and HESE can send time interval requests to a HitSpool
 Request daemon. At the moment this writing, the Hitspool Request System has three clients with their basic characteristics described in Table \ref{hsclients}. This central daemon passes the request onto every hub, where ``worker'' daemons gather the hits in the requested time interval from the hubs and forward them to the final ``sender'' daemon which bundles them up to be transferred to the North for further analysis. The data requests are triggered totally differently for each client due to the divers physical motivation of the requesting services. The Supernova System requests an asymmetrical time window of $90 \,\mathrm{s}$ of hitspooling data around a high significant supernova candidate trigger and a symmetrical $500\,\mathrm{s}$ data set in case of a trigger higher than $10.0$.
@@ -373,29 +389,53 @@ The recently implemented hitpool client for Solar flare analyses is triggered ex
 \label{tab:hsclients}
 \end{table}
 
-
-
 \subsubsection{Supernova System}
 
-SN secondary stream from DOMs and SNDAQ reference.
+The IceCube DAQ has a parallel triggering and analysis pathway designed
+specifically for the detection of the many $O(10)$ MeV neutrinos from a Galactic
+core-collapse supernova.  These neutrinos produce interactions in the
+detector that, individually, are too dim to trigger the standard DAQ, but because of their
+high multiplicity, can cause a coherent rise in the SPE trigger rate of all
+of the in-ice DOMs \cite{IC3:supernova}. 
+
+Each DOMs monitors its SPE trigger rate and sends a stream of binned
+counts, using a bin width of 1.6384 ms ($2^{16}$ 40MHz clock cycles).  An
+artificial deadtime of $250\ {\mu}s$ is applied after each trigger to
+reduce the impact of correlated afterpulses (see
+Sect.~\ref{sect:darknoise}).  Each StringHub
+collects the rate stream of each DOM, supplies UTC timestamps, and
+forwards the streams to the Secondary Builder.  
+
+The supernova DAQ (SNDAQ) system receives the Secondary Builder stream,
+rebins the individual DOM rates, and monitors the sum of rates for a
+significant rise over several timescales.  The analysis is described in
+detail in Ref.~\cite{IC3:supernova}.  One complication is that short-term
+fluctuations in the cosmic ray muon rate can affect the significance
+calculation.  To correct for this, the trigger rate of the standard DAQ is
+continuously sent to SNDAQ, and any significant alert is corrected
+\cite{IC3:icrc15_sndaq}.  At a 
+high significant threshold, the capture of all untriggered data around the
+alert time is initiated using the HitSpool system
+(Sect.~\ref{sect:hitspool}), and the Supernova Neutrino Early Warning
+System (SNEWS) \cite{SNEWS} is notified.
 
 \subsubsection{\label{sect:online:trigger}Triggers}
 
 The DAQ trigger algorithms look for clusters of HLC hits in space and time
 that could indicate Cherenkov light deposition in the detector, as opposed
 to uncorrelated dark noise.  A trigger searches for a given multiplicity of
-LC hits, possibly with an additional geometric requirement, within a trigger time window.  The time scale of the
-window is set by the light travel time in ice and the geometry involved.
-Longer readout windows 
+HLC hits, possibly with an additional geometric requirement, within a
+trigger time window.  The time scale of the window is set by the light
+travel time in ice and the geometry involved. Longer readout windows 
 are appended before and after the trigger windows to capture early and late
 hits.
 
 Triggers are generally restricted to a subset of DOMs, such as in-ice DOMs,
 IceTop DOMs, or DeepCore DOMs.  The algorithms run in parallel over all
-hits in the DOM set, and then overlapping triggers are merged (see
-Sect.~\ref{sect:online:trigger_merging}).   The various trigger algorithms
-are described below, and a summary of the algorithm parameter settings is
-found in Table \ref{tab:triggers}.  
+hits in the DOM set, and then overlapping triggers are merged.   The
+various trigger algorithms are described below, and a summary of the
+algorithm parameter settings is found in Table \ref{tab:triggers}.  Trigger
+settings are changed at most once a year.
 
 \paragraph{Simple Multiplicity Trigger}
 
@@ -404,25 +444,30 @@ multiplicity trigger} (SMT, a.k.a.~\emph{simple majority trigger}).  The
 SMT looks for $N$ or more HLC hits within a sliding time window of several
 $\mu\mathrm{s}$, without any locality conditions.  The trigger window is
 extended for as long as the multiplicity condition is satisfied.
-trigger window is extended.  The multiplicity value $N$ is tuned to the
-energy threshold of the detector, which fundamentally is set by the string
-or tank spacing. 
+The multiplicity value $N$ is tuned to the energy threshold of the
+detector, which fundamentally is set by the string or tank spacing. 
 
 \paragraph{Volume and String Triggers}
 
-The SMT trigger threshold can be lowered if additional requirements on the
-hit topology are imposed.  The \emph{volume trigger} (a.k.a.~\emph{cylinder
+Triggers with a lower multiplicity threshold can be applied if additional requirements on the
+HLC hit topology are imposed.  The time windows for these trigger are based upon the
+size of the locality volume.
+
+The \emph{volume trigger} (a.k.a.~\emph{cylinder
   trigger}) defines a cylinder of fixed size around each hit DOM and
 searches for a given multiplicity within this cylinder
 (Fig.~\ref{fig:trig_cylinder}); this allows one to trigger on localized
-low-energy events that do not satisfy the SMT trigger. 
+low-energy events that do not satisfy the SMT trigger.  The volume trigger
+has an additional simple multiplicity parameter that fires the trigger when
+reached, regardless of any spatial restrictions; this prevents the trigger
+algorithm from slowing down when the detector has triggered already from
+the primary SMT.
+
 The \emph{string trigger} (a.k.a.~\emph{cluster trigger}) searches for a
 certain number of hits within a span of DOMs along a single
 string (Fig.~\ref{fig:trig_string}); this allows one to trigger on
 low-energy muons that pass vertically 
-through the detector.  The time windows for each trigger are based upon the
-size of the locality volume.
-
+through the detector.  
 
 \begin{figure}[ht]
   \centering
@@ -445,12 +490,12 @@ size of the locality volume.
 IceCube has the potential to detect hypothetical subrelativistic heavy
 particles such as magnetic monopoles, via catalyzed nucleon decays along
 the particle trajectory \cite{IC3:monopole}.  However, because these
-particles travel at velocities $v \sim 0.001c - 0.01c$, the
-time windows used in the standard triggers are too short.  Therefore, a
-dedicated \emph{slow particle (SLOP) trigger} has been developed to
+particles may travel at velocities $v \sim 0.001c - 0.01c$, the
+time windows used in the standard triggers are too short.  A
+dedicated \emph{slow particle (SLOP) trigger} has thus been developed to 
 search for slow track-like particle signatures.
 
-The SLOP trigger operates in several stages.  HLC hits, which by
+The SLOP trigger operates in several stages.  The HLC hits, which by
 design come in at least pairs along a string, are cleaned by removing pairs
 that are too close in time ($\Delta t < T_{\mathrm{prox}}$), removing
 many muon hits.  Next, 3-tuples of HLC pairs within a time window
@@ -499,6 +544,7 @@ FIX ME: minbias and calibration triggers
   SMT & DeepCore & 3 & 2.5 & --- & 250\\
   SMT & IceTop & 6 & 5 & --- & 25\\
   Volume & in-ice & 4 & 1 & cylinder (r=175m, h=75m) & 3700\\
+  Volume & IceTop infill & 4 & 0.2 & cylinder (r=60m, h=10m) & 4\\  
   String & in-ice & 5 & 1.5 & 7 adjacent vertical DOMs & 2200\\
   SLOP & in-ice & $N_{\mathrm{tuple}} = 5$ & $T_{\mathrm{prox}} = 2.5,
   T_{\mathrm{max}} = 500$ & $\alpha_{\mathrm{min}} =
@@ -506,7 +552,7 @@ FIX ME: minbias and calibration triggers
   FRT & all & --- & --- & --- & 0.003\\
 \hline
 \end{tabular}
-\caption{IceCube trigger parameters (as of May 2013) and typical trigger rates of
+\caption{IceCube trigger parameters (as of May 2016) and typical trigger rates of
   each algorithm.  Most rates vary seasonally with the atmopheric muon flux.} 
 \label{tab:triggers}
 \end{table}
@@ -646,7 +692,7 @@ down bugs and/or performance problems.
 %failures.
 
 \subsection{Online Filtering}
-\textsl{(Erik B.; 3-4 pages)}
+
 \subsubsection{Overview}
 
 The online processing and filtering system is charged with the immediate handling of all triggered events collected by the data
@@ -777,9 +823,6 @@ typical system latencies of $\sim$20 seconds.
 (Q: include other system performance information?  Performance bottlenecks?)
 
 \subsection{Data Handling}
-\textsl{(P. Meade; 1 page)}
-
-\textsl{(J. Braun, background and additional description of communications modes)}
 
 The bulk of South Pole Station data traffic is handled by geosynchronous satellite links.  Due to the unfavorable
 location at the South Pole, only geosynchronous satellites with steeply inclined orbits reach far enough above the
@@ -798,8 +841,8 @@ I3MS runs as a daemon on both ends of the link, accepts messages via ZeroMQ, and
 based on message priority and fair sharing of bandwidth among all users.  I3MS message recipients listen for messages
 using ZeroMQ PUB-SUB, allowing a given message to be sent to multiple recipients.
 
-\textsl{Generation description of system architecture.  Stream definitions, dropboxes,
-and data pickup.  Archival vs. transfer to TDRSS system.  }
+%\textsl{Generation description of system architecture.  Stream definitions, dropboxes,
+%and data pickup.  Archival vs. transfer to TDRSS system.  }
 
 Data handling is provided by three servers named jade02, jade03, and jade04. The jade servers operate independently of one another and
 each of them are capable of handling the nominal data volume by itself. Having three servers allows for data handling to continue seamlessly
