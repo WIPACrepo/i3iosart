@@ -121,20 +121,22 @@ upgraded in 2013--14.
     \bf{Component} & \bf{\#} \\
     \hline
     DOMHubs & 97 \\
-    Data acquisition & 4 \\   
-    Event filtering & 23 \\
+    Other data acquisition & 4 \\
+%    Experiment control & 1 \\
     Monitoring & 3 \\
-    Infrastructure & 7 \\
+    Event filtering & 24 \\
+    Infrastructure & 8 \\
+    Other & 6 \\ 
   \end{tabular}
   \caption{Breakdown of computing equipment at SPS, indicating number of
-    machines used for each task. CHECK NUMBERS} 
+    machines used for each task.} 
   \label{tab:sps_breakdown}
 \end{table}
 
 The DOMHub is an industrial computer chassis with custom components for
 DOM power, timing, and communication.  A low-power single-board computer
-communicates with 8 custom PCI DOM Readout (DOR) cards via a backplane.  A
-dual-redundant ATX power supply powers the DOMHub, while two 48V Acopian
+communicates with 8 custom PCI DOM Readout (DOR) cards via a PICMG 1.0 backplane.  A
+dual-redundant ATX power supply powers the DOMHub, while two 48VDC Acopian
 power supplies, mounted and connected in series inside the chassis, supply
 power to the DOMs.  The DOM power is switched and monitoring by the DOR
 cards and is controllable by software.  Another PCI card, the DOMHub
@@ -193,11 +195,11 @@ packets are retransmitted.
 
 Messaging is managed from the surface, in that the DOR requests data
 from each DOM in turn; only one DOM can transmit at a time.  Communication
-is stopped every second to perform a timing calibration (RAPCal; see
-Sect.~\ref{sect:dom:rapcal})) via 
-reciprocal bimodal pulse transmission; this provides a
-time-dependent translation of DOM clock to DOR clock for every module.  The
-total bandwidth of the communication channel is 90 kB/s per twisted pair.  
+is paused every second to perform a timing calibration (RAPCal; see
+Sect.~\ref{sect:dom:rapcal})) via reciprocal bimodal pulse transmission to
+each DOM; this provides a time-dependent translation of DOM clock to DOR
+clock for every module.  The total bandwidth of the communication channel
+is 90 kB/s per twisted pair.   
 
 % Add more details about actual usage
 
@@ -315,7 +317,24 @@ the data from all streams into a single sorted output stream.  When a
 stream is closed, it pushes an end-of-stream marker onto its tail which causes
 the Splicer to ignore all further data.
 
-% Add HKN1 figure and short description
+The algorithm at the core of the Splicer is a cascaded binary merge tree.
+The fundamental node consists of two input linked lists (L and R), a
+comparator, and an output linked list (SINK). When an item is pushed into
+the tail of L or R, if the other peer list is non-empty, the lesser of the heads of
+the two lists is pushed into SINK (see Fig.~\ref{fig:hkn1}).  These nodes are
+assembled into a tree, with the top level L/R lists connected to the input
+streams, and the final output SINK providing the merged, sorted stream.
+In this way, pushing into one of the tree inputs ripples through to the output.
+
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.95\textwidth]{graphics/online/pdaq/fig_hkn1_v2.pdf}
+ \caption{Left: the fundamental node of the Splicer, showing the
+   first few steps of merging / sorting two input streams.  Right: the
+   nodes connected into a tree, with inputs at the top and the output
+   stream at the bottom.  }
+ \label{fig:hkn1}
+\end{figure}
 
 %The HKN1 (Hansen-Krasberg-1) algorithm at the core of the Splicer uses a tree
 %of \emph{Nodes} to sort a constant number of time-ordered data streams.  Each
@@ -437,7 +456,7 @@ various trigger algorithms are described below, and a summary of the
 algorithm parameter settings is found in Table \ref{tab:triggers}.  Trigger
 settings are changed at most once a year.
 
-\paragraph{Simple Multiplicity Trigger}
+\paragraph{Primary Trigger Algorithms}
 
 The fundamental trigger for IceCube, IceTop, and DeepCore is the \emph{simple
 multiplicity trigger} (SMT, a.k.a.~\emph{simple majority trigger}).  The
@@ -446,8 +465,6 @@ $\mu\mathrm{s}$, without any locality conditions.  The trigger window is
 extended for as long as the multiplicity condition is satisfied.
 The multiplicity value $N$ is tuned to the energy threshold of the
 detector, which fundamentally is set by the string or tank spacing. 
-
-\paragraph{Volume and String Triggers}
 
 Triggers with a lower multiplicity threshold can be applied if additional requirements on the
 HLC hit topology are imposed.  The time windows for these trigger are based upon the
@@ -483,7 +500,6 @@ through the detector.
   }
   \caption{IceCube triggers using spatial coincidences.  Shaded circles represent hit DOMs.}
 \end{figure}
-
 
 \paragraph{Slow Particle Trigger}
 
@@ -529,9 +545,12 @@ shows the geometry parameters of the 3-tuple.  Finally, the number of track-like
 Other special-purpose triggers exist to collect minimum bias data of
 various sorts.  The \emph{fixed-rate trigger (FRT)} triggers at a given
 rate and reads out 10 ms of data from the full detector.  This is especially useful
-for studies of DOM noise.
-
-FIX ME: minbias and calibration triggers
+for studies of DOM noise.  The \emph{calibration trigger}
+selects a particular type of hit, for example, special IceTop 
+non-LC hits that have full waveform readout, and promotes them to a trigger.
+waveform information regardless.  Finally, a \emph{minimum bias} trigger
+can select $1/N$ HLC hits and promotes the hit to a trigger; currently an
+IceTop minimum bias trigger with a prescale of 10000 is active.
 
 \begin{table}
   \centering
@@ -544,7 +563,7 @@ FIX ME: minbias and calibration triggers
   SMT & DeepCore & 3 & 2.5 & --- & 250\\
   SMT & IceTop & 6 & 5 & --- & 25\\
   Volume & in-ice & 4 & 1 & cylinder (r=175m, h=75m) & 3700\\
-  Volume & IceTop infill & 4 & 0.2 & cylinder (r=60m, h=10m) & 4\\  
+  Volume & IceTop core & 4 & 0.2 & cylinder (r=60m, h=10m) & 4\\  
   String & in-ice & 5 & 1.5 & 7 adjacent vertical DOMs & 2200\\
   SLOP & in-ice & $N_{\mathrm{tuple}} = 5$ & $T_{\mathrm{prox}} = 2.5,
   T_{\mathrm{max}} = 500$ & $\alpha_{\mathrm{min}} =
@@ -559,23 +578,23 @@ FIX ME: minbias and calibration triggers
 
 \paragraph{Trigger and Readout Window Merging}
 
-Bright or long events will satisfy more than one of the trigger conditions,
+Many events will satisfy more than one of the trigger conditions,
 sometimes multiple times (see Fig.~\ref{fig:trigger_example}).  In order to
 avoid overlapping events, possibly containing the same DOM hits, the
 triggers and their associated readout windows are merged, while retaining
-information about the separate 
-triggers.  The merged trigger is referred to as the \emph{global trigger}.  
+information about the separate triggers.  The merged trigger is referred to
+as the \emph{global trigger}.   
 
 Each trigger has defined readout windows around the trigger window;
 all hits (including those without LC conditions) from the full detector,
-including those DOM sets not involved in the trigger, are built into
-events.  For the DOM set involved in the trigger, the readout 
-windows are appended to the trigger window; for other DOM sets, the readout
-windows are centered around the trigger start time.  The union of
-overlapping readout windows defines an event; an example is shown in
-Fig.~\ref{fig:trigger_readout}.  Long events (SLOP, FRT) typically contain several
-independent ``physics'' events; these typically have to be re-split for
-reconstruction and analysis.
+including those DOM sets not involved in the trigger, are requested from
+the StringHub components and built into events.  For the DOM set involved
+in the trigger, the readout windows are appended at the end of the trigger
+window, while for other DOM sets, the readout windows are centered around
+the trigger start time.  The union of overlapping readout windows defines
+an event (Fig.~\ref{fig:trigger_readout}).  Long events such as SLOP or FRT
+triggers typically contain several causally independent ``physics'' events;
+these typically are re-split before reconstruction and analysis.
 
 \begin{figure}[ht]
   \centering
@@ -586,7 +605,8 @@ reconstruction and analysis.
     \label{fig:trigger_example}
   }
   \quad
-  \subfloat[In-ice and IceTop readout windows for a long event (SLOP trigger).]{
+  \subfloat[In-ice, IceTop, and merged readout windows for a long event
+    satisfying SLOP and SMT8 triggers (not to scale).]{
     \includegraphics[scale=0.5]{graphics/online/trigger/trigger_readout}
     \label{fig:trigger_readout}
   }
