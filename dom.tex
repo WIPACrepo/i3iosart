@@ -627,7 +627,36 @@ standard deviation of 0.6 ns.
  \label{fig:rapcal_cable_len}
 \end{figure}
 
-FIX ME add flasher deltaT information and plot
+The time calibration through the entire data aquisition and software
+processing chain is verified using the LED flashers. During
+commissioning, all 12~LEDs on each DOM are flashed simultaneously at
+maximum brightness and the mean time at the DOM above the flashing DOM
+is recorded. Given the vertical spacing of 17~m and the group index of
+refraction of  1.356 in ice at 400~nm, the expected light travel time
+from the flashing DOM to the DOM above is 77~ns. The mean light travel
+time to the DOM above for all flashing DOMs in ice is shown in
+Figure~\ref{fig:flashertiming}, and it agrees with the prediction of
+77~ns within the timing uncertainty of 3~ns. Muons are also used to
+verify the time calibration: a track is fitted to a muon with the DOM
+under study omitted from the track, and the time residual is
+calculated as the difference between the expected hit time on the DOM
+from the fitted track and the actual hit time. The difference between
+the flasher time between adjacent DOMs and the muon time residual is
+plotted in Figure~\ref{fig:flashertiming} and is consistent with zero,
+with a laerger scatter due to the uncertainty of muon track position
+in the ice.
+
+\begin{figure}[!h]
+  \captionsetup[subfigure]{labelformat=empty}
+  \centering
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/rapcal/Allmean_corrected.pdf}}
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/rapcal/Muonflashermean.pdf}}
+  \caption{Left: Distribution of the mean light travel time from
+    flashing DOMs to the DOM above in ice. Right: Difference between
+   light travel time between DOMs calculated with muons and
+   flashers. FIXME - figures need to be updated}
+  \label{fig:flashertiming}
+\end{figure}
 
 \subsubsection{\label{sec:domeff} DOM Optical Efficiency}
 
@@ -787,8 +816,10 @@ from the FADC and ATWD of a typical DOM are shown in Figure~\ref{fig:raw_baselin
   \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/fadc_average_beacon_raw.pdf}}
   \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/ATWD_average_beacon_raw.pdf}}
   \caption{Beacon waveforms from the FADC (left) and ATWD (right) of
-    an IceCube DOM. The baseline, which is the mean value of the
-    beacon waveform, is shown as a horizontal red line.}
+    an IceCube DOM. The waveforms are an average of about 1000 beacon
+   launches. The baseline, which is the mean value of the
+    beacon waveform, is shown as a horizontal red line. Typical raw SPE
+    waveforms are inset.}
   \label{fig:raw_baselines}
 \end{figure}
 
@@ -813,7 +844,8 @@ Figure~\ref{fig:baseline_stability_2015}.
 Every year when the detector
 is recalibrated, adjustments in the SPE discriminator threshold can
 cause shifts of up to 0.6~counts (0.54~mV) in the FADC
-baselines. Correcting recorded waveforms for the effect of transformer
+baselines. ATWD baselines are unaffected by the SPE discriminator
+setting. Correcting recorded waveforms for the effect of transformer
 coupling (essentially a high pass filter with time constant xxx) has
 the side effect that small DC offset errors are converted into
 apparent PMT current that increases linearly in time over the course
@@ -828,14 +860,16 @@ again and the values used for calibration are refreshed. As long as
 the discriminator thresholds are unchanged, the baselines are stable
 to within 0.2~counts
 as shown above, and no charge distortion is seen at that level of
-baselines stability.
+baseline stability.
 
 \begin{figure}[!h]
  \centering
  \includegraphics[width=0.6\textwidth]{graphics/dom/reliability/charge_fadcshift.pdf}
  \caption{Reconstructed charge from a simulated single photoelectron
    deposit as a function of FADC baseline shift, for both old and new
-   toroid DOMs.}
+   toroid DOMs. The shaded region indicates the observed range of
+   baseline variation from the nominal value in ice; no observable
+   distortion in the charge spectrum is seen at these values.}
  \label{fig:charge_fadcshift}
 \end{figure}
 
@@ -882,10 +916,24 @@ each DOM.
 The PMT gain stability is monitored during data-taking using the
 single photoelectron peak of the charge distribution on each DOM due
 to cosmic ray muons. A
-Gaussian + exponential function is fit to the peak region as in Figure~\ref{fig:domcal_hvfit} and the mean of the Gaussian is
-tracked throughout the year. The peak position is calibrated to 1~PE
+Gaussian + exponential function is fit to the peak region as in Figure~\ref{fig:spe_fit_thresh} and the mean of the Gaussian is
+tracked throughout the year. The threshold, defined as the point which
+contains 1\% of the charge in the histogram, is also tracked through
+the year. The peak position is calibrated to 1~PE
 and is stable to within 0.01~PE for 95\% of all DOMs as shown in
-Figure~\ref{fig:gain_spe_stability}.
+Figure~\ref{fig:gain_spe_stability}. Over 99\% of DOMs show no
+measurable change in the threshold as long as the discriminator
+thresholds are unchanged; these settings are only changed once per year.
+
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.6\textwidth]{graphics/dom/reliability/chargedist.pdf}
+ \caption{Charge distribution on a typical in-ice DOM. The threshold
+   is marked in red and a gaussian + exponential fit to
+   the SPE region is shown in blue. The mean of the gaussian is used
+   to monitor the gain stability.}
+ \label{fig:spe_fit_thresh}
+\end{figure}
 
 \begin{figure}[!h]
   \captionsetup[subfigure]{labelformat=empty}
@@ -902,14 +950,16 @@ There are on the
 order of 12~DOMs which show unpredictable, abrupt shifts in the SPE peak
 position of 0.05~PE or more. Figure~\ref{fig:gainshift_spe} shows the time history of the
 SPE peak position of one of these DOMs over 4~months. The peak shift
-corresponds to increases or decreases in the MPE discriminator rate,
+corresponds to increases or decreases in the MPE scaler rate,
 indicating that the SPE peak shift is caused by a change in the DOM
-gain. 
+gain. However, the SPE scaler rate is stable, indicating that the
+effect on the physics data is small.
 
 \begin{figure}[!h]
  \centering
  \includegraphics[width=0.6\textwidth]{graphics/dom/reliability/gainshift.pdf}
- \caption{Mean of the Gaussian fit to the SPE peak (top) and the MPE
+ \caption{Mean of the Gaussian fit to the SPE peak (top) and the SPE
+   scaler rate (middle) and MPE
    scaler rate (bottom) from July 2015 to November 2015 for a DOM
    which shows unpredictable gain shift behavior. The DOM
    configuration was unchanged during this period.}
@@ -934,7 +984,7 @@ these effects in the TDP, but rather use the TDP to monitor the
 overall stability of the detector response. Figure~\ref{fig:tdp} shows the TDP on
 string 80, which includes both standard and HQE DOMs; the TDP is
 20\% - 25\% higher for HQE DOMs than for neighboring standard
-DOMs. The TDP is stable to within 1\% since 2012, when the baselines
+DOMs, whereas the quantum efficiency is 35\% higher. The TDP is stable to within 1\% since 2012, when the baselines
 were stabilized by being set in the DAQ configuration. Figure~\ref{fig:tdp} shows
 the difference in the TDP for all DOMs between a run in 2012 and a run
 in 2015.
@@ -951,7 +1001,10 @@ in 2015.
   \caption{Left: Track detection probability in string 80, with a
     mixture of standard DOMs (red crosses) and HQE DOMs (blue
     circles). Right: Shift in track detection probability for all in
-    ice DOMs between 2012 and 2015.}
+    ice DOMs between 2012 and 2015; standard DOMs are in blue and
+    DeepCore DOMs are in red. The mean of the Gaussian fit to
+    the TDP shift in the standard DOMs is -0.1\% and the means of the Gaussian fit to
+    the TDP shift in the DeepCore DOMs is 0.05\%.}
   \label{fig:tdp}
 \end{figure}
 
