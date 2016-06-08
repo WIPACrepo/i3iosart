@@ -630,31 +630,29 @@ standard deviation of 0.6 ns.
 The time calibration through the entire data aquisition and software
 processing chain is verified using the LED flashers. During
 commissioning, all 12~LEDs on each DOM are flashed simultaneously at
-maximum brightness and the mean time at the DOM above the flashing DOM
-is recorded. Given the vertical spacing of 17~m and the group index of
+maximum brightness and the arrival timea of the first photons at the DOM above the flashing DOM
+are recorded. Given the vertical spacing of 17~m on a standard IceCube
+string and the group index of
 refraction of  1.356 in ice at 400~nm, the expected light travel time
-from the flashing DOM to the DOM above is 77~ns. The mean light travel
+from the flashing DOM to the DOM above is 77~ns. In DeepCore, the DOM
+vertical spacings are 10~m and 7~m, corresponding to light travel
+times of 45~ns and 32~ns respectively. The mean light travel
 time to the DOM above for all flashing DOMs in ice is shown in
-Figure~\ref{fig:flashertiming}, and it agrees with the prediction of
-77~ns within the timing uncertainty of 3~ns. Muons are also used to
-verify the time calibration: a track is fitted to a muon with the DOM
-under study omitted from the track, and the time residual is
-calculated as the difference between the expected hit time on the DOM
-from the fitted track and the actual hit time. The difference between
-the flasher time between adjacent DOMs and the muon time residual is
-plotted in Figure~\ref{fig:flashertiming} and is consistent with zero,
-with a laerger scatter due to the uncertainty of muon track position
-in the ice.
+Figure~\ref{fig:flashertiming}. The mean arrival time agrees with the
+expectation for the DeepCore DOMs. For the standard DOMs, the oberved
+light travel time is about 3~ns longer than the expected light travel
+time, due to the effects of scattering in the ice over the longer distance. Muons are also used to
+verify the time calibration, including the absolute time difference
+between the IceTop surface stations and the in ice DOMs~\cite{IC3:perf}.
 
 \begin{figure}[!h]
   \captionsetup[subfigure]{labelformat=empty}
   \centering
-  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/rapcal/Allmean_corrected.pdf}}
-  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/rapcal/Muonflashermean.pdf}}
-  \caption{Left: Distribution of the mean light travel time from
-    flashing DOMs to the DOM above in ice. Right: Difference between
-   light travel time between DOMs calculated with muons and
-   flashers. FIXME - figures need to be updated}
+  \includegraphics[width=0.8\textwidth]{graphics/dom/rapcal/flashmean.pdf}
+  \caption{Time from flasher to DOM above for 17~m vertical spacing
+    (red), 10~m vertical spacing (blue) and 7~m vertical spacing
+    (green). The expected light travel time in ice for each distance is marked with
+    vertical lines.}
   \label{fig:flashertiming}
 \end{figure}
 
@@ -864,7 +862,7 @@ baseline stability.
 
 \begin{figure}[!h]
  \centering
- \includegraphics[width=0.6\textwidth]{graphics/dom/reliability/charge_fadcshift.pdf}
+ \includegraphics[width=0.8\textwidth]{graphics/dom/reliability/charge_fadcshift.pdf}
  \caption{Reconstructed charge from a simulated single photoelectron
    deposit as a function of FADC baseline shift, for both old and new
    toroid DOMs. The shaded region indicates the observed range of
@@ -951,13 +949,13 @@ order of 12~DOMs which show unpredictable, abrupt shifts in the SPE peak
 position of 0.05~PE or more. Figure~\ref{fig:gainshift_spe} shows the time history of the
 SPE peak position of one of these DOMs over 4~months. The peak shift
 corresponds to increases or decreases in the MPE scaler rate,
-indicating that the SPE peak shift is caused by a change in the DOM
+indicating that the SPE peak shift is indeed caused by a change in the DOM
 gain. However, the SPE scaler rate is stable, indicating that the
-effect on the physics data is small.
+probability to detect single photons is unchanged.
 
 \begin{figure}[!h]
  \centering
- \includegraphics[width=0.6\textwidth]{graphics/dom/reliability/gainshift.pdf}
+ \includegraphics[width=0.8\textwidth]{graphics/dom/reliability/gainshift.pdf}
  \caption{Mean of the Gaussian fit to the SPE peak (top) and the SPE
    scaler rate (middle) and MPE
    scaler rate (bottom) from July 2015 to November 2015 for a DOM
