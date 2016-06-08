@@ -714,18 +714,17 @@ down bugs and/or performance problems.
 \subsection{Online Filtering}
 
 \subsubsection{Overview}
-
 The online processing and filtering system is charged with the immediate handling of all triggered events collected by the data
 acquisition system and reducing the data volume to a level that can be
 accommodated in our satellite bandwidth allocations ($\sim$100 GB/day).
 This treatment includes application of calibration constants, application of event characterization and selections,  
-extracting data quality monitoring information, generation of realtime alerts for events of astrophysical interest
+extracting data quality monitoring information, generation of realtime alerts for events of astrophysical interest (Fixme: ref to realtime paper?)
 and creation of data files and metadata information for long term archiving.  The online processing and filtering system
-is a custom software suite that utilizes a computer cluster of $\sim$20 standard servers located in SPS computing cluster.
+is a custom software suite that utilizes a computer cluster of $\sim$20 standard, multi-processor servers located in SPS computing cluster.
 The online processing and filtering system has been in operation since the
 start of operation of the 22 string configuration of IceCube in 2007.
 
-In IceCube, each triggered event consists of a collection of digitized waveforms recorded by the digital optical modules (ref daq-dom paper).
+In IceCube, each triggered event consists of a collection of digitized waveforms recorded by the digital optical modules (Fixme: ref daq-dom paper).
 To be useful for physics, each of these waveforms requires application of calibration constants that allow the waveform units
 to be converted from the raw units (ADC counts per sample bin) to more physical units (mV measured in each fixed time, 3.3 ns bin).  These
 calibration constants are independently measured (see domcal section) and stored in an online database for use by
@@ -744,13 +743,13 @@ original waveform, or sees very high amounts of light also have the full wavefor
 
 Each event is then characterized with a series of event reconstruction algorithms that attempt to match
 the observed patterns of recorded light in the SuperDST with known patterns of light
-from track and showering event hypotheses (ref reco papers?  e-reco paper?).  These characterizations (location, direction, and energy) and their
+from track and showering event hypotheses (Fixme: ref reco papers?  e-reco paper?).  These characterizations (location, direction, and energy) and their
 overall goodness-of-fit produced by these reconstructions are used to select interesting
 events by a filter selection.  The filter criteria are set by the IceCube collaboration for each season
 and are tuned to select events of interest to specific analyses.  Each season there are
 about 2 dozen unique filter selections in operation.  Some of these filters trigger are
 designed to search for neutrino events of wide astrophysical interest to the scientific community and trigger
-alerts that are distributed to followup observatories worldwide. (ref SN-OFU paper, others?)
+alerts that are distributed to followup observatories worldwide. (Fixme: ref SN-OFU paper, others?)
 
 The online processing and filtering system also extracts and aggregates data quality and monitoring information
 from the data as is it processed.  This information includes stability and quality information from the
@@ -772,7 +771,7 @@ set is saved until final data quality assurance on the SuperDST sample can be co
 
 During normal operations, the data acquisition system produces a raw data output of $\sim$1 TB of raw data per day, which result in
 a raw data file archive of the same size.  The SuperDST  and filtered data archive, after data compression, are $\sim$170 GB/day and $\sim$90 GB/day,
-respectively.  (TODO: verify these numbers.)
+respectively.
 \subsubsection{System Design}
 
 The online processing and filtering system uses a modular design, where each component
@@ -782,7 +781,7 @@ data distribution and aggregation tasks (requesting data blocks from the DAQ, co
 and monitoring information and writing data files), while the client process focus on the per-event
 processing tasks (event calibration, reconstruction, analysis, and filtering).  
 
-The system is built upon the IceCube analysis software framework, IceTray (ref?), allowing standard IceCube algorithms to
+The system is built upon the IceCube analysis software framework, IceTray (Fixme: ref?), allowing standard IceCube algorithms to
 be used in the online processing and filtering system without modifications.  Additionally, the system uses the 
 Common Object Request Broker Architecture (CORBA) system as means for controlling, supervising and interconnecting
 the modular portions of the system.  Specialized classes are used to provide CORBA interconnections
@@ -840,8 +839,29 @@ typical system latencies of $\sim$20 seconds.
  \label{fig:online_pnf_latency}
 \end{figure}
 
-(Q: include other system performance information?  Performance bottlenecks?)
-
+The filter selections used in the online processing and filtering system have been relatively stable
+over several years of operation of the completed IceCube detector, with most seeing only minor updates at the start of
+each season.  The majority of physics analyses performed in IceCube derive from a small set of core filters, while the other
+filters are used for more specialized and experimental searches, as well as minimum bias selections.  These core physics filters include:
+\begin{itemize}
+\item \emph {Muon track filter} searches for high-quality track events from all directions that are potentially
+neutrino-induced tracks.  Up-going events for all triggered energies are selected, while only high-energy down-going tracks are
+selected to avoid the large background of down-going atmospheric muons at lower energies.  These selected events are used
+as the input to point source and transient neutrino searches.
+\item \emph {Shower event filter} searches for events producing large energy depositions in or near the IceCube instrumented volume that
+are potentially neutrino-induced showering events.  These selected events are used as the input to searches for 
+high-energy shower events arising from atmospheric and astrophysical neutrinos.  
+\item \emph {High charge filter} searches for any event depositing a significant amount of charge (\textgreater $\sim$1000 photoelectrons) 
+in the IceCube instrumented volume.  While having a large overlap with the muon track and shower filters at high energies,
+this filter targets the highest energy neutrino events of all types. The selected events are used as inputs to searches
+for high-energy astrophysical and cosmogenic neutrinos.
+\item \emph {Cosmic Ray filters} searches for extended air-shower events in IceTop station signals.  The selected events
+are used as inputs to analyses targeting the flux, spectrum and composition of the primary cosmic rays observed in the
+Earth's atmosphere.
+\item \emph {Deep Core contained filter} searches for contained, lower-energy neutrino events ($\sim10-100 GeV$)
+from atmospheric neutrino interactions that are contained with the more densely instrumented Deep Core region.  The selected
+events are used as inputs to analyses that search for neutrino oscillation effects.
+\end{itemize}
 \subsection{Data Handling}
 
 The bulk of South Pole Station data traffic is handled by geosynchronous satellite links.  Due to the unfavorable
@@ -853,7 +873,7 @@ limited voice and data connectivity and provide up to 2.4 kbit/s of bandwidth pe
 
 IceCube incorporates Iridium modems into two separate systems.  The IceCube Teleport System (ITS) uses the Iridium short burst
 data mode to send short messages of 1.8 kB or smaller with a typical latency of 30 seconds.  Messages may both originate or terminate
-at the ITS Iridium modem at the South Pole.  Messages also contain a recipient ID indicating the intendend host to receive
+at the ITS Iridium modem at the South Pole.  Messages also contain a recipient ID indicating the intended host to receive
 the message, allowing a many-to-many communications infrastructure between systems running at the South Pole and systems
 in the Northern Hemisphere.  The IceCube Messaging System (I3MS) incorporates multiple Iridium modems and uses the Iridium RUDICS
 data mode, providing a 2.4 kbit/s bidirectional serial stream per modem and a minimum latency of $\sim$1.5 seconds.
