@@ -138,37 +138,39 @@ ranger.
 
 \subsubsection{Stage 2 Geometry Calibration}
 
-
-The LED flashers are used to correct the relative depths of the
-strings. This correction is typically less than 1~m relative to the
-stage 1 data, but can be as large as 20~m (larger than the 17~m DOM
-spacing) in cases where the pressure sensor fails during string
-deployment before it takes the final depth reading. The correction is
-calculated by finding the leading edge of the time distribution of the
+The LED flashers are used to correct the depths of the
+strings relative to the Stage 1 geometry measurements. The correction is
+calculated by flashing the horizontal LEDs on a DOM at the surrounding strings and finding the leading edge of the time distribution of the
 light recorded by the
 receiving DOM, denoted $t_0$. The distance corresponding to the
 leading edge time is $d = c_{ice} \cdot t_0$, and the distances for
 all receiving DOMs are plotted as a function of the vertical distance
 between the flasher and the receiver, $z' = z_{receiver} -
-z_{flasher}$. The resulting plot described a hyperbola, $d = \sqrt{D^2
+z_{flasher}$. The resulting plot describes a hyperbola, $d = \sqrt{D^2
 + (z' -\Delta z)^2}$, where $D$ is the horizontal distance between the
 flasher string and the receiver string, calculated from stage~1 data,
 and $\Delta z$ is the relative offset between the depths of the
 flashing and receiving string as shown in Figure~\ref{fig:geohyperbola}. The hyperbola fit is done
 simultaneously for each flashing string and all surrounding receiving
 strings in order to calculate the relative offsets, which are then
-applied to the z coordinate of all DOMs on the string.
+applied to the z coordinate of all DOMs on the string. The depth offset is typically less than 1~m relative to the
+stage 1 data, but can be as large as 20~m (larger than the 17~m DOM
+spacing) in cases where the pressure sensor failed during string
+deployment before it takes the final depth reading and the Stage 1 depth had to be estimated. The Stage 2 depth correction is less than 3~m for 93\% of the DOMs.
 
 \begin{figure}[!h]
- \centering
-\includegraphics[width=0.7\textwidth]{graphics/geometry/Fitahyperbola_tbr.pdf}
-\caption{Example of a hyperbola fit of the distance between strings as function of the vertical offset between strings. FIXME - put in figure from data}
-\label{fig:geohyperbola}
+  \captionsetup[subfigure]{labelformat=empty}
+  \centering
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/geometry/geoparabola.pdf}}
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/geometry/offsetgeoparabola.pdf}}
+  \caption{Left: distance vs. relative depth as measured by flashers for two strings which were deployed at nearly the same depth with no anomalies during deployment. Right: the same plot for a different pair; in this case the pressure sensor on the flashing string failed during deployment.}
+  \label{fig:geohyperbola}
 \end{figure}
 
-Flasher corrections to the (x,y) coordinates of some DOMs in the
-center of the DeepCore subarray were calculated using the
-trilateration method. In this analysis, the 5~DOMs closest to the
+
+\subsubsection{Trilateration Measurement of DOM Coordinates}
+The Stage 2 geometry assumes that all strings are vertical. However, the data from the drill shows that the string is not perfectly vertical, although deviations from the vertical are less than 1~m. The (x,y) coordinates from the drilling data were validated on the DeepCore strings using the
+trilateration method. In this method, the 5~DOMs closest to the
 flasher on each of the three closest strings surrounding the flasher are selected,
 and a circle of radius $r = \sqrt{(d)^2 - (\Delta z)^2)}$ is drawn
 around each receiving DOM, where $d$ is the distance between the DOM and the flasher calculated from the leading edge time of the received
@@ -180,12 +182,12 @@ centroid of the intersection points. The error bars on the positions
 are $1 \sigma$ from a Gaussian fit to all centroid values; the x and y
 corrdinates are fitted independently. The shifts relative to the
 deployment data are found to be less than 2~m, and agree with the
-drill head coordinates within the error bars as shown in Figure~\ref{fig:trilateration}.
+drill head coordinates within the error bars as shown in Figure~\ref{fig:trilateration}. Since the shifts from the nominal (x,y) coordinates are less than 1~m and the trilateration measurement is only practical in DeepCore where the interstring spacing is 40-70~m, these corrections were not applied to the IceCube geometry, which still assumes the vertical string geometry from Stage 2.
 
 \begin{figure}[!h]
  \centering
-\includegraphics[width=0.7\textwidth]{graphics/geometry/Str85_trilat_drill.pdf}
-\caption{Results of the trilateration fit to string 85, one of the DeepCore strings in the center of the detector. The left panel shows the view from above: the nominal (x,y) position of the string marked with a cross and the results of the trilateration fit to flasher LED data in colored points. The right panel showns the view from the side of the shifts in the x and y coordinates, with the drill date shown as a gray line.}
+\includegraphics[width=0.7\textwidth]{graphics/geometry/newtrilat85.pdf}
+\caption{Results of the trilateration fit to string 85, one of the DeepCore strings in the center of the detector. The points show the shifts in the x and y coordinates are shown as a dunction fo depth, with the drill data shown as a gray line.}
 \label{fig:trilateration}
 \end{figure}
 
