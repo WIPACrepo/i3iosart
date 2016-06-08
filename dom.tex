@@ -16,17 +16,31 @@
 
 \subsection{\label{sec:dom_functional} A Functional Description of the DOM}
 
-The DOM (Figure~\ref{fig:domcomponents}) is the fundamental data acquisition
-unit for IceCube, 
+The DOM is the fundamental light sensor and data acquisition unit for IceCube.
+It consists of a spherical glass housing 
 containing a downward-facing $10^{\prime\prime}$ diameter photomultiplier tube (PMT)
-and associated circuit boards that allow near-autonomous operation.
+and associated circuit boards that allow near-autonomous operation (Figure~\ref{fig:domcomponents}) .
 Data acquisition, control, calibration, communication and low voltage power conversion 
-are integrated in one annular circuit board that fits around the neck of the PMT (Main Board, Section~\ref{sec:mb})~\cite{ref:domdaq}. 
+are integrated in one annular circuit board that fits around the neck of the PMT (Main Board)~\cite{ref:domdaq}. 
 Separate circuit boards generate PMT high voltage, interface to the PMT pins~\cite{ref:pmt},
 delay PMT signals, and generate calibration light flashes that can reach other DOMs.
 Key requirements for the DOM include
 the precise recording of a wide variety of PMT pulse widths and amplitudes, robustness in
 a challenging deployment environment, and long term reliability.
+
+%============================================================
+\begin{figure}
+\vspace{3pt}
+\begin{tabular}{c@{\hspace{0pt}}c}
+\includegraphics[width=0.49\textwidth,clip=true]{graphics/dom/functional/domfig1a-DOM3DModel.png} & \
+\includegraphics[width=0.49\textwidth,clip=true]{graphics/dom/functional/domfig1b-DOMBlockDiagram.pdf} \\
+\end{tabular}
+\caption{Components of the DOM, showing mechanical layout (left) and functional connections (right).
+}
+\label{fig:domcomponents}
+\end{figure}
+%============================================================
+
 
 The PMT detects
 signals from neutrino events ranging over energies \unit[10]GeV--\unit[10]PeV
@@ -35,12 +49,15 @@ Corresponding PMT waveforms can have amplitudes from \unit[1]mV up to and beyond
 of the PMT (\unit[$\sim2$]volts) and widths from \unit[12]nsec to \unit[1500]nsec.
 In order to accommodate such a variety of signals,
 the DOM includes multiple digitizers with overlapping dynamic range and different sampling speeds
-~\cite{ref:domdaq}.
+(Section~\ref{sec:mainboard})~\cite{ref:domdaq}.
 Each DOM is triggered independently by detection of individual photons, starting a 
 recording of the PMT waveform that includes further photons arriving up to \unit[6.4]{$\mu$sec} later.
 The trigger time is saved along with the
 waveform shape, which reveals the times of arriving photons relative to this reference.
 The DOM typically accumulates such triggered data for a period of ? to \unit[?]sec before sending as a block.
+Separately, the PMT trigger rate is recorded in \unit[0.1]sec intervals,
+as a collective increase of all rates could signify detection of many low energy neutrinos
+in case of a galactic supernova event~\cite{ref:supernova}.
 
 DOMs transmit their data to computers in the IceCube Laboratory building using a twisted wire pair that also provides
 power.  Wire pairs are bundled together to form the vertical down-hole cables and the horizontal surface cables.  
@@ -51,12 +68,12 @@ a common \unit[1]$\mu$sec time window.
 Local coincidence triggers often have complex PMT waveforms reflecting multiple photons
 detected in each DOM, which are therefore
 saved in full detail; otherwise the DOM saves abbreviated information appropriate to single photon
-detection ~\cite{ref:domdaq}.
+detection (Section~\ref{sec:mainboard})~\cite{ref:domdaq}.
 
 The DOM is capable of interpreting commands from the surface that specify tasks for configuration, 
 data taking and transmission, monitoring or self-calibration.
-Self-calibration functions establish PMT and amplifier gains as well as sampling speed.
-The RAPCal system~\cite{ref:domdaq} is implemented for tracking each local DOM clock's offset from universal time,
+Self-calibration functions establish PMT and amplifier gains as well as sampling speed (Section~\ref{sec:domcal}).
+The RAPCal system(Section~\ref{sect:dom:rapcal}) is implemented for tracking each local DOM clock's offset from universal time,
 allowing PMT pulses that were independently recorded in many DOMs  to be recombined into events by surface computers.
 
 \subsection{\label{sec:dom_components} Components}
@@ -69,24 +86,37 @@ Spheres are specified to protect the inside electronics and PMT against long ter
 as well as temporary overpressure up to \unit[690]bar during refreezing of melted ice in the drill hole.
 They were produced by Benthos, Inc., based on a design for deep sea environments but using glass
 with very low potassium or other radioactive trace elements that would contribute to the dark noise
-count rate (Section~\ref{sec:darknoise}).  
+count rate (Section~\ref{sect:darknoise}).  
 %N.B. not borosilicate, according to analysis shown at final CDR 2005 (Claire's slides), in contrast
 %to the Benthos sphere datasheet which says borosilicate
-Optical transmission was measured for representative samples as 93\% at \unit[400]nm,
+Optical transmission was measured in representative samples as 93\% at \unit[400]nm,
 decreasing to 50\% at \unit[340]nm and 10\% at \unit[315]nm (normal incidence, excluding Fresnel reflection).
 
-Each sphere is assembled from two hemispheres that
-mate precisely at the equator; after evacuating and backfilling with dry nitrogen, a butyl rubber
-sealant is applied around the seam, and covered with wide plastic tape.
+All spheres were tested up to \unit[10,000]psi hydrostatic pressure by the manufacturer.
+Each was delivered as two hemispheres that mate precisely at the equator.
+After assembly of other components into the sphere, it is evacuated and backfilled with dry nitrogen,
+a butyl rubber sealant is applied around the seam, and the sealant is covered with wide plastic tape.
 The interior gas pressure is set to 0.5 bar so the seal remains tight even
 at ambient south pole air pressure 0.6 bar.
 
-The DOM is held by an aluminum band with rubber gaskets against
+The DOM is held by an aluminum waistband with rubber gaskets against
 the glass above and below the equator seam. 
-Figure~\ref{fig:domharness} shows how it is attached to the main down-hole cable via a system
+Figure~\ref{fig:domcable} shows how it is attached to the main down-hole cable via a system
 of steel rope and chain that carries the weight load around the DOM.
 The main cable bends around the DOM, and the DOM axis stays vertically aligned with the string.
 
+%============================================================
+\begin{figure}
+\vspace{3pt}
+\begin{tabular}{c@{\hspace{0pt}}c}
+\includegraphics[width=0.49\textwidth,clip=true]{graphics/dom/functional/domfig2a-CableAssembly.pdf} & \
+\includegraphics[width=0.49\textwidth,clip=true]{graphics/dom/functional/domfig2b-CableConnections.png} \\
+\end{tabular}
+\caption{FIXME Cable figure needs caption, figure to be updated
+}
+\label{fig:domcable}
+\end{figure}
+%============================================================
 
 %NK section 3.4.1 text:
 %The spherical pressure housing consists of two hemespheres made of low expansion borosilicate
@@ -126,22 +156,27 @@ The main cable bends around the DOM, and the DOM axis stays vertically aligned w
 %DOM. The umbilical cable is terminated with a dissimilar connector depending on the type of the
 %DOM in order to avoid a wrong connection by human error during the deployment.
 
-A customized penetrator assembly brings three wire pairs out through a \unit[16.3]mm hole in
-the DOM glass.  They are routed inside the umbilical cable, visible in Figure~\ref{fig:domharness},
+A penetrator assembly brings three wire pairs out through a \unit[16.3]mm hole in
+the DOM glass.  They are routed inside a customized cable, visible in Figure~\ref{fig:domcable},
 and terminate at a pressure-tight, waterproof connector that mates with a similar connector
-and thus continues each pair into the main cable.  One wire pair connects ultimately with a 
-computer in the IceCube Laboratory building, carrying power and the bidirectional digital
-communications stream.  
-%The figure referenced is like NK Figure 3 "In-ice DOM connections"
-The other two pairs lead to neighbor DOMs directly above and below (Figure~\ref{fig:lc}),
-carrying local coincidence digital pulses that signify time correlated hits in nearby DOMs (Section~\ref{sec:mb}).
+that continues each pair into the main cable.  One wire pair carries power and a
+bidirectional digital communications stream, connecting ultimately with computers in the
+IceCube Laboratory building (Section~\ref{sec:cablesystems}).
+The other wires lead to neighbor DOMs directly above and below,
+carrying local coincidence digital pulses that signify time correlated hits in nearby DOMs (Section~\ref{sec:mainboard}).
 
-The penetrator itself is a customized stainless steel feedthrough, with a plastic shell that is also molded onto
-the umbilical cable jacket.  
-The penetrator has an o-ring seal facing the glass outside and is secured by a nut inside the sphere.  
+DOMs were made in two versions, where the communications wire pair was either electrically
+terminated (\unit[150]$\Omega$) or unterminated inside the DOM.  This allows each wire pair from
+the surface computers to communicate with two DOMs in parallel; the terminated one is deployed
+\unit[17]m or \unit[10]m below the unterminated one and therefore includes a correspondingly
+long penetrator assembly cable (bottom of Figure~\ref{fig:domcable}).
+
+The entire penetrator assembly was custom designed and produced by SEACON (California).  The part that seals against
+the DOM glass is similar to a hollow steel bolt, which is secured inside the DOM by a nut and spring washer and compresses
+a fluorosilicone o-ring against the outside surface.  The steel part includes additional sealing around the wires that pass through it.
+Outside the DOM, a plastic shell is molded around the steel and onto the cable jacket.  
 External mechanical features like the penetrator are subject to large stresses during deployment and the refreezing process;
-the right angle bend was chosen for robustness, based on previous experience deploying AMANDA modules.
-The complete assembly, including umbilical cable and type XSJJ connector, was produced by SEACON (California).  
+a right angle bend outside the DOM was included for robustness, based on previous experience deploying AMANDA modules.
 
 
 \subsubsection{\label{sec:pmt}PMT, Gel and Magnetic Shield}
@@ -174,19 +209,91 @@ The characteristics of the cured gel are specified to remain stable in the tempe
 To reduce effects of the ambient magnetic field (\unit[550]mG, $17^\circ$ from vertical), a mu-metal cage surrounds the PMT bulb up to
 the neck join.  It was constructed as a wire mesh with typical wire spacing \unit[66]mm and
 wire diameter \unit[1]mm, blocking about 4\% of the incident light.
-The resulting interior magnetic field is a factor 2.8 below
+Without such a shield, this type of PMT would exhibit 5-10\% lower collection efficiency as well
+as poorer peak-to-valley ratio and gain variations of 20\% depending on 
+azimuthal orientation~\cite{ref:calvo}.
+With the shield in place, the interior magnetic field is a factor 2.8 below
 the external field, pointing mostly along the axis and therefore reducing efficiency by
-less than 2\% for this type of PMT~\cite{ref:calvo}.
+less than 2\% for this type of PMT.
 
 Other interior DOM components are held in place by attachment to the PMT, mostly via screws into
 a molded plastic collar glued around the neck.  The PMT base board is soldered directly to the pins.
 
+\subsubsection{\label{sec:hv}HV Supply and Divider}
+
+The PMT high voltage subsystem consists of a resistive voltage divider circuit (PMT Base) directly
+solder-mounted on the PMT and a separate high voltage control board. 
+The high voltage control board includes a DAC and an ADC for setting and reading out the PMT high voltage,
+connected to the Main Board with a digital interface.  It also holds the high voltage generator, which
+is a custom encapsulated module designed by EMCO (California).  The maximum high voltage is
+\unit[2047]volts, specified for up to \unit[30]$\mu A$ current.  The set voltage is proportional to the DAC
+output, and the actual voltage is monitored via a high-impedance divider and the ADC.  The output ripple
+is less than \unit[1]mV, and stability is better than \unit[200]ppm over 8~hours.  Power consumption is
+\unit[300?]mW at full load.
+
+The generator output is carried to the PMT Base Board via a high voltage coaxial cable.  This board is
+described in \cite{ref:pmt}.  Its voltage divider presents a total resistive load of \unit[130]M$\Omega$.
+The PMT is operated with cathode at ground potential, so the anode signal output is AC coupled using 
+a 1:1 bifilar wound toroid transformer mounted on the Base Board.
+The transformer secondary is then wired to the Main Board analog input with a coaxial cable.
+The single photoelectron (SPE) output waveform has been described in reference~\cite{ref:pmt}.  
+With a \unit[100]$\Omega$ load connected to the transformer,  and operating at standard gain $10^7$, the SPE 
+peak voltage is close to \unit[8]mV
+with a FWHM \unit[7-8]nsec.  When measured on the Main Board, several effects combine to increase
+the FWHM of digitized SPE waveforms to $\sim$\unit[13]nsec (peak $\sim$\unit[5]mV).
+
+%NK section 3.5.3 text:
+%The high-voltage subsystem consisits of a resistive voltage divider circuit (PMT base board) directly
+%solder-mounted on the PMT and a separate high-voltage control board, consisting of a modular
+%high-voltage generator and a digital interface to the main board, which provides a +5 V DC power,
+%issues the on/off command, sets the high voltage output by controlling the DAC, and monitors the
+%precisely scaled down value of the high voltage output by reading the ADC. The output of the
+%high-voltage generator is delivered to the PMT base board by way of a high-voltage coaxial cable
+%(a “pig tail” cable) originating from inside the high voltage generator. The high-voltage generator
+%is modular in the sense that all the high voltage circuitry is encapsulated in this unit. Having no
+%high voltage nodes exposed to anywhere other than the PMT base board allows all the failure
+%mechanisms inherent to high voltage circuitry to be completely isolated within the high voltage
+%generator module and the PMT base board.
+%(a) PMT Base Board The design of the PMT base board in relation to the performance of the
+%PMT has been already discussed in some detail in our earlier paper[3]. Here, we outline only the
+%salient features. The PMT base board has been designed to minimize the power consumption while
+%meeting all the performance requirements. The base board supports 1 kHz of coninuous noise
+%pulses and large (explain) isolated transient pulses lasting as long as 1 us. The total resistance is
+%130 MΩ, which corresponds to the maximum bleeder current of 15 ?A and the power dissipation
+%of less than 30 mW. The divider ratios have been optimized for the optimum operation (maximum
+%collection efficiency) of the PMT when operated at the nominal gain of 107; since the PMT has a
+%manufacturing spread, this corresponds to the anode voltage of 1050 to 1600 V. Since the PMT
+%operates with the cathode at ground potential (for unknown historical reasons), the PMT pulse
+%signals are ac-coupled from the high anode potential to the analog front-end of the main board,
+%where the digitization takes places. The ac-coupling is accomplished using a custom-designed
+%1:1 bifilar-wound toroidal transformer mounted on the PMT base board. Transformer-coupling is
+%reliable and virtually noise-free for our purposes unlike capacitive-coupling.
+%For reliability, the circuit has been implemented using through-hole components as much as pos-
+%sible, except for several low-voltage nodes where a smaller low-inductance components are pre-
+%ferred. The circuit has been designed to ensure that no component is under more than 50% of the
+%its rated voltage. In order to eliminate the possibility of a corona discharge, all the through-hole
+%solder joints have been shaped as a smooth ”dome” by a specially-developed manufacturing tech-
+%nique involving two passes of wave-soldering process (Maybe Pensar’s permission is needed to
+%disclose this?).
+%(b) High Voltage Generator and Control Board The high voltage generator receives a +5 V
+%DC power from the main board and generates a high voltage of up to 2047 V. It has been custom-
+%designed[6] for low-power, low-noise, and high reliability. The proprietary circuit consists of a quasi-
+%sine oscillator running at a few 100 kHz, whose output is transformer-coupled to a diode rectifier
+%circuit, low-pass filtered, and fed back to the oscillator. (This description is based on the block
+%diagram of the CA Series product datasheet from EMCO website[7]. The IceCube high-votage
+%generator is a customized version of this series of products.) The circuit is potted inside a steel
+%case and the high voltage output exits the unit via a “pig tail” cable that reaches the PMT base
+%board. The unit is compact (7 x 2.8 x 1.4 cm3) and weighs about 60 grams. The output voltage of
+%the generator has a very low ripple on the order of 1 mV (spec’ed as less than 2.4 ppm, DC to 20
+%MHz) and is very stable (spec: 200 ppm variations over 8 h; maybe there are actual data showing
+%the stability?). The unit can source up to 30 ?A of continuous current and dissipates less than 300
+%mW of power under a full power operation. The unit is capable of starting up from a cold soak
+%(non-operating storage) at -55°C.
 
 \subsubsection{\label{sec:mainboard}Main Board and Delay Board}
 The Main Board and its operation has been described in detail in \cite{ref:domdaq}.  
 It interfaces to other boards as shown in
-%figure here is NK Figure 4 "Functional Block Diagram of the DOM"
-Figure~\ref{fig:domelectronics} and itself provides many key functions of the DOM:
+Figure~\ref{fig:domcomponents} and itself provides many key functions of the DOM:
 
 %text from NK section 3.5.1
 \begin{itemize}
@@ -201,16 +308,44 @@ the digitized waveform, temporarily storing the data, creating data packets and 
 \item{Exchange ”local coincidence” pulses with the adjacent DOMs.}
 \end{itemize}
 
-PMT waveforms are captured by the ATWD chips with sampling period \unit[3.3]nsec, starting after 
-a discriminator trigger is recognized by the sequencing logic.  The total sampling interval is \unit[427]nsec,  
-encompassing the time spread of most photons arriving from up to \unit[100]m away.
-The Delay Board is connected between
-the discriminator and the ATWD preamplifiers, adding a pretrigger window in this recorded waveform
-that allows precise fitting of the leading edge time.  It contains a \unit[$\sim10$]m long, \unit[0.25]mm
-wide, serpentine copper trace embedded in the dielectric and sandwiched between ground planes,
-giving a total delay of about \unit[75]nsec.  After accounting for triggering delays, this causes the
-waveform recording to start at least \unit[10]nsec before the leading edge time.
+The data flow starting from the PMT is shown in Figure~\ref{fig:domdataflow}.
+PMT waveforms are amplified and compared to the discriminator threshold of \unit[0.25]SPE,
+which is sufficient to begin a "launch" of the high speed waveform capture and digitization.
+The \unit[300]Msps 
+ATWD chips operate by analog storage of waveform samples in switched capacitor arrays of depth 128,
+followed by digitization.  In order to record the waveform starting from before the discriminator
+threshold crossing, the signal is first routed through the Delay Board.  Here a total delay of about
+\unit[75]nsec is accomplished by a \unit[$\sim10$]m long, \unit[0.25]mm
+wide, serpentine copper trace embedded in the dielectric and sandwiched between ground planes.
+ATWD chips are provided with three different preamplifier gains in order to completely cover the
+dynamic range of the PMT output (up to 150mA when saturated).  The highest gain channel is used
+for most pulses, and lower gain recordings are also retained as needed when pulses reach within 75\% of the range 
+of a higher gain channel.
+As explained in Ref.~\cite{ref:domdaq}, two sets of ATWD chips are operated alternately in order to
+reduce deadtime to negligible levels.
+
+The ATWD recording interval is \unit[427]nsec.  This is ideal for reconstructing light produced within ~\unit[50]m of
+a DOM, but photons from further away may arrive over a broader time interval.  Such far away signals are
+also weaker, and the information is well captured in the \unit[40]Msps ADC.  This ADC samples continuously and
+the FPGA is programmed to save an interval of \unit[6.4]$\mu$sec after the launch. Its preamplifier gives a dynamic 
+range comparable to the high gain ATWD channel, but has extra pulse shaping to accommodate the lower
+sampling speed.
+
+Every digitizer launch results in a hit record being sent to the surface computers, but the amount of
+information included depends on whether a signal was also detected in one of the neighboring DOMs.
+In case of an isolated signal (no coincidence), only a time stamp and brief charge summary is sent, and
+the full digitization process is aborted.  Conversely, when a nearest or next-nearest neighbor DOM 
+also signals a launch within $\pm$\unit[1]$\mu$sec (local coincidence), the full waveform is compressed
+and included in the hit record.  The local coincidence signaling proceeds via digital pulse codes sent on
+the extra wire pairs described in Section~\ref{sec:penetrator}.
  
+\begin{figure}[h]
+ \centering
+ \includegraphics[width=0.6\textwidth]{graphics/dom/functional/domfig3-DOMDataFlow.pdf}
+ \caption{FIXME - dom data flow needs a caption, figure may be updated}
+ \label{fig:domdataflow}
+\end{figure}
+
 %NK section 3.5.2 text:
 %Although low-power and high-speed, the ATWDs must be initiated by a trigger signal in order to start
 %the digitizing operation. In order to capture the front pedestal of the waveform, the PMT signal is
@@ -274,71 +409,7 @@ waveform recording to start at least \unit[10]nsec before the leading edge time.
 
 
 
-\subsubsection{\label{sec:hv}HV Supply and Divider}
 
-The PMT high voltage subsystem consists of a resistive voltage divider circuit (PMT Base) directly
-solder-mounted on the PMT and a separate high voltage control board. 
-The high voltage control board includes a DAC and an ADC for setting and reading out the PMT high voltage,
-connected to the Main Board with a digital interface.  It also holds the high voltage generator, which
-is a custom encapsulated module designed by EMCO (California).  The maximum high voltage is
-\unit[2047]volts, specified for up to \unit[30]$\mu A$ current.  The set voltage is proportional to the DAC
-output, and the actual voltage is monitored via a high-impedance divider and the ADC.  The output ripple
-is less than \unit[1]mV, and stability is better than \unit[200]ppm over 8~hours.  Power consumption is
-\unit[300?]mW at full load.
-
-The generator output is carried to the PMT Base Board via a high voltage coaxial cable.  This board is
-described in \cite{ref:pmt}.  Its voltage divider presents a total resistive load of \unit[130]M$\Omega$.
-The PMT is operated with cathode at ground potential, so the anode signal output is AC coupled using 
-a 1:1 bifilar wound toroid transformer mounted on the Base Board.
-The transformer secondary is then wired to the Main Board analog input with a coaxial cable.
-
-%NK section 3.5.3 text:
-%The high-voltage subsystem consisits of a resistive voltage divider circuit (PMT base board) directly
-%solder-mounted on the PMT and a separate high-voltage control board, consisting of a modular
-%high-voltage generator and a digital interface to the main board, which provides a +5 V DC power,
-%issues the on/off command, sets the high voltage output by controlling the DAC, and monitors the
-%precisely scaled down value of the high voltage output by reading the ADC. The output of the
-%high-voltage generator is delivered to the PMT base board by way of a high-voltage coaxial cable
-%(a “pig tail” cable) originating from inside the high voltage generator. The high-voltage generator
-%is modular in the sense that all the high voltage circuitry is encapsulated in this unit. Having no
-%high voltage nodes exposed to anywhere other than the PMT base board allows all the failure
-%mechanisms inherent to high voltage circuitry to be completely isolated within the high voltage
-%generator module and the PMT base board.
-%(a) PMT Base Board The design of the PMT base board in relation to the performance of the
-%PMT has been already discussed in some detail in our earlier paper[3]. Here, we outline only the
-%salient features. The PMT base board has been designed to minimize the power consumption while
-%meeting all the performance requirements. The base board supports 1 kHz of coninuous noise
-%pulses and large (explain) isolated transient pulses lasting as long as 1 us. The total resistance is
-%130 MΩ, which corresponds to the maximum bleeder current of 15 ?A and the power dissipation
-%of less than 30 mW. The divider ratios have been optimized for the optimum operation (maximum
-%collection efficiency) of the PMT when operated at the nominal gain of 107; since the PMT has a
-%manufacturing spread, this corresponds to the anode voltage of 1050 to 1600 V. Since the PMT
-%operates with the cathode at ground potential (for unknown historical reasons), the PMT pulse
-%signals are ac-coupled from the high anode potential to the analog front-end of the main board,
-%where the digitization takes places. The ac-coupling is accomplished using a custom-designed
-%1:1 bifilar-wound toroidal transformer mounted on the PMT base board. Transformer-coupling is
-%reliable and virtually noise-free for our purposes unlike capacitive-coupling.
-%For reliability, the circuit has been implemented using through-hole components as much as pos-
-%sible, except for several low-voltage nodes where a smaller low-inductance components are pre-
-%ferred. The circuit has been designed to ensure that no component is under more than 50% of the
-%its rated voltage. In order to eliminate the possibility of a corona discharge, all the through-hole
-%solder joints have been shaped as a smooth ”dome” by a specially-developed manufacturing tech-
-%nique involving two passes of wave-soldering process (Maybe Pensar’s permission is needed to
-%disclose this?).
-%(b) High Voltage Generator and Control Board The high voltage generator receives a +5 V
-%DC power from the main board and generates a high voltage of up to 2047 V. It has been custom-
-%designed[6] for low-power, low-noise, and high reliability. The proprietary circuit consists of a quasi-
-%sine oscillator running at a few 100 kHz, whose output is transformer-coupled to a diode rectifier
-%circuit, low-pass filtered, and fed back to the oscillator. (This description is based on the block
-%diagram of the CA Series product datasheet from EMCO website[7]. The IceCube high-votage
-%generator is a customized version of this series of products.) The circuit is potted inside a steel
-%case and the high voltage output exits the unit via a “pig tail” cable that reaches the PMT base
-%board. The unit is compact (7 x 2.8 x 1.4 cm3) and weighs about 60 grams. The output voltage of
-%the generator has a very low ripple on the order of 1 mV (spec’ed as less than 2.4 ppm, DC to 20
-%MHz) and is very stable (spec: 200 ppm variations over 8 h; maybe there are actual data showing
-%the stability?). The unit can source up to 30 ?A of continuous current and dissipates less than 300
-%mW of power under a full power operation. The unit is capable of starting up from a cold soak
-%(non-operating storage) at -55°C.
 
 \subsubsection{\label{sec:flasher}Flasher Board}
 %NK section 3.5.4 has extensive description and simplified diagram
