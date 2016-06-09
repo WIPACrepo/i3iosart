@@ -6,56 +6,47 @@
 % this section and include some brief details on cable specs 
 % 19 AWG (to be confirmed) and 
  
-\section{The Cable Systems}
+\section{Cable Systems}
 
-The IceCube detector may be viewed as a digital network of optical sensors.  The
-IceCube cable systems form the physical backbone of this network, supplying
-simultaneously power to the DOMs and bi-directional digital communications between
-the DOMs and the readout hardware at the surface.  Copper was chosen over optical 
-fiber at an early stage in the project due to concerns with mechanical robustness
-of fiber during freeze-in in the deep ice and a previous successful demonstration 
-of the digitally-readout optical modules contained within the AMANDA detector 
+The IceCube detector may be viewed as a digital network of optical
+sensors. The IceCube cable systems form the physical backbone of this
+network, supplying simultaneously power to the DOMs and bi-directional
+digital communications between the DOMs and the readout hardware at the
+surface. Copper was chosen over optical fiber at an early stage in the
+project due to concerns with mechanical robustness of fiber during
+freeze-in in the deep ice and a previous successful demonstration of the
+digitally-readout optical modules contained within the AMANDA detector
 (String 18).
 
-The IceCube cable systems are broken down into the surface cables which stretch
-from the ICL to surface junction boxes (SJBs) located near the top of each hole and
-surface-to-DOM cables continuing from the SJBs into the deep ice.  All surface
-cables and 85 of the 86 surface-to-DOM cables were manufactured by Ericsson, the 
-Swedish telecommunications company.  The remaining surface-to-DOM cable, String 29,
-was manufactured by JDR.  A depiction of the logical connection architecture
-of the IceCube sensor network is shown in Figure~\ref{fig:icecube-cables-logical}.
-
-\begin{figure}
-\fbox{\vspace{2in}}
-\label{fig:icecube-cables-logical}
-\caption{Schematic of the IceCube cable network architecture.}
-\end{figure}
-
-The IceCube Cable System carries power and (comms?) signals between the
-DOMHub, located in the IceCube Counting Laboratory (ICL), and the
-individual DOMs buried deep in the ice on strings or in IceTop tanks. The
-Cable System is comprised of the following assemblies: Surface to DOM
+The Cable System is comprised of the following assemblies: Surface to DOM
 Cable, Surface Junction Box (SJB), Surface Cable, ICL In-Ice Quad Patch
 Cable and IceTop Cables. The Surface to DOM Cable, 2505m long, is deployed
 into the ice along with 60 DOMs that are attached to connectors at 30
 breakouts spaced 34m apart. Each pair of DOMs is connected to a unique
 single twisted wire pair. Wire pairs are combined into a 4 conductor quad
 cable that enables its meeting electrical performance requirements. The 60
-DOMs on each cable require 15 quads. A 16th quad in the Surface to DOM
-Cable enables local coincidence connections between DOMs. An additional 4
-quads in the Surface to DOM Cable provide for special instrumentation
-connections and a spare quad. The Surface to DOM Cable terminates at the
-surface in the Surface Junction Box located in the IceTop tank pit. The
-Surface Junction Box is a stainless steel enclosure that houses the Surface
-to DOM Cable and Surface Cable connections. IceTop Cables also terminate
-and connect to the Surface Cable in the Surface Junction Box. The Surface
-Cable is trenched 1m deep into the surface of the snow between the IceTop
-tank pit and the ICL. The Surface Cables vary in length from 300m to
-approximately 800m in length and were made to a custom length depending on
-hole location. The Surface Cables are pulled into the ICL and terminate at
-a patch rack where the individual quads are separated and connected to ICL
-In-Ice Quad Patch Cables or Icetop Patch Cables which finally terminate at
-the DOMHub. Each DOMHub service a single string. 
+DOMs on each cable require 15 quads. An additional 5 quads in the Surface
+to DOM Cable provide for special instrumentation connections, a spare quad
+and hard local coincidence connections between adjacent DOMs. The Surface
+to DOM Cable terminates at the surface in the Surface Junction Box located
+in the IceTop tank pit. The Surface Junction Box is a stainless steel
+enclosure that houses the Surface to DOM Cable and Surface Cable
+connections. IceTop Cables also terminate and connect to the Surface Cable
+in the Surface Junction Box. The Surface Cable is trenched 1m deep into the
+surface of the snow between the IceTop tank pit and the ICL. The Surface
+Cables vary in length from 300m to approximately 800m in length and were
+made to a custom length depending on hole location. The Surface Cables are
+pulled into the ICL and terminate at a patch rack where the individual
+quads are separated and connected to ICL In-Ice Quad Patch Cables or Icetop
+Patch Cables that finally terminate at the DOMHub or IceTop DOMHub. Each
+DOMHub services a single in-ice string (see
+Fig.~\ref{fig:icecube-cables-logical}). 
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.95\textwidth]{graphics/cables/cable_system_schematic.pdf}
+  \caption{\label{fig:icecube-cables-logical}Schematic of the IceCube cable network architecture.}
+\end{figure}
 
 The IceCube Cable System design had to meet a technically challenging
 variety of mechanical, electrical and functional requirements in order for
@@ -65,8 +56,8 @@ conditions of installation at the South Pole. This is particularly the case
 for the Surface to DOM Cable that also had to withstand hydrostatic
 overpressures of up to 450 bar while deployed. All items had to survive the
 rigors of transportation to the South Pole along with the capability to be
-stored at temperatures down to -70C without performance
-degradation. Handling temperatures were specified down to -40C for all
+stored at temperatures down to $-70$C without performance
+degradation. Handling temperatures were specified down to $-40$C for all
 cable components. The main electrical requirements were applied to the quad
 cable which are stated in Table ~\ref{tab:quad_requirements}.
 
@@ -113,18 +104,17 @@ cable which are stated in Table ~\ref{tab:quad_requirements}.
   \label{tab:quad_requirements}
 \end{table}
 
-The Surface to DOM cable was also required to be less than 50mm in
-diameter, weigh less than 2 kg / m, have a minimum bend radius of 40cm,
-carry a maximum static tensile load of 10kN, and have a breaking strength
-of 40kN. The final Surface to DOM design can be seen in
-Fig.~\ref{fig:cable_xsection}. 
+ The Surface to DOM cable was also required to be less than 50mm in
+ diameter, weigh less than 2 kg / m, have a minimum bend radius of 40cm,
+ carry a maximum static tensile load of 10kN, and have a breaking strength
+ of 40kN. The final Surface to DOM design can be seen in
+ Fig.~\ref{fig:cable_xsection}.  
 
 \begin{figure}
   \centering
   \includegraphics[width=0.5\textwidth]{graphics/cables/cable_xsection.png}
-  \label{fig:cable_xsection}
-  \caption{Surface to DOM Cable cross section. Nominal 46mm diameter with
-    cable mass of 2 kg/m.} 
+  \caption{\label{fig:cable_xsection}Surface to DOM Cable cross
+    section. Nominal 46mm diameter with cable mass of 2 kg/m.} 
 \end{figure}
 
 The cable includes 20 quads, 2 polyethylene fillers to maintain structural
@@ -198,4 +188,3 @@ station where its connection to the Surface Cable in the SJB was
 made. Finally, patch cables were installed in the ICL between the
 individual quads and the DOMHub in the ICL. End to end string commissioning
 now commenced.
- 
