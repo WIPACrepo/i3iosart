@@ -734,6 +734,123 @@ and the waveform pulse unfolding used in data processing.
  \label{fig:domcal_hv_settings}
 \end{figure}
 
+\subsubsection{\label{sec:waveformcal} Waveform Calibration and Droop
+  Correction}
+An ATWD waveform consists of readouts from 128 independent digitizers,
+while an FADC waveform consists of successive outputs of a 6-stage
+pipelined digitizer (3 bins for SLC launches and 256 for HLC
+launches). Two calibration constants are needed to turn each of these
+raw digitizer readout values (an integer number of ADC counts) into a
+voltage, from which the deposited charge is calculated. The deposited
+charge is the basis for all energy measurements in IceCube. The
+calibration constants needed are 1) the pedestal, the value the digitizer reads when the input voltage is zero, and
+2) the gain, the input voltage required to increase increase the readout value by one count. 
+
+Since each bin of each ATWD channel is read from an independent
+digitizer, it is important to distinguish between the pedestals of
+individual bins and the common pedestal of the entire waveform. The
+baseline is the mean of the pedestals of each bin in a waveform. For
+the FADC, this is the same as the pedestal. The pedestal pattern is
+the deviation of each bin's pedestal from the common baseline. For the
+FADC, this is identically zero. Since 2008, the DOM has subtracted the
+pedestal pattern from
+the ATWD waveform before sending it to the surface. The pedestal pattern is computed at the beginning of each
+run by comparing 25 averaged pedestals. The autocorrelation coefficent
+between the pairs of averaged pedestals is computed to detect light
+contamination in the pedestals, and the shift between the baseline of
+the pairs is calculated to determine that the baseline is stable. This
+procedure ensures that fewer than 1 DOM in 1000 runs will contain a
+contaminated baseline. Thereafter, both ATWD
+and FADC waveforms can be calibrated by first subtracting the common
+baseline from each bin, then multiplying by the gain. Correct
+measurement of the common baseline is critical to correct charge
+measurement and energy reconstruction.
+
+The baseline is set to about 10\% of the maximum value of the
+digitizer counts in
+order to capture signals that go below the baseline. Since 2012, the baseline value is set by the DAQ configuration in order to ensure
+stability. The baseline value differs for each digitizer channel in
+each DOM, ranging from 112 to 161 counts in the fACD and 109 to 172
+counts in the ATWD. The baselines for each digitizer channel in each DOM are measured with
+beacon hits, forced triggers which are collected at a rate of 1.2~Hz
+per DOM
+in in-ice DOMs and 4.8~Hz in IceTop DOMs. Beacon waveforms
+from the FADC and ATWD of a typical DOM are shown in Figure~\ref{fig:raw_baselines}.
+
+\begin{figure}[!h]
+  \captionsetup[subfigure]{labelformat=empty}
+  \centering
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/fadc_average_beacon_raw.pdf}}
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/ATWD_average_beacon_raw.pdf}}
+  \caption{Beacon waveforms from the FADC (left) and ATWD (right) of
+    an IceCube DOM. The waveforms are an average of about 1000 beacon
+   launches. The baseline, which is the mean value of the
+    beacon waveform, is shown as a horizontal red line. Typical raw SPE
+    waveforms are inset.}
+  \label{fig:raw_baselines}
+\end{figure}
+
+The gain is measured by DOMCal (Sec.~\ref{sec:domcal}), a single value
+for the FADC waveform and a bin-dependent value for the ATWD
+waveform. The calibrated waveform voltage is then
+
+\begin{equation}
+  \mathrm{voltage} = \mathrm{(ADC  counts - baseline)*gain}
+\end{equation}
+
+The waveform start time is then corrected for the PMT transit time,
+the average time it takes a pulse to propagate through the entire
+PMT. The PMT transit time correction $t_{transit}$ is dependent on the PMT high
+voltage:
+
+\begin{equation}
+  t_{transit} = \frac{m}{\sqrt{HV}} + b
+\end{equation}
+
+where $m$ and $b$ are determined by DOMCal. The typical value of $m$
+is 2000~ns$\cdot \sqrt{\mathrm{V}}$ and the typical value of $b$ is
+80~ns, which includes the 75~ns delay line of the mainboard. The
+typical transit time is therefore 130~ns. 
+
+Waveform start times from the second ATWD chip and the FADC are further
+corrected for the delay $\Delta t$ with respect to the first ATWD
+chip, so the total start time correction is $t_{transit} + \Delta t$.
+
+Finally, the waveforms are corrected for the effects of droop from the
+transformer that couples the mainboard to the PMT output. The toroid
+coupling effectively acts as a high-pass filter on the PMT output
+which makes the tails of the waveforms ``droop'' and even
+undershoot. This effect is temperature dependent and is worse at lower
+temperatures. The droop correction inverts the effect of the high-pass
+filter and eliminates the undershoot in the waveform tails. This is
+done by calculating the expected reaction voltage from the toroid at
+each time, and adding the reaction voltage to the calibrated waveform
+to compensate. The reaction voltages are made to decay exponentially
+according to a temperature-dependent model of the transformer’s
+behavior. When a readout contains consecutive launches from the same
+DOM, the reaction voltages at the end of the last launch are used to
+correct for the residual droop in the follow-on launch. IceCube DOMs
+use two types of toroid transformers: the ``old toroid'' with a short
+time constant which was used in early DOM production, and a ``new
+toroid'' with a longer time constant that produces less
+distortion. The  full correction is modeled with a dual time constant
+where the DOM's transient response $\tilde{\delta}(t)$ to an input
+signal $\delta(t)$ is given by
+
+\begin{equation}
+\tilde{\delta}(t) = \delta (t) - N((1 - f) e^{t/\tau_1} +f
+e^{t/\tau_2})
+\end{equation}
+
+The first time constant $\tau_1$ is given by 
+\begin{equation}
+\tau_1(T) = A + \frac{B}{1 + \exp{-T/C}}
+\end{equation}
+where $T$ is temperature and $A$, $B$ and $C$, $N$ and $f$ are determined empirically.
+
+For old toroid DOMs, the second time constant $\tau_2 =
+0.75\tau_1$. For new toroid DOMs, the second time constant is 500~ns. 
+
 \subsubsection{\label{sect:dom:rapcal}RAPCal}
 
 The Reciprocal Active Pulsing calibration (RAPCal) is a
@@ -972,62 +1089,8 @@ minimize the number of DOM power cycles.
 
 \subsubsection{Baseline Stability}
 
-An ATWD waveform consists of readouts from 128 independent digitizers,
-while an FADC waveform consists of successive outputs of a 6-stage
-pipelined digitizer (3 bins for SLC launches and 256 for HLC
-launches). Two calibration constants are needed to turn each of these
-raw digitizer readout values (an integer number of ADC counts) into a
-voltage, from which the deposited charge is calculated. The deposited
-charge is the basis for all energy measurements in IceCube. The
-calibration constants needed are 1) the pedestal, the value the digitizer reads when the input voltage is zero, and
-2) the gain, the input voltage required to increase increase the readout value by one count. 
-
-Since each bin of each ATWD channel is read from an independent
-digitizer, it is important to distinguish between the pedestals of
-individual bins and the common pedestal of the entire waveform. The
-baseline is the mean of the pedestals of each bin in a waveform. For
-the FADC, this is the same as the pedestal. The pedestal pattern is
-the deviation of each bin's pedestal from the common baseline. For the
-FADC, this is identically zero. Since 2008, the DOM has subtracted the
-pedestal pattern from
-the ATWD waveform before sending it to the surface. The pedestal pattern is computed at the beginning of each
-run by comparing 25 averaged pedestals. The autocorrelation coefficent
-between the pairs of averaged pedestals is computed to detect light
-contamination in the pedestals, and the shift between the baseline of
-the pairs is calculated to determine that the baseline is stable. This
-procedure ensures that fewer than 1 DOM in 1000 runs will contain a
-contaminated baseline. Thereafter, both ATWD
-and FADC waveforms can be calibrated by first subtracting the common
-baseline from each bin, then multiplying by the gain. Correct
-measurement of the common baseline is critical to correct charge
-measurement and energy reconstruction.
-
-The baseline is set to about 10\% of the maximum value of the
-digitizer counts in
-order to capture signals that go below the baseline. Since 2012, the baseline value is set by the DAQ configuration in order to ensure
-stability. The baseline value differs for each digitizer channel in
-each DOM, ranging from 112 to 161 counts in the fACD and 109 to 172
-counts in the ATWD. The baselines for each digitizer channel in each DOM are monitored with
-beacon hits, forced triggers which are collected at a rate of 1.2~Hz
-per DOM
-in in-ice DOMs and 4.8~Hz in IceTop DOMs. Beacon waveforms
-from the FADC and ATWD of a typical DOM are shown in Figure~\ref{fig:raw_baselines}.
-
-\begin{figure}[!h]
-  \captionsetup[subfigure]{labelformat=empty}
-  \centering
-  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/fadc_average_beacon_raw.pdf}}
-  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/ATWD_average_beacon_raw.pdf}}
-  \caption{Beacon waveforms from the FADC (left) and ATWD (right) of
-    an IceCube DOM. The waveforms are an average of about 1000 beacon
-   launches. The baseline, which is the mean value of the
-    beacon waveform, is shown as a horizontal red line. Typical raw SPE
-    waveforms are inset.}
-  \label{fig:raw_baselines}
-\end{figure}
-
-
-The average value of the
+The beacon hits from which the digitizer baselines are derived are
+monitored continuously throughout the year. The average value of the
 beacon baselines are very stable, with shifts of no more than
 0.2~counts year to year, which corresponds to 0.018~mV in the FADC and
 0.025~mV in the high gain ATWD channel. The single photoelectron
@@ -1049,10 +1112,10 @@ is recalibrated, adjustments in the SPE discriminator threshold can
 cause shifts of up to 0.6~counts (0.54~mV) in the FADC
 baselines. ATWD baselines are unaffected by the SPE discriminator
 setting. Correcting recorded waveforms for the effect of transformer
-coupling (essentially a high pass filter with time constant xxx) has
+coupling as described in Sec.~\ref{sec:waveformcal} has
 the side effect that small DC offset errors are converted into
 apparent PMT current that increases linearly in time over the course
-of a few microseconds.The effect is stronger for DOMs with original
+of a few microseconds. The effect is stronger for DOMs with old
 type toroid transformers, where a baseline error of 0.6~counts can
 turn an actual deposited charge of 1~PE into a measured charge of over
 2~PE with an unphysical time structure. The observed distortion in a
