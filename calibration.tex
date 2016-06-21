@@ -28,8 +28,6 @@ typically performed on half the detector at at time, the other half
 remaining in data-taking mode.  Because the calibration procedure produces
 light, however, these runs are not used in normal analysis.
 
-% FIX ME: ATWD reference?
-
 First, the discriminator circuits used to trigger the DOM are calibrated
 using the electronic pulser circuit.  This calibration is later refined using actual
 PMT waveforms, once the PMT gain is known.  Next, the ATWD voltage levels
@@ -52,6 +50,10 @@ are determined by varying the pulser output and comparing the charges
 simultaneously recorded in multiple gain channels.  This relative
 calibration is later refined using PMT waveforms stimulated by the Main
 Board LED.
+
+% FIX ME put in gains
+
+% FIX ME explain quadratic relationship
 
 The ATWD sampling speed is calibrated by digitizing the Main Board oscillator
 waveform and recording the number of clock cycles as a function of ATWD
@@ -157,7 +159,7 @@ for the FADC waveform and a bin-dependent value for the ATWD
 waveform. The calibrated waveform voltage is then
 
 \begin{equation}
-  \mathrm{voltage} = \mathrm{(ADC  counts - baseline)*gain}
+  \mathrm{voltage} = \mathrm{(ADC\ counts - baseline)*gain}
 \end{equation}
 
 The waveform start time is then corrected for the PMT transit time,
@@ -654,4 +656,9 @@ The above mentioned 'freeze-in' related noise rate decay is even more clearly vi
  \caption{Mean and standard deviation of the SLC rate distribution. The decay and jump in both quantities result from a change in the DOM deadtime by 10\%. \cite{briedel_phd}.}
  \label{fig:slc_over_time_briedel}
 \end{figure}
+
+\subsection{Special Devices}
+
+FIX ME: add some info
+
 
