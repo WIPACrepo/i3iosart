@@ -416,14 +416,16 @@ was performed in Dark Freezer Labs (DFLs), light-tight walk-in
 modules capable of sustaining temperatures down to XXC.  Main Board
 and DOM functionality was tested by self-diagnostic software installed on
 each module.  Other tests include gain calibration, dark noise monitoring,
-and local coincidence validation.  Optical sensitivity was measured using
-a laser system FIX ME FIX ME.  A typical FAT temperature and testing cycle
-is shown in Fig.~\ref{fig:fat_cycle}. The initial pass rate for DOMs during FAT
+and local coincidence validation.  Optical sensitivity, time resolution,
+and linearity were measured using external light sources fed into the mDFLs
+via optical fibers and diffused over the DOM lower hemispheres at each
+testing station.  A typical FAT temperature and testing cycle is shown in
+Fig.~\ref{fig:fat_cycle}. The initial pass rate for DOMs during FAT 
 was approximately 90\% (check this).  After the successful completion of
 FAT, DOM deployment harnesses were attached and the DOMs individually
 packed.
 
-% FIX ME DFL TEMP, LUX, PASS RATE, and FATE OF FAILING DOMS
+% FIX ME DFL TEMP, PASS RATE, and FATE OF FAILING DOMS
 
 \begin{figure}[!h]
  \centering
@@ -459,9 +461,10 @@ losing communications after a power outage.  Diagnosis of DOM failures
 beyond identifying electrical shorts is challenging.
 
 A number of DOMs have developed issues that affect their data-taking
-configuration but are still usable.  The local coincidence settings of DOMs of
-functional DOMs adjacent on a string to dead DOMs must also be
-modified. These are enumerated in Table \ref{tab:dom_failures}.  
+configuration but are still usable.  For example, DOMs with a single failed
+ATWD chip have a higher deadtime but are otherwise functional.  The local
+coincidence settings of DOMs of functional DOMs adjacent on a string to
+dead DOMs must also be modified. These are enumerated in Table \ref{tab:dom_failures}.  
 
 \begin{table}[h]
   \centering
@@ -493,7 +496,7 @@ Specifically, we calculate the Wilson score binomial confidence interval of
 survival probability using the post-commissioning failure rate of DOMs
 \cite{Wilson_Score}.  The estimated survival fraction as a function of
 time is shown in Fig.~\ref{fig:dom_survival}; currently we estimate the
-surviving fractEion in 2030 to be $97.3\pm0.3\%$.  While this simplified
+surviving fraction in 2030 to be $97.3\pm0.3\%$.  While this simplified
 model does not account for an increase in failure rate due to component aging, the
 observed failure rate since detector completion of $2.0~\mathrm{yr}^{-1}$ is
 significantly lower than the mean predicted rate of $4.5~\mathrm{yr}^{-1}$.  We attribute
