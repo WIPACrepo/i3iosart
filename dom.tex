@@ -417,14 +417,14 @@ the extra wire pairs described in Section~\ref{sec:penetrator}.
 Each IceCube DOM contains a flasher board. The standard IceCube
 flasher board, which is included in every DOM except the color DOMs
 described below, is a circular board fitted with 12 LEDs (ETG-5UV405-30) 
-specified with output wavelength \unit[$405\pm5]nm.  Laboratory
+specified with output wavelength \unit[$405\pm5$]nm.  Laboratory
 measurements with sample DOMs showed a peak at
-\unit[399]nm and spectral width \unit[14]nm (FHWM), including a
-\unit[-1]nm shift when operating at low temperature.
+\unit[399]nm and spectral width \unit[14]nm (FHWM), which includes a
+\unit[$-1$]nm shift when operating at low temperature.
 The LEDs are arranged in pairs, evenly spaced around the board
 with a 60$^{\circ}$ separation between each pair. One LED in each pair
-points outward horizontally, the other LED is tilted upward at an angle
-of 48$^{\circ}$, which is close to the Cherenkov angle in ice ($n=1.317$). 
+points outward horizontally and the other is tilted upward at an angle
+of 48$^{\circ}$, close to the Cherenkov angle in ice ($n=1.317$). 
 The angular emission profile of each LED has a FWHM of
 30$^{\circ}$ in air, which is modeled as a Gaussian emission profile
 with $\sigma = 13^{\circ}$. After refraction through the DOM glass and into
@@ -432,35 +432,47 @@ the ice, the value of $\sigma$ is 9.7$^{\circ}$ in the polar direction
 and 9.8$^{\circ}$ in the azimuthal direction for the tilted LEDs, and  9.2$^{\circ}$ in the polar direction
 and 10.1$^{\circ}$ in the azimuthal direction for the horizontal LEDs.
 About 10\% of the light is emitted outside the Gaussian beam, modeled by
-a profile proportional to $1+\cos{\alpha}$ where $\alpha$ is the LED axis.
+a profile proportional to $(1+\cos{\alpha})$ where $\alpha$ is the angle away from the LED axis.
+
+\begin{figure}[h]
+ \centering
+ \includegraphics[width=0.6\textwidth]{graphics/dom/functional/domfig4-FlasherDiagram.pdf}
+ \caption{LED flasher circuit diagram for one of twelve LEDs (simplified).}
+ \label{fig:flasherdiagram}
+\end{figure}
+
+\begin{figure}[h]
+ \centering
+ \includegraphics[width=0.6\textwidth]{graphics/dom/functional/domfig5-BrightnessModel.pdf}
+ \caption{Light output from flasher LED pulses (relative to maximum), depending
+on brightness and width configuration parameters.  Additional dynamic range is available
+by enabling from 1 to 12 individual LEDs per DOM.}
+ \label{fig:flasheroutput}
+\end{figure}
+
 
 The LEDs are controlled by a current pulse applied to each LED through
-a high speed MOSFET driver with a series resistor. The LEDs can be turned on individually or in any
-combination of the 12, using a bitmask in the flasher DAQ
-configuration. The photon output of the LED depends on the width and
-amplitude of the driving current pulse. 
+a high speed MOSFET driver with a series resistor (Figure~\ref{fig:flasherdiagram}). 
+The LEDs can be enabled individually or in any
+combination of the 12, by setting bits in a configuration parameter.
+The photon output of each LED depends on the width and
+amplitude of the driving current pulse, which are controlled as common
+values for all enabled LEDs in each DOM (Figure~\ref{fig:flasheroutput}).  
+The pulse width parameter (0-127) controls width up to a maximum of \unit[70]{nsec}; 
+for sufficiently short driving current pulses the light output narrows to \unit[6]{nsec} (FWHM) with
+10\% afterglow decaying over \unit[15--20]{nsec}.
+The brightness parameter (0-127) controls the driving voltage between $4.5$ and \unit[15]{volts}, yielding
+peak current up to \unit[300]{mA}.
+By varying brightness and width settings as well as the number of LEDs enabled, DOMs can generate flashes
+from $10^6$ to $1.4\times10^{11}$ photons, similar to the total light from
+neutrino interaction cascades between \unit[7]GeV and \unit[1]PeV energy.
+The low end of this dynamic range requires fine tuning of driving parameters because of
+operating LEDs very close to threshold.
 
-The current amplitude is controlled by the
-brightness setting in the flasher DAQ, which may have a value between
-0 and 127; the maximum LED
-current is 240~mA. The current pulse width is controlled by the width
-setting in the flasher DAQ, which is twice the current pulse width in
-nanoseconds and may have a value between 0 and 127; the maximum current pulse width is 70~ns. The
-minimum stable pulse width that we can achieve is about 6~ns. The
-photon output is related to the brightness  and width by the following
-empirically derived relationship:
-\begin{equation}
-N = 1.17 \times 10^{10} \left (0.0006753 + 0.00005593B \right ) \left
-  (W + 13.9 - \frac{57.5}{1 + B/34.4} \right )
-\end{equation}
-where N is the number of photons, B is the brightness setting (maximum
-value 127) and W is the width setting (maximum value 127). The photon
-output per LED ranges from $10^6$ to $10^{10}$ photons per flash,
-which is equivalent to the energy output of GeV - 100 TeV cascades. The maximum
-LED pulse rate is 610~Hz. The current waveform is read out by ATWD
-digitizer channel~3 during flasher operation in order to measure the
-precise rise time of the flasher pulse. The flasher light output
-begins 8.3~ns after the current pulse is recorded. Although flashers can be
+The LED current waveforms are recorded in an auxiliary ATWD channel, which
+establishes the onset of optical pulses \unit[8]{nsec} after the current pulse rising edge.
+The repetition rate is programmable up to \unit[610]{Hz}.
+Although flashers can be
 operated in multiple DOMs in the same run, the DAQ does not support
 time-synced flashing of LEDs on different DOMs, so coincident flasher
 events happen only by chance. 
@@ -483,9 +495,8 @@ color DOMs or cDOMs. Each cDOM includes 3 LEDs with a nominal
 wavelength of 505~nm, 3 LEDs with a nominal wavelength of 450~nm, 3
 LEDs with a nominal wavelength of 370~nm and 3 LEDs with a nominal
 wavelength of 340~nm. The LEDs are arranged in pairs as on the
-standard flasher board, but all LEDs point outward horizontally. The
-arrangement of the pairs is shown in Figure XXcdom sketch from cdom
-wikiXX. The properties of the LEDs are given in
+standard flasher board, but all LEDs point outward horizontally. 
+The properties of the LEDs are given in
 Table~\ref{table:cdom_properties}.
 
 \begin{table}
