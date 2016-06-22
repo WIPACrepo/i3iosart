@@ -31,10 +31,12 @@ a challenging deployment environment, and long term reliability.
 %============================================================
 \begin{figure}
 \vspace{3pt}
+\begin{center}
 \begin{tabular}{c@{\hspace{0pt}}c}
 \includegraphics[width=0.49\textwidth,clip=true]{graphics/dom/functional/domfig1a-DOM3DModel.png} & \
 \includegraphics[width=0.49\textwidth,clip=true]{graphics/dom/functional/domfig1b-DOMBlockDiagram.pdf} \\
 \end{tabular}
+\end{center}
 \caption{Components of the DOM, showing mechanical layout (left) and functional connections (right).
 }
 \label{fig:domcomponents}
@@ -108,11 +110,17 @@ The main cable bends around the DOM, and the DOM axis stays vertically aligned w
 %============================================================
 \begin{figure}
 \vspace{3pt}
-\begin{tabular}{c@{\hspace{0pt}}c}
-\includegraphics[width=0.49\textwidth,clip=true]{graphics/dom/functional/domfig2a-CableAssembly.pdf} & \
-\includegraphics[width=0.49\textwidth,clip=true]{graphics/dom/functional/domfig2b-CableConnections.png} \\
+\centering
+\begin{tabular}{c@{\hspace{0.5in}}c}
+\includegraphics[width=0.3\textwidth,clip=true]{graphics/dom/functional/domfig2a-CableAssembly.pdf} & \
+\includegraphics[width=0.4\textwidth,clip=true]{graphics/dom/functional/domfig2b-CableConnections.png} \\
 \end{tabular}
-\caption{FIXME Cable figure needs caption, figure to be updated
+\caption{FIXME Figure to be updated. 
+(Left) DOM as deployed on main downhole cable, showing cable breakout to the penetrator
+assembly and the mechanical support system.  (Right) Schematic of cable connections, 
+illustrating the sharing of each communications wire
+pair by two DOMs and the additional wire pairs used for local coincidence signaling between
+neighboring DOMs.
 }
 \label{fig:domcable}
 \end{figure}
@@ -168,7 +176,7 @@ carrying local coincidence digital pulses that signify time correlated hits in n
 DOMs were made in two versions, where the communications wire pair was either electrically
 terminated (\unit[150]$\Omega$) or unterminated inside the DOM.  This allows each wire pair from
 the surface computers to communicate with two DOMs in parallel; the terminated one is deployed
-\unit[17]m or \unit[10]m below the unterminated one and therefore includes a correspondingly
+\unit[17]m below the unterminated one (\unit[7]m or \unit[10]m in DeepCore strings) and therefore includes a correspondingly
 long penetrator assembly cable (bottom of Figure~\ref{fig:domcable}).
 
 The entire penetrator assembly was custom designed and produced by SEACON (California).  The part that seals against
@@ -239,7 +247,7 @@ The transformer secondary is then wired to the Main Board analog input with a co
 The single photoelectron (SPE) output waveform has been described in reference~\cite{ref:pmt}.  
 With a \unit[100]$\Omega$ load connected to the transformer,  and operating at standard gain $10^7$, the SPE 
 peak voltage is close to \unit[8]mV
-with a FWHM \unit[7-8]nsec.  When measured on the Main Board, several effects combine to increase
+with a FWHM \unit[7--8]nsec.  When measured on the Main Board, several effects combine to increase
 the FWHM of digitized SPE waveforms to $\sim$\unit[13]nsec (peak $\sim$\unit[5]mV).
 
 %NK section 3.5.3 text:
@@ -341,8 +349,11 @@ the extra wire pairs described in Section~\ref{sec:penetrator}.
  
 \begin{figure}[h]
  \centering
- \includegraphics[width=0.6\textwidth]{graphics/dom/functional/domfig3-DOMDataFlow.pdf}
- \caption{FIXME - dom data flow needs a caption, figure may be updated}
+ \includegraphics[width=0.9\textwidth]{graphics/dom/functional/domfig3-DOMDataFlow.pdf}
+ \caption{Data flow diagram for recording and processing of PMT waveforms in the DOM to form 
+ "Hit Records" that are sent to the surface DAQ computers.  As shown by dashes, full waveform data is only included
+ when neighbor DOMs report time-coincident signals above the SPE discriminator threshold.  Additionally,
+ data from low gain channels is omitted for waveforms that are within range of higher gain channels.}
  \label{fig:domdataflow}
 \end{figure}
 
@@ -411,8 +422,23 @@ the extra wire pairs described in Section~\ref{sec:penetrator}.
 
 
 
+\begin{figure}[h]
+ \centering
+ \includegraphics[width=0.6\textwidth]{graphics/dom/functional/domfig4-FlasherDiagram.pdf}
+ \caption{LED flasher circuit diagram for one of twelve LEDs (simplified).}
+ \label{fig:flasherdiagram}
+\end{figure}
+
+\begin{figure}[h]
+ \centering
+ \includegraphics[width=0.6\textwidth]{graphics/dom/functional/domfig5-BrightnessModel.pdf}
+ \caption{Light output from flasher LED pulses (relative to maximum), depending
+on brightness and width configuration parameters.  Additional dynamic range is available
+by enabling from 1 to 12 individual LEDs per DOM.}
+ \label{fig:flasheroutput}
+\end{figure}
+
 \subsubsection{\label{sec:flasher}Flasher Board}
-%NK section 3.5.4 has extensive description and simplified diagram
 
 Each IceCube DOM contains a flasher board. The standard IceCube
 flasher board, which is included in every DOM except the color DOMs
@@ -434,22 +460,6 @@ and 10.1$^{\circ}$ in the azimuthal direction for the horizontal LEDs.
 About 10\% of the light is emitted outside the Gaussian beam, modeled by
 a profile proportional to $(1+\cos{\alpha})$ where $\alpha$ is the angle away from the LED axis.
 
-\begin{figure}[h]
- \centering
- \includegraphics[width=0.6\textwidth]{graphics/dom/functional/domfig4-FlasherDiagram.pdf}
- \caption{LED flasher circuit diagram for one of twelve LEDs (simplified).}
- \label{fig:flasherdiagram}
-\end{figure}
-
-\begin{figure}[h]
- \centering
- \includegraphics[width=0.6\textwidth]{graphics/dom/functional/domfig5-BrightnessModel.pdf}
- \caption{Light output from flasher LED pulses (relative to maximum), depending
-on brightness and width configuration parameters.  Additional dynamic range is available
-by enabling from 1 to 12 individual LEDs per DOM.}
- \label{fig:flasheroutput}
-\end{figure}
-
 
 The LEDs are controlled by a current pulse applied to each LED through
 a high speed MOSFET driver with a series resistor (Figure~\ref{fig:flasherdiagram}). 
@@ -469,8 +479,9 @@ neutrino interaction cascades between \unit[7]GeV and \unit[1]PeV energy.
 The low end of this dynamic range requires fine tuning of driving parameters because of
 operating LEDs very close to threshold.
 
-The LED current waveforms are recorded in an auxiliary ATWD channel, which
-establishes the onset of optical pulses \unit[8]{nsec} after the current pulse rising edge.
+The LED current waveforms are recorded in an auxiliary ATWD channel, supplying
+a rising edge time that also establishes the onset of the optical pulse (after a known
+turn-on delay).
 The repetition rate is programmable up to \unit[610]{Hz}.
 Although flashers can be
 operated in multiple DOMs in the same run, the DAQ does not support
