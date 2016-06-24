@@ -93,7 +93,7 @@ Spheres are specified to protect the inside electronics and PMT against long-ter
 as well as temporary overpressure up to \unit[690]bar during the refreezing of melted ice in the drill hole.
 The housings were produced by Benthos, Inc., based on a design for deep-sea environments but using glass
 with very low potassium or other radioactive trace elements that would contribute to the dark noise
-count rate (Section~\ref{sect:darknoise}).  
+count rate (Section~\ref{sec:darknoise}).  
 Optical transmission was measured in representative glass samples as 93\% at \unit[400]nm,
 decreasing to 50\% at \unit[340]nm and 10\% at \unit[315]nm (normal incidence, excluding Fresnel reflection).
 
@@ -101,13 +101,9 @@ decreasing to 50\% at \unit[340]nm and 10\% at \unit[315]nm (normal incidence, e
 %to the Benthos sphere datasheet which says borosilicate
 
 All spheres were tested up to \unit[10,000]psi hydrostatic pressure by the manufacturer.
-Each was delivered as two hemispheres that mate precisely at the equator.
-After assembly of other components into the sphere, it is evacuated and backfilled with dry nitrogen,
-a butyl rubber sealant is applied around the seam, and the sealant is covered with wide plastic tape.
-The interior gas pressure is reduced to 0.5 bar so that the seal remains tight even
-at the ambient South Pole air pressure of 0.6 bar.
-
-The DOM is held by an aluminum waistband with rubber gaskets against
+Each was delivered as two hemispheres that mate precisely at the equator
+and were sealed during assembly (Sec.~\ref{sec:dom_prodtest}).  The DOM
+is held by an aluminum waistband with rubber gaskets against 
 the glass above and below the equator seam. 
 Fig.~\ref{fig:domcable} shows how the DOM is attached to the main down-hole cable via a system
 of steel rope and chain that carries the weight load around the DOM.
@@ -202,7 +198,7 @@ a molded plastic collar glued around the PMT neck.  The PMT base board is solder
 The PMT high voltage subsystem consists of a resistive voltage divider
 circuit (PMT Base Board) directly
 solder-mounted on the PMT and a separate High Voltage Control Board. 
-The High Voltage Control Board includes a DAC and an ADC for setting and reading out the PMT high voltage,
+The High Voltage Control Board includes a DAC and ADC for setting and reading out the PMT high voltage,
 connected to the Main Board with a digital interface.  It also holds the high voltage generator, which
 is a custom encapsulated module designed by EMCO (California).  The maximum high voltage is
 \unit[2047]volts, specified for up to \unit[30]$\mu A$ current.  The set voltage is proportional to the DAC
@@ -232,10 +228,10 @@ provides many key functions of the DOM, including:
 the flasher board, and various sensors (pressure, temperature, power supply voltage monitor). 
 Also supplies necessary DC power to the subsystems.}
 \item{Digitization of the PMT waveforms, using a custom ASIC (ATWD: Analog
-  Transient Waveform Digitizer) and a continuously sampling ADC.}
+  Transient Waveform Digitizer) and a continuously sampling fast ADC (fADC).}
 \item{Providing computational functions, including PMT gain calibration, compressing 
 digitized waveforms, temporarily storing the data, and creating time-stamped data packets.}
-\item{Communicating with the data acquisition system on the surface.}
+\item{Communicating with the data acquisition (DAQ) system on the surface.}
 \item{Exchanging timing pulses with the surface DAQ to calibrate the internal DOM clock. }
 \item{Exchanging local coincidence pulses with the adjacent DOMs.}
 \end{enumerate}
@@ -253,7 +249,9 @@ ground planes.  ATWD chips are provided with three different preamplifier
 gains in order to completely cover the 
 dynamic range of the PMT output (up to 150mA when saturated).  The highest-gain channel is used
 for most pulses, and lower-gain recordings are also retained as needed when pulses reach 75\% of the range 
-of a higher gain channel.
+of a higher gain channel.  The mean preamplifier gains of all deployed DOMs for high-,
+medium-, and low-gain channels are 15.6, 1.79, and 0.21 respectively.
+
 
 As explained in Ref.~\cite{ref:domdaq}, two sets of ATWD chips are operated alternately in order to
 reduce deadtime.  The remaining deadtime depends upon the DOM trigger
@@ -265,8 +263,8 @@ for IceTop high-gain DOMs is $3.2 \times 10^{-3}$.
 The ATWD recording interval is \unit[427]ns.  This is ideal for reconstructing light produced within ~\unit[50]m of
 a DOM, but photons from further away may arrive over a broader time
 interval due to the optical scattering of the ice.  Such distant signals are
-also weaker, and the information is captured in the \unit[40]Msps ADC.  This ADC samples continuously, and
-the FPGA is programmed to save an interval of \unit[6.4]$\mu$s after the launch. Its preamplifier provies a dynamic 
+also weaker, and the information is captured in the \unit[40]Msps fADC.
+The fADC samples continuously, and the FPGA is programmed to save an interval of \unit[6.4]$\mu$s after the launch. Its preamplifier provides a dynamic 
 range comparable to the high-gain ATWD channel, but has extra pulse shaping to accommodate the lower
 sampling speed.
 
@@ -363,7 +361,7 @@ The flasher LEDs are used for a variety of calibration purposes, including:
   in measuring position, direction, and energy.
 \end{enumerate}
 
-Sixteen ``color DOMs'' (cDOMs) are fitted with multiwavelength
+Sixteen ``color DOMs'' (cDOMs) are fitted with multi-wavelength
 Flasher Boards; 8 are deployed on String~79 in the center of IceCube, and 8
 are deployed on String~14 on the edge of IceCube.  Each cDOM includes 3 LEDs with a nominal
 wavelength of 505~nm, 3 LEDs with a nominal wavelength of 450~nm, 3
@@ -398,13 +396,13 @@ B5-433-B505 & 505 & 494 & 6.4 &	4.5 & 4.9 \\
 \subsection{\label{sec:dom_prodtest} Production and Testing}
 
 Approximately 5500 in-ice and IceTop DOMs were required to be built, tested,
-and delivered to the South Pole.  The DOMs were required to sastisfy
+and delivered to the South Pole.  The DOMs were required to satisfy
 stringent requirements needed for them to work reliably buried deep
 in the ice for at least 20 years.  As hot-water drilling was the principle
 driver of the deployment timeline, the DOM production schedule was
 structured to supply DOMs as needed and to avoid any inventory shortfall.
 This DOM Production plan was implemented in a 3-stage approach. Stage 1 was
-the production and testing of the intial 400 DOMs at three sites: one in the United
+the production and testing of the initial 400 DOMs at three sites: one in the United
 States (Physical Sciences Laboratory (PSL), Stoughton, Wisconsin) and two
 in Europe (DESY, Zeuthen, Germany and Stockholm University, Sweden).  This
 quantity of DOMs was sufficient to verify production readiness, supply
@@ -437,16 +435,20 @@ After degassing, the PMT was placed in the gel and allowed to cure for 48
 hours.  After curing, the PMT Base Board was soldered onto the leads of the
 PMT.  Separately, the PC Board stack was assembled by attaching the Delay
 Board, Main Board, Flasher Board, and High Voltage Control Board together.
-The PC Board was then mounted onto the PMT collar The penetrator assembly
+The PC Board was then mounted onto the PMT collar, the penetrator assembly
 was mounted into the top hemisphere, and the two halves of the sphere were
-joined. 
+joined.  The spheres were then evacuated and backfilled with dry nitrogen,
+a butyl rubber sealant applied around the seam, and the seam covered with
+wide plastic tape. The interior gas pressure was reduced to 0.5 bar (at
+room temperature) so that the seal remains tight even at the minimum
+ambient South Pole air pressure of 0.64 bar.
 
 As the DOMs are not serviceable after deployment, an extensive testing
 protocol (Final Acceptance Testing, or FAT) including temperature-cycling
 and cold-soaking ensured that bad modules and early component failures were
 identified and repaired before shipping.  This testing at production sites
 was performed in Dark Freezer Labs (DFLs), light-tight walk-in 
-modules capable of sustaining temperatures down to XXC.  Main Board
+modules capable of sustaining temperatures down to \SI{-55}{C}.  Main Board
 and DOM functionality was tested by self-diagnostic software installed on
 each module.  Other tests include gain calibration, dark noise monitoring,
 and local coincidence validation.  Optical sensitivity, time resolution,
@@ -454,11 +456,11 @@ and linearity were measured using external light sources fed into the mDFLs
 via optical fibers and diffused over the DOM lower hemispheres at each
 testing station.  A typical FAT temperature and testing cycle is shown in
 Fig.~\ref{fig:fat_cycle}. The initial pass rate for DOMs during FAT 
-was approximately 90\% (check this).  After the successful completion of
-FAT, DOM deployment harnesses were attached and the DOMs individually
-packed.
+was approximately 90\%, with failing DOMs retested and/or reworked as
+needed.  After the successful completion of FAT, DOM deployment harnesses
+were attached and the DOMs individually packed. 
 
-% FIX ME DFL TEMP, PASS RATE, and FATE OF FAILING DOMS
+% FIX ME PASS RATE, and FATE OF FAILING DOMS
 
 \begin{figure}[!h]
  \centering
@@ -471,7 +473,7 @@ packed.
 All DOMs were also re-tested at the South Pole before final deployment, to
 screen out any modules damaged during transit.  The self-diagnostic
 program and dark noise measurements were performed with the DOMs still in
-their packing boxes, covered with additional ligh-tight material.  Of the
+their packing boxes, covered with additional light-tight material.  Of the
 approximately 5500 DOMs shipped to South Pole, about 30 (0.5\%) were
 returned to the U.S.~after failing on-ice testing.    
 
