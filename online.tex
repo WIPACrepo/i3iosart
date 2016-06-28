@@ -32,24 +32,19 @@ Fig.~\ref{fig:online_dataflow}.
 \end{figure}
 
 DOM-level triggers, or hits, are mostly due to dark noise. The first
-step in data reduction uses the Local Coincidence (LC) connection between neighboring
-DOMs deployed along the same cable, using dedicated wire pairs within the
-in-ice cable.  Hits with corresponding
-neighbor hits are flagged as Hard Local Coincidence (HLC hits) and
-include a full payload of digitized waveforms, while hits without the
-condition are flagged as Soft Local Coincidence (SLC hits) and are compressed more aggressively.  The LC time window
-as well as the span of neighboring DOMs up and down the cable are
-configurable parameters,
-with standard settings of a $\pm1 \mu$s LC time window and neighbor
-span of 2 neighboring DOMs.
+step in data reduction uses the Local Coincidence (LC) condition
+described in Sec.~\ref{sec:dom_functional}.  Hits that meet the LC criteria are flagged as Hard Local Coincidence (HLC hits) and
+include a full payload of digitized waveforms, while isolated non-LC
+hits are flagged as Soft Local Coincidence (SLC hits) and are
+compressed more aggressively. 
 
-All DOM hits are read out to dedicated computers on the surface by the data
+All DOM hits are read out to dedicated computers on the surface (Sec.~\ref{sect:sps}) by the data
 acquisition system (DAQ).  The next level of data selection is the
-formation of triggers by the DAQ system.  LC-flagged hits across the
+formation of triggers by the DAQ system (Sec.~\ref{sect:online:trigger}). HLC hits across the
 detector are examined for temporal and in some cases spatial patterns that
 suggest a common causal relationship.  A number of different trigger
 algorithms run in parallel, described in Sec.~\ref{sect:online:trigger}.  All hits
-(both LC-flagged and non-LC hits) within a window around the trigger are
+(both HLC and SLC) within a window around the trigger are
 combined into events, the fundamental output of the DAQ, and written
 to disk.  The event rate is approximately 2.5~kHz but varies with the
 seasonal atmospheric muon flux, and the total DAQ data rate is approximately
@@ -58,16 +53,15 @@ seasonal atmospheric muon flux, and the total DAQ data rate is approximately
 The DAQ also produces secondary streams that include time
 calibration, monitoring, and DOM scaler data.  The scaler data, which is
 monitoring the noise rate of each DOM in 1.6 ms bins, is used in the
-supernova data acquisition system \cite{IC3:supernova} to detect a
+supernova data acquisition system (Sec.~\ref{sect:SNDAQ}) to detect a
 global rise in the noise rate from
-many $O(10)$ MeV neutrino interactions occuring in the ice from a
+many $O(10)$ MeV neutrino interactions occurring in the ice from a
 Galactic core-collapse supernova.  The time calibration and monitoring
 streams are used to monitor the health and quality of the data-taking runs.
 
 The raw DAQ event data is then processed further with a number of
 filters in order to select a subset of events (less than 10\%) to
-transfer over satellite to the Northern Hemisphere (see
-Sec.~\ref{sect:online:filter}).  Each
+transfer over satellite to the Northern Hemisphere (Sec.~\ref{sect:online:filter}).  Each
 filter, typically designed to select events useful for a particular physics
 analysis, is run
 over all events using a computing cluster in the ICL.  Because of
@@ -78,7 +72,7 @@ up-to-date calibration constants to the DAQ data. All processed events, even tho
 selected by the online filters, are stored locally for archival.
 
 A dedicated system for data movement handles the local archival storage to
-tape or disk, as well as the handoff of satellite data (see Sec.~\ref{sect:online_jade}).
+tape or disk, as well as the handoff of satellite data (Sec.~\ref{sect:online_jade}).
 This includes not only primary data streams but also monitoring data,
 calibration runs, and other data streams.
 
@@ -153,7 +147,7 @@ Redundancy and continuous monitoring of SPS is one of the keys to a high
 detector livetime.  Nagios monitoring software detects and flags problems,
 including issues with DOM power and communication on the hubs.  Severe
 problems impacting data-taking result in a page to the IceCube
-winterover personnel via the station's Land Moble Radio (LMR) system. 
+winterover personnel via the station's Land Mobile Radio (LMR) system. 
 A dedicated hot spare server can replace any failed DAQ
 node, while spare PnF filtering clients can be started to increase
 throughput in case of a data filtering backlog.  SPS hardware is also
@@ -247,16 +241,16 @@ with a custom Linux device driver.  Access to DOR card functions,
 including DOM power control, communication statistics, RAPCal, current and
 voltage monitoring, etc.~is facilitated using the Linux \texttt{/proc}
 filesystem interface.  Data transfer from the cards to the single-board
-computer is acheived via DMA over the PCI bus.  The driver provides a
+computer is achieved via DMA over the PCI bus.  The driver provides a
 device file for each DOM for read/write access by higher-level software.
 
 \subsection{Processing at the Surface}
 %Dave G; 2-3 pages
 
 IceCube's data acquisition system (DAQ) is a set of components running on
-dedicated servers in the ICL.  As described in \ref{sect:online:dataflow}, physics data is read from the DOMs by the StringHub
+dedicated servers in the ICL.  Physics data is read from the DOMs by the StringHub
 component and a minimal representation of each HLC hit is forwarded to the
-``local'' Trigger components (either in-ice or icetop.)
+``local'' Trigger components (either in-ice or IceTop.)
 The ``local'' Trigger components run these
 minimal hits through a configurable set of algorithms and form windows around
 interesting temporal and/or spatial patterns.  These time windows are collected
@@ -264,19 +258,20 @@ by the ``global'' Trigger and used to form non-overlapping trigger requests.
 These trigger requests are used by the Event Builder component as templates to
 gather the complete hit data from each StringHub and assemble the final events.
 
-\subsubsection{DOMHub and Hit Spooling}
+\subsubsection{StringHub and HitSpool}
 \label{sec:domhub_hitspool}
 
 %Responsibility of StringHub.
-The StringHub is responsible for periodically reading all available data
+The StringHub software component which runs on the DOMHub is responsible for periodically reading all available data
 from each of its connected DOMs and passing that data onto the downstream
-consumers.  It also saves all hits to a local ``hit spool'' disk cache, as
+consumers.  It also saves all hits to a local ``HitSpool'' disk cache, as
 well as queuing them in an in-memory cache to service future requests from
 the Event Builder for full waveform data.
 
 %Division of front end (Omicron) and back end (Sender).
-The StringHub component is divided into two logical pieces.  The front-end
-Omicron controls all of the connected DOMs, forwarding any
+The StringHub component is divided into two logical pieces.  The
+front-end, called
+Omicron, controls all of the connected DOMs, forwarding any
 non-physics data to its downstream consumers and sorting the hits from all
 DOMs into a single time-ordered stream
 before passing them to the back-end Sender.  The Sender
@@ -373,91 +368,13 @@ One limitation of the current DAQ design is that it only reads data when the
 DAQ is running, so the detector is essentially ``off'' during hardware failures
 or the periodic full restarts of the system.  A future enhancement will split
 the StringHub into several independent pieces to eliminate these blind spots.
-The front end (Omicron) piece will be moved to an always-on daemon which
+The front end (Omicron) will be moved to an always-on daemon which
 continuously writes data (including secondary, non-physics data and other
 metadata) to the disk cache.  Part of the back end (Sender) piece will become a
-simple Hit Spool client which reads data from the disk cache and sends it to
+simple HitSpool client which reads data from the disk cache and sends it to
 the downstream consumers, while another simple component will listen for time
 intervals from the Event Builder and return lists of hits taken from the
-Hit Spool.
-
-\subsubsection{\label{sect:hitspool}Hitspool Request System}
-
-Subsystems such as SNDAQ can send time interval requests to a HitSpool
-Request daemon. At the time of this writing, the Hitspool Request
-System has three clients with their basic characteristics described in
-Table~\ref{tab:hsclients}. This central daemon passes the request onto
-every hub, where ``worker'' daemons gather the hits in the requested
-time interval from the hubs and forward them to the final ``sender''
-daemon which bundles them up to be transferred to the North for
-further analysis. The Supernova System requests hitspooling data from an asymmetrical
-time window of $90 \,\mathrm{s}$ around a
-supernova trigger with a significance above $7.65 \xi$, and
-data from a symmetrical
-$500\,\mathrm{s}$ window around a trigger with significance above $10.0 \xi$.
-The online High Energy Starting Event
-(HESE) analysis system requests hitspool data from a
-symmetrical time window of 1~s around events with a total deposited
-charge of greater than 1500~PE.
-The recently implemented hitpool client for Solar flare analyses is
-triggered externally by significant FERMI-LAT events and requests
-hitspool data from a
-symmetrical time window of one hour around the trigger
-time. Unlike the other two clients, these data sets
-are not transferred over the satellite due to their size but are stored on
-disk at Pole, with transmission over sattelite only allowed in
-extraordinary cases.
-% where the full waveforms can be used
-
-
-\begin{table}
-  \caption{Hitspool data requesting services.} 
-    \centering
-  \footnotesize
-\begin{tabularx}{\textwidth}{XXXXXXX}
-  \toprule
-  Client &  Trigger Threshold & Time Window & Request Length & Raw Data Size & Frequency & Bandwidth \\
-  \midrule
-  Supernova & $7.65 \,\xi$ ($10.00 \,\xi$) & $[-30\,\mathrm{s},+60\,\mathrm{s}]$  ($[\pm250 \,\mathrm{s}]$)& $90 \,\mathrm{s}$& ~ $18 \,\mathrm{GB}$& $0.5/\mathrm{week}$ ($0.0006 / \mathrm{week}$)& $1.3 \,\mathrm{GB} / \mathrm{day}$\\
-  HESE & $1500 \,\mathrm{PE} $  ($6000 \,\mathrm{PE} $) & $[\pm0.5\,\mathrm{s}]$& $1\,\mathrm{s}$  &  $~150\,\mathrm{MB}$ &  $4/\mathrm{day}$ ($1/\,\mathrm{month}$) & $0.4\,\mathrm{GB}/\mathrm{day}$  \\
-  Solar Flare & FERMI-LAT & $[\pm30\,\mathrm{min}]$ & $1\,\mathrm{h}$&
-  $~600\,\mathrm{GB}$& $ 7 / \mathrm{year}$& $ 1.7
-  \,\mathrm{GB}/\mathrm{day}$\\
-& significant event & & & & & \\
-\bottomrule
-\end{tabularx}
-\label{tab:hsclients}
-\end{table}
-
-\subsubsection{Supernova System}
-
-The IceCube DAQ has a parallel triggering and analysis pathway designed
-specifically for the detection of the many $O(10)$ MeV neutrinos from a Galactic
-core-collapse supernova.  These neutrinos produce interactions in the
-detector that, individually, are too dim to trigger the standard DAQ, but because of their
-high multiplicity, can cause a coherent rise in the individual hit rate of all
-of the in-ice DOMs \cite{IC3:supernova}. 
-
-Each DOMs monitors its hit rate and sends a stream of binned
-counts, using a bin width of 1.6384 ms ($2^{16}$ 40MHz clock cycles).  An
-artificial deadtime of $250\ {\mu}s$ is applied after each trigger to
-reduce the impact of correlated afterpulses (see
-Sec.~\ref{sect:darknoise}).  Each StringHub
-collects the rate stream of each DOM, supplies UTC timestamps, and
-forwards the streams to the Secondary Builder.  
-
-The supernova DAQ (SNDAQ) system receives the Secondary Builder stream,
-rebins the individual DOM rates, and monitors the sum of rates for a
-significant rise over several timescales.  The analysis is described in
-detail in Ref.~\cite{IC3:supernova}.  One complication is that short-term
-fluctuations in the cosmic ray muon rate can affect the significance
-calculation.  To correct for this, the trigger rate of the standard DAQ is
-continuously sent to SNDAQ, and any significant alert is corrected
-\cite{IC3:icrc15_sndaq}.  At a 
-high significance threshold, the capture of all untriggered data around the
-alert time is initiated using the HitSpool system
-(Sec.~\ref{sect:hitspool}), and the Supernova Neutrino Early Warning
-System (SNEWS) \cite{SNEWS} is notified.
+HitSpool.
 
 \subsubsection{\label{sect:online:trigger}Triggers}
 
@@ -476,9 +393,7 @@ hits in the DOM set, and then overlapping triggers are merged.   The
 various trigger algorithms are described below, and a summary of the
 algorithm parameter settings is found in Table \ref{tab:triggers}.  Trigger
 settings are changed at most once a year.
-
-\paragraph{Primary Trigger Algorithms}
-
+%\paragraph{Primary Trigger Algorithms}
 The fundamental trigger for IceCube, IceTop, and DeepCore is the simple
 multiplicity trigger (SMT, a.k.a. simple majority trigger).  The
 SMT looks for $N$ or more HLC hits within a sliding time window of several
@@ -489,9 +404,7 @@ detector, which fundamentally is set by the string or tank spacing.
 
 Triggers with a lower multiplicity threshold can be applied if additional requirements on the
 HLC hit topology are imposed.  The time windows for these trigger are based upon the
-size of the locality volume.
-
-The volume trigger (a.k.a. cylinder
+size of the locality volume. The volume trigger (a.k.a. cylinder
   trigger) defines a cylinder of fixed size around each hit DOM and
 searches for a given multiplicity within this cylinder
 (Fig.~\ref{fig:trig_cylinder}); this allows one to trigger on localized
@@ -499,9 +412,7 @@ low-energy events that do not satisfy the SMT trigger.  The volume trigger
 has an additional simple multiplicity parameter that fires the trigger when
 reached, regardless of any spatial restrictions; this prevents the trigger
 algorithm from slowing down when the detector has triggered already from
-the primary SMT.
-
-The string trigger (a.k.a. cluster trigger) searches for a
+the primary SMT. The string trigger (a.k.a. cluster trigger) searches for a
 certain number of hits within a span of DOMs along a single
 string (Fig.~\ref{fig:trig_string}); this allows one to trigger on
 low-energy muons that pass vertically 
@@ -521,8 +432,6 @@ through the detector.
   }
   \caption{IceCube triggers using spatial coincidences.  Shaded circles represent hit DOMs.}
 \end{figure}
-
-\paragraph{Slow Particle Trigger}
 
 IceCube has the potential to detect hypothetical subrelativistic heavy
 particles such as magnetic monopoles, via catalyzed nucleon decays along
@@ -560,8 +469,6 @@ shows the geometry parameters of the 3-tuple.  Finally, the number of track-like
  \caption{Geometry of a SLOP trigger HLC pair 3-tuple.}
  \label{fig:slop}
 \end{figure}
-
-\paragraph{Other Triggers}
 
 Other special-purpose triggers exist to collect minimum bias data of
 various sorts.  The fixed-rate trigger (FRT) reads out 10~ms of data
@@ -601,10 +508,8 @@ IceTop minimum bias trigger with a prescale of 10000 is active.
 \label{tab:triggers}
 \end{table}
 
-\paragraph{Trigger and Readout Window Merging}
-
 Many events will satisfy more than one of the trigger conditions,
-sometimes multiple times (see Fig.~\ref{fig:trigger_example}).  In order to
+sometimes multiple times.  In order to
 avoid overlapping events, possibly containing the same DOM hits, the
 triggers and their associated readout windows are merged, while retaining
 information about the separate triggers.  The merged trigger is referred to
@@ -621,23 +526,29 @@ an event (Fig.~\ref{fig:trigger_readout}).  Long events such as SLOP or FRT
 triggers typically contain several causally independent ``physics'' events;
 these typically are re-split before reconstruction and analysis.
 
-\begin{figure}[ht]
-  \centering
-  \subfloat[Sample bright event satisfying multiple triggers.  The vertical ticks
-    indicate the time of DOM hits (including SLC hits).  Trigger windows are
-    illustrated with solid horizontal lines, readout windows by dashed lines.]{
-    \includegraphics[scale=0.5]{graphics/online/trigger/trigger_example}
-    \label{fig:trigger_example}
-  }
-  \quad
-  \subfloat[In-ice, IceTop, and merged readout windows for a long event
-    satisfying SLOP and SMT8 triggers (not to scale).]{
-    \includegraphics[scale=0.5]{graphics/online/trigger/trigger_readout}
-    \label{fig:trigger_readout}
-  }
-  \caption{IceCube trigger and readout window merging.}
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.8\textwidth]{graphics/online/trigger/trigger_readout}
+ \caption{In-ice, IceTop, and merged readout windows for a long event satisfying SLOP and SMT8 triggers (not to scale)}
+ \label{fig:trigger_readout}
 \end{figure}
 
+% \begin{figure}[ht]
+%   \centering
+%   \subfloat[Sample bright event satisfying multiple triggers.  The vertical ticks
+%     indicate the time of DOM hits (including SLC hits).  Trigger windows are
+%     illustrated with solid horizontal lines, readout windows by dashed lines.]{
+%     \includegraphics[scale=0.5]{graphics/online/trigger/trigger_example}
+%     \label{fig:trigger_example}
+%   }
+%   \quad
+%   \subfloat[In-ice, IceTop, and merged readout windows for a long event
+%     satisfying SLOP and SMT8 triggers (not to scale).]{
+%     \includegraphics[scale=0.5]{graphics/online/trigger/trigger_readout}
+%     \label{fig:trigger_readout}
+%   }
+%   \caption{IceCube trigger and readout window merging.}
+% \end{figure}
 %General description of trigger architecture.  Separation of trigger window
 %and readout window.  How trigger windows depend on geometry.  Thorough
 %description of all different trigger algorithms. Trigger and readout window
@@ -678,7 +589,7 @@ Run configuration files list the trigger and DOM configuration files to be
 used for taking data.
 
 The trigger configuration file specifies configuration parameters for all
-trigger components (in-ice, icetop, and global) used in a run.  These include
+trigger components (in-ice, IceTop, and global) used in a run.  These include
 the list of algorithms run by each trigger component, along with readout window
 sizes and any other configurable parameters (frequency, threshold, etc.)
 
@@ -696,6 +607,86 @@ the settings to file with a new name.
 %altered, the modified file is given a new name (often with an incremented
 %``-V\#\#\#'' suffix indicating the version number) to ensure that the exact
 %detector configuration is always discoverable.
+
+\subsubsection{\label{sect:SNDAQ}Supernova Data Acquisition System}
+
+The IceCube DAQ has a parallel triggering and analysis pathway designed
+specifically for the detection of the many $O(10)$ MeV neutrinos from a Galactic
+core-collapse supernova. These neutrinos produce interactions in the
+detector that, individually, are too dim to trigger the standard DAQ, but because of their
+high multiplicity, can cause a coherent rise in the individual hit rate of all
+of the in-ice DOMs~\cite{IC3:supernova}. 
+
+Each DOM monitors its hit rate and sends a stream of binned
+counts, using a bin width of 1.6384~ms ($2^{16}$ 40MHz clock cycles).  An
+artificial deadtime of $250\ {\mu}s$ is applied after each trigger to
+reduce the impact of correlated afterpulses (see
+Sec.~\ref{sect:darknoise}).  Each StringHub
+collects the rate stream of each DOM, supplies UTC timestamps, and
+forwards the streams to the Secondary Builder.  
+
+The supernova DAQ (SNDAQ) system receives the Secondary Builder stream,
+rebins the individual DOM rates, and monitors the sum of rates for a
+significant rise over several timescales.  The analysis is described in
+detail in Ref.~\cite{IC3:supernova}.  One complication is that short-term
+fluctuations in the cosmic ray muon rate can affect the significance
+calculation.  To correct for this, the trigger rate of the standard DAQ is
+continuously sent to SNDAQ, and any significant alert is corrected
+\cite{IC3:icrc15_sndaq}.  At a 
+high significance threshold, the capture of all untriggered data around the
+alert time is initiated using the HitSpool system
+(Sec.~\ref{sect:hitspool}), and the Supernova Neutrino Early Warning
+System (SNEWS) \cite{SNEWS} is notified.
+
+\subsubsection{\label{sect:hitspool}HitSpool Request System}
+
+Subsystems such as SNDAQ can send time interval requests to a HitSpool
+Request daemon to collect raw data from significant transient events. At the time of this writing, the HitSpool Request
+System has three clients with their basic characteristics described in
+Table~\ref{tab:hsclients}. This central daemon passes the request onto
+every hub, where ``worker'' daemons gather the hits in the requested
+time interval from the hubs and forward them to the final ``sender''
+daemon which bundles them up to be transferred to the North for
+further analysis. 
+
+The SNDAQ requests HitSpool data from an asymmetrical
+time window of $90 \,\mathrm{s}$ around a
+supernova trigger with a significance $\xi > 7.65$, and
+data from a symmetrical
+$500\,\mathrm{s}$ window around a trigger with significance $\xi
+> 10.0$. The online High Energy Starting Event
+(HESE) analysis system requests HitSpool data from a
+symmetrical time window of 1~s around events with a total deposited
+charge of greater than 1500~PE.
+The recently implemented HitSpool client for Solar flare analyses is
+triggered externally by significant FERMI-LAT events and requests
+HitSpool data from a
+symmetrical time window of one hour around the trigger
+time. Unlike the other two clients, these data sets
+are not transferred over the satellite due to their size but are stored on
+disk at Pole, with transmission over satellite only allowed in
+extraordinary cases.
+% where the full waveforms can be used
+
+
+\begin{table}
+  \caption{HitSpool data requesting services.} 
+    \centering
+  \footnotesize
+\begin{tabularx}{\textwidth}{XXXXXXX}
+  \toprule
+  Client &  Trigger Threshold & Time Window & Request Length & Raw Data Size & Frequency & Bandwidth \\
+  \midrule
+  SNDAQ & $7.65 \,\xi$ ($10.00 \,\xi$) & $[-30\,\mathrm{s},+60\,\mathrm{s}]$  ($[\pm250 \,\mathrm{s}]$)& $90 \,\mathrm{s}$& ~ $18 \,\mathrm{GB}$& $0.5/\mathrm{week}$ ($0.0006 / \mathrm{week}$)& $1.3 \,\mathrm{GB} / \mathrm{day}$\\
+  HESE & $1500 \,\mathrm{PE} $  ($6000 \,\mathrm{PE} $) & $[\pm0.5\,\mathrm{s}]$& $1\,\mathrm{s}$  &  $~150\,\mathrm{MB}$ &  $4/\mathrm{day}$ ($1/\,\mathrm{month}$) & $0.4\,\mathrm{GB}/\mathrm{day}$  \\
+  Solar Flare & FERMI-LAT & $[\pm30\,\mathrm{min}]$ & $1\,\mathrm{h}$&
+  $~600\,\mathrm{GB}$& $ 7 / \mathrm{year}$& $ 1.7
+  \,\mathrm{GB}/\mathrm{day}$\\
+& significant event & & & & & \\
+\bottomrule
+\end{tabularx}
+\label{tab:hsclients}
+\end{table}
 
 \subsubsection{Distributed Network Control}
 
@@ -758,7 +749,8 @@ the online processing and filtering system.  Next, each DOM's waveform is deconv
 to photons to extract the light arrival time and amplitude information~\cite{IC3:ereco}.  
 This series of time and amplitude light arrival information
 for each DOM is the base for event reconstruction and characterization.  The online processing and filtering system encodes
-this information for each DOM in a compact data format known as the SuperDST, and occupies 9\%  of the file size
+this information for each DOM in a compact data format known as the
+Super Data Storage and Transfer format (SuperDST), and occupies 9\%  of the file size
 of the full waveform information.  This encoding does introduce a small level of discretization error to the
 data in SuperDST format, measured to be 1.1~ns in time and 0.04~PE in charge, and smaller than the calibration
 uncertainties on these values.  Any DOM readout whose SuperDST information is found not to be a good representation of the
@@ -797,7 +789,7 @@ set is saved until final data quality assurance on the SuperDST sample can be co
 \end{enumerate}
 
 During normal operations, the data acquisition system produces a raw data output of $\sim$1 TB of raw data per day, which result in
-a raw data file archive of the same size.  The SuperDST  and filtered data archive, after data compression, are $\sim$170 GB/day and $\sim$90 GB/day,
+a raw data file archive of the same size.  The SuperDST and filtered data archive, after data compression, are $\sim$170 GB/day and $\sim$90 GB/day,
 respectively.
 \subsubsection{System Design}
 
@@ -831,8 +823,9 @@ and send events to file, monitoring and alert writing components.  Typically the
 in operation.
 \item Filter Clients are where the core calibration, reconstruction and filtering processs are applied to each triggered event.  
 In normal operation, up to 500 of these clients operate in parallel to filter events in real time.
-\item DB Dispatch is a DB caching system to prevent the ~400 PFClient processes from overwhelming the 
-DB system when requesting calibration information.  This system aggregates DB requests, makes a single
+\item GCD Dispatch is a database caching system to prevent the ~400 PFClient processes from overwhelming the 
+database system when requesting geometry, calibration and detector
+status (CGD) information.  This system aggregates database requests, makes a single
 database query and shares the results with all PFClients.
 \item File Writers are responsible for creation of files and meta-data for the IceCube data archive.  These
 files are written in standard IceTray file format.  There is one writer component for each file type created.
@@ -905,9 +898,11 @@ at the ITS Iridium modem at the South Pole.  Messages also contain a recipient I
 the message, allowing a many-to-many communications infrastructure between systems running at the South Pole and systems
 in the Northern Hemisphere.  The IceCube Messaging System (I3MS) incorporates multiple Iridium modems and uses the Iridium RUDICS
 data mode, providing a 2.4 kbit/s bidirectional serial stream per modem and a minimum latency of $\sim$1.5 seconds.
-I3MS runs as a daemon on both ends of the link, accepts messages via ZeroMQ, and transports those messages across the link
-based on message priority and fair sharing of bandwidth among all users.  I3MS message recipients listen for messages
-using ZeroMQ PUB-SUB, allowing a given message to be sent to multiple recipients.
+I3MS runs as a daemon on both ends of the link, accepts messages via
+the ZeroMQ  distributed messaging protocol, and transports those messages across the link
+based on message priority and fair sharing of bandwidth among all
+users. I3MS message recipients listen for messages
+using ZeroMQ publish-subscribe (PUB-SUB), allowing a given message to be sent to multiple recipients.
 
 %\textsl{Generation description of system architecture.  Stream definitions, dropboxes,
 %and data pickup.  Archival vs. transfer to TDRSS system.  }
@@ -936,18 +931,18 @@ relay server. If satellite transmission is not possible, the jade software will 
 unnecessarily.
 
 
-Small files ($<$50 KB) with high priority status information are sent via the real-time link. The real-time link is provided by the IceCube Messaging Service
-(I3MS). The jade software uses JeroMQ, a pure Java implementation of the ZeroMQ (ZMQ) protocol, to connect to I3MS. In cases where the real-time link is not
+Small files ($<$50 KB) with high priority status information are sent
+via the real-time link. The real-time link is provided by the I3MS. The jade software uses JeroMQ, a pure Java implementation of the ZeroMQ protocol, to connect to I3MS. In cases where the real-time link is not
 available, I3MS will queue the messages to be sent when the link becomes available. All I3MS messages are also sent to jade to send via the satellite link to
 ensure delivery if the real-time link should be unavailable for an extended period of time.
 
-\subsection{\label{sec:online:icecubelive}IceCube-Live and Remote Monitoring}
+\subsection{\label{sec:online:icecubelive}IceCube Live and Remote Monitoring}
 
 IceCube operations are controlled and monitored centrally by
-IceCube-Live, a suite of high-level software implemented mostly in the
+IceCube Live, a suite of high-level software implemented mostly in the
 Python programming language.
-IceCube-Live consists of two major components: LiveControl, responsible for controlling data-taking operations and
-collecting monitoring data, and the IceCube-Live website, responsible for processing and storing monitoring data as well as presenting this data
+IceCube Live consists of two major components: LiveControl, responsible for controlling data-taking operations and
+collecting monitoring data, and the IceCube Live website, responsible for processing and storing monitoring data as well as presenting this data
 in webpages and plots that characterize the state of the IceCube detector.
 
 \subsubsection{LiveControl}
@@ -955,7 +950,7 @@ in webpages and plots that characterize the state of the IceCube detector.
 LiveControl executes in the background as a daemon and accepts user input via XML-RPC.
 Operators typically enter commands and check the basic detector status using a command-line interface.  LiveControl is
 responsible for controlling the state of DAQ and online-processing, starting and stopping data-taking runs, and recording
-the parameters of these runs.  Stardard operation is to request a run start, supplying a configuration file specifying the DOMs to include in
+the parameters of these runs.  Standard operation is to request a run start, supplying a configuration file specifying the DOMs to include in
 data taking.  LiveControl then records the run number, configuration, start time, etc. and sends a request for DAQ to
 begin data taking.  After data taking commences successfully, LiveControl waits a specified amount of time, generally eight
 hours, then stops the current run and automatically starts a new run using the same configuration.  This cycle continues until
@@ -973,9 +968,10 @@ quantities indicate serious problems with the detector, e.g. the online-processi
 values indexed by service and data name and raises an alert if the value is out of the specified range or hasn't been received in a specified amount of time.
 The alert usually includes an email to parties responsible for the affected subsystem and, for serious problems, triggers an automated page to winterover operators.
 Several other types of monitoring data trigger a response by LiveControl.  These include alerts generated internally by subsystems, and such alerts may trigger emails
-and pages from LiveControl.  All monitoring data are forwarded to the IceCube-Live website for further processing and display.
+and pages from LiveControl.  All monitoring data are forwarded to the
+IceCube Live website for further processing and display.
 
-\subsubsection{IceCube-Live Website}
+\subsubsection{IceCube Live Website}
 
 \begin{table}[!ht]
 \begin{tabular}{|c|c|c|c|c|}
@@ -993,20 +989,22 @@ Priority & Transport System & Daily Messages & Daily Data & Typical Latency\\
 \label{i3messages}
 \end{table}
 
-Two operational copies of the IceCube-Live website exist: one inside the IceCube network at the South Pole, and
+Two operational copies of the IceCube Live website exist: one inside the IceCube network at the South Pole, and
 one in the Northern Hemisphere.  Monitoring data reaches the northern website based on priority and using
 both geosynchronous and Iridium data transport, summarized in table \ref{i3messages}.
 
 Messages reaching the website are processed by the DBServer daemon and inserted into one of several database tables depending on content.
 Messages also may contain directives requesting DBServer to send email, by specifying email recipients and content,
-or requesting that the monitoring message be published using ZeroMQ PUB-SUB, allowing the message to be passed to an external process.  The IceCube-Live
+or requesting that the monitoring message be published using ZeroMQ
+PUB-SUB, allowing the message to be passed to an external process.
+The IceCube Live
 website itself uses the Django framework and contains pages that create sophisticated views of monitoring data stored in the database.
 These pages include a front page displaying active alerts and plots of event rates and processing latencies from the previous few hours, and
 a page for each run that displays start time, stop time, and other essential data.  The run page contains low-level diagnostic data that
 includes e.g. charge histograms, digitizer baselines, and occupancy for each DOM, and is used to diagnose problems with detector components
 that occurred during the run and to determine if the run can be used in physics analysis.
 
-Finally, the IceCube-Live website in the Northern Hemisphere transmits messages to LiveControl using ITS and I3MS.  This capability is used to retransmit
+Finally, the IceCube Live website in the Northern Hemisphere transmits messages to LiveControl using ITS and I3MS.  This capability is used to retransmit
 messages sent using the Slack chat service to the South Pole, allowing the IceCube winterover operators to chat with
 experts in the Northern Hemisphere during periods with no geosynchronous satellite connectivity.  This connection also provides a limited
 capability to control the detector, for example allowing operators in the north to remotely issue HitSpool requests.
