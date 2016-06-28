@@ -18,8 +18,8 @@ freeze-in in the deep ice and a previous successful demonstration of the
 digitally-readout optical modules contained within the AMANDA detector.
 
 The cable system comprises the following assemblies: the in-ice cable,
-the surface junction box (SJB), the surface cable, the ICL in-ice quad patch
-cable and the IceTop cables. The in-ice cable, 2505~m long, is deployed
+IceTop cables, the surface junction box (SJB), the surface cables, and the patch
+cables. The in-ice cable, 2505~m long, is deployed
 into the ice along with 60 DOMs that are attached to connectors at 30
 breakouts spaced 34~m apart. Each pair of DOMs is connected to a unique
 single twisted wire pair. Wire pairs are combined into a 4 conductor quad
@@ -35,8 +35,7 @@ in the SJB. The surface cable is trenched 1~m deep into the
 surface of the snow between the IceTop tank pit and the ICL. The surface
 cables vary in length from 300~m to approximately 800~m in length depending on hole location. The surface cables are
 pulled into the ICL and terminate at a patch rack where the individual
-quads are separated and connected to ICL In-Ice quad patch cables or Icetop
-patch cables that finally terminate at the DOMHub or IceTop DOMHub. Each
+quads are separated and connected to patch cables that finally terminate at the DOMHub or IceTop DOMHub. Each
 DOMHub services a single in-ice string (see
 Fig.~\ref{fig:icecube-cables-logical}). 
 
@@ -66,22 +65,22 @@ cable are stated in Table ~\ref{tab:quad_requirements}.
 
     attenuation & 20 dB maximum & at 1.0 MHz end-to-end \\
     \hline
+%
+ %   crosstalk attenuation & intra-quad \& quad-quad & \\
+  %  \hline
 
-    crosstalk attenuation & intra-quad \& quad-quad & \\
+   Near end & 50 dB minimum & at 100 kHz \\
+    \cline {2-3}
+   %  & 50 dB minimum at 2.0 MHz & decreasing 15 dB / decade \\
+    \cline {2-3}
+   cross talk & 24 dB minimum & at 2 MHz \\
     \hline
 
-    & 50 dB minimum & 100 kHz to 2.0 MHz \\
+    Far end & 30 dB minimum & at 100 kHz\\
     \cline {2-3}
-    NEXT & 50 dB minimum at 2.0 MHz & decreasing 15 dB / decade \\
+    %ELFEXT & 30 dB minimum at 2.0 MHz & decreasing 20 dB / decade \\
     \cline {2-3}
-    & 24 dB minimum & at 100 MHz \\
-    \hline
-
-    & 30 dB minimum & 100 kHz to 2.0 MHz \\
-    \cline {2-3}
-    ELFEXT & 30 dB minimum at 2.0 MHz & decreasing 20 dB / decade \\
-    \cline {2-3}
-    & 10 dB minimum & at 20 MHz \\
+    cross talk& 10 dB minimum & at 2 MHz \\
     \hline
 
     differential impedance & $145\Omega \pm 10\Omega$ & at 1.0 MHz \\
@@ -90,7 +89,7 @@ cable are stated in Table ~\ref{tab:quad_requirements}.
     loop resistance & $160\Omega$ maximum & \\
     \hline
 
-    hipot & 2000 VDC minimum, 1.0 $\mu A$ maximum leakage, 60 second
+    Dielectric breakdown & 2000~VDC minimum, 1.0~$\mu A$ maximum leakage, 60~second
     minimum duration & all conductors individually tested with all other
     conductors grounded \\
     \hline    
@@ -102,7 +101,7 @@ cable are stated in Table ~\ref{tab:quad_requirements}.
  The in-ice cable was also required to be less than 50~mm in
  diameter, weigh less than 2~kg / m, have a minimum bend radius of 40~cm,
  carry a maximum static tensile load of 10~kN, and have a breaking strength
- of 40~kN. The final Surface to DOM design can be seen in
+ of 40~kN. The Surface to DOM cable cross section can be seen in
  Fig.~\ref{fig:cable_xsection}.  
 
 \begin{figure}
@@ -114,13 +113,10 @@ cable are stated in Table ~\ref{tab:quad_requirements}.
 
 The cable includes 20 quads, 2 polyethylene fillers to maintain structural
 symmetry, Kevlar outer and inner core strength members, a copper foil
-shield with drain wires to provide electrical noise isolation and water
+shield with drain wires to provide electrical noise isolation and a water
 block that prevented any water or ice from damaging the symmetry of the
-cable. The surface cable has a similar construction to the
-in-ice cable with the exception of the water block and Kevlar
-strength members. In addition, a bundle of 3 shielded quads and a bundle of
-6 shielded power wires replace the inner Kevlar strength member and service
-the IceTop Station that is made up of 2 tanks, each with 2 DOMs.
+cable. The surface cable has a similar construction to the in-ice
+cable with 2 exceptions: 1) the inner Kevlar strength member was replaced with additional conductors needed to service the IceTop tanks and 2) the water block was not needed since the surface cable was never immersed in water. 
 
 A competitive proposal process resulted in 2 main suppliers for the IceCube
 cable system. Ericsson Network Technologies (Hudiksvall, Sweden) was chosen
@@ -162,9 +158,9 @@ appropriate quad located in center of the surface cable. Two additional
 cables were connected between the SJB and the tanks that powered and
 communicated with the IceTop freeze control units. The in-ice cable
 was prepared for installation while the enhanced hot water drill was coming
-up the hole in its reaming phase (see Section~\ref{sec:hot_water_drilling}). After removal of the drill head, the
+up the hole in its reaming phase (see Sec.~\ref{sec:hot_water_drilling}). After removal of the drill head, the
 in-ice cable was pulled into the drill tower and DOM deployment
-commenced as described in Section~\ref{sec:deployment_inst}. After DOM deployment was complete, the
+commenced as described in Sec.~\ref{sec:deployment_inst}. After DOM deployment was complete, the
 surface to DOM cable was taken off the spool and dragged to the IceTop
 station where its connection to the surface cable in the SJB was
 made. Finally, patch cables were installed in the ICL between the
