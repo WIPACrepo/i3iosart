@@ -10,22 +10,23 @@
 
 The IceCube detector may be viewed as a digital network of optical
 sensors. The IceCube cable systems form the physical backbone of this
-network, supplying simultaneously power to the DOMs and bi-directional
+network, simultaneously supplying power to the DOMs and bi-directional
 digital communications between the DOMs and the readout hardware at the
 surface. Copper was chosen over optical fiber at an early stage in the
 project due to concerns with mechanical robustness of fiber during
 freeze-in in the deep ice and a previous successful demonstration of the
-digitally-readout optical modules contained within the AMANDA detector.
+digital-readout optical modules contained within the AMANDA detector
+\cite{AMANDA:string18}. 
 
 The cable system comprises the following assemblies: the in-ice cable,
 IceTop cables, the surface junction box (SJB), the surface cables, and the patch
 cables. The in-ice cable, 2505~m long, is deployed
 into the ice along with 60 DOMs that are attached to connectors at 30
 breakouts spaced 34~m apart. Each pair of DOMs is connected to a unique
-single twisted wire pair. Wire pairs are combined into a 4 conductor quad
-cable that enables its meeting electrical performance requirements. The 60
+single twisted wire pair. Wire pairs are combined into a 4-conductor quad
+cable meeting stringent electrical performance requirements. The 60
 DOMs on each cable require 15 quads. An additional 5 quads in the
-in-ice cable provide for special instrumentation connections, a spare quad
+in-ice cable provide for special instrumentation connections, a spare quad,
 and local coincidence connections between adjacent DOMs. The in-ice
 cable terminates at the SJB, located
 in the IceTop tank pit. The SJB is a stainless steel
@@ -34,9 +35,9 @@ connections. IceTop cables also terminate and connect to the surface cable
 in the SJB. The surface cable is trenched 1~m deep into the
 surface of the snow between the IceTop tank pit and the ICL. The surface
 cables vary in length from 300~m to approximately 800~m in length depending on hole location. The surface cables are
-pulled into the ICL and terminate at a patch rack where the individual
-quads are separated and connected to patch cables that finally terminate at the DOMHub or IceTop DOMHub. Each
-DOMHub services a single in-ice string (see
+pulled into the ICL and terminate at patch panels where the individual
+quads are separated and connected to patch cables that finally terminate at the DOMHub. Each
+DOMHub services a single in-ice string or 8 IceTop stations (see
 Fig.~\ref{fig:icecube-cables-logical}). 
 
 \begin{figure}
@@ -46,14 +47,13 @@ Fig.~\ref{fig:icecube-cables-logical}).
 \end{figure}
 
 The IceCube cable system design had to meet a technically challenging
-variety of mechanical, electrical and functional requirements in order for
-IceCube to meet its science objectives. The cable
-system design had to satisfy these requirements under the extreme
-conditions of installation at the South Pole. This is particularly the case
-for the in-ice cable that had to withstand hydrostatic
-overpressures of up to 450~bar while deployed. Handling temperatures were specified down to $-40$~C for all
-cable components. The main electrical requirements which were applied to the quad
-cable are stated in Table ~\ref{tab:quad_requirements}.
+variety of mechanical, electrical and functional requirements, under the extreme
+conditions of installation at the South Pole, in order for
+IceCube to meet its science objectives.  In particular, the in-ice cable
+was required to withstand hydrostatic overpressures of up to 450~bar during
+deployment.  Handling temperatures were specified down to $-40$~C for all 
+cable components.  The primary electrical requirements for the quad
+cables are provided in Table ~\ref{tab:quad_requirements}.
 
 % FIX ME CLEAN UP TABLE
 \begin{table}[h]
@@ -101,68 +101,71 @@ cable are stated in Table ~\ref{tab:quad_requirements}.
  The in-ice cable was also required to be less than 50~mm in
  diameter, weigh less than 2~kg / m, have a minimum bend radius of 40~cm,
  carry a maximum static tensile load of 10~kN, and have a breaking strength
- of 40~kN. The Surface to DOM cable cross section can be seen in
+ of 40~kN. The in-ice cable cross section can be seen in
  Fig.~\ref{fig:cable_xsection}.  
 
 \begin{figure}
   \centering
   \includegraphics[width=0.5\textwidth]{graphics/cables/cable_xsection.png}
-  \caption{\label{fig:cable_xsection}Surface to DOM Cable cross
-    section. Nominal 46mm diameter with cable mass of 2 kg/m.} 
+  \caption{\label{fig:cable_xsection}In-ice cable cross
+    section, with a nominal 46mm diameter and mass of 2 kg/m.} 
 \end{figure}
 
-The cable includes 20 quads, 2 polyethylene fillers to maintain structural
+The in-ice cable includes 20 quads, 2 polyethylene fillers to maintain structural
 symmetry, Kevlar outer and inner core strength members, a copper foil
-shield with drain wires to provide electrical noise isolation and a water
-block that prevented any water or ice from damaging the symmetry of the
+shield with drain wires to provide electrical noise isolation, and a water
+block that prevented water or ice from damaging the symmetry of the
 cable. The surface cable has a similar construction to the in-ice
-cable with 2 exceptions: 1) the inner Kevlar strength member was replaced with additional conductors needed to service the IceTop tanks and 2) the water block was not needed since the surface cable was never immersed in water. 
+cable with two exceptions: first, the inner Kevlar strength member was replaced
+with additional conductors needed to service the IceTop tanks; and second, the
+water block was not needed, since the surface cable was never immersed in
+water.  
 
-A competitive proposal process resulted in 2 main suppliers for the IceCube
-cable system. Ericsson Network Technologies (Hudiksvall, Sweden) was chosen
-to produce the raw cable and Seacon Brantner \& Associates Inc. (El Cajon,
-California) was chosen to manufacture the actual cable assemblies. The raw
+A competitive proposal process resulted in two main suppliers for the IceCube
+cable system.  Ericsson Network Technologies (Hudiksvall, Sweden) was chosen
+to produce the raw cable, and Seacon Brantner \& Associates Inc. (El Cajon,
+California) was chosen to manufacture the cable assemblies. The raw
 cable was manufactured and tested to meet all required specifications prior
-to shipment. The longer Surface to DOM Cables were then
-wound on to custom metal spools while the shorter Surface Cables were wound
+to shipment.  The in-ice cables were then
+wound on to custom metal spools, while the shorter surface cables were wound
 onto wooden spools. Seacon provided the breakouts
-and the end termination for the in-ice Cable and the end
-terminations for the surface cable. Seacon glass reinforced epoxy XSJJ
+and the end termination for the in-ice cable and the end
+terminations for the surface cable. Seacon glass-reinforced epoxy XSJJ
 connectors were used for the in-ice
 cable to DOM interface. The 30 breakouts per in-ice cable were installed by
 slicing open the cable, cutting the correct quads, terminating them to the
-XSJJ connectors, waterproofing and overmolding the connectors and then
+XSJJ connectors, waterproofing and overmolding the connectors, and then
 resealing the cable. Seacon also
 attached 120 Yale Cordage (Saco, Maine) Yalegrips to the in-ice
 cable that served as mechanical attachment points for the 60 deployed DOMs
 per cable. The separate quads in each cable were terminated with military
 style (MS) round, metal shell connectors. After cable assembly was complete,
 each cable was individually tested for continuity and subject to high
-potential (hipot)
-testing. 
+potential (hipot) testing. 
 
 Installation of the IceCube Cable System at the South Pole each season was
-broken into 5 distinct tasks: surface cable trenching and
-installation into the ICL and SJB, in-ice cable deployment and
-connection to the SJB, IceTop power and data installation at the ICL and
-IceTop trench, patch cable installation in the ICL, and testing,
+broken into five distinct tasks: surface cable trenching and
+installation into the ICL and SJB; in-ice cable deployment and
+connection to the SJB; IceTop power and data installation at the ICL and
+IceTop trench; patch cable installation in the ICL; and testing,
 troubleshooting and repair after all connections were made. Surface cables
-were installed early in the season as IceTop freeze control operations
+were installed early in the season, as IceTop tank freeze control operations
 required a connection back to the ICL. A 1~m deep trench was mechanically
 dug between the ICL and each IceTop station. After the cable was placed in
 the trench, it was pulled into the ICL and connected to the IceTop
 DOMHub. Later, just prior to filling the tanks with water in the field, the
-connections were made between the Surface Cable and the SJB. The IceTop
+connections were made between the surface cable and the SJB. The IceTop
 DOMs with their long 17~m penetrator assemblies were connected to the
-appropriate quad located in center of the surface cable. Two additional
-cables were connected between the SJB and the tanks that powered and
-communicated with the IceTop freeze control units. The in-ice cable
-was prepared for installation while the enhanced hot water drill was coming
-up the hole in its reaming phase (see Sec.~\ref{sec:hot_water_drilling}). After removal of the drill head, the
-in-ice cable was pulled into the drill tower and DOM deployment
-commenced as described in Sec.~\ref{sec:deployment_inst}. After DOM deployment was complete, the
-surface to DOM cable was taken off the spool and dragged to the IceTop
-station where its connection to the surface cable in the SJB was
+appropriate quad located in the center of the surface cable. Two additional
+cables were connected between the SJB and the tanks that provided power and
+communications to the IceTop freeze control units. The in-ice cable
+was prepared for installation while the Enhanced Hot Water Drill was coming
+up the hole in its reaming phase (see
+Sec.~\ref{sec:hot_water_drilling}). After removal of the drill head, the 
+in-ice cable was pulled into the drill tower, and DOM deployment
+commenced as described in Sec.~\ref{sec:deployment_inst}. After DOM
+deployment was complete, the in-ice cable was taken off the spool and
+dragged to the IceTop station where its connection to the surface cable in the SJB was
 made. Finally, patch cables were installed in the ICL between the
-individual quads and the DOMHub in the ICL. End to end string commissioning
+individual quads and the DOMHub in the ICL. End-to-end string commissioning
 now commenced.
