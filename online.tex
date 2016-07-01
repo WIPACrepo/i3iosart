@@ -14,12 +14,6 @@ continuation of basic data acquisition. Additionally, all systems are
 monitored with a combination of custom-designed and industry-standard tools
 so that detector operators can be alerted in case of abnormal conditions.
 
-Data-taking runs are arbitrarily divided into 8-hour periods and assigned
-a unique run number; data acquisition need not actually pause during
-this transition.  Detector configuration parameters that affect physics
-analyses are changed at most once a year, indicating the start of a new
-``physics run''.   
-
 \subsection{\label{sect:online:dataflow}Data Flow Overview}
 
 The online data flow consists of a number of steps of data reduction and
@@ -55,7 +49,7 @@ seasonally with the atmospheric muon flux from 2.5 to 2.9 kHz,
 and the total DAQ data rate is approximately 1~TB/day.
 
 The DAQ also produces secondary streams that include time calibration,
-monitoring, and DOM scaler data.  The scaler data, which monitorings the
+monitoring, and DOM scaler data.  The scaler data, which monitors the
 noise rate of each DOM in 1.6 ms bins, is used in the supernova data
 acquisition system (Sec.~\ref{sect:SNDAQ}) to detect a global rise in the
 noise rate from many $O(10)$ MeV neutrino interactions occurring in the ice
@@ -81,6 +75,12 @@ tape or disk, as well as the handoff of satellite data
 but also monitoring data, calibration runs, and other data streams.
 Experiment control and detector monitoring are handled by the IceCube Live
 software system, described in Sec.~\ref{sec:online:icecubelive}.
+
+Data-taking runs are arbitrarily divided into 8-hour periods and assigned
+a unique run number; data acquisition need not actually pause during
+this transition.  Detector configuration parameters that affect physics
+analyses are changed at most once a year, indicating the start of a new
+``physics run''.   
 
 \subsection{\label{sect:sps}SPS and SPTS}
 
@@ -123,10 +123,10 @@ card, the DOMHub Service Board (DSB), is responsible for GPS timing fanout
 The SPS computers are connected via a 48 Gbps switch that in turn fans out
 to switches in each DOMHub rack; the DOMHub switches are connected with
 dual bonded 10 Gbps links.  The hubs and servers are connected to local
-switches with dual bonded 1 Gpbs links.  Typical network I/O during
+switches with dual bonded 1 Gbps links.  Typical network I/O during
 data-taking for the DAQ event builder (see
-Sec.~\ref{sect:online:evbuilder}) is $\sim30$ MBps in each direction, while
-the master PnF node sees 25 MBps in and 80 MBps out.
+Sec.~\ref{sect:online:evbuilder}) is $\sim240$ Mbps in each direction, while
+the primary PnF server node sees 200 Mbps in and 640 Mbps out.
 
 Redundancy and continuous monitoring of SPS is one of the keys to a high
 detector livetime (Sec.~\ref{sec:operational_performance}).  Nagios
@@ -230,9 +230,16 @@ each DOM for read/write access by higher-level software.
 
 \subsection{Data Acquisition Software}
 
-IceCube's data acquisition (DAQ) software system is a set of components running on
-dedicated servers in the ICL.  Hits are read from the DOMs by the
-StringHub components, and a minimal representation of each HLC hit is
+IceCube's data acquisition (DAQ) system is a set of software components
+running on the DOMHubs and dedicated servers in the ICL.  These components are shown in
+Fig.~\ref{fig:online_dataflow} and include StringHub, Trigger, Event
+Builder, Secondary Builder, and a Command and Control server.  The DAQ is
+responsible for detecting patterns of hits in the detector likely to be
+caused by particle interactions and storing these collections of hits as
+``events''.
+
+Hits are read from the DOMs by the
+StringHub components running on each DOMHub, and a minimal representation of each HLC hit is
 forwarded to the ``local'' Trigger components (either in-ice or IceTop.)
 The ``local'' Trigger components run these hits through a
 configurable set of algorithms and form windows around interesting temporal
@@ -377,7 +384,7 @@ the normalized velocity difference, defined as
 \end{equation}
 
 \noindent where $\ v_{ij} = \Delta x_{ij}/\Delta t_{ij}$, must be less than
-or equal to a pre-definined maximum value
+or equal to a predefined maximum value
 $v_{\mathrm{rel}}^{\mathrm{max}}$.  Fig.~\ref{fig:slop} shows the geometry
 parameters of the 3-tuple.  Finally, the total number of track-like 3-tuples
 must be greater than or equal to $N_{\mathrm{tuple}}$. 
@@ -736,12 +743,12 @@ components include:
   alert writing components.  Typically there are 4 servers used in
   operation.
 \item Filter Clients, where the core calibration, reconstruction and
-  filtering processs are applied to each triggered event.  In normal
+  filtering processes are applied to each triggered event.  In normal
   operation, up to 500 of these clients operate in parallel to filter
   events in real time.
 \item GCD Dispatch, a database caching system to prevent the
   Filter Client processes from overwhelming the database system when requesting
-  geometry, calibration and detector status (CGD) information.  
+  geometry, calibration and detector status (GCD) information.  
 \item File Writers, responsible for creation of files and metadata for
   the data archive.  There is one writer component for each file type created.
 \item Online Writer, responsible for extracting event reconstruction and
@@ -882,7 +889,7 @@ All of the archival data is buffered on the server until the archival media
 is complete. In case of media failure, all of the files can be 
 immediately written to new archival media with a single command.
 
-Data streams intenteded to satellite transfer are queued separately.  
+Data streams intended to satellite transfer are queued separately.  
 JADE bundles multiple smaller files or splits large files to create $\sim1$
 GB chunks, allowing satellite link operators to manage the daily data
 transmission.  A configurable number of bundles is then transferred to the
@@ -991,7 +998,7 @@ start/stop component or remotely issue HitSpool requests.
 
 Detector operational uptime is highly valued, in order to remain
 sensitive to rare astrophysical transient events.  Many redundancies and
-failsafes have been implemented, allowing average detector uptimes of greater
+failsafes have been implemented, allowing an average detector uptime of greater
 than 99\%.  All DOMHubs and servers are equipped with redundant power
 supplies; these are in turn connected to redundant UPSes.   This backup battery
 power allows the detector to remain fully operational for $\sim15$ minutes in the
