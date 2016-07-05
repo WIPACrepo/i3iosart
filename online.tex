@@ -240,11 +240,11 @@ caused by particle interactions and storing these collections of hits as
 
 Hits are read from the DOMs by the
 StringHub components running on each DOMHub, and a minimal representation of each HLC hit is
-forwarded to the ``local'' Trigger components (either in-ice or IceTop.)
-The ``local'' Trigger components run these hits through a
+forwarded to the Subtrigger components (either in-ice or IceTop.)
+The Subtrigger components run these hits through a
 configurable set of algorithms and form windows around interesting temporal
 and/or spatial patterns.  These time windows are collected by the
-``global'' Trigger and used to form non-overlapping trigger requests.
+Global Trigger and used to form non-overlapping trigger requests.
 The trigger requests are used by the Event Builder component as templates
 to gather the complete hit data from each StringHub and assemble the final
 events.
