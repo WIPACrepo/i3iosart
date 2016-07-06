@@ -240,11 +240,11 @@ caused by particle interactions and storing these collections of hits as
 
 Hits are read from the DOMs by the
 StringHub components running on each DOMHub, and a minimal representation of each HLC hit is
-forwarded to the ``local'' Trigger components (either in-ice or IceTop.)
-The ``local'' Trigger components run these hits through a
+forwarded to the Subtrigger components (either in-ice or IceTop.)
+The Subtrigger components run these hits through a
 configurable set of algorithms and form windows around interesting temporal
 and/or spatial patterns.  These time windows are collected by the
-``global'' Trigger and used to form non-overlapping trigger requests.
+Global Trigger and used to form non-overlapping trigger requests.
 The trigger requests are used by the Event Builder component as templates
 to gather the complete hit data from each StringHub and assemble the final
 events.
@@ -959,12 +959,13 @@ both geosynchronous and Iridium data transport, summarized in Table
 \ref{i3messages}.
 
 \begin{table}[!ht]
-\begin{tabular}{|c|c|c|c|c|}
-\hline Priority & Transport System & Daily Messages & Daily Data & Typical
-Latency\\ \hline 1 & ITS (Iridium) & 10,000 & 1 MB & 1 minute \\ \hline 2 &
-I3MS (Iridium) & 150,000 & 5 MB & 1--5 minutes \\ \hline 3 & JADE
-(Geosynchronous) & 300,000 & 100 MB & 1 day \\ \hline
-\end{tabular}
+\begin{tabularx}{\textwidth}{|c|c|X|X|X|}
+  \hline Priority & Transport System & Messages/day~ & Data/day & Latency\\
+  \hline 1 & ITS (Iridium) & 10,000 & 1 MB & 1 min. \\
+  \hline 2 & I3MS (Iridium) & 150,000 & 5 MB & 1--5 min. \\
+  \hline 3 & JADE (Geosynchronous) & 300,000 & 100 MB & 1 day \\
+  \hline
+\end{tabularx}
 \caption{Typical data volume and latencies for IceCube Live monitoring
   messages.} 
 \label{i3messages}
