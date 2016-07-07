@@ -7,16 +7,16 @@
 
 % \subsection{IceCube Science}
 Construction of an observatory to examine celestial phenomena using
-neutrinos was first conceived not long after Pauli first theorized the
+neutrinos was first conceived not long after Pauli theorized the
 particle's existence.  In the six decades following the experimental
 discovery of the neutrino by Cowan and Reines, detectors have been realized
-that have steadily progressed toward the goal of multimessenger neutrino
+that have steadily progressed toward the goal of neutrino
 astronomy.  Early developments in the field include the first detections of
 atmospheric neutrinos in deep underground telescopes \cite{Witwatersrand,KGF} and
 radiochemical neutrino detectors characterizing the flux of neutrinos from
 nuclear fusion in the Sun \cite{Homestake, GALLEX}. A handful of neutrino
 events were detected from supernova SN1987A
-\cite{SK1987A,IMB1987A,BUST1987A}, providing the first glimpse of neutrino
+\cite{SK1987A,IMB1987A,BUST1987A}, providing the first glimpse of neutrinos
 from outside the solar system.  Advanced
 atmospheric and solar neutrino observatories provided definitive
 evidence of neutrino mass and constrained neutrino mixing
@@ -31,11 +31,12 @@ extreme dimensions to detect the faint fluxes of these weakly-interacting
 particles.  The motivations for such massive observatories are numerous, however.
 Neutrinos, because of their weak neutral character, are useful probes of high
 energy phenomena in the Universe. Unlike photons, their origins in astrophysical
-acceleration sites unambiguously point to hadronic acceleration and
-provide identification of the origins of cosmic rays. They arrive upon detection
-undeflected and unscattered and thus point back to their originators and provide
-a clear view of the physics deep within shrouded and compact sources. At extreme
-energies of several PeV and above, they are the only particles which can reach 
+acceleration sites unambiguously indicate hadronic acceleration and
+provide identification of the origins of cosmic rays. Neutrinos arrive 
+undeflected and unscattered upon detection and thus point back to their
+originators, providing
+a clear view of the physics deep within shrouded and compact sources. At
+the most extreme energies, they are the only particles that can reach 
 us from sources at cosmological distances.
 
 Progress toward large-scale neutrino observatories using arrays of
@@ -47,25 +48,26 @@ astrophysical neutrino production, and demonstrated the feasibility of the
 technique. However, the detection of astrophysical neutrinos proved
 elusive, suggesting that a kilometer-scale array was required to achieve the necessary sensitivity.  
 
-The primary mission of the IceCube Neutrino Observatory has 
-been the discovery of astrophysical neutrinos, achieved in 2013 \cite{IC3:evidence}, and 
-idenfitication and characterization of the sources.  Other diverse science
+The IceCube Neutrino Observatory is a cubic-kilometer neutrino detector
+built into the glacial ice at the South Pole, with construction completed
+in 2011.  Its primary scientific objective has been the discovery of
+astrophysical neutrinos, achieved in 2013 \cite{IC3:evidence}, and  
+idenfitication and characterization of their sources.  Other diverse science
 objectives include detection of dark matter and other exotic particles,
 studies of neutrino oscillation physics, and detection of the neutrino shockwave
 from a Galactic core-collapse supernova.  A robust multi-messenger collaboration
 with optical, gamma-ray, radio, and gravitational wave observatories
-provides multiple windows on the potential neutrino sources.  A key to
+provides multiple windows onto the potential neutrino sources.  A key to
 the success of these initiatives is the reliability and performance of the
 IceCube instrumentation, as well as the flexibility and stability of the
 online software systems.  
 
 \subsection{A Functional Description of the IceCube Instrument}
 
-In order to observe astrophysical neutrinos, the primary science goal of the
-experiment, IceCube exploits the fact that charged particles moving through the
+In order to detect neutrinos, IceCube exploits the fact that charged
+particles resulting from neutrino interaction and moving through the
 ice at super-luminal speed emit Cherenkov photons. An enormous detection volume
-is required due to the small cross-sections of neutrinos for producing
-secondary charged particles in interactions with ordinary matter. The glacial
+is required due to the small cross-section of neutrinos with ordinary matter. The glacial
 ice cap at the South Pole is about \SI{3}{\kilo\meter} thick and is an ideal
 operational site, since it not only offers a large quantity of interaction
 material but also a medium with excellent optical qualities.  With a
@@ -77,17 +79,17 @@ ice with a rather sparse spacing of detectors.
 
 The basic detection unit in IceCube in order to capture the Cherenkov light is the
 digital optical module (DOM), covered in detail in Sec.~\ref{sec:dom}.
-Encapsulated in a \SI{1/2}{''} thick glass pressure sphere 
+Encapsulated in a \SI{1/2}{''}-thick glass pressure sphere 
 to withstand the extreme pressure in the deep ice, the main components of a DOM
-are a \SI{10}{''} PMT, embedded high-voltage generation, a flasher calibration
-board, and a mainboard containing the analog and digital processing circuitry
+are a \SI{10}{''} PMT, embedded high-voltage generation, an LED Flasher 
+Board, and a Main Board containing the analog and digital processing circuitry
 for PMT pulses.  The transmission of the digital data is controlled by an FPGA
-and embedded processor hosted on the mainboard. The digitized data is sent to a
+and embedded processor hosted on the mainboard. The digitized data are sent to a
 central computing facility at the surface via a cable system described in
 Sec.~\ref{sec:cable}.  Aspects of detector deployment and ice drilling are
 covered in Sec.~\ref{sec:drill-deploy}. An overview of the data flow as well as
 its readout, processing and filtering are presented in
-Sec.~\ref{sec:online}, along with data handling, monitoring, and operational performance of
+Sec.~\ref{sect:online}, along with data handling, monitoring, and operational performance of
 the observatory. The IceCube instrument consists of three sub-detectors ---
 IceCube, DeepCore, and IceTop --- using the same instrumentation design of
 DOMs and associated surface readout. A schematic layout of the array is
@@ -124,7 +126,7 @@ the vertex and an outgoing muon that emits a Cherenkov cone along its
 track.  The angular reconstruction of such a muon track and hence the
 incident neutrino direction can reach a resolution better than
 $\SI{1}{\degree}$, confirmed by analysis of the Moon shadow
-\cite{IC3:moon}. Energy loss above the minimum-ionizing regime, typically $ \sim
+in cosmic rays \cite{IC3:moon}. Energy loss above the minimum-ionizing regime, typically $ \sim
 \SI{1}{\tera\electronvolt}$ in IceCube, is dominated by stochastic
 processes resulting in large fluctuations in the amount of energy deposited
 for different muons of the same energy.  A second class of events are
@@ -133,7 +135,7 @@ flavors, resulting in a more spherical light deposition in the detector.
 Since the total light output of such a cascade is directly proportional to its energy, and
 the cascades are often well-contained in the detector, the neutrino energy
 reconstruction for such events is much more precise than for track-like
-events. The average deposited energy resolution for both event types
+events. The average \textit{deposited} energy resolution for both event types
 combined is $ \sim \SI{15}{\%}$ \cite{IC3:ereco}.
 
 \subsubsection{DeepCore}
@@ -153,7 +155,7 @@ The eight specialized DeepCore strings have a DOM-to-DOM spacing of
 deployed at depths above \SI{2000}{\meter} with a spacing of
 \SI{10}{\meter} to form a veto cap, allowing better rejection of downgoing
 atmospheric muons.  Depths from \SI{2000}{\meter} to \SI{2100}{\meter}
-is not instrumented, as it is a region in the ice of significantly
+are not instrumented, as it is a region in the ice of significantly
 increased optical scattering and absorption (the ``dust layer'').
 
 Six of the DeepCore strings are fully populated with
@@ -166,7 +168,7 @@ from \SI{10}{\giga\electronvolt} to \SI{400}{\tera\electronvolt}
 
 \subsubsection{IceTop}
 
-The air shower array IceTop \cite{ICECUBE:IceTop} consists of \num{81}
+The cosmic ray air shower array IceTop \cite{ICECUBE:IceTop} consists of \num{81}
 Cherenkov tanks filled with clear ice and arranged in pairs on the
 surface, using approximately the same grid on which the in-ice
 array is deployed.  The two tanks at each surface station are separated from
