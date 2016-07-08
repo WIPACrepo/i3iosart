@@ -286,7 +286,7 @@ calculated using the initial samples of the waveform (Fig.~\ref{fig:rapcal_zero_
 
 \noindent The midpoints $T_C^{\mathrm{DOR,DOM}}$ halfway between $T_\mathrm{tx}^{\mathrm{DOR,DOM}}$ and
 $\tilde{T}_\mathrm{rx}^{\mathrm{DOR,DOM}}$ are identified as synchronous.
-
+aw
 To translate an arbitrary DOM timestamp $t$ to UTC
 time, we use the RAPCal results bracketing $t$ to derive a linear
 relationship
@@ -306,7 +306,8 @@ results:
     T_{C,1}^{\mathrm{DOM}}}\ .
 \end{equation}
 
-\noindent Finally, because the timestamps $T^{\mathrm{DOR}}$ count the offset into
+\noindent The median magnitude of $\epsilon$ is $1.34 \times 10^{-6}$.
+Finally, because the timestamps $T^{\mathrm{DOR}}$ count the offset into 
 the current UTC second, the UTC time offset $\Delta$ of the previous
 1-second boundary, provided by the master clock, is added.
 
@@ -618,20 +619,18 @@ Poissonian expectation of the total dark noise rate to every individual
 DOM.
 
 \begin{figure}
- \begin{minipage}[t]{0.45\linewidth}
- \centering
-  \includegraphics[width=\textwidth]{graphics/dom/performance/darknoise/HitRatevsTemp_inice_nomuons_nofit_bigfont.pdf}
- \caption{Dark noise rate in IceCube as a function of temperature, obtained from untriggered
- data. Each data point represents the average of 12 DOM layers from 78 strings (DeepCore excluded).}
- \label{fig:dom_darknoise_vs_temperature}
- \end{minipage}
-\hfill
- \begin{minipage}[t]{0.45\linewidth}
- \centering
-  \includegraphics[width=\textwidth]{graphics/dom/performance/darknoise/DarkNoise_Layer2Doms.pdf}
+  \centering
+  \includegraphics[width=0.7\textwidth]{graphics/dom/performance/darknoise/HitRatevsTemp_inice_nomuons_nofit_bigfont.pdf}
+  \caption{Dark noise rate in IceCube as a function of temperature, obtained from untriggered
+    data. Each data point represents the average of 12 DOM layers from 78 strings (DeepCore excluded).}
+  \label{fig:dom_darknoise_vs_temperature}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{graphics/dom/performance/darknoise/DarkNoise_Layer2Doms.pdf}
  \caption{Time interval between successive hits for all next-to-top layer DOMs (DeepCore excluded).}
  \label{fig:darknoise_deltaT}
- \end{minipage}
 \end{figure}
 
 The correlated noise component manifests itself in an overabundance of
@@ -689,16 +688,16 @@ supernova scaler stream \cite{IC3:supernova, briedel_phd}, effectively
 the summed dark noise rate of the detector with an artificial deadtime
 applied to reduce the effect of correlated noise. An exponential decay in
 the noise rate is visible; this may be caused by 
-decreasing triboluminescence arising from the `freeze-in`
-procedure of newly deployed DOMs, impurities introduced during the drill
+decreasing triboluminescence arising from the initial `freeze-in`
+of newly deployed DOMs, impurities introduced during the drill
 process, or a combination of the two effects.  The decay
 is especially recognizable in the standard deviation of the scaler
 distribution (Fig.~\ref{fig:noise_over_time_briedel}), which decreases by
 25\% over the course of the three years. Changes in the mean rate are
 initially dominated by the decay component and later by the seasonal
 variation of atmospheric muons.  The noise rate decay is even pronounced
-in strings deployed in the last drill season of IceCube (Fig.~
-\ref{fig:noise_over_time_briedel_lastseasondepoyed}). 
+in strings deployed in the last drill season of IceCube
+(Fig.~\ref{fig:noise_over_time_briedel_lastseasondepoyed}).
 
 %As the ice refreezes after deployment, it
 %becomes cleaner and impurities introduced during the drill process (mainly
@@ -728,7 +727,7 @@ in strings deployed in the last drill season of IceCube (Fig.~
 
 However, since the dark noise components are not correlated between
 DOMs, the dark noise rate change is not prominent in HLC hits (Fig.
-\ref{fig:slc_over_time_briedel}).  Thus, the detector trigger rate as well
+\ref{fig:hlc_over_time_briedel}).  Thus, the detector trigger rate as well
 as higher-level reconstruction variables are relatively isolated from the
 noise rate variations.  Nevertheless, the noise rates for each DOM are
 tracked over time and updated yearly in a database for simulation and

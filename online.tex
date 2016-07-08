@@ -58,7 +58,7 @@ monitoring streams are used to monitor the health and quality of the
 data-taking runs.
 
 The DAQ event data is then processed further with a number of filters
-in order to select a subset of events (less than 10\%) to transfer over
+in order to select a subset of events ($\sim15$\%) to transfer over
 satellite to the Northern Hemisphere (Sec.~\ref{sect:online:filter}).  Each
 filter, typically designed to select events useful for a particular physics
 analysis, is run over all events using a computing cluster in the ICL.
@@ -124,17 +124,17 @@ The SPS computers are connected via a 48 Gbps switch that in turn fans out
 to switches in each DOMHub rack; the DOMHub switches are connected with
 dual bonded 10 Gbps links.  The hubs and servers are connected to local
 switches with dual bonded 1 Gbps links.  Typical network I/O during
-data-taking for the DAQ event builder (see
+data-taking for the DAQ Event Builder (see
 Sec.~\ref{sect:online:evbuilder}) is $\sim240$ Mbps in each direction, while
 the primary PnF server node sees 200 Mbps in and 640 Mbps out.
 
 Redundancy and continuous monitoring of SPS is one of the keys to a high
-detector livetime (Sec.~\ref{sec:operational_performance}).  Nagios
-monitoring software detects and flags problems, 
-including issues with DOM power and communication on the hubs.  Severe
+detector livetime (Sec.~\ref{sec:operational_performance}).
+Industry-standard Nagios monitoring software detects and flags problems, 
+including issues with DOM power and communication on the DOMHubs.  Severe
 problems impacting data-taking result in a page to the IceCube winterover 
 personnel via the station's Land Mobile Radio (LMR) system.  A dedicated
-hot spare server can replace any failed DAQ node, while spare PnF filtering
+hot spare server can replace any failed DAQ node, and spare PnF filtering
 clients can be started to increase throughput in case of a data filtering
 backlog.  SPS hardware is also connected to dual redundant uninterruptible
 power supplies (UPS) in order to continue data-taking through station power
@@ -146,7 +146,7 @@ and software in the Northern Hemisphere before rollout to SPS.  Servers and DOMH
 identical to those at SPS, along with a small number of DOMs in chest
 freezers, are used in the test system.  Although the number of DOMs
 available is much smaller than in the real detector, recent software
-improvements have allowed the ``replay'' of pre-recorded raw SPS hit data
+improvements allow the ``replay'' of pre-recorded raw SPS hit data
 on SPTS systems, providing a data stream to higher-level DAQ and PnF
 components identical to SPS.  Another test system includes a full-length
 in-ice cable and is used primary for validation of DOM communications and
@@ -176,7 +176,7 @@ paused every second to perform a timing calibration (RAPCal; see
 Sec.~\ref{sect:dom:rapcal})) via reciprocal bimodal pulse transmission to
 each DOM; this provides a time-dependent translation of DOM clock to DOR
 clock for every module.  The total bandwidth of the communication channel
-is 90 kBps per twisted pair.
+is 720 kbps per twisted pair.
 
 % Add more details about actual usage?
 % Q: is LC signaling documented anywhere yet?  Should it go here?
@@ -194,7 +194,7 @@ cables to each DOR card.  The local 20 MHz clocks of each DOR card are
 phase-locked to the distributed 10 MHz signal.  The fanout tree is shown in
 Fig.~\ref{fig:clock_fanout}.
 
-Since the master GPS receiver is a single-point failure for the detector, a
+Since the Master Clock is a single-point failure for the detector, a
 hot spare receiver, using its own GPS antenna and powered through a
 dedicated UPS, is continuously active and locked in case of problems with
 the primary.
@@ -202,7 +202,7 @@ the primary.
 \begin{figure}[!ht]
  \centering
  \includegraphics[width=0.8\textwidth]{graphics/online/data_readout/clock_fanout.pdf}
- \caption{Master clock fanout system, from GPS receiver to DOR cards in
+ \caption{Master Clock fanout system, from GPS receiver to DOR cards in
    each DOMHub.}
  \label{fig:clock_fanout}
 \end{figure}
@@ -252,7 +252,7 @@ events.
 \subsubsection{StringHub and HitSpool}
 \label{sec:domhub_hitspool}
 
-The StringHub software component which runs on each DOMHub is responsible
+The StringHub software component that runs on each DOMHub is responsible
 for periodically reading all available data from each of its connected DOMs
 and passing that data onto the downstream consumers.  It also saves all
 hits to a local ``HitSpool'' disk cache, as well as queuing them in an
@@ -284,7 +284,7 @@ this.  The Splicer is a common object which gathers all input streams
 during the setup phase; no inputs can be added once started.  Each stream
 pushes new data onto a ``tail'', and the Splicer merges the data from all
 streams into a single sorted output stream.  When a stream is closed, it
-pushes an end-of-stream marker onto its tail which causes the Splicer to
+issues an end-of-stream marker that causes the Splicer to
 ignore all further data.  Details of the Splicer algorithm can be found in
 Ref.~\cite{vlvnt13_trigger}.  
 
@@ -349,15 +349,17 @@ within a span of DOMs along a single string
 muons that pass vertically through the detector.
 
 \begin{figure}[ht]
-  \centering \subfloat[Schematic representation of the Volume Trigger.]{
+  \centering \subfloat[]{
     \includegraphics[scale=0.45]{graphics/online/trigger/trig_cylinder}
     \label{fig:trig_cylinder}
-  } \quad \subfloat[Schematic representation of the String Trigger.]{
+  }
+  \quad
+  \subfloat[]{
     \includegraphics[scale=0.5]{graphics/online/trigger/trig_string}
     \label{fig:trig_string}
   }
-  \caption{IceCube triggers using spatial coincidences.  Shaded circles
-    represent HLC-hit DOMs.}
+  \caption{Schematic representation of triggers using spatial coincidences.  Shaded circles
+    represent HLC-hit DOMs.  Left: Volume Trigger.  Right: String Trigger. }
 \end{figure}
 
 IceCube has the potential to detect hypothetical subrelativistic heavy
@@ -379,8 +381,8 @@ DOM in each pair must be larger than $\alpha_{\mathrm{min}}$, and the
 the normalized velocity difference, defined as
 
 \begin{equation}
-  v_{\mathrm{rel}} = 3(v^{-1}_{12} - v^{-1}_{23})/(v^{-1}_{12} +
-  v^{-1}_{23} + v^{-1}_{13})
+  v_{\mathrm{rel}} = 3\left(\frac{1}{v_{12}} - \frac{1}{v_{23}}\right)/\left(\frac{1}{v_{12}} +
+  \frac{1}{v_{23}} + \frac{1}{v_{13}}\right)
 \end{equation}
 
 \noindent where $\ v_{ij} = \Delta x_{ij}/\Delta t_{ij}$, must be less than
@@ -410,6 +412,9 @@ prescale factor of 10000 is active.
 
 \begin{table}
   \centering \footnotesize
+\caption{Trigger parameters (as of May 2016) and typical trigger
+  rates of each algorithm.  Most rates vary seasonally with the atmospheric
+  muon flux.}  
 \begin{tabular}{lrrrrr}
   \hline Trigger & DOM set & $N$ HLC hits & Window & Topology & Rate\\
   & & & ($\mu$s) & & (Hz) \\
@@ -426,9 +431,6 @@ prescale factor of 10000 is active.
   FRT & all & --- & --- & --- & 0.003\\
   \hline
 \end{tabular}
-\caption{IceCube trigger parameters (as of May 2016) and typical trigger
-  rates of each algorithm.  Most rates vary seasonally with the atmospheric
-  muon flux.}
 \label{tab:triggers}
 \end{table}
 
@@ -452,7 +454,7 @@ these typically are re-split before reconstruction and analysis.
  \centering
  \includegraphics[width=0.8\textwidth]{graphics/online/trigger/trigger_readout}
  \caption{In-ice, IceTop, and merged readout windows for a long event
-   satisfying SLOP and SMT8 triggers (not to scale).}
+   satisfying SLOP and SMT8 triggers.}
  \label{fig:trigger_readout}
 \end{figure}
 
@@ -473,7 +475,7 @@ these typically are re-split before reconstruction and analysis.
 %   \caption{IceCube trigger and readout window merging.}
 % \end{figure}
 
-\subsubsection{\label{sect:online:evbuilder}Event Building}
+\subsubsection{\label{sect:online:evbuilder}Event Builder}
 
 The Event Builder receives requests from the Global Trigger, extracts the
 individual readout windows, and sends them to the appropriate subset of the
@@ -562,8 +564,8 @@ but because of their high multiplicity, can cause a coherent rise in the
 individual hit rate of all of the in-ice DOMs~\cite{IC3:supernova}.
 
 Each DOM monitors its hit rate and sends a stream of binned counts, using a
-bin width of 1.6384~ms ($2^{16}$ 40MHz clock cycles).  An artificial
-deadtime of $250\ {\mu}\mathrm{s}$ is applied after each trigger to reduce the
+bin width of 1.6384~ms ($2^{16}$ clock cycles).  An artificial
+deadtime of $250\ {\mu}\mathrm{s}$ is applied after each hit to reduce the
 impact of correlated afterpulses (see Sec.~\ref{sect:darknoise}).  Each
 StringHub collects the rate stream of each DOM, supplies UTC timestamps,
 and forwards the streams to the Secondary Builder.
@@ -608,20 +610,20 @@ transmission over satellite only allowed in extraordinary cases.
   \caption{HitSpool data-requesting services and request characteristics.}
   \centering
   \footnotesize
-\begin{tabularx}{\textwidth}{XXXXXXX}
-  \toprule Client & Trigger Threshold & Time Window & Request Length & Raw
-  Data Size & Frequency & Bandwidth \\
-  \midrule SNDAQ & $7.65 \,\xi$
+\begin{tabularx}{\textwidth}{lcXXXX}
+  \toprule Client & Trigger Threshold & Time\newline Window & Request
+  Length & Raw \newline Data Size & Frequency \\
+  \midrule
+  SNDAQ & $7.65 \,\xi$
   ($10.00 \,\xi$) & $[-30\,\mathrm{s},+60\,\mathrm{s}]$ ($[\pm250
     \,\mathrm{s}]$)& $90 \,\mathrm{s}$& ~ $18 \,\mathrm{GB}$&
-  $0.5/\mathrm{week}$ ($0.0006 / \mathrm{week}$)& $1.3 \,\mathrm{GB} /
-  \mathrm{day}$\\ HESE & $1500 \,\mathrm{PE} $ ($6000 \,\mathrm{PE} $) &
+  $0.5/\mathrm{week}$ ($0.0006 / \mathrm{week}$) \\
+  HESE & $1500 \,\mathrm{PE} $ ($6000 \,\mathrm{PE} $) &
   $[\pm0.5\,\mathrm{s}]$& $1\,\mathrm{s}$ & $~150\,\mathrm{MB}$ &
-  $4/\mathrm{day}$ ($1/\,\mathrm{month}$) & $0.4\,\mathrm{GB}/\mathrm{day}$
-  \\
+  $4/\mathrm{day}$ ($1/\,\mathrm{month}$) \\
   Solar Flare & FERMI-LAT & $[\pm30\,\mathrm{min}]$ & $1\,\mathrm{h}$&
-  $~600\,\mathrm{GB}$& $ 7 / \mathrm{year}$& $ 1.7
-  \,\mathrm{GB}/\mathrm{day}$\\ & significant event & & & & &
+  $~600\,\mathrm{GB}$& $ 7 / \mathrm{year}$ \\
+  & significant event & & & & 
   \\ \bottomrule
 \end{tabularx}
 \label{tab:hsclients}
@@ -671,7 +673,8 @@ energy, and the goodness-of-fit are used to select interesting events by various
 filter selections.  The filter criteria are set by the collaboration
 each year and are tuned to select events of interest to specific
 analyses.  Each year there are about two dozen unique filter selections in
-operation.  Some of these filters are designed to search for
+operation; as of 2016, approximately 15\% of all triggered events are
+selected by one or more filters.  Some of these filters are designed to search for
 neutrino events of wide astrophysical interest to the scientific community
 and trigger alerts that are distributed to followup observatories
 worldwide~\cite{Abbasi:2011ja,Aartsen:2015trq}.
@@ -688,7 +691,7 @@ Finally, the PnF system generates several types of files for satellite
 transmission and as the long-term data archive of the experiment. These
 include:   
 \begin{enumerate}
-\item Filtered data files containing only events selected by the online filter
+\item Filtered data files containing events selected by the online filter
   selections.  These events generally only include the SuperDST version of
   the DOM information and results from the online event reconstructions.
   These files are queued for satellite transmission to the IceCube data
@@ -709,13 +712,13 @@ data compression, are $\sim$170 GB/day and $\sim$90 GB/day, respectively.
 
 \subsubsection{System Design}
 
-The online processing and filtering system uses a modular design, where
+The PnF system uses a modular design, where
 each component is responsible for a portion of data processing built around
 a central master server node and a scalable number of processing client
-nodes.  The central master server focuses on data distribution and
+nodes.  The central master server handles data distribution and
 aggregation tasks (requesting data blocks from the DAQ, collating event
 SuperDST, reconstruction, filter, and monitoring information and writing
-data files), while the client process focus on the per-event processing
+data files), while the clients handle the per-event processing
 tasks (event calibration, reconstruction, analysis, and filtering).
 
 The system is built upon the IceCube analysis software framework,
@@ -812,7 +815,7 @@ set of core filters, including:
   used as the input to searches for high-energy shower events arising from
   atmospheric and astrophysical neutrinos.
 \item A high-charge filter that searches for any event depositing a significant
-  amount of charge (\textgreater $\sim$1000 photoelectrons) in the 
+  amount of charge ($\simeq$1000 photoelectrons) in the 
   instrumented volume.  While having a large overlap with the muon track
   and shower filters at high energies, this filter targets the highest
   energy neutrino events of all types. The selected events are used as
@@ -839,7 +842,7 @@ satellite links.  Due to the location, only
 geosynchronous satellites with steeply inclined orbits reach far enough
 above the horizon to establish a link.  For a given satellite, this link
 provides four to six hours of communications once per sidereal day.
-Multiple geosynchronous satellites are currently utilized by the
+Multiple satellites are currently utilized by the
 U.S.~Antarctic Program, providing a $\sim$12-hour window of connectivity with
 bandwidth of 1 Mbps or higher.  For the remainder of the day, Iridium
 satellites allow limited voice and data connectivity and provide up to 2.4
@@ -876,7 +879,7 @@ JADE is configured with a number of input data streams,
 each consisting of a data server, a dropbox directory, and a filename pattern.  The
 data stream dropbox directories are checked on a regular basis for new
 files. A file pairing scheme (binary and semaphore) prevents files from
-being consumed before they are finished being produced. For each file, a
+being consumed before they are ready. For each file, a
 checksum calculated on the data server is compared to a checksum calculated
 on the JADE server.  After validation, the original data file is removed
 from the data host. 
@@ -884,19 +887,19 @@ from the data host.
 Files are then routed according to the configuration of their
 data stream, either transmitted via satellite link or 
 archived to a configurable number of archival media copies.  Archival data
-was formerly written to LTO tapes but now uses large disks (JADE).
-All of the archival data is buffered on the server until the archival media
-is complete. In case of media failure, all of the files can be 
+were formerly written to LTO tapes but now uses large disks (JADE).
+All of the archival data are buffered on the server until the archival media
+is complete. In case of media failure, the buffered files can be 
 immediately written to new archival media with a single command.
 
-Data streams intended to satellite transfer are queued separately.  
+Data streams intended for satellite transfer are queued separately.  
 JADE bundles multiple smaller files or splits large files to create $\sim1$
 GB chunks, allowing satellite link operators to manage the daily data
 transmission.  A configurable number of bundles is then transferred to the
 satellite relay server.  If satellite transmission is temporarily
 interrupted, the excess is staged on the server. 
 
-Small files ($<$50 KB) with high priority status information are sent via
+Small files ($<$50 KB) with high priority are sent via
 the I3MS Iridium link.  In cases where the real-time link is not available, I3MS
 will queue the messages to be sent when the link becomes available. All
 I3MS messages are also sent to JADE to send via the geosynchronous satellite link to
@@ -959,7 +962,7 @@ both geosynchronous and Iridium data transport, summarized in Table
 \ref{i3messages}.
 
 \begin{table}[!ht]
-\begin{tabularx}{\textwidth}{|c|c|X|X|X|}
+\begin{tabularx}{\textwidth}{|c|c|c|c|X|}
   \hline Priority & Transport System & Messages/day~ & Data/day & Latency\\
   \hline 1 & ITS (Iridium) & 10,000 & 1 MB & 1 min. \\
   \hline 2 & I3MS (Iridium) & 150,000 & 5 MB & 1--5 min. \\
@@ -980,11 +983,22 @@ passed to an external process.  The IceCube Live website itself uses the
 Django web framework and contains pages that create graphical views of
 monitoring data stored in the database.  These pages include a front page
 displaying active alerts and plots of event rates and processing latencies
-from the previous few hours, and a page for each run that displays start
+from the previous few hours (Fig.~\ref{fig:live_screenshot}), and a page
+for each run that displays start  
 time, stop time, and other essential data.  The run page contains low-level
 diagnostic data that includes e.g. DOM charge histograms, digitizer baselines,
 DOM occupancy, etc., and is used to diagnose any problems that occurred
 during the run and to determine if the run can be used in physics analysis.
+
+\begin{figure}[!ht]
+ \centering
+ \includegraphics[width=1.0\textwidth]{graphics/online/live/live_screenshot_cropped.pdf}
+ \caption{The IceCube Live website front page, showing near-realtime detector
+   status.  One DOM has dropped out of data-taking in the run shown.  This
+   ``operator'' view includes controls to start/stop components and to page
+   the winterovers.} 
+ \label{fig:live_screenshot}
+\end{figure}
 
 Finally, the IceCube Live website in the Northern Hemisphere can transmit
 messages to LiveControl at SPS using the Iridium systems.  This capability
@@ -1025,8 +1039,10 @@ Fig.~\ref{fig:clean-uptime}.
 
 \begin{figure}[!ht]
  \centering
- \includegraphics[width=0.9\textwidth]{graphics/uptime/clean-uptime.png}
- \caption{Uptime of the IceCube detector.}
+ \includegraphics[width=1.0\textwidth]{graphics/uptime/clean-uptime.png}
+ \caption{Detector uptime since the start of full-detector
+   operation. ``Clean uptime'' indicates periods of analysis-ready,
+   86-string data.} 
  \label{fig:clean-uptime}
 \end{figure}
 
