@@ -17,7 +17,7 @@
 The DOM is the fundamental light sensor and data acquisition unit for IceCube.
 It consists of a spherical glass housing 
 containing a downward-facing \SI{10}{''} diameter photomultiplier tube (PMT)
-and associated circuit boards that allow near-autonomous operation (Figure~\ref{fig:domcomponents}) .
+and associated circuit boards that allow near-autonomous operation (Figure~\ref{fig:domcomponents}).
 Data acquisition, control, calibration, communication, and low voltage power conversion 
 are integrated in one annular circuit board (Main Board) that fits around the neck of the PMT~\cite{ref:domdaq}. 
 Separate circuit boards generate PMT high voltage, interface to the PMT pins~\cite{ref:pmt},
@@ -56,14 +56,14 @@ the PMT waveform that also includes photons arriving up to
 waveform shape, allowing the determination of the times of arriving photons
 relative to this reference.  The DOM typically accumulates such triggered
 data for a period of \unit[1]s before sending as a block, although the DOM
-can store $\mathcal{O}(\SI{10}{\second})$ of data before overflowing,
+can store $\mathcal{O}(\SI{10}{\second})$ of data before overflowing local memory,
 depending on trigger rate.  Separately, the PMT trigger rate is recorded by
 the DOM in \unit[1.6]ms intervals, as a collective increase of all rates
 could signify detection of many low energy neutrinos in case of a Galactic
-supernova event (see Sec.~\ref{sec:online:supernova}).
+supernova event (see Sec.~\ref{sect:online:supernova}).
 
-DOMs transmit their data to computers in the IceCube Laboratory building
-using a twisted wire pair that also provides power (Sec.~\ref{sec:cablesystems}).
+DOMs transmit their data to computers in the IceCube Laboratory building (ICL)
+using a twisted wire pair that also provides power (Sec.~\ref{sec:cable}).
 Wire pairs are bundled to form the vertical in-ice cables and the horizontal surface
 cables.  Each wire pair is shared between two DOMs, with data transfers
 initiated by a surface computer.  Separately, dedicated wiring to neighbor
@@ -140,16 +140,15 @@ The other wires lead to neighboring DOMs directly above and below,
 carrying local coincidence digital pulses that signify time-correlated hits in nearby DOMs (Sec.~\ref{sec:mainboard}).
 
 DOMs were produced in two versions, in which the communications wire pair was either electrically
-terminated (\unit[150]$\Omega$) or unterminated inside the DOM.  This allows each wire pair from
-the surface computers to communicate with two DOMs in parallel.  The
+terminated (\unit[150]$\Omega$) or unterminated inside the DOM.  The
 terminated DOM is deployed \unit[17]m below the unterminated one (\unit[7]m
 or \unit[10]m in DeepCore strings) and therefore includes a correspondingly 
 long penetrator assembly cable (bottom of Figure~\ref{fig:domcable}).
 
 The entire penetrator assembly was designed and produced by SEACON
-(California).  The part that seals against the DOM glass is similar to a
+(California).  The part that seals against the DOM glass is a
 hollow steel bolt that is secured inside the DOM by a nut and spring
-washer and compresses a fluorosilicone o-ring against the outside surface.
+washer and compresses a fluorosilicone O-ring against the outside surface.
 The steel part includes additional sealing around the wires that pass
 through it.  Outside the DOM, a plastic shell is molded around the steel
 and onto the cable jacket.  External mechanical features like the
@@ -168,7 +167,7 @@ for HQE) near \unit[390]nm.  It features a box-and-line dynode chain with 10 sta
 with in-ice DOMs operated at gain $10^7$ (Sec.~\ref{sec:domcal}).
 
 The PMT bulb faces downwards in the bottom glass hemisphere, secured in high-strength 
-silicone gel to a depth surrounding the photocathode area.  
+silicone gel to a depth sufficient to surround the photocathode area.  
 The gel provides both mechanical support for the whole assembly of PMT and circuit boards,
 as well as good optical coupling.  
 The gel thickness between PMT envelope and glass sphere is approximately \unit[1]cm.  
@@ -179,7 +178,7 @@ It is optically clear with transmission 97\% at \unit[400]nm, 91\% at \unit[340]
 passes from the sphere glass into the gel and then into the PMT envelope.
 The characteristics of the cured gel are specified to remain stable in the temperature range $-70^\circ$C to $45^\circ$C.
 
-To reduce effects of the ambient magnetic field (\unit[550]mG, $17^\circ$
+To reduce effects of the ambient South Pole magnetic field (\unit[550]mG, $17^\circ$
 from vertical) on the PMT collection efficiency, a mu-metal cage surrounds the PMT bulb up to
 the neck join.  It was constructed as a wire mesh with typical wire spacing \unit[66]mm and
 wire diameter \unit[1]mm, blocking about 4\% of the incident light.
@@ -191,7 +190,7 @@ the external field, pointing mostly along the axis and therefore reducing effici
 less than 2\% for this type of PMT.
 
 Other interior DOM components are held in place by attachment to the PMT, mostly via screws into
-a molded plastic collar glued around the PMT neck.  The PMT base board is soldered directly to the pins.
+a molded plastic collar glued around the PMT neck.  The PMT Base Board is soldered directly to the pins.
 
 \subsubsection{\label{sec:hv}High Voltage Supply and Divider}
 
@@ -209,7 +208,9 @@ is less than \unit[1]mV, and stability is better than \unit[200]ppm over
 The generator output is carried to the PMT Base Board \cite{ICECUBE:PMT} via a high voltage
 coaxial cable.  The voltage divider presents a total resistive load of \unit[130]M$\Omega$.
 The PMT is operated with cathode at ground potential, so the anode signal output is AC-coupled using 
-a 1:1 bifilar-wound toroid transformer mounted on the Base Board.
+a 1:1 bifilar-wound toroid transformer mounted on the Base Board; this
+toroid was modified once during DOM production in order to reduce
+distortion of high-amplitude signals (Sec.~\ref{sec:waveformcal}).
 The transformer secondary is then wired to the Main Board analog input with a coaxial cable.
 The single photoelectron (SPE) output waveform has been described in Ref.~\cite{ICECUBE:PMT}.  
 With a \unit[100]$\Omega$ load connected to the transformer, and operating at standard gain $10^7$, the SPE 
@@ -263,7 +264,7 @@ for IceTop high-gain DOMs is $3.2 \times 10^{-3}$.
 The ATWD recording interval is \unit[427]ns.  This is ideal for reconstructing light produced within ~\unit[50]m of
 a DOM, but photons from further away may arrive over a broader time
 interval due to the optical scattering of the ice.  Such distant signals are
-also weaker, and the information is captured in the \unit[40]Msps fADC.
+also lower in amplitude, and the information is captured in the \unit[40]Msps fADC.
 The fADC samples continuously, and the FPGA is programmed to save an interval of \unit[6.4]$\mu$s after the launch. Its preamplifier provides a dynamic 
 range comparable to the high-gain ATWD channel, but has extra pulse shaping to accommodate the lower
 sampling speed.
@@ -288,25 +289,36 @@ the extra wire pairs described in Sec.~\ref{sec:penetrator}.
 
 \subsubsection{\label{sec:flasher}Flasher Board}
 
-Each IceCube DOM contains an LED Flasher Board. The standard IceCube
-Flasher Board, included in every DOM except the color DOMs
-described below, is a circular board fitted with 12 LEDs (ETG-5UV405-30)
+Each DOM contains an LED Flasher Board, used for a
+variety of calibration purposes, including: 
+
+\begin{enumerate}
+\item Verifying the timing response of the DOMs throughout the
+  software.
+\item Measuring the position of the deployed DOMs in ice.
+\item Measuring the optical properties of the ice.
+\item Verifying the performance of cascade reconstruction algorithms
+  in measuring position, direction, and energy.
+\end{enumerate}
+
+The standard Flasher Board, included in every DOM except the color DOMs
+described below, is an annular board fitted with 12 LEDs (ETG-5UV405-30)
 specified with output wavelength \unit[$405\pm5$]nm.  Laboratory
-measurements with sample DOMs showed a peak at
+measurements with sample DOMs indicate a peak at
 \unit[399]nm and spectral width \unit[14]nm (FHWM), which includes a
 \unit[$-1$]nm shift when operating at low temperature.
 The LEDs are arranged in pairs, evenly spaced around the board
 with a 60$^{\circ}$ separation between each pair. One LED in each pair
 points outward horizontally, and the other LED is tilted upward at an angle
-of 48$^{\circ}$, close to the Cherenkov angle in ice ($n =
-1.317$).  The angular emission profile of each LED has a FWHM of
+of 48$^{\circ}$, close to the Cherenkov angle in ice.
+The angular emission profile of each LED has a FWHM of
 30$^{\circ}$ in air and is modeled as a Gaussian emission profile
 with $\sigma = 13^{\circ}$. After refraction through the DOM glass and into
 the ice, the emission profile is modified to $\sigma = 9.7^{\circ}$ in the polar direction
 and $9.8^{\circ}$ in the azimuthal direction for the tilted LEDs, and $\sigma=9.2^{\circ}$ in the polar direction
 and $10.1^{\circ}$ in the azimuthal direction for the horizontal LEDs.
 About 10\% of the light is emitted outside the Gaussian beam, modeled by
-a profile proportional to $(1+\cos{\alpha})$, where $\alpha$ is the angle
+a secondary profile proportional to $(1+\cos{\alpha})$, where $\alpha$ is the angle
 away from the LED axis.
 
 The LEDs are controlled by a current pulse applied to each LED through
@@ -351,16 +363,6 @@ operated in multiple DOMs in the same run, the DAQ does not support
 time-synchronized flashing of LEDs on different DOMs, so coincident flasher
 events happen only by chance. 
 
-The flasher LEDs are used for a variety of calibration purposes, including:
-\begin{enumerate}
-\item Verifying the timing response of the DOMs throughout the
-  software.
-\item Measuring the position of the deployed DOMs in ice.
-\item Measuring the optical properties of the ice.
-\item Verifying the performance of cascade reconstruction algorithms
-  in measuring position, direction, and energy.
-\end{enumerate}
-
 Sixteen ``color DOMs'' (cDOMs) are fitted with multi-wavelength
 Flasher Boards; 8 are deployed on String~79 in the center of IceCube, and 8
 are deployed on String~14 on the edge of IceCube.  Each cDOM includes 3 LEDs with a nominal
@@ -398,10 +400,10 @@ B5-433-B505 & 505 & 494 & 6.4 &	4.5 & 4.9 \\
 Approximately 5500 in-ice and IceTop DOMs were required to be built, tested,
 and delivered to the South Pole.  The DOMs were required to satisfy
 stringent requirements needed for them to work reliably buried deep
-in the ice for at least 20 years.  As hot-water drilling was the principle
+in the ice for at least 20 years.  As hot-water drilling was the principal
 driver of the deployment timeline, the DOM production schedule was
 structured to supply DOMs as needed and to avoid any inventory shortfall.
-This DOM Production plan was implemented in a 3-stage approach. Stage 1 was
+The production was implemented in a 3-stage approach. Stage 1 was
 the production and testing of the initial 400 DOMs at three sites: one in the United
 States (Physical Sciences Laboratory (PSL), Stoughton, Wisconsin) and two
 in Europe (DESY, Zeuthen, Germany and Stockholm University, Sweden).  This
@@ -427,15 +429,15 @@ produce DOMs that performed identically.
 DOM integration started with the attachment of the PMT collar
 to the PMT.  The collar provides a mounting point for the electronic boards inside
 a DOM. The PMT was then mounted into a special jig that allowed for precise
-placement inside the bottom glass hemisphere.  In parallel, the mu metal
-shield was placed inside the bottom hemisphere, and a silicone dielectric
+placement inside the bottom glass hemisphere.  In parallel, the mu-metal
+shield was placed inside the bottom hemisphere, and the
 gel was mixed and poured into the same hemisphere. The gel was then
 degassed in order to avoid bubbles and cracks (``crazing'') in the gel.
 After degassing, the PMT was placed in the gel and allowed to cure for 48
 hours.  After curing, the PMT Base Board was soldered onto the leads of the
-PMT.  Separately, the PC Board stack was assembled by attaching the Delay
+PMT.  Separately, the PC Board Stack was assembled by attaching the Delay
 Board, Main Board, Flasher Board, and High Voltage Control Board together.
-The PC Board was then mounted onto the PMT collar, the penetrator assembly
+The Board Stack was then mounted onto the PMT collar, the penetrator assembly
 was mounted into the top hemisphere, and the two halves of the sphere were
 joined.  The spheres were then evacuated and backfilled with dry nitrogen,
 a butyl rubber sealant applied around the seam, and the seam covered with
@@ -455,12 +457,13 @@ and local coincidence validation.  Optical sensitivity, time resolution,
 and linearity were measured using external light sources fed into the mDFLs
 via optical fibers and diffused over the DOM lower hemispheres at each
 testing station.  A typical FAT temperature and testing cycle is shown in
-Fig.~\ref{fig:fat_cycle}. The initial pass rate for DOMs during FAT 
-was approximately 90\%, with failing DOMs retested and/or reworked as
-needed.  After the successful completion of FAT, DOM deployment harnesses
-were attached and the DOMs individually packed. 
-
-% FIX ME PASS RATE, and FATE OF FAILING DOMS
+Fig.~\ref{fig:fat_cycle}. The initial pass rate of DOMs during FAT was
+92\%.  The primary causes of failures were elevated noise rates during the
+low-temperature soak, functional issues on the Main Board or Flasher Board,
+and PMT gain instability.  The majority of failing DOMs were retested and
+subsequently passed, while DOMs with serious issues were repaired and
+retested prior to shipment. After the successful completion of FAT, DOM
+deployment harnesses were attached and the DOMs individually packed. 
 
 \begin{figure}[!h]
  \centering
@@ -527,14 +530,15 @@ dead DOMs must also be modified. These are enumerated in Table \ref{tab:dom_fail
 
 We can estimate the surviving fraction of DOMs 25 years after the original
 deployment, assuming a constant, random failure rate after freeze-in.
-Specifically, we calculate the Wilson score binomial confidence interval of
-survival probability using the post-commissioning failure rate of DOMs
-\cite{Wilson_Score}.  The estimated survival fraction as a function of
+Specifically, we calculate the Wilson score binomial confidence interval \cite{Wilson_Score} of
+survival probability using the post-commissioning failure rate of DOMs.
+The estimated survival fraction as a function of 
 time is shown in Fig.~\ref{fig:dom_survival}; currently we estimate the
 surviving fraction in 2030 to be $97.3\pm0.3\%$.  While this simplified
 model does not account for an increase in failure rate due to component aging, the
 observed failure rate since detector completion of $2.0~\mathrm{yr}^{-1}$ is
-significantly lower than the mean predicted rate of $4.5~\mathrm{yr}^{-1}$.  We attribute
+currently both stable and significantly lower than the mean predicted rate
+of $4.5~\mathrm{yr}^{-1}$.  We attribute 
 this to infant mortality and/or to improved operational protocols that
 minimize the number of DOM power cycles.
 

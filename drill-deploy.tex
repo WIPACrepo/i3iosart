@@ -2,13 +2,12 @@
 %!TEX root = i3det-top.tex
 %!TEX encoding = UTF-8 Unicode
 
-\section{Drilling and Deployment}
+\section{\label{sec:drill-deploy}Drilling and Deployment}
 
 \subsection{\label{sec:hot_water_drilling}Hot Water Drilling}
 
-IceCube transformed a cubic kilometer of Antarctic ice into an
-astrophysical particle detector composed of 86 cables (strings) of DOMs
-buried deep beneath the surface.  Each string required drilling a borehole
+Transforming a cubic kilometer of Antarctic ice into an astrophysical
+particle detector required drilling 86 boreholes
 approximately 60 cm in diameter to a depth of 2,500~m. Hot water drilling
 was selected as the best method due to its inherent speed, being the only
 feasible technology to provide rapid access to the deep ice on this scale.
@@ -17,9 +16,10 @@ for the deployed instrumentation to become frozen in place and optically
 coupled with the surrounding ice sheet. The 5~MW Enhanced Hot Water Drill
 (EHWD)~\cite{ehwd} was designed and built specifically for this task,
 capable of producing the required boreholes at a rate of one hole per 48
-hours. Hot water drilling on this scale presented unique challenges that
-were successfully met with the EHWD. The procedure involved a drilling phase
-to create the initial hole, followed by an upward reaming phase to give the
+hours.
+
+The procedure involved a drilling phase to create the initial hole,
+followed by an upward reaming phase to give the 
 hole a targeted diameter profile.  Hole diameter was oversized relative to
 the DOM to compensate for closure from refreezing to provide sufficient
 time to deploy instrumentation, with contingency time for delays.  The
@@ -40,7 +40,7 @@ drilling and reaming times for all strings in the 2006--2007 season and the
   \begin{tabular}{ l | r }
     \bf{Specification} & Value \\ \hline Total Power (Thermal + Electrical)
     & 5 (4.7 + 0.3) MW \\ Maximum Drill Speed & 2.2 m/min \\ Maximum Ream
-    Speed & 10 m/min \\ Water Flow (delivered to main hose) & 760 l/min
+    Speed & 10 m/min \\ Water Flow (delivered to main hose) & 760 L/min
     \\ Water Temperature (delivered to main hose) & \SI{88}{\celsius}
     \\ Water Gauge Pressure (at main pumps) & 7,600 kPa\\
   \end{tabular} 
@@ -61,7 +61,7 @@ drilling and reaming times for all strings in the 2006--2007 season and the
 
 \begin{minipage}{\textwidth}
   \centering \captionof{table}{Average and peak performance for a 24-hour
-    lifetime hole of 2500 m depth. (Peak taken from IceCube hole 32)}
+    lifetime hole of 2500 m depth.}
   \begin{tabular}{ l | r  | r }
     \bf{Specification} & Avg. Value & Peak Value\\ \hline Total
     Fuel\footnote{Total Fuel includes deep drilling/reaming and firn
@@ -75,10 +75,10 @@ drilling and reaming times for all strings in the 2006--2007 season and the
 \end{minipage}
 \vspace{\baselineskip}
 
-Hot water drilling was not practical in the firn layer, the surface layer of
-compressed snow above the glacial ice, which is about 50~m thick. The
-compressed snow absorbs hot water without melting the hole. The independent
-firn drill was designed to melt the snow. It consisted of a conical drill
+Hot water drilling was not practical in the firn layer, the 50~m-thick surface layer of
+compressed snow above the glacial ice, because the firn
+absorbs hot water without melting a hole.  An independent
+firn drill was designed that consisted of a conical drill
 head wrapped in copper tubing through which hot water circulated at high speed,
 melting the snow by contact. Hot water drilling commenced after the firn
 drill completed the first portion of the hole. The firn drill had its own
@@ -87,7 +87,7 @@ at other holes.
 
 \begin{figure}[!ht]
  \centering
- \includegraphics[width=0.85\textwidth]{graphics/drill/drill_depthvtime.pdf}
+ \includegraphics[width=0.95\textwidth]{graphics/drill/drill_depthvtime.pdf}
 \caption{Drilling and reaming times for all strings in the 2006--2007 season
   (left) and the 2009--2010 season (right), which achieved peak drilling
   performance. Zero time is maximum drill depth, so drilling time is
@@ -101,27 +101,27 @@ pressurized water, and the Tower Operations Site (TOS) was where the hole
 was drilled.  The two sites were linked by long cables and insulated
 hoses. The SES comprised generators, water tanks, pump and heating
 buildings, a central control building, mechanical and electrical shops,
-spare parts storage, and the system Rodwell, which was the primary water
+spare parts storage, and the system Rodwell, the primary water
 source. Hoses and cables connected SES subsystem buildings together, and
 wherever possible custom electrically heated hoses were installed,
 providing an effective freeze mitigation strategy. The TOS included the
 drill tower and attached operations building as well as the hose and cable
 reels.  There were two towers and one set of drill reels.  After drilling,
 drill reels were moved to the next hole location, where the second tower
-had already been staged.  The first tower stayed at its existing location
+had already been staged; the first tower stayed at its existing location
 to support deployment of the instrumentation.  Once deployment had
 finished, the first tower could be moved to the next location while
 drilling at the second tower was underway.  This leapfrog sequence of the
 tower structures reduced hole turnover time and allowed for nearly
 continuous drilling operations.
 
-Due to the massive size and complexity of the SES, it remained stationary
+Due to the size and complexity of the SES, it remained stationary
 throughout each drill season.  At the end of the drill season, the SES was
 decommissioned and repositioned for the following drilling season.  The
 distance between the SES and TOS had a practical limit, referred to as
 reach, which defined the boundary of a seasonal drilling sector.  The reach
 of the EHWD was 450~m, limited by pressure and voltage drop through the
-SES-TOS link.  During the last two seasons of IceCube construction the SES
+SES--TOS link.  During the last two seasons of IceCube construction the SES
 supported two drilling sectors from the same SES location, demonstrating a
 reach of 430~m.
 
@@ -134,8 +134,8 @@ tuning, seed water delivery, and Rodwell development.  This phase typically
 took four weeks.
 
 The production drilling sequence was to drill, ream, and move to the next
-location.  Independent firn drilling stayed ahead of deep drilling by no
-fewer than a couple of holes, and often the Rodwell and first few holes of
+location.  Independent firn drilling stayed ahead of deep drilling by at
+least two holes, and often the Rodwell and first few holes of
 the season had already been firn-drilled the prior season.  The idle phase
 between holes was characterized by minimal flow through the
 system and fine-tuning of Rodwell management strategies.  The idle phase
@@ -181,11 +181,11 @@ steel cable. After lowering of the DOM and weights, the next DOM with a
 then electrically connected to the in-ice cable at the breakout assembly. A
 Paro Scientific pressure sensor was attached just above the second DOM. The
 pressure sensor was read out during deployment to confirm that the string
-was indeed descending into the hole and not stuck.   DOMs with 17~m and
+was properly descending into the hole.   DOMs with 17~m and
 1.8~m penetrator assemblies were alternately attached to the in-ice 
 cable, until all 60 DOMs were attached, after which the remaining 1.5km of
-in-ice cable was lowered into the hole. The top of the cable was secured by
-a large 8x8 inch deadman trenched into the snow near the hole. After the
+in-ice cable was lowered into the hole (the ``drop'' phase). The top of the
+cable was secured by an 8x8-inch anchor trenched into the snow near the hole. After the
 cable was secure, it was taken off of the spool and connected to the
 SJB. An example of the time profile of deployment from pressure sensor
 attachment to string drop is shown in Fig.~\ref{fig:deploytime}.
@@ -216,8 +216,8 @@ or uses pressure data from the string. The reusable dust logger is used to
 log a hole just before deployment, using a dedicated winch (also used for
 hole diameter logging). The reusable dust logger produces two logs for the
 hole, one in each up/down direction. These two logs can be used for
-reciprocal calibration. In general, the upgoing log will be more reliable,
-since it is subject to fewer vertical and lateral oscillations. A reusable
+reciprocal calibration. In general, the upgoing log was found to be more reliable,
+as it is subject to fewer vertical and lateral oscillations. A reusable
 dust logger has its own pressure sensor for depth determination.
 
 \subsection{Geometry Measurement}
@@ -235,7 +235,7 @@ calculated from the corner coordinates.
 
 The depth of the lowest DOM on the string is calculated using pressure
 readings from the pressure sensor, converted to depth by correcting for the
-compressibility of the water in the hole and the ambient (air) pressure
+compressibility of the water in the hole and the ambient air pressure
 measured before the pressure sensor enters the water. The distance from the
 tower floor to the water surface is measured with a laser ranger. The
 vertical DOM spacings are also measured with a laser ranger.
@@ -256,11 +256,11 @@ calculated from Stage 1 data, and $\Delta z$ is the relative offset between
 the depths of the flashing and receiving string as shown in
 Fig.~\ref{fig:geohyperbola}. The hyperbolic fit is performed simultaneously for
 each flashing string and all surrounding receiving strings in order to
-calculate the relative offsets, which are then applied to the z-coordinate
+calculate the relative offsets, which are then applied to the $z$-coordinate
 of all DOMs on the string. The depth offset is typically less than 1~m
 relative to the Stage 1 data, but can be as large as 20~m (larger than the
 17~m DOM spacing) in cases where the pressure sensor failed during string
-deployment before it records the final depth reading and the Stage 1 depth
+deployment before it records the final depth reading, and the Stage 1 depth
 had to be estimated. The Stage 2 depth correction is less than 3~m for 93\%
 of the DOMs.
 
@@ -283,7 +283,7 @@ The Stage 2 geometry assumes that all strings are vertical. However, the
 data from the drill shows that the string is not perfectly vertical,
 although deviations from the vertical are less than 1~m. The
 $(x,y)$-coordinates from the drilling data were validated on the DeepCore strings
-using the trilateration method. In this method, the 5~DOMs closest to the
+using a trilateration method. In this method, the 5~DOMs closest to the
 flasher on each of the three closest strings surrounding the flasher are
 selected, and a circle of radius $r = \sqrt{d^2 - (\Delta z)^2)}$ is
 described around each receiving DOM, where $d$ is the distance between the DOM
@@ -293,7 +293,7 @@ DOMs calculated from the method described above. The intersection points of
 all the circles are calculated, and the $(x,y)$-position of the flashing DOM
 is taken to be the average of the centroid of the intersection points. The
 error bars on the positions are $1 \sigma$ from a Gaussian fit to all
-centroid values; the x- and y-coordinates are fitted independently. The
+centroid values; the $x$- and $y$-coordinates are fitted independently. The
 shifts relative to the deployment data are found to be less than 2~m, and
 agree with the drill head coordinates within the error bars as shown in
 Fig.~\ref{fig:trilateration}. Since the shifts from the nominal
@@ -307,7 +307,7 @@ the vertical string geometry from Stage 2.
  \includegraphics[width=0.7\textwidth]{graphics/geometry/newtrilat85.pdf}
 \caption{Results of the trilateration fit to String 85, one of the DeepCore
   strings in the center of the detector. The shifts in the
-  x- and y-coordinates are shown as a function of depth, with the drill data
+  $x$- and $y$-coordinates are shown as a function of depth, with the drill data
   shown as a gray line.}
 \label{fig:trilateration}
 \end{figure}
@@ -374,8 +374,8 @@ indication of folding and appear undisturbed over the full IceCube depth.
 The Sweden Camera system was deployed on String 80 in the final
 construction season in order to monitor the freeze-in process and optical
 properties of the drill hole.  The system consists of two video cameras
-housed in separate glass pressure spheres \SI{5.8}{meter} apart, between the
-bottom DOM and the string weights at a depth of \SI{2455}{meter}.  Each
+housed in separate glass pressure spheres \SI{5.8}{m} apart, between the
+bottom DOM and the string weights at a depth of \SI{2455}{m}.  Each
 camera is equipped with two LED lamps and three lasers (red, blue, and
 green).  Camera heaters, lights, and movement can be controlled remotely
 using a dedicated system in the ICL.  
@@ -383,6 +383,6 @@ using a dedicated system in the ICL.
 The camera system observed that the drill hole was completely refrozen after
 15 days.  The refrozen hole ice consists of a clear outer
 layer and a central core of $\sim8$ cm diameter that has much
-smaller scattering length than the bulk ice\cite{rongen_vlvnt15}.  The
+smaller scattering length than the bulk ice \cite{rongen_vlvnt15}.  The
 optical properties of this hole ice are still under active investigation.
 No long-term changes have been observed with subsequent camera operations.
