@@ -60,7 +60,7 @@ can store $\mathcal{O}(\SI{10}{\second})$ of data before overflowing local memor
 depending on trigger rate.  Separately, the PMT trigger rate is recorded by
 the DOM in \unit[1.6]ms intervals, as a collective increase of all rates
 could signify detection of many low energy neutrinos in case of a Galactic
-supernova event (see Sec.~\ref{sect:online:supernova}).
+supernova event (see Sec.~\ref{sect:SNDAQ}).
 
 DOMs transmit their data to computers in the IceCube Laboratory building (ICL)
 using a twisted wire pair that also provides power (Sec.~\ref{sec:cable}).
@@ -93,7 +93,7 @@ Spheres are specified to protect the inside electronics and PMT against long-ter
 as well as temporary overpressure up to \unit[690]bar during the refreezing of melted ice in the drill hole.
 The housings were produced by Benthos, Inc., based on a design for deep-sea environments but using glass
 with very low potassium or other radioactive trace elements that would contribute to the dark noise
-count rate (Section~\ref{sec:darknoise}).  
+count rate (Section~\ref{sect:darknoise}).  
 Optical transmission was measured in representative glass samples as 93\% at \unit[400]nm,
 decreasing to 50\% at \unit[340]nm and 10\% at \unit[315]nm (normal incidence, excluding Fresnel reflection).
 
@@ -105,7 +105,7 @@ Each was delivered as two hemispheres that mate precisely at the equator
 and were sealed during assembly (Sec.~\ref{sec:dom_prodtest}).  The DOM
 is held by an aluminum waistband with rubber gaskets against 
 the glass above and below the equator seam. 
-Fig.~\ref{fig:domcable} shows how the DOM is attached to the main down-hole cable via a system
+Fig.~\ref{fig:domcable} shows how the DOM is attached to the main in-ice cable via a system
 of steel rope and chain that carries the weight load around the DOM.
 The main cable bends around the DOM, and the DOM axis stays vertically aligned with the string.
 
@@ -135,7 +135,7 @@ the DOM glass.  They are routed inside a customized cable, shown in Fig.~\ref{fi
 and terminate at a pressure-tight, waterproof connector that mates with a similar connector
 that continues each pair into the main cable.  One wire pair carries power and a
 bidirectional digital communications stream, connecting ultimately with computers in the
-IceCube Laboratory building (Sec.~\ref{sec:cablesystems}).
+IceCube Laboratory building (Sec.~\ref{sec:cable}).
 The other wires lead to neighboring DOMs directly above and below,
 carrying local coincidence digital pulses that signify time-correlated hits in nearby DOMs (Sec.~\ref{sec:mainboard}).
 
@@ -281,7 +281,7 @@ the extra wire pairs described in Sec.~\ref{sec:penetrator}.
  \centering
  \includegraphics[width=0.9\textwidth]{graphics/dom/functional/domfig3-DOMDataFlow.pdf}
  \caption{Data flow diagram for recording and processing of PMT waveforms in the DOM to form 
- "Hit Records" that are sent to the surface DAQ computers.  As shown by dashes, full waveform data is only included
+ "Hit Records" that are sent to the surface DAQ computers.  As shown by dashes, full waveform data are only included
  when neighbor DOMs report time-coincident signals above the SPE discriminator threshold.  Additionally,
  data from low gain channels is omitted for waveforms that are within range of higher gain channels.}
  \label{fig:domdataflow}
@@ -297,7 +297,7 @@ variety of calibration purposes, including:
   software.
 \item Measuring the position of the deployed DOMs in ice.
 \item Measuring the optical properties of the ice.
-\item Verifying the performance of cascade reconstruction algorithms
+\item Verifying the performance of shower reconstruction algorithms
   in measuring position, direction, and energy.
 \end{enumerate}
 
@@ -334,7 +334,7 @@ The brightness parameter (0-127) controls the driving voltage between $4.5$ and 
 peak current up to \unit[300]{mA}.
 By varying brightness and width settings as well as the number of LEDs enabled, DOMs can generate flashes
 from $10^6$ to $1.4\times10^{11}$ photons, similar to the total light from
-neutrino interaction cascades between \unit[7]GeV and \unit[1]PeV energy.
+neutrino interaction showers between \unit[7]GeV and \unit[1]PeV energy.
 The low end of this dynamic range requires fine tuning of driving parameters because of
 operating LEDs very close to threshold.
 
@@ -454,7 +454,7 @@ modules capable of sustaining temperatures down to \SI{-55}{C}.  Main Board
 and DOM functionality was tested by self-diagnostic software installed on
 each module.  Other tests include gain calibration, dark noise monitoring,
 and local coincidence validation.  Optical sensitivity, time resolution,
-and linearity were measured using external light sources fed into the mDFLs
+and linearity were measured using external light sources fed into the DFLs
 via optical fibers and diffused over the DOM lower hemispheres at each
 testing station.  A typical FAT temperature and testing cycle is shown in
 Fig.~\ref{fig:fat_cycle}. The initial pass rate of DOMs during FAT was

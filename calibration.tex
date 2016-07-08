@@ -27,18 +27,14 @@ Further details can be found in Refs.~\cite{Aartsen:2013rt,IC3:spice_lea}.
 The calibration of the PMT waveforms recorded by the DOMs, i.e. translation
 of digitized samples into voltage and time, as well as accounting for the
 gain of the PMT itself, is achieved via DOM-by-DOM calibration constants
-determined by the modules themselves.  The calibration software, DOMCal,
-uses precision calibration 
-circuits on the DOM Main Board as well as single photons as inputs
-for a ladder of calibration routines.  Analysis and fitting of the
-calibration results is done by the DOMCal software, with the results being
-transmitted from each DOM to the surface as an XML file of fit parameters.
-
-The primary reference inputs to the calibration are a precision electronic
+determined by the modules themselves. The primary reference inputs to
+the DOM calibration software (DOMcal) are a precision electronic
 pulser circuit providing known charges; a circuit providing a reference DC
 bias voltage level; the 20 MHz oscillator on the Main
 Board, used as the timing reference; and single photoelectrons, either from
-ambient ``dark noise'' photons or a low-luminosity LED on the Main Board.
+ambient ``dark noise'' photons or a low-luminosity LED on the Main Board. Analysis and fitting of the
+calibration results is done by the DOMCal software, with the results being
+transmitted from each DOM to the surface as an XML file of fit parameters.
 
 Because the operating conditions for
 the in-ice DOMs are so stable, DOMCal is only run once a year on the full
@@ -46,7 +42,7 @@ detector. IceTop DOMs are calibrated once per month in order to track
 temperature-dependent changes.  Calibration is
 typically performed on half the detector at at time, the other half
 remaining in data-taking mode.  Because the calibration procedure produces
-light, however, these runs are excluded from normal analyses.
+light, these runs are excluded from normal analyses.
 
 First, the discriminator circuits used to trigger the DOM are calibrated
 using the electronic pulser circuit.  This calibration is later refined using actual
@@ -57,12 +53,12 @@ linear calibration is produced for every sample and every channel.
 
 This ATWD calibration also in principle allows determination of the baseline
 voltage levels of each channel, needed for charge integration.  However, in
-practice, these baselines are extremely sensitive to the operation
+practice, these baselines are extremely sensitive to the operating
 condition of the DOMs, and since data-taking conditions cannot be exactly
 replicated while running DOMCal, the baselines used during data-taking are
 determined instead by using averaged forced triggers taken during a normal
-run (Sec.~\ref{sec:baselines}).  DOMCal can still use its own baselines,
-though, for charge integration during the calibration procedure.
+run (Sec.~\ref{sec:baselines}).  DOMCal can still use its own
+baselines for charge integration during the calibration procedure.
 
 The highest-gain channels of the two ATWDs are calibrated using the electronic
 pulser circuit, and then the gains of the other ATWD channels and the fADC
@@ -120,8 +116,7 @@ integration and the waveform pulse unfolding used in data processing.
 
 An ATWD waveform consists of readouts from 128 effectively independent
 digitizers, while an fADC waveform consists of successive outputs of a 6-stage
-pipelined digitizer (3 bins for SLC launches and 256 for HLC
-launches). Two calibration constants per digitizer are needed to turn each of these
+pipelined digitizer (256 bins). Two calibration constants per digitizer are needed to turn each of these
 raw readout values (an integral number of ADC counts) into a
 voltage, from which the deposited charge is calculated. The deposited
 charge is the basis for all energy measurements in IceCube. The
@@ -192,14 +187,14 @@ dependent on the PMT high voltage $V$:
 
 \noindent where $m$ and $b$ are determined by DOMCal. The typical value of $m$
 is 2000~ns$\cdot \sqrt{\mathrm{V}}$, and the typical value of $b$ is
-80~ns, which includes the 75~ns delay line of the mainboard. The
+80~ns, which includes the 75~ns delay line of the Main Board. The
 typical transit time is therefore 130~ns.  Waveform start times from the
 second ATWD chip and the fADC are further 
 corrected for the delay $\Delta t$ with respect to the first ATWD
 chip, so the total start time correction is $t_{\mathrm{transit}} + \Delta t$.
 
 Finally, the waveforms are corrected for the effects of droop from the
-transformer that couples the mainboard to the PMT output. The toroid
+transformer that couples the Main Board to the PMT output. The toroid
 coupling effectively acts as a high-pass filter on the PMT output
 that makes the tails of the waveforms ``droop'' and even
 undershoot the baseline. This effect is temperature-dependent and is larger
@@ -537,8 +532,7 @@ thresholds are unchanged; these settings are only changed once per year.
   \label{fig:gain_spe_stability}
 \end{figure} 
 
-There are on the
-order of 12~DOMs that show unpredictable, abrupt shifts in the SPE peak
+There are on the order of 12~DOMs that show unpredictable, abrupt shifts in the SPE peak
 position of 0.05~PE or more. Fig.~\ref{fig:gainshift_spe} shows the time history of the
 SPE peak position of one of these DOMs over 4~months. The peak shift
 corresponds to increases or decreases in the multi-photoelectron (MPE) scaler rate,
@@ -688,7 +682,7 @@ supernova scaler stream \cite{IC3:supernova, briedel_phd}, effectively
 the summed dark noise rate of the detector with an artificial deadtime
 applied to reduce the effect of correlated noise. An exponential decay in
 the noise rate is visible; this may be caused by 
-decreasing triboluminescence arising from the initial `freeze-in`
+decreasing triboluminescence arising from the initial ``freeze-in''
 of newly deployed DOMs, impurities introduced during the drill
 process, or a combination of the two effects.  The decay
 is especially recognizable in the standard deviation of the scaler
