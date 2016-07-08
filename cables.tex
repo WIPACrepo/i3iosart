@@ -60,38 +60,31 @@ cables are provided in Table ~\ref{tab:quad_requirements}.
   \centering
   \begin{tabularx}{\textwidth}{| l | X | X | }
     \hline
-    \bf{Test} & \bf{Limit} & \bf{Conditions} \\
+    \bf{Characteristic} & \bf{Specification} & \bf{Conditions} \\
     \hline
 
-    attenuation & 20 dB maximum & at 1.0 MHz end-to-end \\
+    Attenuation & 20 dB maximum & At 1.0 MHz end-to-end \\
     \hline
 %
  %   crosstalk attenuation & intra-quad \& quad-quad & \\
   %  \hline
 
-   Near end & 50 dB minimum & at 100 kHz \\
-    \cline {2-3}
-   %  & 50 dB minimum at 2.0 MHz & decreasing 15 dB / decade \\
-    \cline {2-3}
-   crosstalk & 24 dB minimum & at 2 MHz \\
+   Near-end Crosstalk& 50 dB minimum & At 2~MHz \\
+(intra-quad and quad-quad)&24 dB minimum& At 100 MHz\\
+\hline
+   Far-end Crosstalk & 30 dB minimum & At 2 MHz \\
+(intra-quad and quad-quad)&24 dB minimum& At 20 MHz\\
+
     \hline
 
-    Far end & 30 dB minimum & at 100 kHz\\
-    \cline {2-3}
-    %ELFEXT & 30 dB minimum at 2.0 MHz & decreasing 20 dB / decade \\
-    \cline {2-3}
-    crosstalk& 10 dB minimum & at 2 MHz \\
+    Differential Impedance & Nominal $145\Omega \pm 10\Omega$ & At 1.0 MHz \\
     \hline
 
-    differential impedance & $145\Omega \pm 10\Omega$ & at 1.0 MHz \\
-    \hline
-
-    loop resistance & $160\Omega$ maximum & \\
+    Loop Resistance & $160\Omega$ maximum & \\
     \hline
 
     Dielectric breakdown & 2000~VDC minimum, 1.0~$\mu A$ maximum leakage, 60~second
-    minimum duration & all conductors individually tested with all other
-    conductors grounded \\
+    maximum duration & \\
     \hline    
   \end{tabularx}
   \caption{Electrical requirements for the cable quads.} 
