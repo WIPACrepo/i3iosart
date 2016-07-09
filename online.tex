@@ -38,8 +38,7 @@ Coincidence (SLC hits) and are compressed more aggressively.
 
 All DOM hits are read out to dedicated computers on the surface
 (Sec.~\ref{sect:sps}) by the data acquisition system (DAQ).  The next level
-of data selection is the formation of triggers by the DAQ system
-(Sec.~\ref{sect:online:trigger}). HLC hits across the detector are examined
+of data selection is the formation of triggers by the DAQ system. HLC hits across the detector are examined
 for temporal and in some cases spatial patterns that suggest a common
 causal relationship.  A number of different trigger algorithms run in
 parallel, described in Sec.~\ref{sect:online:trigger}.  All hits (both HLC
@@ -50,14 +49,14 @@ and the total DAQ data rate is approximately 1~TB/day.
 
 The DAQ also produces secondary streams that include time calibration,
 monitoring, and DOM scaler data.  The scaler data, which monitors the
-noise rate of each DOM in 1.6 ms bins, is used in the supernova data
+noise rate of each DOM in 1.6~ms bins, is used in the supernova data
 acquisition system (Sec.~\ref{sect:SNDAQ}) to detect a global rise in the
 noise rate from many $O(10)$ MeV neutrino interactions occurring in the ice
 from a Galactic core-collapse supernova.  The time calibration and
 monitoring streams are used to monitor the health and quality of the
 data-taking runs.
 
-The DAQ event data is then processed further with a number of filters
+The DAQ event data are then processed further with a number of filters
 in order to select a subset of events ($\sim15$\%) to transfer over
 satellite to the Northern Hemisphere (Sec.~\ref{sect:online:filter}).  Each
 filter, typically designed to select events useful for a particular physics
@@ -480,7 +479,7 @@ these typically are re-split before reconstruction and analysis.
 The Event Builder receives requests from the Global Trigger, extracts the
 individual readout windows, and sends them to the appropriate subset of the
 StringHubs.  The StringHubs each send back a list of all hits within the
-window.  When all StringHubs have returned a list of hits, extraneous data is
+window.  When all StringHubs have returned a list of hits, extraneous data are
 removed from the trigger, and hit payloads and bundled into an event payload.
 
 Events are written to a temporary file.  When the temporary file reaches a
@@ -528,7 +527,7 @@ phase, and instructs them to connect to each other as needed.  Using the
 run configuration files, it then distributes each component configuration
 appropriately.  The components are then started to begin a data-taking run.
 When a run is in progress, CnCServer regularly checks that components are
-still active and that data is flowing between components.
+still active and that data are flowing between components.
 
 %CnCServer starts out knowing nothing about the detector components.  During the
 %DAQ's launch phase, components are given the host and port used by CnCServer.
@@ -547,7 +546,7 @@ still active and that data is flowing between components.
 %Builder back to the String Hubs.
 
 %When a run is in progress, CnCServer regularly checks that components are still
-%active and that data is flowing between components.  If it detects a problem,
+%active and that data are flowing between components.  If it detects a problem,
 %it stops the run and relaunches all the components.  CnCServer also
 %periodically collects all components' monitoring data and writes it to
 %monitoring files which can be used for post-mortem diagnosis of detector
@@ -937,11 +936,11 @@ LiveControl cycles through predefined partial-detector
 configurations in an attempt to exclude problematic DOMs.  This results in
 taking data with less than the full number of available strings, but it
 greatly reduces the chance of a prolonged complete outage where no IceCube
-data is recorded.
+data are recorded.
 
 A secondary function of LiveControl is the collection, processing, and
 forwarding of monitoring data from DAQ, PnF, and other
-components.  This JSON data is forwarded to LiveControl using ZeroMQ and queued internally
+components.  The associated JSON data are forwarded to LiveControl using ZeroMQ and queued internally
 for processing.  Certain monitoring quantities indicate serious problems with
 the detector, e.g. the PnF latency is too high.  LiveControl
 maintains a database of critical monitoring quantities and raises an alert
