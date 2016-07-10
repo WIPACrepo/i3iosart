@@ -114,15 +114,17 @@ The main cable bends around the DOM, and the DOM axis stays vertically aligned w
 \vspace{3pt}
 \centering
 \begin{tabular}{c@{\hspace{0.5in}}c}
-\includegraphics[width=0.3\textwidth,clip=true]{graphics/dom/functional/domfig2a-CableAssembly.pdf} & \
-\includegraphics[width=0.4\textwidth,clip=true]{graphics/dom/functional/domfig2b-CableConnections.png} \\
+\includegraphics[width=0.4\textwidth,clip=true]{graphics/dom/functional/domfig2a-CableAssembly.pdf} & \
+\includegraphics[width=0.45\textwidth,clip=true]{graphics/dom/functional/domfig2b-CableConnections.pdf} \\
 \end{tabular}
-\caption{FIXME Figure to be updated. 
+\caption{
 (Left) DOM as deployed on main downhole cable, showing cable breakout to the penetrator
-assembly and the mechanical support system.  (Right) Schematic of cable connections, 
-illustrating the sharing of each communications wire
-pair by two DOMs and the additional wire pairs used for local coincidence signaling between
-neighboring DOMs.
+assembly and the mechanical support system.  (Right) Schematic of cable connections for a set
+of four DOMs, which are serviced by two wire pairs from the surface that carry power and
+communications.  The ``T'' labels show where electrical termination (\unit[140]$\Omega$) is
+installed in one of two DOMs that share such a wire pair.  Other wire pairs are used for
+bidirectional signaling between neighboring DOMs, in order to check for in-time coincident
+detections.
 }
 \label{fig:domcable}
 \end{figure}
@@ -144,7 +146,7 @@ terminated (\unit[150]$\Omega$) or unterminated inside the DOM.  This allows eac
 the surface computers to communicate with two DOMs in parallel.  The
 terminated DOM is deployed \unit[17]m below the unterminated one (\unit[7]m
 or \unit[10]m in DeepCore strings) and therefore includes a correspondingly 
-long penetrator assembly cable (bottom of Figure~\ref{fig:domcable}).
+long penetrator assembly cable (Figure~\ref{fig:domcable}).
 
 The entire penetrator assembly was designed and produced by SEACON
 (California).  The part that seals against the DOM glass is similar to a
@@ -315,7 +317,7 @@ combination of the 12, by setting bits in a configuration parameter.
 The photon output of each LED depends on the width and
 amplitude of the driving current pulse, which are controlled as common
 values for all enabled LEDs in each DOM (Figure~\ref{fig:flasheroutput}).  
-The pulse width parameter (0-127) controls width up to a maximum of \unit[70]{ns}; 
+The pulse width parameter (0-127) controls width up to a maximum of \unit[70]{ns}~\cite{ICECUBE:SPICE}; 
 for sufficiently short driving current pulses the light output narrows to \unit[6]{ns} (FWHM) with
 10\% afterglow decaying over \unit[15--20]{ns}.
 The brightness parameter (0-127) controls the driving voltage between $4.5$ and \unit[15]{volts}, yielding
@@ -328,8 +330,8 @@ operating LEDs very close to threshold.
 
 \begin{figure}[h]
  \centering
- \includegraphics[width=0.6\textwidth]{graphics/dom/functional/domfig4-FlasherDiagram.pdf}
- \caption{LED flasher circuit diagram for one of twelve LEDs (simplified).}
+ \includegraphics[width=0.8\textwidth]{graphics/dom/functional/domfig4-FlasherDiagram.pdf}
+ \caption{LED flasher circuit diagram for one of twelve LEDs, including current pulse monitor (simplified).}
  \label{fig:flasherdiagram}
 \end{figure}
 
