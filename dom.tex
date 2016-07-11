@@ -12,7 +12,7 @@
 
 \section{\label{sec:dom}The Digital Optical Module}
 
-\subsection{\label{sec:dom_functional} A Functional Description of the DOM}
+\subsection{\label{sec:dom_functional}A Functional Description of the DOM}
 
 The DOM is the fundamental light sensor and data acquisition unit for IceCube.
 It consists of a spherical glass housing 
@@ -20,7 +20,7 @@ containing a downward-facing \SI{10}{''} diameter photomultiplier tube (PMT)
 and associated circuit boards that allow near-autonomous operation (Figure~\ref{fig:domcomponents}).
 Data acquisition, control, calibration, communication, and low voltage power conversion 
 are integrated in one annular circuit board (Main Board) that fits around the neck of the PMT~\cite{ref:domdaq}. 
-Separate circuit boards generate PMT high voltage, interface to the PMT pins~\cite{ref:pmt},
+Separate circuit boards generate PMT high voltage, interface to the PMT pins~\cite{ICECUBE:PMT},
 delay PMT signals, and generate calibration light flashes that can reach other DOMs.
 Key requirements for the DOM include
 the precise recording of a wide variety of PMT pulse widths and amplitudes, robustness in
@@ -83,7 +83,7 @@ local DOM clock's offset from universal time, allowing PMT pulses that were
 independently recorded in many DOMs to be recombined into events by surface
 computers.
 
-\subsection{\label{sec:dom_components} Components}
+\subsection{\label{sec:dom_components}Components}
 
 \subsubsection{\label{sec:sphere}Glass Sphere and Harness}
 
@@ -162,7 +162,7 @@ robustness, based on previous experience deploying AMANDA modules.
 
 DOMs use the \SI{10}{''}-diameter Hamamatsu R7081-02 PMT, 
 or the corresponding high-quantum-efficiency (HQE) version for DeepCore strings.
-Its properties have been measured and described in Ref.~\cite{ref:pmt}.
+Its properties have been measured and described in Ref.~\cite{ICECUBE:PMT}.
 The PMT is specified by Hamamatsu for the wavelength range
 \unit[300]nm--\unit[650]nm, with peak quantum efficiency around 25\% (34\%
 for HQE) near \unit[390]nm.  It features a box-and-line dynode chain with 10 stages,
@@ -397,7 +397,7 @@ B5-433-B505 & 505 & 494 & 6.4 &	4.5 & 4.9 \\
 \label{table:cdom_properties}
 \end{table}
 
-\subsection{\label{sec:dom_prodtest} Production and Testing}
+\subsection{\label{sec:dom_prodtest}Production and Testing}
 
 Approximately 5500 in-ice and IceTop DOMs were required to be built, tested,
 and delivered to the South Pole.  The DOMs were required to satisfy
