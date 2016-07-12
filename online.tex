@@ -886,7 +886,7 @@ from the data host.
 Files are then routed according to the configuration of their
 data stream, either transmitted via satellite link or 
 archived to a configurable number of archival media copies.  Archival data
-were formerly written to LTO tapes but now uses large disks (JADE).
+were formerly written to LTO tapes but are now written to 4 TB disks.
 All of the archival data are buffered on the server until the archival media
 is complete. In case of media failure, the buffered files can be 
 immediately written to new archival media with a single command.
@@ -961,16 +961,17 @@ both geosynchronous and Iridium data transport, summarized in Table
 \ref{i3messages}.
 
 \begin{table}[!ht]
-\begin{tabularx}{\textwidth}{|c|c|c|c|X|}
-  \hline Priority & Transport System & Messages/day~ & Data/day & Latency\\
-  \hline 1 & ITS (Iridium) & 10,000 & 1 MB & 1 min. \\
-  \hline 2 & I3MS (Iridium) & 150,000 & 5 MB & 1--5 min. \\
-  \hline 3 & JADE (Geosynchronous) & 300,000 & 100 MB & 1 day \\
-  \hline
-\end{tabularx}
-\caption{Typical data volume and latencies for IceCube Live monitoring
-  messages.} 
-\label{i3messages}
+  \centering
+  \caption{Typical data volume and latencies for IceCube Live monitoring
+    messages.} 
+  \label{i3messages}  
+  \begin{tabularx}{0.85\textwidth}{|c|c|c|c|X|}
+    \hline Priority & Transport System & Messages/day~ & Data/day & Latency\\
+    \hline 1 & ITS (Iridium) & 10,000 & 1 MB & 1 min. \\
+    \hline 2 & I3MS (Iridium) & 150,000 & 5 MB & 1--5 min. \\
+    \hline 3 & JADE (Geosynchronous) & 300,000 & 100 MB & 1 day \\
+    \hline
+  \end{tabularx}
 \end{table}
 
 Messages reaching the website are processed by a database server daemon
@@ -1008,7 +1009,7 @@ connectivity.  This connection also provides a limited capability to
 control the detector, allowing operators in the Northern Hemisphere to
 start/stop component or remotely issue HitSpool requests.
 
-\subsection{\label{sec:operational_performance} Operational Performance}
+\subsection{\label{sec:operational_performance}Operational Performance}
 
 Detector operational uptime is highly valued, in order to remain
 sensitive to rare astrophysical transient events.  Many redundancies and
