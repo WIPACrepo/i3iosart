@@ -97,15 +97,17 @@ single-board computer (SBC) were upgraded in 2013--14.
 
 \begin{table}[h]
   \centering
-  \begin{tabular}{ r | c }
-    \bf{Component} & \bf{\#} \\ \hline DOMHubs & 97 \\ Other data
+\caption{Breakdown of computing equipment at SPS, indicating number of
+    machines used for each task.}
+  \begin{tabular}{ r  c }
+\hline
+    Component & \# \\ \hline DOMHubs & 97 \\ Other data
     acquisition & 4 \\
 %    Experiment control & 1 \\
     Monitoring & 3 \\ Event filtering & 24 \\ Infrastructure & 8 \\ Other &
     6 \\
+\hline
   \end{tabular}
-  \caption{Breakdown of computing equipment at SPS, indicating number of
-    machines used for each task.}
   \label{tab:sps_breakdown}
 \end{table}
 
@@ -148,7 +150,7 @@ available is much smaller than in the real detector, recent software
 improvements allow the ``replay'' of pre-recorded raw SPS hit data
 on SPTS systems, providing a data stream to higher-level DAQ and PnF
 components identical to SPS.  Another test system includes a full-length
-in-ice cable and is used primary for validation of DOM communications and
+in-ice cable and is used primarily for validation of DOM communications and
 timing.
 
 \subsection{Data Readout and Timing}
@@ -161,8 +163,8 @@ context of the broader online systems.
 
 Digital communication between the DOR card and DOM occurs via copper
 twisted pairs, with two DOMs per pair on the in-ice cable, and one IceTop
-DOM per pair for increased bandwidth.  The physical layer signaling is via
-amplitude shift key (ASK) modulation.  The protocol is a custom
+DOM per pair for increased bandwidth.  The physical layer signaling
+uses on-off keying with bipolar pulses.  The protocol is a custom
 packet-based scheme.  Each packet is assigned a sequence number, and all
 received packets are acknowledged if the sequence number is correct.  Each
 packet also contains a CRC checksum to detect transmission errors.
@@ -172,7 +174,7 @@ are retransmitted.
 Messaging is managed from the surface, in that the DOR requests data from
 each DOM in turn; only one DOM can transmit at a time.  Communication is
 paused every second to perform a timing calibration (RAPCal; see
-Sec.~\ref{sect:dom:rapcal})) via reciprocal bimodal pulse transmission to
+Sec.~\ref{sect:dom:rapcal}) via reciprocal bimodal pulse transmission to
 each DOM; this provides a time-dependent translation of DOM clock to DOR
 clock for every module.  The total bandwidth of the communication channel
 is 720 kbps per twisted pair.
@@ -212,8 +214,7 @@ the primary.
 \subsubsection{DOR Card and Driver}
 
 Each DOR card is connected to up to 8 DOMs, with 8 DOR cards in a
-DOMHub. The DOR card controls the 96~V DC power supply to the DOMs and
-multiplexes the ASK communications signaling on top of this DC level.
+DOMHub. The DOR card controls the 96~V DC power supply to the DOMs and multiplexes the communications signaling on top of this DC level.
 Dedicated circuitry monitors the current draw and voltage levels on each
 twisted pair, and in addition to physical fuses, a ``firmware fuse'' can
 disable power if the current draw deviates from predefined maximum or
@@ -480,7 +481,7 @@ The Event Builder receives requests from the Global Trigger, extracts the
 individual readout windows, and sends them to the appropriate subset of the
 StringHubs.  The StringHubs each send back a list of all hits within the
 window.  When all StringHubs have returned a list of hits, extraneous data are
-removed from the trigger, and hit payloads and bundled into an event payload.
+removed from the trigger, and hit payloads are bundled into an event payload.
 
 Events are written to a temporary file.  When the temporary file reaches a
 configurable size, it is renamed to a standard unique name.  When the PnF
@@ -763,8 +764,8 @@ components include:
 \item Filtered Data Dispatch and FollowUp Clients, responsible for
   looking for bursts of neutrino events on timescales from 100 seconds up
   to 3 weeks in duration. This post-filtering search of the data has all
-  filter-selected events available, enabling event-to-event correlations to
-  discovered.  Any significant burst of neutrinos found generates alerts
+  filter-selected events available, enabling event-to-event
+  correlations to be discovered.  Any significant burst of neutrinos found generates alerts
   sent to partner observatories worldwide.
 \end{enumerate}
 
@@ -1032,7 +1033,7 @@ for repairs.
 The recovery of data from all but the last few minutes of runs that fail,
 and the recent implementation of continuous data-taking, have improved
 detector stability and decreased detector downtime. These features
-contribute to an average “clean uptime” in recent years of 97--98\% of
+contribute to an average ``clean uptime'' in recent years of 97--98\% of
 full-detector, analysis-ready data, exceeding our target of 95\%.
 Historical total detector uptime and clean uptime are shown in
 Fig.~\ref{fig:clean-uptime}.   
