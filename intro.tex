@@ -12,9 +12,9 @@ particle's existence.  In the six decades following the experimental
 discovery of the neutrino by Cowan and Reines, detectors have been realized
 that have steadily progressed toward the goal of neutrino
 astronomy.  Early developments in the field include the first detections of
-atmospheric neutrinos in deep underground telescopes \cite{Witwatersrand,KGF} and
-radiochemical neutrino detectors characterizing the flux of neutrinos from
-nuclear fusion in the Sun \cite{Homestake, GALLEX}. A handful of neutrino
+atmospheric neutrinos in deep underground telescopes \cite{Achar,Witwatersrand} and
+radiochemical detection of the flux of neutrinos from
+nuclear fusion in the Sun \cite{Homestake}. A handful of neutrino
 events were detected from supernova SN1987A
 \cite{SK1987A,IMB1987A,BUST1987A}, providing the first glimpse of neutrinos
 from outside the solar system.  Advanced
@@ -39,8 +39,8 @@ extreme dimensions to detect the faint fluxes of these weakly-interacting
 particles. 
 
 Progress toward large-scale neutrino observatories using arrays of
-photomultiplier tubes in water or ice was achieved through the efforts of
-DUMAND \cite{DUMAND}, AMANDA \cite{AMANDA:detector}, Baikal \cite{Baikal}, and
+photomultiplier tubes (PMTs) in water or ice was achieved through the efforts of
+DUMAND \cite{DUMAND}, Baikal \cite{Baikal}, AMANDA \cite{AMANDA:detector}, and
 ANTARES \cite{ANTARES}.  These experiments provided key measurements of the
 high-energy atmospheric neutrino spectrum, constrained optimistic models of
 astrophysical neutrino production, and demonstrated the feasibility of the
@@ -49,11 +49,11 @@ elusive, suggesting that a kilometer-scale array was required to achieve the nec
 
 The IceCube Neutrino Observatory is a cubic-kilometer neutrino detector
 built into the glacial ice at the South Pole, with construction completed
-in 2011.  Its primary scientific objective has been the discovery of
+on December 18, 2010 and commissioning completed in 2011.  Its primary scientific objective has been the discovery of
 astrophysical neutrinos, achieved in 2013 \cite{IC3:evidence}, and  
 identification and characterization of their sources.  Other science
-objectives include detection of dark matter and other exotic particles,
-studies of neutrino oscillation physics, and detection of the neutrino shockwave
+objectives include indirect detection of dark matter, searches for other exotic particles,
+studies of neutrino oscillation physics, and detection of the neutrino burst
 from a Galactic core-collapse supernova.  A robust multi-messenger collaboration
 with optical, gamma-ray, radio, and gravitational wave observatories
 provides multiple windows onto the potential neutrino sources.  A key to
@@ -66,20 +66,18 @@ online software systems.
 In order to detect neutrinos, IceCube exploits the fact that charged
 particles resulting from neutrino interaction and moving through the
 ice at super-luminal speed emit Cherenkov photons. An enormous detection volume
-is required due to the small cross-section of neutrinos with ordinary
-matter and the extremely low fluxes expected at Earth from astrophysical objects. The glacial
+is required due to the small interaction cross-section of neutrinos and the extremely low fluxes expected at Earth from astrophysical objects. The glacial
 ice cap at the South Pole is about \SI{3}{\kilo\meter} thick and is an ideal
 operational site, since it not only offers a large quantity of interaction
 material but also a medium with excellent optical qualities.  With a
 Cherenkov photon yield of $\mathcal{O}(\num{E5})$ visible photons per
 \SI{}{\giga\electronvolt} of secondary particle shower energy, the long
-optical attenuation length of South Pole ice, and large-area
-photomultipliers (PMTs), it is possible to instrument cubic kilometers of
+optical attenuation length of South Pole ice, and large-area PMTs, it is possible to instrument cubic kilometers of
 ice with a rather sparse spacing of detectors.
 
 The basic detection unit in IceCube is the
 digital optical module (DOM), covered in detail in Sec.~\ref{sec:dom}.
-Encapsulated in a \SI{1/2}{''}-thick glass pressure sphere 
+Encapsulated in a \SI{0.5}{''}-thick glass pressure sphere 
 to withstand the extreme pressure in the deep ice, the main components of a DOM
 are a \SI{10}{''} PMT, embedded high-voltage generation, an LED Flasher 
 Board, and a Main Board containing the analog and digital processing circuitry
@@ -98,8 +96,8 @@ shown in Fig.~\ref{fig:array}.
 \begin{figure}[!h]
  \centering
  \includegraphics[width=\textwidth]{graphics/intro/ArrayWSeasonsLabels_crop.pdf}
- \caption{The IceCube Neutrino Observatory with its sub-array DeepCore and
-   the cosmic ray air shower array IceTop.}
+ \caption{The IceCube Neutrino Observatory with the IceCube Array, its sub-array DeepCore and
+   the cosmic-ray air shower array IceTop.}
  \label{fig:array}
 \end{figure}
 
@@ -126,21 +124,21 @@ the vertex and an outgoing muon that emits a Cherenkov cone along its
 track.  The angular reconstruction of such a muon track and hence the
 incident neutrino direction can reach a resolution better than
 $\SI{1}{\degree}$, confirmed by analysis of the Moon shadow
-in cosmic rays \cite{IC3:moon}. Energy loss above the minimum-ionizing regime, typically $ \sim
-\SI{1}{\tera\electronvolt}$ in IceCube, is dominated by stochastic
+in cosmic rays \cite{IC3:moon}. Energy loss of muons above the minimum-ionizing regime, typically $ \sim
+\SI{1}{\tera\electronvolt}$ in ice, is dominated by stochastic
 processes resulting in large fluctuations in the amount of energy deposited
 for different muons of the same energy.  A second class of events are
-electromagnetic or hadronic shower from interactions of all neutrino
+electromagnetic or hadronic showers from interactions of all neutrino
 flavors, resulting in a more spherical light deposition in the detector.
 Since the total light output of such a shower is directly proportional to its energy, and
 the showers are often well-contained in the detector, the neutrino energy
 reconstruction for such events is much more precise than for track-like
 events. The average deposited energy resolution for both event types
-combined is $ \sim \SI{15}{\%}$ \cite{IC3:ereco}.
+combined is $ \sim \SI{15}{\%}$ \cite{IC3:ereco}. 
 
 \subsubsection{DeepCore}
 
-A subset of in-ice DOMs is deployed in the deep ice below a
+A subset of in-ice DOMs is deployed below a
 depth of \SI{1750}{\meter} with a denser instrumented volume and
 correspondingly lower energy threshold. This
 sub-array, DeepCore \cite{ICECUBE:DC}, consists of eight specialized and
@@ -161,10 +159,12 @@ significantly increased in this region of the ice (the ``dust layer'').
 Six of the DeepCore strings are fully populated with
 DOMs using PMTs with \SI{35}{\%} higher quantum efficiency than the
 standard IceCube modules.  The denser geometry and increased efficiency
-result in a lower energy threshold of about \SI{10}{\giga\electronvolt}.  The design
+result in a lower energy threshold of about
+\SI{10}{\giga\electronvolt}, compared to about
+\SI{100}{\giga\electronvolt} for most IceCube analyses. The DeepCore design
 is optimized for the detection of atmospheric neutrinos with energies
-from \SI{10}{\giga\electronvolt} to \SI{400}{\tera\electronvolt}
-\cite{ICECUBE:AtmNu}. 
+from \SI{10}{\giga\electronvolt} to \SI{100}{\giga\electronvolt}
+\cite{ICECUBE:DC}. 
 
 \subsubsection{IceTop}
 

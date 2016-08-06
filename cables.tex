@@ -52,36 +52,36 @@ cables are provided in Table ~\ref{tab:quad_requirements}.
 % FIX ME CLEAN UP TABLE
 \begin{table}[h]
   \centering
-  \begin{tabularx}{\textwidth}{| l | X | X | }
-    \hline
-    \bf{Characteristic} & \bf{Specification} & \bf{Conditions} \\
-    \hline
+  \caption{Electrical requirements for the cable quads.} 
+  \begin{tabularx}{\textwidth}{ l X  X  }
+    \toprule
+    Characteristic& Specification & Conditions \\
+    \midrule
 
     Attenuation & 20 dB maximum & At 1.0 MHz end-to-end \\
-    \hline
+   % \hline
 %
  %   crosstalk attenuation & intra-quad \& quad-quad & \\
   %  \hline
 
    Near-end Crosstalk& 50 dB minimum & At 2~MHz \\
 (intra-quad and quad-quad)&24 dB minimum& At 100 MHz\\
-\hline
+%\hline
    Far-end Crosstalk & 30 dB minimum & At 2 MHz \\
 (intra-quad and quad-quad)&24 dB minimum& At 20 MHz\\
 
-    \hline
+   % \hline
 
     Differential Impedance & Nominal $145\Omega \pm 10\Omega$ & At 1.0 MHz \\
-    \hline
+    %\hline
 
-    Loop Resistance & $160\Omega$ maximum & \\
-    \hline
+    Loop Resistance & $160~\Omega$ maximum & \\
+    %\hline
 
     Dielectric breakdown & 2000~VDC minimum, 1.0~$\mu A$ maximum leakage, 60~second
     maximum duration & \\
-    \hline    
+    \bottomrule  
   \end{tabularx}
-  \caption{Electrical requirements for the cable quads.} 
   \label{tab:quad_requirements}
 \end{table}
 

@@ -16,7 +16,7 @@
 
 The DOM is the fundamental light sensor and data acquisition unit for IceCube.
 It consists of a spherical glass housing 
-containing a downward-facing \SI{10}{''} diameter photomultiplier tube (PMT)
+containing a downward-facing \SI{10}{''} diameter PMT
 and associated circuit boards that allow near-autonomous operation (Figure~\ref{fig:domcomponents}).
 Data acquisition, control, calibration, communication, and low voltage power conversion 
 are integrated in one annular circuit board (Main Board) that fits around the neck of the PMT~\cite{ref:domdaq}. 
@@ -42,7 +42,7 @@ a challenging deployment environment, and long-term reliability.
 %============================================================
 
 
-The PMT detects signals from neutrino events ranging over energies
+The PMT detects signals from neutrino events typically ranging over energies
 \unit[10]GeV--\unit[10]PeV and distances from a few meters to \unit[500]m
 away.  Corresponding PMT waveforms can have amplitudes from \unit[1]mV up
 to and beyond the linearity limit of the PMT (\unit[$\sim2$]V) and widths
@@ -100,7 +100,7 @@ decreasing to 50\% at \unit[340]nm and 10\% at \unit[315]nm (normal incidence, e
 %N.B. not borosilicate, according to analysis shown at final CDR 2005 (Claire's slides), in contrast
 %to the Benthos sphere datasheet which says borosilicate
 
-All spheres were tested up to \unit[10,000]psi hydrostatic pressure by the manufacturer.
+All spheres were tested up to \unit[690]bar hydrostatic pressure by the manufacturer.
 Each was delivered as two hemispheres that mate precisely at the equator
 and were sealed during assembly (Sec.~\ref{sec:dom_prodtest}).  The DOM
 is held by an aluminum waistband with rubber gaskets against 
@@ -183,7 +183,8 @@ The characteristics of the cured gel are specified to remain stable in the tempe
 To reduce effects of the ambient South Pole magnetic field (\unit[550]mG, $17^\circ$
 from vertical) on the PMT collection efficiency, a mu-metal cage surrounds the PMT bulb up to
 the neck join.  It was constructed as a wire mesh with typical wire spacing \unit[66]mm and
-wire diameter \unit[1]mm, blocking about 4\% of the incident light.
+wire diameter \unit[1]mm, blocking about 4\% of the incident light,
+and delivered by ITEP Moscow.
 Without such a shield, this type of PMT would exhibit 5-10\% lower
 collection efficiency, poorer peak-to-valley ratio, and gain variations of 20\% depending on 
 azimuthal orientation~\cite{calvo}.
@@ -263,7 +264,8 @@ The median fractional deadtime during a high-rate period for in-ice DOMs
 is $6.6\times10^{-5}$, for IceTop low-gain DOMs is $7.2\times 10^{-6}$, and
 for IceTop high-gain DOMs is $3.2 \times 10^{-3}$.  
 
-The ATWD recording interval is \unit[427]ns.  This is ideal for reconstructing light produced within ~\unit[50]m of
+The ATWD recording interval is \unit[427]ns.  This is ideal for
+reconstructing light produced within tens of meters of
 a DOM, but photons from further away may arrive over a broader time
 interval due to the optical scattering of the ice.  Such distant signals are
 also lower in amplitude, and the information is captured in the \unit[40]Msps fADC.
@@ -303,7 +305,7 @@ variety of calibration purposes, including:
   in measuring position, direction, and energy.
 \end{enumerate}
 
-The standard Flasher Board, included in every DOM except the color DOMs
+The standard Flasher Board, included in every DOM except the ``color DOMs''
 described below, is an annular board fitted with 12 LEDs (ETG-5UV405-30)
 specified with output wavelength \unit[$405\pm5$]nm.  Laboratory
 measurements with sample DOMs indicate a peak at
@@ -380,19 +382,19 @@ Table~\ref{table:cdom_properties}.
   emission FWHW $\sigma$ in air, DOM polar
   angular emission FWHM $\sigma_{\theta}$, and DOM azimuthal angular emission
   FWHM $\sigma_{\phi}$.}
-\begin{tabularx}{\linewidth}{|c|X|X|X|X|X|X|}
-  \hline
+\begin{tabularx}{\linewidth}{lXXXXXX}
+\toprule
  LED& nominal $\lambda$ (nm) & measured $\lambda$ (nm) & $\sigma$ air ($^{\circ}$) &
- $\sigma_{\theta}$ DOM ($^{\circ}$) & $\sigma_{\phi}$ DOM ($^{\circ}$)\\
-\hline
+ $\sigma_{\theta}$ ($^{\circ}$) & $\sigma_{\phi}$ ($^{\circ}$)\\
+\midrule
 UVTOP335-FW-TO39 & 340 & 338 & 51.0 & 36.1 & 42.9 \\
-\hline
+%\hline
 NS370L\_5RFS & 370 & 371 & 55.2 & 39.1 & 42.9 \\
-\hline
+%\hline
 LED450-01 & 450 & 447 &	6.8 & 4.8 &	5.3 \\
-\hline
+%\hline
 B5-433-B505 & 505 & 494 & 6.4 &	4.5 & 4.9 \\
-\hline
+\bottomrule
 \end{tabularx}
 \label{table:cdom_properties}
 \end{table}
@@ -412,7 +414,8 @@ in Europe (DESY, Zeuthen, Germany and Stockholm University, Sweden).  This
 quantity of DOMs was sufficient to verify production readiness, supply
 instrumentation for the first year drilling plan, and validate the design after a deployment
 season.  During Stage 2, material and supplies were procured, and another
-1000 DOMs produced. Finally, Stage 3 involved procurements,
+1000 DOMs produced (PSL, DESY, Stockholm) and tested (PSL, DESY and
+Uppsala University, Sweden). Finally, Stage 3 involved procurements,
 integration, and testing of the remaining 4100 DOMs.
 
 DOM production utilized a formalized process to track each DOM through to
@@ -452,7 +455,7 @@ protocol (Final Acceptance Testing, or FAT) including temperature-cycling
 and cold-soaking ensured that bad modules and early component failures were
 identified and repaired before shipping.  This testing at production sites
 was performed in Dark Freezer Labs (DFLs), light-tight walk-in 
-modules capable of sustaining temperatures down to \SI{-55}{C}.  Main Board
+modules capable of sustaining temperatures down to $-55^\circ$C.  Main Board
 and DOM functionality was tested by self-diagnostic software installed on
 each module.  Other tests include gain calibration, dark noise monitoring,
 and local coincidence validation.  Optical sensitivity, time resolution,
@@ -513,20 +516,15 @@ dead DOMs must also be modified. These are enumerated in Table \ref{tab:dom_fail
     issues (including a failed neighbor) causing them to be operated in a
     non-standard data-taking mode.} 
   \label{tab:dom_failures}
-  \begin{tabular}{| r | c |}
-    \hline
-    \bf{DOM failures} & \bf{87} \\
+  \begin{tabular}{rc|rc}
+    \toprule
+    DOM failures & N & DOMs in non-standard mode & N\\
     \hline    
-    deployment / freeze-in & 55 \\
-    post-commissioning & 32 \\
-    \hline
-    \hline
-    \bf{DOMs in non-standard mode} & \bf{171} \\
-    \hline
-    single functional ATWD & 12 \\
-    reduced PMT gain & 1 \\
-    non-standard local coincidence & 158 \\
-    \hline    
+    deployment / freeze-in & 55 &single functional ATWD & 12\\
+    post-commissioning & 32  & reduced PMT gain & 1 \\
+   & & non-standard local coincidence & 158 \\
+ total & 87 & total& 171\\
+    \bottomrule 
   \end{tabular}
 \end{table}
 
