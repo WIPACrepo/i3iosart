@@ -16,7 +16,7 @@
 
 The DOM is the fundamental light sensor and data acquisition unit for IceCube.
 It consists of a spherical glass housing 
-containing a downward-facing \SI{10}{''} diameter photomultiplier tube (PMT)
+containing a downward-facing \SI{10}{''} diameter PMT
 and associated circuit boards that allow near-autonomous operation (Figure~\ref{fig:domcomponents}).
 Data acquisition, control, calibration, communication, and low voltage power conversion 
 are integrated in one annular circuit board (Main Board) that fits around the neck of the PMT~\cite{ref:domdaq}. 
@@ -42,7 +42,7 @@ a challenging deployment environment, and long-term reliability.
 %============================================================
 
 
-The PMT detects signals from neutrino events ranging over energies
+The PMT detects signals from neutrino events typically ranging over energies
 \unit[10]GeV--\unit[10]PeV and distances from a few meters to \unit[500]m
 away.  Corresponding PMT waveforms can have amplitudes from \unit[1]mV up
 to and beyond the linearity limit of the PMT (\unit[$\sim2$]V) and widths
@@ -183,7 +183,8 @@ The characteristics of the cured gel are specified to remain stable in the tempe
 To reduce effects of the ambient South Pole magnetic field (\unit[550]mG, $17^\circ$
 from vertical) on the PMT collection efficiency, a mu-metal cage surrounds the PMT bulb up to
 the neck join.  It was constructed as a wire mesh with typical wire spacing \unit[66]mm and
-wire diameter \unit[1]mm, blocking about 4\% of the incident light.
+wire diameter \unit[1]mm, blocking about 4\% of the incident light,
+and delivered by ITEP Moscow.
 Without such a shield, this type of PMT would exhibit 5-10\% lower
 collection efficiency, poorer peak-to-valley ratio, and gain variations of 20\% depending on 
 azimuthal orientation~\cite{calvo}.
@@ -263,7 +264,8 @@ The median fractional deadtime during a high-rate period for in-ice DOMs
 is $6.6\times10^{-5}$, for IceTop low-gain DOMs is $7.2\times 10^{-6}$, and
 for IceTop high-gain DOMs is $3.2 \times 10^{-3}$.  
 
-The ATWD recording interval is \unit[427]ns.  This is ideal for reconstructing light produced within ~\unit[50]m of
+The ATWD recording interval is \unit[427]ns.  This is ideal for
+reconstructing light produced within tens of meters of
 a DOM, but photons from further away may arrive over a broader time
 interval due to the optical scattering of the ice.  Such distant signals are
 also lower in amplitude, and the information is captured in the \unit[40]Msps fADC.
@@ -303,7 +305,7 @@ variety of calibration purposes, including:
   in measuring position, direction, and energy.
 \end{enumerate}
 
-The standard Flasher Board, included in every DOM except the color DOMs
+The standard Flasher Board, included in every DOM except the ``color DOMs''
 described below, is an annular board fitted with 12 LEDs (ETG-5UV405-30)
 specified with output wavelength \unit[$405\pm5$]nm.  Laboratory
 measurements with sample DOMs indicate a peak at
@@ -412,7 +414,8 @@ in Europe (DESY, Zeuthen, Germany and Stockholm University, Sweden).  This
 quantity of DOMs was sufficient to verify production readiness, supply
 instrumentation for the first year drilling plan, and validate the design after a deployment
 season.  During Stage 2, material and supplies were procured, and another
-1000 DOMs produced. Finally, Stage 3 involved procurements,
+1000 DOMs produced (PSL, DESY, Stockholm) and tested (PSL, DESY and
+Uppsala University, Sweden). Finally, Stage 3 involved procurements,
 integration, and testing of the remaining 4100 DOMs.
 
 DOM production utilized a formalized process to track each DOM through to
