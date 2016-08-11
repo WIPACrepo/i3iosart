@@ -179,7 +179,7 @@ outside the drill tower. After verification that the hole was
 ready for deployment and a pre-deployment safety check, the in-ice cable
 was pulled over the tower crescent above the open hole. Four 100-pound
 weights were connected together and attached via a 2.1~m steel cable to a
-DOM that had a 17 meter (long) penetrator assembly. The weights and
+DOM that had a 17 meter (long) penetrator assembly (see Fig.~\ref{fig:domcable}). The weights and
 lowermost DOM were attached to the bottom of the in-ice cable via a 15.5~m
 steel cable. After lowering of the DOM and weights, the next DOM with a
 1.8~m (short) penetrator assembly was attached to the in-ice cable. The two DOMs were
@@ -192,7 +192,7 @@ cable, until all 60 DOMs were attached, after which the remaining 1.5~km of
 in-ice cable was lowered into the hole (the ``drop'' phase). The top of the
 cable was secured by an 8x8-inch anchor trenched into the snow near the hole. After the
 cable was secure, it was taken off of the spool and connected to the
-SJB. An example of the time profile of deployment from pressure sensor
+Surface Junction Box (SJB). An example of the time profile of deployment from pressure sensor
 attachment to string drop is shown in Fig.~\ref{fig:deploytime}.
 
 \begin{figure}[!ht]
@@ -209,8 +209,9 @@ locations in the detector, a critical component of the overall measurement
 of the optical properties of the ice~\cite{Aartsen:2013rt,citeulike:2998650}. Dust loggers 
 consist of a 404~nm laser line source emitted horizontally in a
 60$^{\circ}$ fan pattern 2~mm thick, paired with an integrated
-photomultiplier tube and digital photon counter for light detection. Two
-disposable and six reusable dust loggers were deployed. The disposable dust
+photomultiplier tube and digital photon counter for light
+detection. Disposable dust loggers were deployed in two holes, and reusable dust loggers were
+deployed in six holes. The disposable dust
 logger was attached to the main cable between the lowermost DOM and the
 weight stack, and an extension cable ran between the dust logger and the
 bottom breakout, just above the next-to-lowest DOM. In this mode, the hole
@@ -233,14 +234,20 @@ The $(x,y)$-coordinates of the string are calculated using the position of
 the drill tower. Before deployment, when the drill tower is in position, at
 least three of the tower corners are surveyed from at least one control
 point.  The coordinates for the center of the hole in the tower floor are
-calculated from the corner coordinates.
+calculated from the corner coordinates. The string is assumed to be
+vertical, so the $(x,y)$-coordinates from the tower are used at all
+depths on the string. The drill
+data shows deviations of less than 1~m from vertical, which are not
+included in the official detector coordinates but have been validated
+with flasher data, as discussed in Sec.~\ref{sec:trilateration}. 
 
 The depth of the lowest DOM on the string is calculated using pressure
 readings from the pressure sensor, converted to depth by correcting for the
 compressibility of the water in the hole and the ambient air pressure
 measured before the pressure sensor enters the water. The distance from the
 tower floor to the water surface is measured with a laser ranger. The
-vertical DOM spacings are also measured with a laser ranger.
+vertical DOM spacings are also measured with a laser
+ranger. 
 
 \subsubsection{Stage 2 Geometry Measurement}
 
@@ -279,7 +286,7 @@ of the DOMs.
 \end{figure}
 
 
-\subsubsection{Trilateration Validation of DOM Coordinates}
+\subsubsection{\label{sec:trilateration}Trilateration Validation of DOM Coordinates}
 
 The Stage 2 geometry assumes that all strings are vertical. However, the
 data from the drill shows that the string is not perfectly vertical,
@@ -342,7 +349,7 @@ points are long-term average inclination in degrees per year, with error
 bars indicating the standard deviation from trend.  The MEMS sensors have
 higher noise than the electrolytic inclinometers, and aging tests have indicated a long-term
 drift of $\sim$\numrange[range-phrase = --]{2}{3}~mg, corresponding to
-$\sim$\numrange[range-phrase = --]{0.01}{0.02}degrees per year
+$\sim$\numrange[range-phrase = --]{0.01}{0.02}~degrees per year
 \cite{inclinometer_comm}. The MEMS readings are consistent with
 $\lesssim$\unit[0.01]degrees of tilt per year with no apparent depth
 dependence.  The deep electrolytic sensor 
@@ -371,9 +378,9 @@ depths \SI{<2450}m, show essentially no movement.  Profiles of the
 atmospheric dust embedded in the ice measured with dust loggers \cite{I3:dustlogger} show no
 indication of folding and appear undisturbed over the full IceCube depth.
 
-\subsection{Sweden Camera}
+\subsection{Imaging Camera}
 
-The Sweden Camera system was deployed on String 80 in the final
+An imaging camera system, delivered by Stockholm University, Sweden, was deployed on String 80 in the final
 construction season in order to monitor the freeze-in process and optical
 properties of the drill hole.  The system consists of two video cameras
 housed in separate glass pressure spheres \SI{5.8}{m} apart, between the

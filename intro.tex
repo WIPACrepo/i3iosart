@@ -6,12 +6,10 @@
 \label{sec:intro}
 
 % \subsection{IceCube Science}
-Construction of an observatory to examine celestial phenomena using
-neutrinos was first conceived not long after Pauli theorized the
-particle's existence.  In the six decades following the experimental
+In the six decades following the experimental
 discovery of the neutrino by Cowan and Reines, detectors have been realized
 that have steadily progressed toward the goal of neutrino
-astronomy.  Early developments in the field include the first detections of
+astronomy.  Early developments in the field included the first detections of
 atmospheric neutrinos in deep underground telescopes \cite{Achar,Witwatersrand} and
 radiochemical detection of the flux of neutrinos from
 nuclear fusion in the Sun \cite{Homestake}. A handful of neutrino
@@ -24,9 +22,9 @@ parameters \cite{SK,SNO}.  The study of neutrinos emanating from astrophysical
 processes has both informed and sometimes surprised the fields of
 astrophysics and particle physics. 
 
-Neutrinos, because of their weak neutral character, are useful probes of high
-energy phenomena in the Universe. Unlike photons, their origins in astrophysical
-acceleration sites unambiguously indicate hadronic acceleration and
+Neutrinos, because of their weak interaction and electrically neutral character, are useful probes of high
+energy phenomena in the Universe. Unlike photons, detecting their origins in astrophysical
+acceleration sites would unambiguously indicate hadronic acceleration and
 provide identification of the origins of cosmic rays. Neutrinos arrive 
 undeflected and unscattered upon detection and thus point back to their
 originators, providing
@@ -50,7 +48,7 @@ elusive, suggesting that a kilometer-scale array was required to achieve the nec
 The IceCube Neutrino Observatory is a cubic-kilometer neutrino detector
 built into the glacial ice at the South Pole, with construction completed
 on December 18, 2010 and commissioning completed in 2011.  Its primary scientific objective has been the discovery of
-astrophysical neutrinos, achieved in 2013 \cite{IC3:evidence}, and  
+astrophysical neutrinos, which was achieved in 2013 \cite{IC3:evidence}, and the 
 identification and characterization of their sources.  Other science
 objectives include indirect detection of dark matter, searches for other exotic particles,
 studies of neutrino oscillation physics, and detection of the neutrino burst
@@ -61,7 +59,7 @@ the success of these initiatives is the reliability and performance of the
 IceCube instrumentation, as well as the flexibility and stability of the
 online software systems.  
 
-\subsection{A Functional Description of the IceCube Instrument}
+\subsection{A Functional Description of the IceCube Observatory}
 
 In order to detect neutrinos, IceCube exploits the fact that charged
 particles resulting from neutrino interaction and moving through the
@@ -88,9 +86,9 @@ Sec.~\ref{sec:cable}.  Aspects of detector deployment and ice drilling are
 covered in Sec.~\ref{sec:drill-deploy}. An overview of the data flow as well as
 its readout, processing and filtering are presented in
 Sec.~\ref{sect:online}, along with data handling, monitoring, and operational performance of
-the observatory. The IceCube instrument consists of three sub-detectors ---
+the observatory. The IceCube Observatory consists of three detectors ---
 IceCube, DeepCore, and IceTop --- using the same instrumentation design of
-DOMs and associated surface readout. A schematic layout of the array is
+DOMs and associated surface readout. A schematic layout of the Observatory is
 shown in Fig.~\ref{fig:array}. 
 
 \begin{figure}[!h]
@@ -106,11 +104,11 @@ shown in Fig.~\ref{fig:array}.
 In order to detect the Cherenkov photons emitted by charged particles
 traversing the ice, \num{5160} DOMs are deployed between \SI{1450}{\meter}
 and \SI{2450} {\meter} below the glacial surface on \num{86} vertical
-strings, with each string consisting of \num{60} DOMs deployed along a copper cable. The
+strings, with each string consisting of \num{60} DOMs deployed along a single cable containing twisted copper-wire pairs. The
 primary in-ice array consists of \num{78} strings with a vertical
 separation of the DOMs of \SI{17}{\meter}.  The strings are
-deployed on a hexagonal grid with \SI{125}{\meter} horizontal spacing that
-spans a volume of one cubic kilometer of ice.  This design was chosen in
+deployed on a hexagonal grid with \SI{125}{\meter} horizontal spacing
+that includes an instrumented volume of of one cubic kilometer of ice.  This design was chosen in
 order to meet the primary science requirement of detecting astrophysical
 neutrinos in the energy range of $\mathcal{O}(\SI{}{\tera\electronvolt})$--
 $\mathcal{O}(\SI{}{PeV})$.  % The observation of these neutrinos was achieved
@@ -123,13 +121,13 @@ a high-energy muon neutrino with a nucleus, producing a hadronic shower at
 the vertex and an outgoing muon that emits a Cherenkov cone along its
 track.  The angular reconstruction of such a muon track and hence the
 incident neutrino direction can reach a resolution better than
-$\SI{1}{\degree}$, confirmed by analysis of the Moon shadow
+$\SI{1}{\degree}$, confirmed by analysis of the Moon's shadow
 in cosmic rays \cite{IC3:moon}. Energy loss of muons above the minimum-ionizing regime, typically $ \sim
 \SI{1}{\tera\electronvolt}$ in ice, is dominated by stochastic
 processes resulting in large fluctuations in the amount of energy deposited
 for different muons of the same energy.  A second class of events are
 electromagnetic or hadronic showers from interactions of all neutrino
-flavors, resulting in a more spherical light deposition in the detector.
+flavors, resulting in a more spherical light generation in the detector.
 Since the total light output of such a shower is directly proportional to its energy, and
 the showers are often well-contained in the detector, the neutrino energy
 reconstruction for such events is much more precise than for track-like
@@ -143,13 +141,13 @@ depth of \SI{1750}{\meter} with a denser instrumented volume and
 correspondingly lower energy threshold. This
 sub-array, DeepCore \cite{ICECUBE:DC}, consists of eight specialized and
 closely-spaced strings of sensors in the center of the array, along with
-the seven central standard IceCube strings.  The average inter-string
-spacing of 13 of 15 of the strings is \SI{72}{\meter}, with six of the 15
-spaced at \SI{42}{\meter}.
+the seven central standard IceCube strings. The inter-string spacing
+in DeepCore varies from \SI{41}{\meter} to \SI{105}{\meter}, with an
+average spacing of \SI{72}{\meter}.
 
 The eight specialized DeepCore strings have a DOM-to-DOM spacing of
 \SI{7}{\meter} for the bottom 50 DOMs, deployed at depths of
-\SI{2100}{\meter} and \SI{2450}{\meter}.  The remaining 10 DOMs are
+\SI{2100}{\meter} to \SI{2450}{\meter}.  The remaining 10 DOMs are
 deployed at depths above \SI{2000}{\meter} with a spacing of
 \SI{10}{\meter} to form a veto cap, allowing better rejection of downgoing
 atmospheric muons.  Depths from \SI{2000}{\meter} to \SI{2100}{\meter}
@@ -172,14 +170,15 @@ The cosmic ray air shower array IceTop \cite{ICECUBE:IceTop} consists
 of \num{162} Cherenkov tanks filled with clear ice and arranged in
 \num{81} pairs on the
 surface, using approximately the same grid on which the in-ice
-array is deployed.  The two tanks at each surface station are separated from
+array is deployed. Each tank is \SI{1}{\meter} high, with a \SI{1.82}{\meter} inner diameter and is
+filled with ice to a height of \SI{0.90}{\meter}.  The two tanks at each surface station are separated from
 each other by \SI{10}{\meter}. Each tank contains two standard IceCube
 DOMs, one ``high-gain'' DOM operated at a PMT gain of $5 \times 10^{6}$, and one
 ``low-gain'' DOM operated at a gain of $10^{5}$. Air showers initiated in the atmosphere by cosmic rays are typically
 spread over a number of stations. The light generated in the tanks by the
 shower particles (electrons, photons, muons and hadrons) is a measure of
 the energy deposition of these particles in the tanks. IceTop is sensitive to
-primary cosmic rays of energies in the range of \SI{}{PeV} to \SI{}{EeV}
+primary cosmic rays in the energy range of \SI{}{PeV} to \SI{}{EeV}
 with an energy resolution of \SI{25}{\%} at \SI{2}{PeV}, improving to
 \SI{12}{\%} above \SI{10}{PeV} \cite{IT:measurement}.
 

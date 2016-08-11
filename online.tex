@@ -329,7 +329,7 @@ The fundamental trigger for IceCube, IceTop, and DeepCore is the Simple
 Multiplicity Trigger (SMT).  The SMT requires $N$ or more HLC hits within a
 sliding time window of several $\mu\mathrm{s}$, without any locality
 conditions.  Once the multiplicity condition is met, the trigger is 
-extended until there is a time period the length of the initial trigger
+extended until there is a time period of the length of the initial trigger
 window without any HLC hits from the relevant DOM set.  The
 multiplicity value $N$ is tuned to the energy threshold of the sub-detector,
 which fundamentally is set by the string or tank spacing.
@@ -364,8 +364,8 @@ muons that pass vertically through the detector.
 
 IceCube has the potential to detect hypothetical subrelativistic heavy
 particles such as magnetic monopoles, via catalyzed nucleon decays along
-the particle trajectory \cite{IC3:monopole}.  However, because these
-particles may travel at velocities much less than $c$, the time
+the particle trajectory \cite{Aartsen:2014awd}.  However, because these
+particles may travel at velocities less than $0.01c$, the time
 windows used in the standard triggers are too short.  A dedicated Slow
 Particle (SLOP) trigger has thus been developed to search for slow
 track-like particle signatures.
@@ -441,7 +441,7 @@ merged, while retaining information about the separate triggers.  The
 merged trigger is referred to as the Global Trigger.
 
 Each trigger has defined readout windows around the trigger window; all
-hits from the full detector, those DOM sets not involved in the trigger,
+hits from the full detector, including those DOM sets not involved in the trigger,
 are requested from the StringHub components and built into events.  For the
 DOM set involved in the trigger, the readout windows are appended at the end of the trigger
 window, while for other DOM sets, the readout windows are centered around
@@ -560,8 +560,8 @@ specifically for the detection of the many $O(10)$ MeV neutrinos from a
 Galactic core-collapse supernova.  In the case of such an event, these
 neutrinos will produce interactions in
 the detector that, individually, are too dim to trigger the standard DAQ,
-but because of their high multiplicity, can cause a coherent rise in the
-individual hit rate of all of the in-ice DOMs~\cite{IC3:supernova}.
+but because of their high number, can cause a coherent rise in the
+individual hit rates of the DOMs~\cite{IC3:supernova}.
 
 Each DOM monitors its hit rate and sends a stream of binned counts, using a
 bin width of 1.6384~ms ($2^{16}$ clock cycles).  An artificial
@@ -828,8 +828,8 @@ set of core filters, including:
 \item A DeepCore contained filter that searches for contained, lower-energy
   neutrino events ($\sim10-100$ GeV) from atmospheric neutrino interactions
   that are contained with the more densely instrumented DeepCore region.
-  The selected events are used as inputs to analyses that search for
-  neutrino oscillation effects.
+  The selected events are used as inputs to analyses that measure
+  neutrino oscillation effects and search for indirect signatures of dark matter.
 \end{enumerate}
 
 A number of other filters are employed for more specialized and/or

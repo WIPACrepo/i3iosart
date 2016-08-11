@@ -239,7 +239,7 @@ ICL, which is synchronized to UTC
 DOM over the power/communications wire pair and then returned, with each
 transmission and receive point timestamped locally.  The symmetry of the down-
 and up-transmission allows a translation from each DOM clock domain to the
-surface clock domain at the midpoint, without prior knowledge of cable
+ICL clock domain at the midpoint, without prior knowledge of cable
 lengths.  The base implementation is described in Ref.~\cite{ICECUBE:DAQ}; we
 describe here the details of the time translation algorithm and validation
 of the DOM relative synchronization. 
@@ -373,7 +373,10 @@ dominated by the shape of the photocathode and its response variation away
 from the center, which was measured for 135 PMTs~\cite{ICECUBE:PMT}.
 
 The laboratory-based efficiency model was supplemented with \textit{in
-  situ} measurements using Cherenkov light from muons in the ice.  In one
+  situ} measurements using Cherenkov light from muons in the ice. The
+efficiency measured \textit{in situ} includes effects of the cable
+shadowing the DOM and the refrozen ``hole ice'' in the vicinity of the
+DOM. In one
 study, low-energy muons (median energy 82~GeV) with well-understood light
 emission were selected to illuminate the downward-facing PMTs in the ice as
 directly as possible. The number of photons detected at different
@@ -502,7 +505,7 @@ single photoelectron peak of the charge distribution on each DOM from
 cosmic ray muons. A
 Gaussian + exponential function is fit to the peak region as in
 Fig.~\ref{fig:spe_fit_thresh}, and the mean of the Gaussian is
-tracked throughout the year. The threshold, defined as the point which
+tracked throughout the year. The threshold, defined here as the point which
 contains 1\% of the charge in the histogram, is also tracked through
 the year. The peak position is calibrated to 1~PE
 and is stable to within 0.01~PE for 95\% of all DOMs, as shown in
@@ -557,7 +560,7 @@ described in \cite{IC3:ereco}. The detector response is monitored in each run us
 detection probability (TDP) calculated from high-multiplicity muon tracks
 with more than 30 hits in IceCube. The muon 
 tracks are reconstructed using the likelihood methods described in
-\cite{IC3:ereco}; charge and time information from the DOM under study excluded
+\cite{Ahrens:2003fg}; charge and time information from the DOM under study excluded
 from the reconstruction. The TDP is
 defined for each DOM as the ratio of the number of detected tracks
 within 100~m of the DOM to the total number of tracks within 100~m of
@@ -633,7 +636,7 @@ intervals are correlated and are clustered in bursts with an average number of
 hits per burst increasing from \num{3.3} at \SI{-10}{\celsius} to \num{3.8} at
 \SI{-30}{\celsius}. A study with untriggered data shows that the
 phenomenology of the correlated noise component in IceCube is in general in
-good agreement with results reported in the literature, but a satisfying
+good agreement with results reported in the literature~\cite{meyer_noise}, but a satisfying
 physical explanation is still to be determined.  One candidate for the source
 of the process is luminescence triggered by radioactive decay of
 elements such as thorium and uranium in the glass of the DOM.
@@ -688,9 +691,9 @@ is especially recognizable in the standard deviation of the scaler
 distribution (Fig.~\ref{fig:noise_over_time_briedel}), which decreases by
 25\% over the course of the three years. Changes in the mean rate are
 initially dominated by the decay component and later by the seasonal
-variation of atmospheric muons.  The noise rate decay is even pronounced
-in strings deployed in the last drill season of IceCube
-(Fig.~\ref{fig:noise_over_time_briedel_lastseasondepoyed}).
+variation of atmospheric muons. The noise
+rate decay is seen to be more pronounced when selecting only strings
+which were deployed in the previous season, as shown in Fig.~\ref{fig:noise_over_time_briedel_lastseasondepoyed} for strings deployed in the last drill season of IceCube.
 
 %As the ice refreezes after deployment, it
 %becomes cleaner and impurities introduced during the drill process (mainly
@@ -730,7 +733,7 @@ reconstruction purposes.
  \centering
  \includegraphics[width=0.95\textwidth]{graphics/dom/performance/darknoise/HLC_Whole_Detector_Mean_Variance_IC86_2011_2012_2013.pdf}
  \caption{Mean and standard deviation of the HLC rate distribution
-   \cite{briedel_phd}  Changes in dark noise rate are minimally visible,
+   \cite{briedel_phd}.  Changes in dark noise rate are minimally visible,
    and instead the rate is dominated by seasonal and weather-related
    changes in the atmospheric muon flux.} 
  \label{fig:hlc_over_time_briedel}

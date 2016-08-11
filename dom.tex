@@ -23,7 +23,7 @@ are integrated in one annular circuit board (Main Board) that fits around the ne
 Separate circuit boards generate PMT high voltage, interface to the PMT pins~\cite{ICECUBE:PMT},
 delay PMT signals, and generate calibration light flashes that can reach other DOMs.
 Key requirements for the DOM include
-the precise recording of a wide variety of PMT pulse widths and amplitudes, robustness in
+the precise recording of a wide variety of PMT pulse widths and amplitudes with nanosecond time resolution, robustness in
 a challenging deployment environment, and long-term reliability.
 
 %============================================================
@@ -42,8 +42,8 @@ a challenging deployment environment, and long-term reliability.
 %============================================================
 
 
-The PMT detects signals from neutrino events typically ranging over energies
-\unit[10]GeV--\unit[10]PeV and distances from a few meters to \unit[500]m
+The PMT detects signals from neutrino events typically ranging over
+energies from \unit[10]GeV to \unit[10]PeV and distances from a few meters to \unit[500]m
 away.  Corresponding PMT waveforms can have amplitudes from \unit[1]mV up
 to and beyond the linearity limit of the PMT (\unit[$\sim2$]V) and widths
 from \unit[12]ns to \unit[1500]ns.  In order to accommodate such a variety
@@ -55,7 +55,7 @@ the PMT waveform that also includes photons arriving up to
 \unit[6.4]{$\mu$s} later.  The trigger time is saved along with the
 waveform shape, allowing the determination of the times of arriving photons
 relative to this reference.  The DOM typically accumulates such triggered
-data for a period of \unit[1]s before sending as a block, although the DOM
+data for a period of \unit[1]s before sending the data up as a block, although the DOM
 can store $\mathcal{O}(\SI{10}{\second})$ of data before overflowing local memory,
 depending on trigger rate.  Separately, the PMT trigger rate is recorded by
 the DOM in \unit[1.6]ms intervals, as a collective increase of all rates
@@ -166,7 +166,7 @@ Its properties have been measured and described in Ref.~\cite{ICECUBE:PMT}.
 The PMT is specified by Hamamatsu for the wavelength range
 \unit[300]nm--\unit[650]nm, with peak quantum efficiency around 25\% (34\%
 for HQE) near \unit[390]nm.  It features a box-and-line dynode chain with 10 stages,
-with in-ice DOMs operated at gain $10^7$ (Sec.~\ref{sec:domcal}).
+with in-ice DOMs operated at a gain of $10^7$ (Sec.~\ref{sec:domcal}).
 
 The PMT bulb faces downwards in the bottom glass hemisphere, secured in high-strength 
 silicone gel to a depth sufficient to surround the photocathode area.  
@@ -275,7 +275,7 @@ sampling speed.
 
 Every digitizer launch results in a ``hit'' record being sent to the surface computers, but the amount of
 information included depends on whether a signal was also detected in one of the neighboring DOMs.
-In case of an isolated signal (no coincidence), only a time stamp and brief charge summary is sent, and
+In case of an isolated signal (no coincidence), only a time stamp and brief charge summary are sent, and
 the full digitization process is aborted.  Conversely, when a nearest or next-to-nearest neighbor DOM 
 also signals a launch within $\pm$\unit[1]$\mu$s (local coincidence), the full waveform is compressed
 and included in the hit record.  The local coincidence signaling operates via digital pulse codes sent on
@@ -293,7 +293,7 @@ the extra wire pairs described in Sec.~\ref{sec:penetrator}.
 
 \subsubsection{\label{sec:flasher}Flasher Board}
 
-Each DOM contains an LED Flasher Board, used for a
+Each DOM contains an LED Flasher Board, which is used for a
 variety of calibration purposes, including: 
 
 \begin{enumerate}
@@ -353,7 +353,7 @@ operating LEDs very close to threshold.
  \centering
  \includegraphics[width=0.6\textwidth]{graphics/dom/functional/domfig5-BrightnessModel.pdf}
  \caption{Light output from flasher LED pulses (relative to maximum), depending
-on brightness and width configuration parameters.  Additional dynamic range is available
+on brightness (B) and width configuration parameters.  Additional dynamic range is available
 by enabling from 1 to 12 individual LEDs per DOM.}
  \label{fig:flasheroutput}
 \end{figure}
@@ -401,21 +401,20 @@ B5-433-B505 & 505 & 494 & 6.4 &	4.5 & 4.9 \\
 
 \subsection{\label{sec:dom_prodtest}Production and Testing}
 
-Approximately 5500 in-ice and IceTop DOMs were required to be built, tested,
-and delivered to the South Pole.  The DOMs were required to satisfy
-stringent requirements needed for them to work reliably buried deep
-in the ice for at least 20 years.  As hot-water drilling was the principal
+Approximately 5500 in-ice and IceTop DOMs were built, tested and
+delivered to the South Pole. The DOMs satisfied stringent requirements, needed to ensure reliable operation in the deep ice for at least 20 years. As hot-water drilling was the principal
 driver of the deployment timeline, the DOM production schedule was
 structured to supply DOMs as needed and to avoid any inventory shortfall.
 The production was implemented in a 3-stage approach. Stage 1 was
-the production and testing of the initial 400 DOMs at three sites: one in the United
+the production of the initial 400 DOMs at three sites: one in the United
 States (Physical Sciences Laboratory (PSL), Stoughton, Wisconsin) and two
-in Europe (DESY, Zeuthen, Germany and Stockholm University, Sweden).  This
+in Europe (DESY, Zeuthen, Germany, and Stockholm University,
+Sweden). DOM testing was performed at PSL, DESY and Uppsala University,
+Sweden. This
 quantity of DOMs was sufficient to verify production readiness, supply
 instrumentation for the first year drilling plan, and validate the design after a deployment
 season.  During Stage 2, material and supplies were procured, and another
-1000 DOMs produced (PSL, DESY, Stockholm) and tested (PSL, DESY and
-Uppsala University, Sweden). Finally, Stage 3 involved procurements,
+1000 DOMs produced and tested. Finally, Stage 3 involved procurements,
 integration, and testing of the remaining 4100 DOMs.
 
 DOM production utilized a formalized process to track each DOM through to
@@ -424,16 +423,16 @@ Traveler.  Technicians were trained and certified to perform DOM
 integration and test tasks, and each site had separate quality control
 personnel. Commercial materials were confirmed to be fully tested by the
 suppliers, and regular visits were made to key vendors.  Measurement
-equipment was calibrated and records maintained that verified their
-traceability to a reference standard.  DOM integration took place in an
-ESD-, temperature-, and humidity-controlled environment.  The introduction
+equipment was calibrated and records maintained that verified
+traceability to a reference standard.  DOM integration took place in
+an electrostatic discharge (ESD)-, temperature-, and humidity-controlled environment.  The introduction
 of these manufacturing protocols based on electronics industry best
-practices allowed for each production site to work independently yet
+practices enabled each production site to work independently yet
 produce DOMs that performed identically.
 
 DOM integration started with the attachment of the PMT collar
 to the PMT.  The collar provides a mounting point for the electronic boards inside
-a DOM. The PMT was then mounted into a special jig that allowed for precise
+a DOM. The PMT was then mounted into a special jig for precise
 placement inside the bottom glass hemisphere.  In parallel, the mu-metal
 shield was placed inside the bottom hemisphere, and the
 gel was mixed and poured into the same hemisphere. The gel was then
@@ -457,7 +456,7 @@ identified and repaired before shipping.  This testing at production sites
 was performed in Dark Freezer Labs (DFLs), light-tight walk-in 
 modules capable of sustaining temperatures down to $-55^\circ$C.  Main Board
 and DOM functionality was tested by self-diagnostic software installed on
-each module.  Other tests include gain calibration, dark noise monitoring,
+each module.  Other tests included gain calibration, dark noise monitoring,
 and local coincidence validation.  Optical sensitivity, time resolution,
 and linearity were measured using external light sources fed into the DFLs
 via optical fibers and diffused over the DOM lower hemispheres at each
