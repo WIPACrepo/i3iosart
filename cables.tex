@@ -4,11 +4,12 @@ The IceCube detector may be viewed as a digital network of optical
 sensors. The IceCube cable systems form the physical backbone of this
 network, simultaneously supplying power to the DOMs and bi-directional
 digital communications between the DOMs and the readout hardware at the
-surface. Copper was chosen over optical fiber at an early stage in the
-project due to concerns with mechanical robustness of fiber during
-freeze-in in the deep ice and a previous successful demonstration of the
+surface. Due to a previous successful demonstration of the
 digital-readout optical modules contained within the AMANDA detector
-\cite{AMANDA:string18}. 
+\cite{AMANDA:string18} and concerns with mechanical robustness of
+optical fiber during
+freeze-in in the deep ice, copper was chosen over fiber at an early stage in the
+project.
 
 \subsection{Design}
 
@@ -64,10 +65,10 @@ cables are provided in Table ~\ref{tab:quad_requirements}.
  %   crosstalk attenuation & intra-quad \& quad-quad & \\
   %  \hline
 
-   Near-end Crosstalk& 50 dB minimum & At 2~MHz \\
+   Near-end Crosstalk suppression& 50 dB minimum & At 2~MHz \\
 (intra-quad and quad-quad)&24 dB minimum& At 100 MHz\\
 %\hline
-   Far-end Crosstalk & 30 dB minimum & At 2 MHz \\
+   Far-end Crosstalk suppression& 30 dB minimum & At 2 MHz \\
 (intra-quad and quad-quad)&24 dB minimum& At 20 MHz\\
 
    % \hline
@@ -111,9 +112,8 @@ A competitive proposal process resulted in two main suppliers for the IceCube
 cable system.  Ericsson Network Technologies (Hudiksvall, Sweden) was chosen
 to produce the raw cable, and SEACON Brantner \& Associates Inc. (El Cajon,
 California) was chosen to manufacture the cable assemblies. The raw
-cable was manufactured and tested to meet all required specifications prior
-to shipment.  The in-ice cables were then
-wound on to custom metal spools, while the shorter surface cables were wound
+cable was manufactured and tested to meet all required specifications prior to spooling.  The in-ice cables were then
+wound onto custom metal spools, while the shorter surface cables were wound
 onto wooden spools. SEACON provided the breakouts
 and the end termination for the in-ice cable and the end
 terminations for the surface cable.  Glass-reinforced epoxy XSJJ
@@ -124,10 +124,11 @@ XSJJ connectors, waterproofing and overmolding the connectors, and then
 resealing the cable. Seacon also
 attached 120 Yale Cordage (Saco, Maine) Yalegrips to the in-ice
 cable that served as mechanical attachment points for the 60 deployed DOMs
-per cable. The separate quads in each cable were terminated with MS round,
+per cable. The separate quads in each cable were terminated with
+military standard round,
 metal shell connectors. After cable assembly was complete, 
-each cable was individually tested for continuity and subject to high
-potential (hipot) testing. 
+each cable was individually tested for continuity and subjected to high
+potential testing. 
 
 \subsection{Installation}
 
@@ -156,4 +157,4 @@ deployment was complete, the in-ice cable was taken off the spool and
 dragged to the IceTop station where its connection to the surface cable in the SJB was
 made. Finally, patch cables were installed in the ICL between the
 individual quads and the DOMHub in the ICL. End-to-end string commissioning
-now commenced.
+then commenced.

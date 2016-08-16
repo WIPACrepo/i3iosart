@@ -46,8 +46,8 @@ technique. However, the detection of astrophysical neutrinos proved
 elusive, suggesting that a kilometer-scale array was required to achieve the necessary sensitivity.  
 
 The IceCube Neutrino Observatory is a cubic-kilometer neutrino detector
-built into the glacial ice at the South Pole, with construction completed
-on December 18, 2010 and commissioning completed in 2011.  Its primary scientific objective has been the discovery of
+built into the glacial ice at the South Pole. Construction was completed
+on December 18, 2010 and commissioning was completed in 2011.  Its primary scientific objective has been the discovery of
 astrophysical neutrinos, which was achieved in 2013 \cite{IC3:evidence}, and the 
 identification and characterization of their sources.  Other science
 objectives include indirect detection of dark matter, searches for other exotic particles,
@@ -71,7 +71,9 @@ material but also a medium with excellent optical qualities.  With a
 Cherenkov photon yield of $\mathcal{O}(\num{E5})$ visible photons per
 \SI{}{\giga\electronvolt} of secondary particle shower energy, the long
 optical attenuation length of South Pole ice, and large-area PMTs, it is possible to instrument cubic kilometers of
-ice with a rather sparse spacing of detectors.
+ice with a rather sparse spacing of detectors. IceCube is located at the Amundsen-Scott
+South Pole Station, which offers the logistical support
+required for the construction and operation of the observatory.
 
 The basic detection unit in IceCube is the
 digital optical module (DOM), covered in detail in Sec.~\ref{sec:dom}.
@@ -80,22 +82,24 @@ to withstand the extreme pressure in the deep ice, the main components of a DOM
 are a \SI{10}{''} PMT, embedded high-voltage generation, an LED Flasher 
 Board, and a Main Board containing the analog and digital processing circuitry
 for PMT pulses.  The transmission of the digital data is controlled by an FPGA
-and embedded processor hosted on the Main Board. The digitized data are sent to a
+and embedded processor hosted on the Main Board. Detector calibration
+is described in Sec.~\ref{sec:dom_calibration }. The digitized data are sent to a
 central computing facility at the surface via a cable system described in
 Sec.~\ref{sec:cable}.  Aspects of detector deployment and ice drilling are
 covered in Sec.~\ref{sec:drill-deploy}. An overview of the data flow as well as
 its readout, processing and filtering are presented in
 Sec.~\ref{sect:online}, along with data handling, monitoring, and operational performance of
 the observatory. The IceCube Observatory consists of three detectors ---
-IceCube, DeepCore, and IceTop --- using the same instrumentation design of
-DOMs and associated surface readout. A schematic layout of the Observatory is
+IceCube, DeepCore, and IceTop --- using the same DOM design and associated surface readout. A schematic layout of the Observatory is
 shown in Fig.~\ref{fig:array}. 
 
 \begin{figure}[!h]
  \centering
  \includegraphics[width=\textwidth]{graphics/intro/ArrayWSeasonsLabels_crop.pdf}
  \caption{The IceCube Neutrino Observatory with the IceCube Array, its sub-array DeepCore and
-   the cosmic-ray air shower array IceTop.}
+   the cosmic-ray air shower array IceTop. The different
+   string/station colors
+   represent different deployment seasons.}
  \label{fig:array}
 \end{figure}
 
@@ -132,7 +136,7 @@ Since the total light output of such a shower is directly proportional to its en
 the showers are often well-contained in the detector, the neutrino energy
 reconstruction for such events is much more precise than for track-like
 events. The average deposited energy resolution for both event types
-combined is $ \sim \SI{15}{\%}$ \cite{IC3:ereco}. 
+combined is about $\SI{15}{\%}$ \cite{IC3:ereco}. 
 
 \subsubsection{DeepCore}
 
@@ -154,9 +158,10 @@ atmospheric muons.  Depths from \SI{2000}{\meter} to \SI{2100}{\meter}
 are not instrumented, as the optical scattering and absorption is
 significantly increased in this region of the ice (the ``dust layer'').
 
-Six of the DeepCore strings are fully populated with
+Six of the specialized DeepCore strings are fully instrumented with
 DOMs using PMTs with \SI{35}{\%} higher quantum efficiency than the
-standard IceCube modules.  The denser geometry and increased efficiency
+standard IceCube modules. The remaining two specialized strings are
+equipped with a mixture of standard and higher quantum efficiency DOMs. The denser geometry and increased efficiency
 result in a lower energy threshold of about
 \SI{10}{\giga\electronvolt}, compared to about
 \SI{100}{\giga\electronvolt} for most IceCube analyses. The DeepCore design
@@ -170,17 +175,22 @@ The cosmic ray air shower array IceTop \cite{ICECUBE:IceTop} consists
 of \num{162} Cherenkov tanks filled with clear ice and arranged in
 \num{81} pairs on the
 surface, using approximately the same grid on which the in-ice
-array is deployed. Each tank is \SI{1}{\meter} high, with a \SI{1.82}{\meter} inner diameter and is
+array is deployed. A denser in-fill array is formed by the eight
+stations in the center of IceTop, corresponding to the denser
+inter-string spacing
+in DeepCore. Each tank is \SI{1}{\meter} high, with a \SI{1.82}{\meter} inner diameter and is
 filled with ice to a height of \SI{0.90}{\meter}.  The two tanks at each surface station are separated from
 each other by \SI{10}{\meter}. Each tank contains two standard IceCube
 DOMs, one ``high-gain'' DOM operated at a PMT gain of $5 \times 10^{6}$, and one
-``low-gain'' DOM operated at a gain of $10^{5}$. Air showers initiated in the atmosphere by cosmic rays are typically
+``low-gain'' DOM operated at a gain of $10^{5}$, to increase the dynamic range for air shower detection. Air showers initiated in the atmosphere by cosmic rays are typically
 spread over a number of stations. The light generated in the tanks by the
 shower particles (electrons, photons, muons and hadrons) is a measure of
 the energy deposition of these particles in the tanks. IceTop is sensitive to
 primary cosmic rays in the energy range of \SI{}{PeV} to \SI{}{EeV}
 with an energy resolution of \SI{25}{\%} at \SI{2}{PeV}, improving to
-\SI{12}{\%} above \SI{10}{PeV} \cite{IT:measurement}.
+\SI{12}{\%} above \SI{10}{PeV} \cite{IT:measurement}. For the infill
+array the energy threshold is lowered to about \SI{100}{TeV}. The energy range of IceCube as a cosmic-ray detector fully covers the ``knee'' region of the spectrum and extends to the energies where a transition from galactic cosmic rays to a population of extra-galactic
+particles may occur. The IceTop array has additionally been used to study high-pT muons, PeV gamma rays and transient events, such as the radiation effects of solar ﬂares. It also serves as a partial veto for the detection of downward-going neutrinos with IceCube.  
 
 
 
