@@ -25,16 +25,17 @@ Fig.~\ref{fig:online_dataflow}.
 \begin{figure}[!ht]
  \centering
  \includegraphics[width=0.6\textwidth]{graphics/online/online_dataflow.pdf}
- \caption{Data flow in the primary IceCube online systems.}
+ \caption{Data flow in the primary IceCube online systems. See details
+   on each component in the text.}
  \label{fig:online_dataflow}
 \end{figure}
 
 DOM-level triggers, or hits, are mostly due to dark noise. The first step
-in data reduction uses the Local Coincidence (LC) condition described in
+in data reduction takes place in the DOM, using the Local Coincidence (LC) condition described in
 Sec.~\ref{sec:dom_functional}.  Hits that meet the LC criteria are flagged
 as Hard Local Coincidence (HLC hits) and include a full payload of
 digitized waveforms, while isolated non-LC hits are flagged as Soft Local
-Coincidence (SLC hits) and are compressed more aggressively.
+Coincidence (SLC) hits and are compressed more aggressively.
 
 All DOM hits are read out to dedicated computers on the surface
 (Sec.~\ref{sect:sps}) by the data acquisition system (DAQ).  The next level
@@ -43,8 +44,8 @@ for temporal and in some cases spatial patterns that suggest a common
 causal relationship.  A number of different trigger algorithms run in
 parallel, described in Sec.~\ref{sect:online:trigger}.  All hits (both HLC
 and SLC) within a window around the trigger are combined into events, the
-fundamental output of the DAQ, and written to disk.  The event rate varies
-seasonally with the atmospheric muon flux from 2.5 to 2.9 kHz,
+fundamental output of the DAQ.  The event rate varies
+seasonally with the atmospheric muon flux~\cite{ICECUBE:IceTop} from 2.5 to 2.9 kHz,
 and the total DAQ data rate is approximately 1~TB/day.
 
 The DAQ also produces secondary streams that include time calibration,
@@ -57,7 +58,7 @@ monitoring streams are used to monitor the health and quality of the
 data-taking runs.
 
 The DAQ event data are then processed further with a number of filters
-in order to select a subset of events ($\sim15$\%) to transfer over
+in order to select a subset of events (about 15\%) to transfer over
 satellite to the Northern Hemisphere (Sec.~\ref{sect:online:filter}).  Each
 filter, typically designed to select events useful for a particular physics
 analysis, is run over all events using a computing cluster in the ICL.
@@ -78,7 +79,7 @@ software system, described in Sec.~\ref{sec:online:icecubelive}.
 Data-taking runs are arbitrarily divided into 8-hour periods and assigned
 a unique run number; data acquisition need not actually pause during
 this transition.  Detector configuration parameters that affect physics
-analyses are changed at most once a year, indicating the start of a new
+analyses are changed at most once a year (typically in May), indicating the start of a new
 ``physics run''.   
 
 \subsection{\label{sect:sps}SPS and SPTS}
@@ -86,14 +87,14 @@ analyses are changed at most once a year, indicating the start of a new
 The South Pole System (SPS) comprises 18 racks of computing and network
 hardware in the ICL that run the various online systems described in this
 section.  The DOM surface cables are connected via passive patch panels to
-custom 4U DOMHub computers, one DOMHub per in-ice string and 11 additional
+custom 4U computers, called DOMHubs, one DOMHub per in-ice string and 11 additional
 hubs for IceTop.  The remaining servers, including those for higher-level
 data acquisition, event filtering, detector monitoring, and core
 infrastructure, are currently 2U Dell PowerEdge R720 servers running
 Scientific Linux (see Table \ref{tab:sps_breakdown}).  The servers are
 typically upgraded every 3 to 4 years.  The custom hardware components in
 the DOMHubs are replaced with spares as failures warrant, and the disks and
-single-board computer (SBC) were upgraded in 2013--14.
+single-board computer were upgraded in 2013--14.
 
 \begin{table}[h]
   \centering
@@ -116,7 +117,7 @@ power, timing, and communication.  A low-power single-board computer
 communicates with 8 custom PCI DOM Readout (DOR) cards via a PICMG 1.0
 backplane.  A dual-redundant ATX power supply powers the DOMHub, while two
 48VDC Acopian power supplies, mounted and connected in series inside the
-chassis, supply power to the DOMs.  The DOM power is switched and
+chassis to double the voltage to 96~V, supply power to the DOMs.  The DOM power is switched and
 monitoring by the DOR cards and is controllable by software.  Another PCI
 card, the DOMHub Service Board (DSB), is responsible for GPS timing fanout
 (Sec.~\ref{sect:online:master_clock}).
@@ -172,7 +173,7 @@ Out-of-sequence packets received are ignored, and non-acknowledged packets
 are retransmitted.
 
 Messaging is managed from the surface, in that the DOR requests data from
-each DOM in turn; only one DOM can transmit at a time.  Communication is
+each DOM in turn; only one DOM (out of eight) can transmit at a time.  Communication is
 paused every second to perform a timing calibration (RAPCal; see
 Sec.~\ref{sect:dom:rapcal}) via reciprocal bimodal pulse transmission to
 each DOM; this provides a time-dependent translation of DOM clock to DOR
@@ -259,12 +260,10 @@ hits to a local ``HitSpool'' disk cache, as well as queuing them in an
 in-memory cache to service future requests from the Event Builder for full
 waveform data.
 
-The StringHub component is divided into two logical pieces.  The front end,
-called Omicron, controls all of the connected DOMs, forwarding any
+The StringHub component is divided into two logical pieces: the front
+end is called Omicron and the back end is the Sender. Omicron controls all of the connected DOMs, forwarding any
 non-physics data to its downstream consumers and sorting the hits from all
-DOMs into a single time-ordered stream before passing them to the back-end
-Sender.  The Sender caches SLC and HLC hits in memory, then forwards a
-condensed version of each HLC hit to the appropriate local Trigger.
+DOMs into a single time-ordered stream before passing them to the Sender.  
 
 Omicron is also responsible for translating DOM hit times into
 UTC-compatible ``DAQ time'', which counts the number of 100-ns periods
@@ -272,7 +271,8 @@ since the UTC start of the year (including leap seconds).  The translation
 uses the RAPCal procedure as described in Sec.~\ref{sect:dom:rapcal},
 performed for each DOM every second; occasional outliers are discarded.
 
-The second, back-end portion of the StringHub component is the Sender.  After the
+The Sender caches SLC and HLC hits in memory, then forwards a
+condensed version of each HLC hit to the appropriate local Trigger. After the
 Trigger components have determined interesting time intervals, 
 the Event Builder requests each interval from the Sender which returns a list of
 all hits within the interval, pruning all older hits from the in-memory hit
@@ -371,30 +371,31 @@ Particle (SLOP) trigger has thus been developed to search for slow
 track-like particle signatures.
 
 The SLOP trigger operates in several stages.  The HLC hits, which by design
-come in at least pairs along a string, are cleaned by removing pairs that
+come in at least as pairs along a string, are cleaned by removing pairs that
 are too close in time ($\Delta t < T_{\mathrm{prox}}$), removing many muon
-hits.  Next, 3-tuples of HLC pairs within a time window $T_{\mathrm{max}}$
-are formed.  The geometry of each 3-tuple formed must satisfy track-like
+hits.  Next, triplets of HLC pairs within a time window $T_{\mathrm{max}}$
+are formed.  The geometry of each triplet formed must satisfy track-like
 conditions: the obtuse inner angle of the triangle formed by the earliest
 DOM in each pair must be larger than $\alpha_{\mathrm{min}}$, and the
 ``velocities'' along the triangle sides must be consistent.  Specifically,
 the normalized velocity difference, defined as
 
 \begin{equation}
-  v_{\mathrm{rel}} = 3\left(\frac{1}{v_{12}} - \frac{1}{v_{23}}\right)/\left(\frac{1}{v_{12}} +
+  v_{\mathrm{rel}} = 3\left|\frac{1}{v_{12}} - \frac{1}{v_{23}}\right|/\left(\frac{1}{v_{12}} +
   \frac{1}{v_{23}} + \frac{1}{v_{13}}\right)
 \end{equation}
 
 \noindent where $\ v_{ij} = \Delta x_{ij}/\Delta t_{ij}$, must be less than
 or equal to a predefined maximum value
 $v_{\mathrm{rel}}^{\mathrm{max}}$.  Fig.~\ref{fig:slop} shows the geometry
-parameters of the 3-tuple.  Finally, the total number of track-like 3-tuples
-must be greater than or equal to $N_{\mathrm{tuple}}$. 
+parameters of the triplet.  Finally, the total number of track-like triplets
+must be greater than or equal to $N_{\mathrm{triplet}}$ which is set to
+be 5, and all of these track-like triplets must overlap in time. 
 
 \begin{figure}[!ht]
  \centering
  \includegraphics[width=0.6\textwidth]{graphics/online/trigger/slop.pdf}
- \caption{Geometry of a SLOP trigger HLC pair 3-tuple.}
+ \caption{Geometry of a SLOP trigger triplet of HLC pairs.}
  \label{fig:slop}
 \end{figure}
 
@@ -425,8 +426,10 @@ prescale factor of 10000 is active.
   Volume & in-ice & 4 & 1 & cylinder (r=175m, h=75m) & 3700\\
   Volume & IceTop core & 4 & 0.2 & cylinder (r=60m, h=10m) & 4\\
   String & in-ice & 5 & 1.5 & 7 adjacent vertical DOMs & 2200\\
-  SLOP & in-ice & $N_{\mathrm{tuple}} = 5$ & $T_{\mathrm{prox}} = 2.5$, &
-  $\alpha_{\mathrm{min}} = 140^\circ,\ v_{\mathrm{rel}}^{\mathrm{max}} = 0.5$ & 12\\
+  SLOP & in-ice & $N_{\mathrm{triplet}} = 5$ & $T_{\mathrm{prox}} = 2.5$, &
+  $\alpha_{\mathrm{min}} = 140^\circ,\ v_{\mathrm{rel}}^{\mathrm{max}}
+  = 0.5$ & 12\\
+  & & & $T_{\mathrm{min}} = 0$ & &\\
   & & & $T_{\mathrm{max}} = 500$ & &\\
   FRT & all & --- & --- & --- & 0.003\\
   \hline
@@ -585,13 +588,12 @@ System (SNEWS) \cite{SNEWS} is notified.
 \subsubsection{\label{sect:hitspool}HitSpool Request System}
 
 Subsystems such as SNDAQ can send time interval requests to a HitSpool
-Request daemon to collect raw data from significant transient events. At
-the time of this writing, the HitSpool Request System has three clients;
+Request daemon to collect raw data from significant transient events. Presently, the HitSpool Request System has three clients;
 their basic characteristics are described in
 Table~\ref{tab:hsclients}.  The central daemon passes the request onto 
 every DOMHub, where ``worker'' daemons gather the hits in the requested time
-interval and forward them a single ``sender'' daemon
-that bundles them up to be transferred to the Northern Hemisphere for further analysis.
+interval and forward them to a single ``sender'' daemon
+that bundles them to be transferred to the Northern Hemisphere for further analysis.
 
 SNDAQ requests HitSpool data from an asymmetrical time window of $90
 \,\mathrm{s}$ around a supernova alert with a significance $\xi > 7.65$,
@@ -705,8 +707,8 @@ include:
   assurance on the SuperDST sample can be completed.
 \end{enumerate}
 
-During normal operations, the DAQ produces a raw data output of $\sim$1 TB
-of raw data per day, resulting in a raw data file 
+During normal operations, the DAQ produces a raw data output of
+$\sim$1 TB per day, resulting in a raw data file 
 archive of the same size.  The SuperDST and filtered data archive, after
 data compression, are $\sim$170 GB/day and $\sim$90 GB/day, respectively.
 
@@ -725,7 +727,7 @@ The system is built upon the IceCube analysis software framework,
 IceTray~\cite{DeYoung:2005zz}, allowing standard IceCube algorithms to be
 used online without modifications.
 Additionally, the system uses the Common Object Request Broker Architecture
-(CORBA) system as means for controlling, supervising and interconnecting
+(CORBA) system as a means for controlling, supervising and interconnecting
 the modular portions of the system.  Specialized CORBA classes allow
 data to stream from one component to another using native IceTray formats.
 Clients can also be easily added and removed as needed to meet the
@@ -827,7 +829,7 @@ set of core filters, including:
   observed in the Earth's atmosphere.
 \item A DeepCore contained filter that searches for contained, lower-energy
   neutrino events ($\sim10-100$ GeV) from atmospheric neutrino interactions
-  that are contained with the more densely instrumented DeepCore region.
+  that are contained within the more densely instrumented DeepCore region.
   The selected events are used as inputs to analyses that measure
   neutrino oscillation effects and search for indirect signatures of dark matter.
 \end{enumerate}
@@ -941,7 +943,7 @@ data are recorded.
 
 A secondary function of LiveControl is the collection, processing, and
 forwarding of monitoring data from DAQ, PnF, and other
-components.  The associated JSON data are forwarded to LiveControl using ZeroMQ and queued internally
+components.  The associated JavaScript Object Notation (JSON) data are forwarded to LiveControl using ZeroMQ and queued internally
 for processing.  Certain monitoring quantities indicate serious problems with
 the detector, e.g. the PnF latency is too high.  LiveControl
 maintains a database of critical monitoring quantities and raises an alert

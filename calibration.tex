@@ -6,12 +6,11 @@ particular time, the basis of particle event reconstructions.  The
 primary DOM calibration routine is DOMCal (Sec.~\ref{sec:domcal}), a
 self-calibration procedure run yearly on in-ice DOMs and monthly on IceTop
 DOMs that provides the constants used to convert DOM waveforms into
-physical units (Sec.~\ref{sec:waveformcal}).  Global time calibration /
-synchronization across the array of DOMs is 
+physical units (Sec.~\ref{sec:waveformcal}).  Global time calibration across the array of DOMs is 
 provided by the RAPCal procedure (Sec.~\ref{sect:dom:rapcal}) that runs during
 data-taking.  The relative and absolute optical efficiency of the DOMs is
 determined both by laboratory and \emph{in situ} measurements
-(Sec.~\ref{sec:domeff}).  Stability of these calibrations is also relevant
+(Sec.~\ref{sec:domeff}). The stability of these calibrations is also relevant
 as not every calibration parameter can be tracked continuously during
 data-taking (Secs.~\ref{sec:baselines} to \ref{sec:optical_stability}).
 Understanding the statistical properties and time-dependence of the ambient ``dark
@@ -88,7 +87,7 @@ and each histogram is fit with an exponential plus Gaussian model (see
 Fig.~\ref{fig:domcal_hvfit}).  The peak of the Gaussian component is used to
 determine the amplification of the PMT at each voltage, and a linear fit
 of $\log_{10}(\mathrm{gain})$ versus $\log_{10}(\mathrm{voltage})$ allows
-the high voltage of each PMT to be tuned to desired operating point ($10^7$
+the high voltage of each PMT to be tuned to the desired operating point ($10^7$
 for in-ice DOMs; see Fig.~\ref{fig:domcal_hv_settings}).  Small ($3-5\%$)
 corrections to the gain of each DOM are determined using charge
 distributions recorded during normal data-taking; this corrects for a small
@@ -235,14 +234,14 @@ The Reciprocal Active Pulsing calibration (RAPCal) is a
 continuously-running method for translating hit timestamps from the the
 individual free-running DOM clock domains to the clock domain in the
 ICL, which is synchronized to UTC
-(Sec.~\ref{sect:online:master_clock}).  A bipolar pulse is sent to each 
-DOM over the power/communications wire pair and then returned, with each
-transmission and receive point timestamped locally.  The symmetry of the down-
-and up-transmission allows a translation from each DOM clock domain to the
-ICL clock domain at the midpoint, without prior knowledge of cable
-lengths.  The base implementation is described in Ref.~\cite{ICECUBE:DAQ}; we
-describe here the details of the time translation algorithm and validation
-of the DOM relative synchronization. 
+(Sec.~\ref{sect:online:master_clock}). A bipolar pulse is generated
+and sent to each DOM over the power/communications wire pair.  After
+this pulse has been received, a bipolar pulse - having the same shape
+as the one generated on the surface - is generated in the DOM and sent
+back to the surface.  The bipolar pulses are time stamped by the local
+clock at each transmission and receive point.  The symmetry of the
+pulses sent in each direction and symmetry of the down- and up- cable
+transmission enables a translation from each free-running DOM clock to the surface clock and hence to UTC, without prior knowledge of the cable length or its dispersive properties. The base implementation is described in Ref.~\cite{ICECUBE:DAQ}; we describe here the details of the time translation algorithm and validation of the DOM relative time calibration.
 
 \begin{figure}[!h]
  \centering
@@ -380,7 +379,7 @@ DOM. In one
 study, low-energy muons (median energy 82~GeV) with well-understood light
 emission were selected to illuminate the downward-facing PMTs in the ice as
 directly as possible. The number of photons detected at different
-distances from these muons were then compared to predictions of the
+distances from these muons was then compared to predictions of the
 simulation model~\cite{IC3:ereco}.  Based on this and other \textit{in
   situ} analyses, the central value for the efficiency was adjusted upward
 by 10\% in the simulation, compared to the baseline.  For physics analyses,
@@ -396,7 +395,8 @@ was separately measured as part of production testing
 (Sec.~\ref{sec:dom_prodtest}), using a 405~nm pulsed laser and a system of
 fibers and diffusers to illuminate DOMs evenly within 50$^{\circ}$ of the
 optical axis.  Using this system, the relative efficiency of DeepCore DOMs
-(high quantum efficiency type) was measured to be higher by a factor 1.39
+(high quantum efficiency type) was measured to be higher by a factor
+of 1.39
 compared to standard IceCube DOMs, agreeing well with the
 manufacturer-specified value of 1.40. Further \textit{in situ} studies
 using muons yielded a factor of 1.35~\cite{ICECUBE:DC}, an
@@ -409,7 +409,7 @@ the design value of $10^7$.
 \subsection{\label{sec:baselines}Baseline Voltage Stability}
 
 The beacon hits from which the digitizer baselines are derived are
-monitored continuously throughout the year. The average value of the
+monitored continuously throughout the year. The average values of the
 beacon baselines are very stable, with shifts of no more than
 0.2~counts year to year, corresponding to 0.018~mV in the fADC and
 0.025~mV in the high-gain ATWD channel. The single photoelectron
@@ -438,7 +438,7 @@ transformers, where a baseline error of 0.6~counts can
 turn an actual deposited charge of 1~PE into a measured charge of over
 2~PE with an unphysical time structure. The observed distortion in a
 simulated single photoelectron charge due to fADC baseline shifts is
-shown in Figure~\ref{fig:charge_fadcshift}.  To avoid this issues, whenever the
+shown in Figure~\ref{fig:charge_fadcshift}.  To avoid this problem, whenever the
 discriminator thresholds are changed, the fADC baselines are re-measured,
 and the values used for calibration are updated. As long as 
 the discriminator thresholds are unchanged, the baselines are stable
@@ -464,7 +464,8 @@ baselines.  To mitigate this effect, one DOM was operated without PMT high
 voltage and used to monitor the RF broadcasts and tag periods of RFI.  Also
 in 2009, DOM 68-42 was damaged by a high voltage setting during DOM
 calibration, and appeared to begin sparking, causing sinusoidal waveforms
-to appear in the baselines of neighboring DOMs.  Investigations into RFI
+to appear in the baselines of neighboring DOMs. The meteor radar
+transmitter is no longer operating, and investigations into RFI
 from more recent radar activities at South Pole (SuperDARN
 \cite{superdarn}) have revealed no measurable interference, either in DOM
 baselines or in RAPCal time stability. 
@@ -505,8 +506,7 @@ single photoelectron peak of the charge distribution on each DOM from
 cosmic ray muons. A
 Gaussian + exponential function is fit to the peak region as in
 Fig.~\ref{fig:spe_fit_thresh}, and the mean of the Gaussian is
-tracked throughout the year. The threshold, defined here as the point which
-contains 1\% of the charge in the histogram, is also tracked through
+tracked throughout the year. The threshold, defined as the bin in the histogram for which 99\% of the area of the histogram is contained in the sum of all higher bins, is also tracked through
 the year. The peak position is calibrated to 1~PE
 and is stable to within 0.01~PE for 95\% of all DOMs, as shown in
 Fig.~\ref{fig:gain_spe_stability}. Over 99\% of DOMs show no
@@ -560,7 +560,8 @@ described in \cite{IC3:ereco}. The detector response is monitored in each run us
 detection probability (TDP) calculated from high-multiplicity muon tracks
 with more than 30 hits in IceCube. The muon 
 tracks are reconstructed using the likelihood methods described in
-\cite{Ahrens:2003fg}; charge and time information from the DOM under study excluded
+\cite{Ahrens:2003fg}; charge and time information from the DOM under
+study was excluded
 from the reconstruction. The TDP is
 defined for each DOM as the ratio of the number of detected tracks
 within 100~m of the DOM to the total number of tracks within 100~m of
@@ -674,8 +675,8 @@ $\sigma = \num{0.85}\ [\log_{10}(\delta t/\mathrm{sec})]$ \\
  \centering
   \includegraphics[width=0.8\textwidth]{graphics/dom/performance/darknoise/SingleDOM_HitSpool_Hits_deltaT_fits_example.pdf}
  \caption{Histogram of time differences between successive hits from HitSpool data of
-DOM 15-27 (blue) on a logarithmic scale in order to visualize the different noise components
-(without prepulses which are comparatively insignificant) \cite{heereman2015hitspooling}.}
+DOM 15-27 (blue) on a logarithmic scale in order to visualize the
+different noise components \cite{heereman2015hitspooling}.}
  \label{fig:darknoise_deltaT_components}
 \end{figure}
 
@@ -722,7 +723,7 @@ which were deployed in the previous season, as shown in Fig.~\ref{fig:noise_over
 \end{figure}
 
 However, since the dark noise components are not correlated between
-DOMs, the dark noise rate change is not prominent in HLC hits (Fig.
+DOMs, the dark noise rate change is not prominent in local coincidence hits (Fig.
 \ref{fig:hlc_over_time_briedel}).  Thus, the detector trigger rate as well
 as higher-level reconstruction variables are relatively isolated from the
 noise rate variations.  Nevertheless, the noise rates for each DOM are
@@ -732,7 +733,7 @@ reconstruction purposes.
 \begin{figure}[!h]
  \centering
  \includegraphics[width=0.95\textwidth]{graphics/dom/performance/darknoise/HLC_Whole_Detector_Mean_Variance_IC86_2011_2012_2013.pdf}
- \caption{Mean and standard deviation of the HLC rate distribution
+ \caption{Mean and standard deviation of the local coincidence rate distribution
    \cite{briedel_phd}.  Changes in dark noise rate are minimally visible,
    and instead the rate is dominated by seasonal and weather-related
    changes in the atmospheric muon flux.} 
