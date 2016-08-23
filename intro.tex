@@ -12,8 +12,8 @@ that have steadily progressed toward the goal of neutrino
 astronomy.  Early developments in the field included the first detections of
 atmospheric neutrinos in deep underground telescopes \cite{Achar,Witwatersrand} and
 radiochemical detection of the flux of neutrinos from
-nuclear fusion in the Sun \cite{Homestake}. A handful of neutrino
-events were detected from supernova SN1987A
+nuclear fusion in the Sun \cite{Homestake}. A couple dozen neutrino
+events were detected from supernova 1987A
 \cite{SK1987A,IMB1987A,BUST1987A}, providing the first glimpse of neutrinos
 from outside the solar system.  Advanced
 atmospheric and solar neutrino observatories provided definitive
@@ -46,14 +46,14 @@ technique. However, the detection of astrophysical neutrinos proved
 elusive, suggesting that a kilometer-scale array was required to achieve the necessary sensitivity.  
 
 The IceCube Neutrino Observatory is a cubic-kilometer neutrino detector
-built into the glacial ice at the South Pole. Construction was completed
+built into the ice at the South Pole. Construction was completed
 on December 18, 2010 and commissioning was completed in 2011.  Its primary scientific objective has been the discovery of
 astrophysical neutrinos, which was achieved in 2013 \cite{IC3:evidence}, and the 
 identification and characterization of their sources.  Other science
 objectives include indirect detection of dark matter, searches for other exotic particles,
 studies of neutrino oscillation physics, and detection of the neutrino burst
 from a Galactic core-collapse supernova.  A robust multi-messenger collaboration
-with optical, gamma-ray, radio, and gravitational wave observatories
+with optical, X-ray, gamma-ray, radio, and gravitational wave observatories
 provides multiple windows onto the potential neutrino sources.  A key to
 the success of these initiatives is the reliability and performance of the
 IceCube instrumentation, as well as the flexibility and stability of the
@@ -62,10 +62,12 @@ online software systems.
 \subsection{A Functional Description of the IceCube Observatory}
 
 In order to detect neutrinos, IceCube exploits the fact that charged
-particles resulting from neutrino interaction and moving through the
-ice at super-luminal speed emit Cherenkov photons. An enormous detection volume
-is required due to the small interaction cross-section of neutrinos and the extremely low fluxes expected at Earth from astrophysical objects. The glacial
-ice cap at the South Pole is about \SI{3}{\kilo\meter} thick and is an ideal
+particles resulting from neutrino interaction move through the
+ice faster than the phase velocity of light in ice, and therefore emit Cherenkov photons. An enormous detection volume
+is required due to the small interaction cross-section of neutrinos
+and the extremely low fluxes expected at Earth from astrophysical
+objects. The ice cap at the South Pole is about three~km thick and is
+a suitable
 operational site, since it not only offers a large quantity of interaction
 material but also a medium with excellent optical qualities.  With a
 Cherenkov photon yield of $\mathcal{O}(\num{E5})$ visible photons per
@@ -83,7 +85,7 @@ are a \SI{10}{''} PMT, embedded high-voltage generation, an LED Flasher
 Board, and a Main Board containing the analog and digital processing circuitry
 for PMT pulses.  The transmission of the digital data is controlled by an FPGA
 and embedded processor hosted on the Main Board. Detector calibration
-is described in Sec.~\ref{sec:dom_calibration }. The digitized data are sent to a
+is described in Sec.~\ref{sec:dom_calibration}. The digitized data are sent to a
 central computing facility at the surface via a cable system described in
 Sec.~\ref{sec:cable}.  Aspects of detector deployment and ice drilling are
 covered in Sec.~\ref{sec:drill-deploy}. An overview of the data flow as well as
@@ -107,7 +109,7 @@ shown in Fig.~\ref{fig:array}.
 
 In order to detect the Cherenkov photons emitted by charged particles
 traversing the ice, \num{5160} DOMs are deployed between \SI{1450}{\meter}
-and \SI{2450} {\meter} below the glacial surface on \num{86} vertical
+and \SI{2450} {\meter} below the surface of the ice on \num{86} vertical
 strings, with each string consisting of \num{60} DOMs deployed along a single cable containing twisted copper-wire pairs. The
 primary in-ice array consists of \num{78} strings with a vertical
 separation of the DOMs of \SI{17}{\meter}.  The strings are
@@ -140,8 +142,7 @@ combined is about $\SI{15}{\%}$ \cite{IC3:ereco}.
 
 \subsubsection{DeepCore}
 
-A subset of in-ice DOMs is deployed below a
-depth of \SI{1750}{\meter} with a denser instrumented volume and
+A subset of in-ice DOMs is deployed deeper than \SI{1750}{\meter} with a denser instrumented volume and
 correspondingly lower energy threshold. This
 sub-array, DeepCore \cite{ICECUBE:DC}, consists of eight specialized and
 closely-spaced strings of sensors in the center of the array, along with
@@ -152,11 +153,11 @@ average spacing of \SI{72}{\meter}.
 The eight specialized DeepCore strings have a DOM-to-DOM spacing of
 \SI{7}{\meter} for the bottom 50 DOMs, deployed at depths of
 \SI{2100}{\meter} to \SI{2450}{\meter}.  The remaining 10 DOMs are
-deployed at depths above \SI{2000}{\meter} with a spacing of
+deployed at depths shallower than \SI{2000}{\meter} with a spacing of
 \SI{10}{\meter} to form a veto cap, allowing better rejection of downgoing
 atmospheric muons.  Depths from \SI{2000}{\meter} to \SI{2100}{\meter}
 are not instrumented, as the optical scattering and absorption is
-significantly increased in this region of the ice (the ``dust layer'').
+significantly increased in this region of the ice (the ``dust layer''~\cite{Aartsen:2013rt}).
 
 Six of the specialized DeepCore strings are fully instrumented with
 DOMs using PMTs with \SI{35}{\%} higher quantum efficiency than the
@@ -175,7 +176,7 @@ The cosmic ray air shower array IceTop \cite{ICECUBE:IceTop} consists
 of \num{162} Cherenkov tanks filled with clear ice and arranged in
 \num{81} pairs on the
 surface, using approximately the same grid on which the in-ice
-array is deployed. A denser in-fill array is formed by the eight
+array is deployed. A denser infill array is formed by the eight
 stations in the center of IceTop, corresponding to the denser
 inter-string spacing
 in DeepCore. Each tank is \SI{1}{\meter} high, with a \SI{1.82}{\meter} inner diameter and is

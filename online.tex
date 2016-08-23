@@ -17,7 +17,7 @@ so that detector operators can be alerted in case of abnormal conditions.
 \subsection{\label{sect:online:dataflow}Data Flow Overview}
 
 The online data flow consists of a number of steps of data reduction and
-selection in the progression from photon detection in the glacial ice to
+selection in the progression from photon detection in the ice to
 candidate physics event selection, along with associated secondary
 monitoring and data streams.  An overview of the data flow is shown in
 Fig.~\ref{fig:online_dataflow}.
@@ -82,10 +82,10 @@ this transition.  Detector configuration parameters that affect physics
 analyses are changed at most once a year (typically in May), indicating the start of a new
 ``physics run''.   
 
-\subsection{\label{sect:sps}SPS and SPTS}
+\subsection{\label{sect:sps}South Pole System and South Pole Test System}
 
-The South Pole System (SPS) comprises 18 racks of computing and network
-hardware in the ICL that run the various online systems described in this
+The South Pole System (SPS) comprises 19 racks of computing and network
+hardware that run the various online systems described in this
 section.  The DOM surface cables are connected via passive patch panels to
 custom 4U computers, called DOMHubs, one DOMHub per in-ice string and 11 additional
 hubs for IceTop.  The remaining servers, including those for higher-level
@@ -127,7 +127,7 @@ to switches in each DOMHub rack; the DOMHub switches are connected with
 dual bonded 10 Gbps links.  The hubs and servers are connected to local
 switches with dual bonded 1 Gbps links.  Typical network I/O during
 data-taking for the DAQ Event Builder (see
-Sec.~\ref{sect:online:evbuilder}) is $\sim240$ Mbps in each direction, while
+Sec.~\ref{sect:online:evbuilder}) is about 240~Mbps in each direction, while
 the primary PnF server node sees 200 Mbps in and 640 Mbps out.
 
 Redundancy and continuous monitoring of SPS is one of the keys to a high
@@ -157,8 +157,8 @@ timing.
 \subsection{Data Readout and Timing}
 
 While the low-level communications and timing systems of the DOM are
-described in detail in Ref.~\cite{ref:domdaq}, we review those here in the
-context of the broader online systems.
+described in detail in Ref.~\cite{ICECUBE:DAQ}, we review those here in
+the broader context of the online systems.
 
 \subsubsection{\label{sect:online:comms}Communications}
 
@@ -168,17 +168,16 @@ DOM per pair for increased bandwidth.  The physical layer signaling
 uses on-off keying with bipolar pulses.  The protocol is a custom
 packet-based scheme.  Each packet is assigned a sequence number, and all
 received packets are acknowledged if the sequence number is correct.  Each
-packet also contains a CRC checksum to detect transmission errors.
+packet also contains a cyclic redundancy checksum to detect transmission errors.
 Out-of-sequence packets received are ignored, and non-acknowledged packets
-are retransmitted.
+are retransmitted. The total bandwidth of the communication channel
+is 720 kbps per twisted pair.
 
 Messaging is managed from the surface, in that the DOR requests data from
 each DOM in turn; only one DOM (out of eight) can transmit at a time.  Communication is
 paused every second to perform a timing calibration (RAPCal; see
-Sec.~\ref{sect:dom:rapcal}) via reciprocal bimodal pulse transmission to
-each DOM; this provides a time-dependent translation of DOM clock to DOR
-clock for every module.  The total bandwidth of the communication channel
-is 720 kbps per twisted pair.
+Sec.~\ref{sect:dom:rapcal}); this provides a time-dependent translation of DOM clock to DOR
+clock for every module.  
 
 % Add more details about actual usage?
 % Q: is LC signaling documented anywhere yet?  Should it go here?
@@ -187,14 +186,14 @@ is 720 kbps per twisted pair.
 
 The DOR clocks themselves are synchronized to UTC via an active fanout
 system from a single Symmetricom ET6000 GPS receiver with a
-temperature-stabilized 10 MHz oscillator, also known as the Master Clock.
-The 10 MHz output, a 1 Hz (PPS) output, and a serial time string indicating
+temperature-stabilized 10 MHz oscillator, also known as the Master
+Clock. The fanout tree is shown in
+Fig.~\ref{fig:clock_fanout}. The 10 MHz output, a 1 Hz output, and a serial time string indicating
 the UTC date and time are distributed to the DOMHubs via a series of
 fanouts, using shielded, delay-matched twisted-pair cables.  Within the
 DOMHub, the DSB card continues the fanout via short delay-matched patch
 cables to each DOR card.  The local 20 MHz clocks of each DOR card are
-phase-locked to the distributed 10 MHz signal.  The fanout tree is shown in
-Fig.~\ref{fig:clock_fanout}.
+phase-locked to the distributed 10 MHz signal.  
 
 Since the Master Clock is a single-point failure for the detector, a
 hot spare receiver, using its own GPS antenna and powered through a
@@ -262,7 +261,7 @@ waveform data.
 
 The StringHub component is divided into two logical pieces: the front
 end is called Omicron and the back end is the Sender. Omicron controls all of the connected DOMs, forwarding any
-non-physics data to its downstream consumers and sorting the hits from all
+non-physics data (calibration, monitoring) to its downstream consumers and sorting the hits from all
 DOMs into a single time-ordered stream before passing them to the Sender.  
 
 Omicron is also responsible for translating DOM hit times into
@@ -275,10 +274,10 @@ The Sender caches SLC and HLC hits in memory, then forwards a
 condensed version of each HLC hit to the appropriate local Trigger. After the
 Trigger components have determined interesting time intervals, 
 the Event Builder requests each interval from the Sender which returns a list of
-all hits within the interval, pruning all older hits from the in-memory hit
+all hits within the interval and prunes all older hits from the in-memory hit
 cache after each interval.
 
-One core assumption of the DAQ is that each component operates on a
+One core requirement of the DAQ is that each component operates on a
 time-ordered stream of data.  The DAQ uses its ``Splicer'' to accomplish
 this.  The Splicer is a common object which gathers all input streams
 during the setup phase; no inputs can be added once started.  Each stream
@@ -371,12 +370,12 @@ Particle (SLOP) trigger has thus been developed to search for slow
 track-like particle signatures.
 
 The SLOP trigger operates in several stages.  The HLC hits, which by design
-come in at least as pairs along a string, are cleaned by removing pairs that
+come in at least in pairs along a string, are cleaned by removing pairs that
 are too close in time ($\Delta t < T_{\mathrm{prox}}$), removing many muon
 hits.  Next, triplets of HLC pairs within a time window $T_{\mathrm{max}}$
 are formed.  The geometry of each triplet formed must satisfy track-like
-conditions: the obtuse inner angle of the triangle formed by the earliest
-DOM in each pair must be larger than $\alpha_{\mathrm{min}}$, and the
+conditions: the obtuse inner angle $\alpha$ of the triangle formed by the earliest
+DOM in each pair (see Fig.~\ref{fig:slop}) must be larger than $\alpha_{\mathrm{min}}$, and the
 ``velocities'' along the triangle sides must be consistent.  Specifically,
 the normalized velocity difference, defined as
 
@@ -424,7 +423,7 @@ prescale factor of 10000 is active.
   SMT & DeepCore & 3 & 2.5 & --- & 250\\
   SMT & IceTop & 6 & 5 & --- & 25\\
   Volume & in-ice & 4 & 1 & cylinder (r=175m, h=75m) & 3700\\
-  Volume & IceTop core & 4 & 0.2 & cylinder (r=60m, h=10m) & 4\\
+  Volume & IceTop infill & 4 & 0.2 & cylinder (r=60m, h=10m) & 4\\
   String & in-ice & 5 & 1.5 & 7 adjacent vertical DOMs & 2200\\
   SLOP & in-ice & $N_{\mathrm{triplet}} = 5$ & $T_{\mathrm{prox}} = 2.5$, &
   $\alpha_{\mathrm{min}} = 140^\circ,\ v_{\mathrm{rel}}^{\mathrm{max}}
@@ -486,13 +485,14 @@ StringHubs.  The StringHubs each send back a list of all hits within the
 window.  When all StringHubs have returned a list of hits, extraneous data are
 removed from the trigger, and hit payloads are bundled into an event payload.
 
-Events are written to a temporary file.  When the temporary file reaches a
-configurable size, it is renamed to a standard unique name.  When the PnF
-system sees a new file, it accepts it for processing and filtering.
+Events are written to a temporary file.  When the temporary file
+reaches a preset configurable size, it is renamed to a standard unique name.  When the PnF
+system sees a new file, it accepts it for processing and filtering
+(see Sec.~\ref{sect:online:filter}).
 
 \subsubsection{DAQ and DOM Configuration}
 
-Configuration of the DAQ is managed by two sets of XML files; a cluster
+The configuration of the DAQ is managed by two sets of XML files; a cluster
 configuration file and a hierarchical tree of run configuration files.
 
 The cluster configuration file contains system-level settings used to
@@ -638,19 +638,19 @@ transmission over satellite only allowed in extraordinary cases.
 The online Processing and Filtering (PnF) system is charged with the immediate
 handling of all triggered events collected by the DAQ
 and reducing the data volume to a level that can be accommodated in our
-satellite bandwidth allocations ($\sim$100 GB/day).  This treatment
-includes application of calibration constants, application of event
+satellite bandwidth allocations (about 100 GB/day).  This treatment
+includes application of calibration constants, event
 characterization and selections, extracting data quality monitoring
 information, generation of realtime alerts for events of astrophysical
 interest, and creation of data files and metadata information for long-term
 archiving.  The PnF system is a custom software
-suite that utilizes $\sim$20 standard, multi-processor servers located in
+suite that utilizes about 20 standard, multi-processor servers located in
 the SPS computing cluster.  
 
 The first step in the analysis of triggered events is the calibration of
 the digitized DOM waveforms, as described in Sec.~\ref{sec:waveformcal}, using
 calibration results from DOMCal stored in a database.  Next, each
-DOM's waveform is deconvolved using the known DOM response to photons to
+DOM's waveform is deconvolved using the known DOM response to single photons to
 extract the light arrival time and amplitude information~\cite{IC3:ereco}.
 This series of time and amplitude light arrival information for each DOM is
 the base for event reconstruction and characterization.  PnF encodes this
@@ -682,7 +682,7 @@ and trigger alerts that are distributed to followup observatories
 worldwide~\cite{Abbasi:2011ja,Aartsen:2015trq}.
 
 The PnF system also extracts and aggregates data quality and monitoring
-information from the data as is it processed.  This information includes
+information from the data as it is processed.  This information includes
 stability and quality information from the DOM waveform and calibration
 process, rates of DOM readouts, and rates and 
 stability information for all detector triggers and filters.  This
@@ -690,14 +690,14 @@ information is aggregated for each data segment and reported to the IceCube
 Live monitoring system (Sec.~\ref{sec:online:icecubelive}).
 
 Finally, the PnF system generates several types of files for satellite
-transmission and as the long-term data archive of the experiment. These
+transmission and for long term archival. These
 include:   
 \begin{enumerate}
 \item Filtered data files containing events selected by the online filter
   selections.  These events generally only include the SuperDST version of
   the DOM information and results from the online event reconstructions.
-  These files are queued for satellite transmission to the IceCube data
-  warehouse by the data handling system.
+  The files are queued for satellite transmission to the IceCube data
+  warehouse in the Northern Hemisphere by the data handling system.
 \item SuperDST data files containing the SuperDST version of DOM readout
   information for all triggered events as well as summary information from
   the online filtering process.  This file set is intended as the long-term
@@ -739,12 +739,12 @@ The flow of triggered event data in the PnF
 system is shown in Fig.~\ref{fig:online_pnf_internals}.  Standard
 components include: 
 \begin{enumerate}
-\item DAQ Dispatch, a process to pickup event data from the data
-  acquisition system data cache and forward to the PFServer components.
+\item DAQ Dispatch, a process to pickup event data from the DAQ data cache and forward to the PFServer components.
 \item Central Servers, the primary data flow managers within PnF.  These
   servers receive data from the 
   DAQ Dispatch event source, distribute events to and record results
-  returning from the PFClient farm, and send events to file, monitoring and
+  returning from the PnF client farm, and send events to file,
+  monitoring data and
   alert writing components.  Typically there are 4 servers used in
   operation.
 \item Filter Clients, where the core calibration, reconstruction and
@@ -775,7 +775,7 @@ components include:
  \centering
  \includegraphics[width=0.8\textwidth]{graphics/online/pnf/PnF_Internals.pdf}
  \caption{Internal components of the PnF
-   system.  Arrows highlight the flow of data within the system.}
+   system.  Arrows show the flow of data within the system.}
  \label{fig:online_pnf_internals}
 \end{figure}
 
@@ -783,11 +783,11 @@ components include:
 
 The PnF system is designed to filter triggered events as quickly as
 possible after collection by the data acquisition 
-system.  A key metric is processing system latency, defined as the duration
+system.  A key performance metric is processing system latency, defined as the duration
 of time between the DAQ trigger and the completion of event
 processing and filtering.  A representative latency history for the system is
 shown in Fig.~\ref{fig:online_pnf_latency}, showing typical system
-latencies of $\sim$20 seconds.
+latencies of about 20 seconds.
 
 \begin{figure}[!ht]
  \centering
@@ -816,8 +816,9 @@ set of core filters, including:
   depositions in or near the instrumented volume.  These selected events are
   used as the input to searches for high-energy shower events arising from
   atmospheric and astrophysical neutrinos.
-\item A high-charge filter that searches for any event depositing a significant
-  amount of charge ($\simeq$1000 photoelectrons) in the 
+\item A high-charge filter that searches for any event depositing a
+  large amount of energy leading to a recorded charge of $\geq$~1000
+  photoelectrons in the 
   instrumented volume.  While having a large overlap with the muon track
   and shower filters at high energies, this filter targets the highest
   energy neutrino events of all types. The selected events are used as
@@ -827,15 +828,14 @@ set of core filters, including:
   IceTop.  The selected events are used as inputs to analyses 
   targeting the flux, spectrum, and composition of the primary cosmic rays
   observed in the Earth's atmosphere.
-\item A DeepCore contained filter that searches for contained, lower-energy
-  neutrino events ($\sim10-100$ GeV) from atmospheric neutrino interactions
+\item A DeepCore contained event filter that searches for contained, lower-energy
+  neutrino events (in the range of 10-100 GeV) from atmospheric neutrino interactions
   that are contained within the more densely instrumented DeepCore region.
   The selected events are used as inputs to analyses that measure
   neutrino oscillation effects and search for indirect signatures of dark matter.
 \end{enumerate}
 
-A number of other filters are employed for more specialized and/or
-experimental searches, as well as for minimum bias selections.
+A number of other filters are employed for more specialized searches, as well as for minimum bias selections.
 
 \subsection{\label{sect:online_jade}Data Handling}
 
@@ -845,8 +845,9 @@ geosynchronous satellites with steeply inclined orbits reach far enough
 above the horizon to establish a link.  For a given satellite, this link
 provides four to six hours of communications once per sidereal day.
 Multiple satellites are currently utilized by the
-U.S.~Antarctic Program, providing a $\sim$12-hour window of connectivity with
-bandwidth of 1 Mbps or higher.  For the remainder of the day, Iridium
+U.S.~Antarctic Program, providing a window of about 12 hours of connectivity with
+bandwidth of 250 Mbps for uni-directional data transfer and bandwidth
+of 5 Mbps for bi-directional internet connectivity.  For the remainder of the day, Iridium
 satellites allow limited voice and data connectivity and provide up to 2.4
 kbps of bandwidth per connection.
 
@@ -860,7 +861,7 @@ infrastructure between systems running at the South Pole and systems in the
 Northern Hemisphere.  The IceCube Messaging System (I3MS) incorporates
 multiple Iridium modems and uses the Iridium RUDICS data mode, providing a
 2.4 kbit/s bidirectional serial stream per modem and a minimum latency of
-$\sim$1.5 seconds.  I3MS runs as a daemon on both ends of the link, accepts
+about 1.5 seconds.  I3MS runs as a daemon on both ends of the link, accepts
 messages via the ZeroMQ distributed messaging protocol, and transports
 those messages across the link based on message priority and fair sharing
 of bandwidth among all users. I3MS message recipients listen for messages
@@ -889,7 +890,7 @@ from the data host.
 Files are then routed according to the configuration of their
 data stream, either transmitted via satellite link or 
 archived to a configurable number of archival media copies.  Archival data
-were formerly written to LTO tapes but are now written to 4 TB disks.
+were formerly written to Linear Tape Open (LTO) tapes but are now written to 4 TB disks.
 All of the archival data are buffered on the server until the archival media
 is complete. In case of media failure, the buffered files can be 
 immediately written to new archival media with a single command.
@@ -1010,19 +1011,22 @@ South Pole, allowing the IceCube winterover operators to chat with experts in th
 Northern Hemisphere during periods with no geosynchronous satellite
 connectivity.  This connection also provides a limited capability to
 control the detector, allowing operators in the Northern Hemisphere to
-start/stop component or remotely issue HitSpool requests.
+start/stop components or remotely issue HitSpool requests.
 
 \subsection{\label{sec:operational_performance}Operational Performance}
 
 Detector operational uptime is highly valued, in order to remain
 sensitive to rare astrophysical transient events.  Many redundancies and
 failsafes have been implemented, allowing an average detector uptime of greater
-than 99\%.  All DOMHubs and servers are equipped with redundant power
-supplies; these are in turn connected to redundant UPSes.   This backup battery
-power allows the detector to remain fully operational for $\sim15$ minutes in the
+than 99\%. The detector uptime measures the fraction of total time
+that some portion of the detector is taking data; sources of downtime
+include the transitions between data-taking runs, power outages, and
+DAQ interruptions due to software or hardware issues. All DOMHubs and servers are equipped with redundant power
+supplies; these are in turn connected to redundant UPSes. This backup battery
+power allows the detector to remain fully operational for about 15 minutes in the
 event of a power outage.
 
-Nagios monitoring software tracks SPS hardware status and provides the link
+Nagios monitoring software tracks the SPS hardware status and provides the link
 between LiveControl and the paging system.  In the event of a hardware
 or software failure that interrupts data-taking, a partial-detector configuration can
 frequently be started automatically in parallel with the paging alert.
@@ -1063,7 +1067,7 @@ Fig.~\ref{fig:period-performance}.
 
 \begin{figure}[!ht]
 	\centering
-    \includegraphics[width=0.8\textwidth]{graphics/uptime/bar-chart.png}
+    \includegraphics[width=0.8\textwidth]{graphics/uptime/bar-chart-broken-v2.pdf}
 	\caption{Detector performance breakdown by
       run period.  Clean uptime indicates pristine, full-detector
       data; ``good uptime'' includes partial-detector runs that are
