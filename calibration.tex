@@ -17,7 +17,7 @@ Understanding the statistical properties and time-dependence of the ambient ``da
 noise'' is also relevant for low-energy neutrino analyses, supernova
 searches, and detector simulation (Sec.~\ref{sect:darknoise}).
 
-The determination of the optical properties of the glacial ice is crucial to
+The determination of the optical properties of the ice is crucial to
 the understanding of IceCube data but is beyond the scope of this work.
 Further details can be found in Refs.~\cite{Aartsen:2013rt,IC3:spice_lea}.
 
@@ -40,7 +40,8 @@ the in-ice DOMs are so stable, DOMCal is only run once a year on the full
 detector. IceTop DOMs are calibrated once per month in order to track
 temperature-dependent changes.  Calibration is
 typically performed on half the detector at at time, the other half
-remaining in data-taking mode.  Because the calibration procedure produces
+remaining in data-taking mode in case of a transient event (such as a
+supernova) during calibration.  Because the calibration procedure produces
 light, these runs are excluded from normal analyses.
 
 First, the discriminator circuits used to trigger the DOM are calibrated
@@ -120,7 +121,7 @@ raw readout values (an integral number of ADC counts) into a
 voltage, from which the deposited charge is calculated. The deposited
 charge is the basis for all energy measurements in IceCube. The
 calibration constants needed are 1) the pedestal, the value the digitizer reads when the input voltage is zero, and
-2) the gain, the input voltage required to increase increase the readout value by one count. 
+2) the gain, the input voltage required to increase the readout value by one count. 
 
 Since each bin of each ATWD channel is read from an independent
 digitizer, it is important to distinguish between the pedestals of
@@ -239,9 +240,9 @@ and sent to each DOM over the power/communications wire pair.  After
 this pulse has been received, a bipolar pulse - having the same shape
 as the one generated on the surface - is generated in the DOM and sent
 back to the surface.  The bipolar pulses are time stamped by the local
-clock at each transmission and receive point.  The symmetry of the
+clock at each transmission and reception point.  The symmetry of the
 pulses sent in each direction and symmetry of the down- and up- cable
-transmission enables a translation from each free-running DOM clock to the surface clock and hence to UTC, without prior knowledge of the cable length or its dispersive properties. The base implementation is described in Ref.~\cite{ICECUBE:DAQ}; we describe here the details of the time translation algorithm and validation of the DOM relative time calibration.
+transmission enables a translation from each free-running DOM clock to the surface clock and hence to UTC, without prior knowledge of the cable length or its dispersive properties. The base implementation is described in \cite{ICECUBE:DAQ}; we describe here the details of the time translation algorithm and validation of the DOM relative time calibration.
 
 \begin{figure}[!h]
  \centering
@@ -315,7 +316,8 @@ tracking the cable delay from multiple measurements, defined as
 
 \noindent A representative distribution of $T_{\mathrm{cable}}$ from one DOM over an 8-hour
 data-taking run is shown in Fig.~\ref{fig:rapcal_cable_len}, with a
-standard deviation of 0.6 ns.
+standard deviation of 0.6 ns. In typical operating conditions, a RAPcal procedure
+is repeated once per second for each DOM.
 
 \begin{figure}[!h]
  \centering
