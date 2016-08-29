@@ -1,7 +1,7 @@
 \section{\label{sec:dom_calibration}Calibration and Stability}
 
 Regular calibration of each individual DOM allows translation of the
-recorded signals into a measure of incident Cherenkov light output at a
+recorded signals into a measurement of incident Cherenkov light output at a
 particular time, the basis of particle event reconstructions.  The
 primary DOM calibration routine is DOMCal (Sec.~\ref{sec:domcal}), a
 self-calibration procedure run yearly on in-ice DOMs and monthly on IceTop
@@ -14,7 +14,7 @@ determined both by laboratory and \emph{in situ} measurements
 as not every calibration parameter can be tracked continuously during
 data-taking (Secs.~\ref{sec:baselines} to \ref{sec:optical_stability}).
 Understanding the statistical properties and time-dependence of the ambient ``dark
-noise'' is also relevant for low-energy neutrino analyses, supernova
+noise'' is also important for low-energy neutrino analyses, supernova
 searches, and detector simulation (Sec.~\ref{sect:darknoise}).
 
 The determination of the optical properties of the ice is crucial to
@@ -27,11 +27,17 @@ The calibration of the PMT waveforms recorded by the DOMs, i.e. translation
 of digitized samples into voltage and time, as well as accounting for the
 gain of the PMT itself, is achieved via DOM-by-DOM calibration constants
 determined by the modules themselves. The primary reference inputs to
-the DOM calibration software (DOMcal) are a precision electronic
+the DOM calibration software (DOMCal) are a precision electronic
 pulser circuit providing known charges; a circuit providing a reference DC
 bias voltage level; the 20 MHz oscillator on the Main
 Board, used as the timing reference; and single photoelectrons, either from
-ambient ``dark noise'' photons or a low-luminosity LED on the Main Board. Analysis and fitting of the
+ambient ``dark noise'' photons or a low-luminosity LED on the Main
+Board. The Main Board oscillator is manufactured by Vectron
+International (model C2560A-0009 TCXO) and has a certified stability
+of roughly $1 \times 10^{-11}$ for a sample interval of 5 seconds~\cite{ICECUBE:DAQ}.
+PMT on the same DOM, as opposed to the LED flashers described in
+Sec.~\ref{sec:flasher} which stimulate other DOMs. This LED produces
+zero to a few tens of photoelectrons at the PMT~\cite{ICECUBE:DAQ}. Analysis and fitting of the
 calibration results is done by the DOMCal software, with the results being
 transmitted from each DOM to the surface as an XML file of fit parameters.
 
@@ -41,7 +47,8 @@ detector. IceTop DOMs are calibrated once per month in order to track
 temperature-dependent changes.  Calibration is
 typically performed on half the detector at at time, the other half
 remaining in data-taking mode in case of a transient event (such as a
-supernova) during calibration.  Because the calibration procedure produces
+supernova) during calibration. The total calibration run length is a
+little under three hours. Because the calibration procedure produces
 light, these runs are excluded from normal analyses.
 
 First, the discriminator circuits used to trigger the DOM are calibrated
@@ -60,7 +67,7 @@ determined instead by using averaged forced triggers taken during a normal
 run (Sec.~\ref{sec:baselines}).  DOMCal can still use its own
 baselines for charge integration during the calibration procedure.
 
-The highest-gain channels of the two ATWDs are calibrated using the electronic
+The highest-gain channels of each ATWD is calibrated using the electronic
 pulser circuit, and then the gains of the other ATWD channels and the fADC
 are determined by varying the pulser output and comparing the charges
 simultaneously recorded in multiple gain channels.  This relative
@@ -116,7 +123,7 @@ integration and the waveform pulse unfolding used in data processing.
 
 An ATWD waveform consists of readouts from 128 effectively independent
 digitizers, while an fADC waveform consists of successive outputs of a 6-stage
-pipelined digitizer (256 bins). Two calibration constants per digitizer are needed to turn each of these
+pipelined digitizer (256 samples). Two calibration constants per digitizer are needed to turn each of these
 raw readout values (an integral number of ADC counts) into a
 voltage, from which the deposited charge is calculated. The deposited
 charge is the basis for all energy measurements in IceCube. The
@@ -225,14 +232,14 @@ e^{t/\tau_2})
 \tau_1(T) = A + \frac{B}{1 + e^{(-T/C)}}
 \end{equation}
 
-\noindent where $T$ is temperature and $A$, $B$ and $C$, $N$ and $f$ are determined empirically.
+\noindent where $T$ is temperature and $A$, $B$, $C$, $N$ and $f$ are determined empirically.
 For old toroid DOMs, the second time constant $\tau_2 =0.75\tau_1$. For new
 toroid DOMs, $\tau_2$ is 500~ns.
 
 \subsection{\label{sect:dom:rapcal}RAPCal}
 
 The Reciprocal Active Pulsing calibration (RAPCal) is a
-continuously-running method for translating hit timestamps from the the
+continuously running method for translating hit timestamps from the the
 individual free-running DOM clock domains to the clock domain in the
 ICL, which is synchronized to UTC
 (Sec.~\ref{sect:online:master_clock}). A bipolar pulse is generated
@@ -329,7 +336,7 @@ is repeated once per second for each DOM.
 
 The time calibration through the entire data acquisition and software
 processing chain is verified using the LED flashers. During
-commissioning, all 12~LEDs on each DOM are flashed simultaneously at
+commissioning, performed on each string after deployment, all 12~LEDs on each DOM are flashed simultaneously at
 maximum brightness, and the arrival times of the first photons at the DOM above the flashing DOM
 are recorded. Given the vertical spacing of 17~m on a standard IceCube
 string and the group index of
@@ -422,7 +429,7 @@ charge peak is stable to within 0.05~PE. The baseline shifts from May
  \centering
  \includegraphics[width=0.6\textwidth]{graphics/dom/reliability/baseline_stability_2015.pdf}
  \caption{Distribution of shifts in baseline values in all ATWD
-   channels and the fADC for all DOMs between May 2015 and April
+   channels and the fADC for all DOMs from May 2015 to April
    2016. The DOM configuration was unchanged during this period.}
  \label{fig:baseline_stability_2015}
 \end{figure}
@@ -480,7 +487,7 @@ of the PMT high voltage, Main Board channel amplifiers, and the digitizers.
 We can examine these subsystems using both historical calibration results
 as well as by tracking the SPE charge during data-taking.
 
-The electronic gain stability of the DOM includes variations in the
+The gain stability of the DOM electronics includes variations in the
 front-end electronic amplifiers and the digitizers themselves.  The
 stability is checked by comparing the Main Board channel amplifier gains
 from sets of calibrations taken from 2011 to 2016
@@ -563,7 +570,7 @@ detection probability (TDP) calculated from high-multiplicity muon tracks
 with more than 30 hits in IceCube. The muon 
 tracks are reconstructed using the likelihood methods described in
 \cite{Ahrens:2003fg}; charge and time information from the DOM under
-study was excluded
+study are excluded
 from the reconstruction. The TDP is
 defined for each DOM as the ratio of the number of detected tracks
 within 100~m of the DOM to the total number of tracks within 100~m of
@@ -620,7 +627,7 @@ DOM.
 \begin{figure}
   \centering
   \includegraphics[width=0.7\textwidth]{graphics/dom/performance/darknoise/HitRatevsTemp_inice_nomuons_nofit_bigfont.pdf}
-  \caption{Dark noise rate in IceCube as a function of temperature, obtained from untriggered
+  \caption{Dark noise rate in IceCube as a function of temperature, obtained from forced-readout
     data. Each data point represents the average of 12 DOM layers from 78 strings (DeepCore excluded).}
   \label{fig:dom_darknoise_vs_temperature}
 \end{figure}
@@ -637,7 +644,7 @@ short time intervals between hits in a single DOM compared to the
 Poisson expectation (Fig.~\ref{fig:darknoise_deltaT}). The short time
 intervals are correlated and are clustered in bursts with an average number of
 hits per burst increasing from \num{3.3} at \SI{-10}{\celsius} to \num{3.8} at
-\SI{-30}{\celsius}. A study with untriggered data shows that the
+\SI{-30}{\celsius}. A study with forced-readout data shows that the
 phenomenology of the correlated noise component in IceCube is in general in
 good agreement with results reported in the literature~\cite{meyer_noise}, but a satisfying
 physical explanation is still to be determined.  One candidate for the source
@@ -645,13 +652,13 @@ of the process is luminescence triggered by radioactive decay of
 elements such as thorium and uranium in the glass of the DOM.
 
 The various sources of dark noise present in a DOM can be separated using
-the time between subsequent untriggered hits in HitSpool data
+the time between successive untriggered hits in HitSpool data
 (Sec.~\ref{sec:domhub_hitspool}), as shown in 
 Fig.~\ref{fig:darknoise_deltaT_components}. An overview of the various 
-noise components is also given in Table \ref{tab:noise}.  Late-time
+noise components is given in Table \ref{tab:noise}.  Late-time
 correlated afterpulses, a common feature of PMTs, is attributed to
 ionization of residual gases by electrons that were accelerated between
-the dynodes.  A parametrized noise model incorporating these various source
+the dynodes.  A parametrized noise model incorporating these various sources
 is used for detector simulation \cite{larson2013simulation}. 
 
 \begin{table}[h!]
@@ -677,12 +684,12 @@ $\sigma = \num{0.85}\ [\log_{10}(\delta t/\mathrm{sec})]$ \\
  \centering
   \includegraphics[width=0.8\textwidth]{graphics/dom/performance/darknoise/SingleDOM_HitSpool_Hits_deltaT_fits_example.pdf}
  \caption{Histogram of time differences between successive hits from HitSpool data of
-DOM 15-27 (blue) on a logarithmic scale in order to visualize the
+DOM 15 on string 27 (blue) on a logarithmic scale in order to visualize the
 different noise components \cite{heereman2015hitspooling}.}
  \label{fig:darknoise_deltaT_components}
 \end{figure}
 
-The evolution of the dark noise rate over time was investigated using the
+The evolution of the dark noise contribution to the total rate over time was investigated using the
 supernova scaler stream \cite{IC3:supernova, briedel_phd}, effectively 
 the summed dark noise rate of the detector with an artificial deadtime
 applied to reduce the effect of correlated noise. An exponential decay in
@@ -709,7 +716,7 @@ which were deployed in the previous season, as shown in Fig.~\ref{fig:noise_over
 \begin{figure}[!h]
  \centering
  \includegraphics[width=1.0\textwidth]{graphics/dom/performance/darknoise/SN_Scalers_Whole_Detector_Mean_Variance_IC86_2011_2012_2013_smaller_height.pdf}
- \caption{Mean and variance of the supernova scaler distribution for the
+ \caption{Mean and standard deviation of the supernova scaler distribution for the
    entire detector over the course of the first three years of the
    completed IceCube \cite{briedel_phd}.} 
  \label{fig:noise_over_time_briedel}
@@ -720,12 +727,14 @@ which were deployed in the previous season, as shown in Fig.~\ref{fig:noise_over
  \includegraphics[width=1.0\textwidth]{graphics/dom/performance/darknoise/SN_Scalers_IC86_mean_variance_Histo_IC86_2011_2012_2013_geomapping.pdf}
  \caption{Mean and standard deviation of the supernova scaler rate of strings
    deployed in the last deployment season (austral summer of 2010/2011)
-   \cite{briedel_phd}.} 
+   \cite{briedel_phd}, where changes in the mean rate are
+still dominated by the decay component.} 
  \label{fig:noise_over_time_briedel_lastseasondepoyed}
 \end{figure}
 
-However, since the dark noise components are not correlated between
-DOMs, the dark noise rate change is not prominent in local coincidence hits (Fig.
+Since the dark noise components are not correlated between
+DOMs, the dark noise rate change is not prominent in local coincidence
+hits, which are dominated by atmospheric muons (Fig.
 \ref{fig:hlc_over_time_briedel}).  Thus, the detector trigger rate as well
 as higher-level reconstruction variables are relatively isolated from the
 noise rate variations.  Nevertheless, the noise rates for each DOM are
@@ -736,8 +745,9 @@ reconstruction purposes.
  \centering
  \includegraphics[width=0.95\textwidth]{graphics/dom/performance/darknoise/HLC_Whole_Detector_Mean_Variance_IC86_2011_2012_2013.pdf}
  \caption{Mean and standard deviation of the local coincidence rate distribution
-   \cite{briedel_phd}.  Changes in dark noise rate are minimally visible,
-   and instead the rate is dominated by seasonal and weather-related
+   \cite{briedel_phd}.  Secular changes in dark noise rate do not
+   contribute significantly to the local coincidence rate,
+  which is dominated by seasonal and weather-related
    changes in the atmospheric muon flux.} 
  \label{fig:hlc_over_time_briedel}
 \end{figure}
