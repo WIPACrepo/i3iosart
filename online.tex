@@ -122,13 +122,12 @@ monitoring by the DOR cards and is controllable by software.  Another PCI
 card, the DOMHub Service Board (DSB), is responsible for GPS timing fanout
 (Sec.~\ref{sect:online:master_clock}).
 
-The SPS computers are connected via a 48 Gbps switch that in turn fans out
-to switches in each DOMHub rack; the DOMHub switches are connected with
-dual bonded 10 Gbps links.  The hubs and servers are connected to local
-switches with dual bonded 1 Gbps links.  Typical network I/O during
+The SPS computers are connected via switches in each rack that provide
+redundant connections to a 10--20 Gbps network backbone.  The DOMHubs are
+connected to the rack switches with two bonded 1 Gbps links.  Typical network I/O during
 data-taking for the DAQ Event Builder (see
 Sec.~\ref{sect:online:evbuilder}) is about 240~Mbps in each direction, while
-the primary PnF server node sees 200 Mbps in and 640 Mbps out.
+the PnF Central Server sees 200 Mbps in and 640 Mbps out.
 
 Redundancy and continuous monitoring of SPS is one of the keys to a high
 detector livetime (Sec.~\ref{sec:operational_performance}).
@@ -136,7 +135,7 @@ Industry-standard Nagios monitoring software detects and flags problems,
 including issues with DOM power and communication on the DOMHubs.  Severe
 problems impacting data-taking result in a page to the IceCube winterover 
 personnel via the station's Land Mobile Radio (LMR) system.  A dedicated
-hot spare server can replace any failed DAQ node, and spare PnF filtering
+powered spare server can replace any failed DAQ node, and spare PnF filtering
 clients can be started to increase throughput in case of a data filtering
 backlog.  SPS hardware is also connected to dual redundant uninterruptible
 power supplies (UPS) in order to continue data-taking through station power
@@ -174,8 +173,8 @@ are retransmitted. The total bandwidth of the communication channel
 is 720 kbps per twisted pair.
 
 Messaging is managed from the surface, in that the DOR requests data from
-each DOM in turn; only one DOM (out of eight) can transmit at a time.  Communication is
-paused every second to perform a timing calibration (RAPCal; see
+each DOM in turn; only one DOM per pair can transmit at a time.  Communication is
+paused once per second to perform a timing calibration (RAPCal; see
 Sec.~\ref{sect:dom:rapcal}); this provides a time-dependent translation of DOM clock to DOR
 clock for every module.  
 
@@ -197,7 +196,7 @@ phase-locked to the distributed 10 MHz signal.
 
 Since the Master Clock is a single-point failure for the detector, a
 hot spare receiver, using its own GPS antenna and powered through a
-dedicated UPS, is continuously active and locked in case of problems with
+dedicated UPS, is continuously active and satellite-locked in case of problems with
 the primary.
 
 \begin{figure}[!ht]
@@ -214,19 +213,20 @@ the primary.
 \subsubsection{DOR Card and Driver}
 
 Each DOR card is connected to up to 8 DOMs, with 8 DOR cards in a
-DOMHub. The DOR card controls the 96~V DC power supply to the DOMs and multiplexes the communications signaling on top of this DC level.
+DOMHub. The DOR card controls the 96~V DC power supply to the DOMs and
+multiplexes the communications signaling on top of this DC level. 
 Dedicated circuitry monitors the current draw and voltage levels on each
-twisted pair, and in addition to physical fuses, a ``firmware fuse'' can
-disable power if the current draw deviates from predefined maximum or
-minimum levels.
+twisted pair. A ``firmware fuse'' can disable power if the current draw
+deviates from programmable maximum or minimum levels; this mechanism is
+supplemented with standard physical fuses.
 
 The software interface to the DOR card, and thus to the DOMs, is provided
 with a custom Linux device driver.  Access to DOR card functions, including
-DOM power control, communication statistics, RAPCal, current and voltage
-monitoring, etc.~is facilitated using the Linux \texttt{/proc} filesystem
+DOM power control, communication statistics, RAPCal, and current / voltage
+monitoring, is facilitated using the Linux \texttt{/proc} filesystem
 interface.  Data transfer from the cards to the single-board computer is
-achieved via DMA over the PCI bus.  The driver provides a device file for
-each DOM for read/write access by higher-level software.
+achieved via Direct Memory Access (DMA) over the PCI bus.  The driver
+provides a device file for each DOM for read/write access by higher-level software.
 
 \subsection{Data Acquisition Software}
 
@@ -238,14 +238,15 @@ responsible for detecting patterns of hits in the detector likely to be
 caused by particle interactions and storing these collections of hits as
 ``events''.
 
-Hits are read from the DOMs by the
+Hits are read continuously from the DOMs by the
 StringHub components running on each DOMHub, and a minimal representation of each HLC hit is
 forwarded to the Subtrigger components (either in-ice or IceTop.)
-The Subtrigger components run these hits through a
-configurable set of algorithms and form windows around interesting temporal
+The Subtrigger components apply a
+configurable set of algorithms to the hit stream and form windows around interesting temporal
 and/or spatial patterns.  These time windows are collected by the
-Global Trigger and used to form non-overlapping trigger requests.
-The trigger requests are used by the Event Builder component as templates
+Global Trigger and used to form non-overlapping trigger requests by merging
+subtriggers as needed.  The trigger requests are used by the Event Builder
+component as templates 
 to gather the complete hit data from each StringHub and assemble the final
 events.
 
@@ -255,7 +256,7 @@ events.
 The StringHub software component that runs on each DOMHub is responsible
 for periodically reading all available data from each of its connected DOMs
 and passing that data onto the downstream consumers.  It also saves all
-hits to a local ``HitSpool'' disk cache, as well as queuing them in an
+hits to a local ``HitSpool'' on-disk cache, as well as queuing them in an
 in-memory cache to service future requests from the Event Builder for full
 waveform data.
 
@@ -265,7 +266,7 @@ non-physics data (calibration, monitoring) to its downstream consumers and sorti
 DOMs into a single time-ordered stream before passing them to the Sender.  
 
 Omicron is also responsible for translating DOM hit times into
-UTC-compatible ``DAQ time'', which counts the number of 100-ns periods
+UTC-compatible ``DAQ time'', which counts the number of 0.1-ns periods
 since the UTC start of the year (including leap seconds).  The translation
 uses the RAPCal procedure as described in Sec.~\ref{sect:dom:rapcal},
 performed for each DOM every second; occasional outliers are discarded.
@@ -279,8 +280,9 @@ cache after each interval.
 
 One core requirement of the DAQ is that each component operates on a
 time-ordered stream of data.  The DAQ uses its ``Splicer'' to accomplish
-this.  The Splicer is a common object which gathers all input streams
-during the setup phase; no inputs can be added once started.  Each stream
+this.  The Splicer is an object that gathers all input streams
+during the setup phase at the beginning of a data-taking run; no inputs can
+be added once started.  Each stream 
 pushes new data onto a ``tail'', and the Splicer merges the data from all
 streams into a single sorted output stream.  When a stream is closed, it
 issues an end-of-stream marker that causes the Splicer to
@@ -290,7 +292,7 @@ Ref.~\cite{vlvnt13_trigger}.
 As hits move from Omicron to the Sender, they are written to the
 HitSpool, a disk-based cache of files containing hits.  These files are
 written in a circular order so that the newest hits overwrite the oldest
-data.  The first hit time for each file is stored in an SQLite database to
+data.  The files are catalogued in a SQLite database to
 aid in fast retrieval of raw hit data.
 
 One limitation of the current design is that it only reads data when
@@ -303,8 +305,8 @@ that continuously writes data (including secondary, non-physics data and
 other metadata) to the disk cache.  Part of the back end (Sender) 
 will become a simple HitSpool client that reads data from the disk cache
 and sends it to the downstream consumers, while another simple component
-will listen for time intervals from the Event Builder and return lists of
-hits taken from the HitSpool.
+will listen for requested hit readout time intervals from the Event Builder
+and return lists of hits taken from the HitSpool.
 
 \subsubsection{\label{sect:online:trigger}Triggers}
 
@@ -340,7 +342,8 @@ each hit DOM and requires a given multiplicity within this cylinder
 (Fig.~\ref{fig:trig_cylinder}); this allows one to trigger on localized
 low-energy events that do not satisfy the SMT condition.  The Volume Trigger
 has an additional simple multiplicity parameter that fires the trigger when
-reached, regardless of any spatial restrictions; this prevents the trigger
+a certain number of hits is reached, regardless of any spatial
+restrictions; this prevents the trigger 
 algorithm from slowing down when the detector has triggered already from
 the primary SMT. The String Trigger requires a certain number of hits
 within a span of DOMs along a single string 
@@ -371,17 +374,23 @@ track-like particle signatures.
 
 The SLOP trigger operates in several stages.  The HLC hits, which by design
 come in at least in pairs along a string, are cleaned by removing pairs that
-are too close in time ($\Delta t < T_{\mathrm{prox}}$), removing many muon
-hits.  Next, triplets of HLC pairs within a time window $T_{\mathrm{max}}$
+are close in time ($\Delta t < T_{\mathrm{prox}}$), removing many muon
+hits.  For all parameters, the trigger algorithm considers the time and
+position of the first hit within each HLC pair.  Next, triplets of HLC
+pairs within a time window $T_{\mathrm{max}}$ 
 are formed.  The geometry of each triplet formed must satisfy track-like
-conditions: the obtuse inner angle $\alpha$ of the triangle formed by the earliest
-DOM in each pair (see Fig.~\ref{fig:slop}) must be larger than $\alpha_{\mathrm{min}}$, and the
+conditions: the obtuse inner angle $\alpha$ of the triangle formed by the
+HLC pairs (see Fig.~\ref{fig:slop}) must be larger than $\alpha_{\mathrm{min}}$, and the
 ``velocities'' along the triangle sides must be consistent.  Specifically,
-the normalized velocity difference, defined as
+the normalized inverted velocity difference $v_\mathrm{rel}$, defined as
 
 \begin{equation}
-  v_{\mathrm{rel}} = 3\left|\frac{1}{v_{12}} - \frac{1}{v_{23}}\right|/\left(\frac{1}{v_{12}} +
-  \frac{1}{v_{23}} + \frac{1}{v_{13}}\right)
+  v_\mathrm{rel}=\frac{|\Delta
+  v_\mathrm{inverse}|}{\overline{v}_\mathrm{inverse}} = 
+  3\cdot\frac{|\frac{1}{v_{23}}-\frac{1}{v_{12}}|}
+  {\frac{1}{v_{12}}+\frac{1}{v_{23}}+\frac{1}{v_{13}}}
+%  v_{\mathrm{rel}} = 3\left|\frac{1}{v_{12}} - \frac{1}{v_{23}}\right|/\left(\frac{1}{v_{12}} +
+%  \frac{1}{v_{23}} + \frac{1}{v_{13}}\right)
 \end{equation}
 
 \noindent where $\ v_{ij} = \Delta x_{ij}/\Delta t_{ij}$, must be less than
@@ -406,7 +415,7 @@ such as special IceTop non-LC hits that have full waveform readout, and promotes
 them to a trigger. The Calibration Trigger can also be configured to
 include all events due to LED flashers in cases where flasher 
 operations require disabling standard triggers. Finally, a Minimum Bias
-trigger can select $1/N$ HLC hits and promote the hit to a trigger, adding
+trigger can select one of every $N$ HLC hits and promote this hit to a trigger, adding
 readout windows as usual; currently an IceTop Minimum Bias trigger with a
 prescale factor of 10000 is active.
 
@@ -445,9 +454,11 @@ merged trigger is referred to as the Global Trigger.
 Each trigger has defined readout windows around the trigger window; all
 hits from the full detector, including those DOM sets not involved in the trigger,
 are requested from the StringHub components and built into events.  For the
-DOM set involved in the trigger, the readout windows are appended at the end of the trigger
+DOM set involved in an in-ice trigger, the readout windows are appended at the end of the trigger
 window, while for other DOM sets, the readout windows are centered around
-the trigger start time.  The union of overlapping readout windows defines
+the trigger start time.  Readout windows around IceTop triggers are global
+and include hits from all other DOM sets before and after the trigger
+window. The union of overlapping readout windows defines 
 an event (Fig.~\ref{fig:trigger_readout}).  Long events such as SLOP or FRT
 triggers typically contain several causally independent ``physics'' events;
 these typically are re-split before reconstruction and analysis.
@@ -505,8 +516,8 @@ used for taking data.  The trigger configuration file specifies
 configuration parameters for all 
 trigger components (in-ice, IceTop, and global) used in a run.  These
 include the list of algorithms run by each trigger component, along with
-readout window sizes and any other configurable parameters (frequency,
-threshold, etc.).
+readout window sizes and any other configurable parameters (multiplicity
+threshold, trigger period, prescale factor, etc.).
 
 DOM configuration files (one per hub) list all DOMs that contribute to
 the data-taking run.  All configuration parameters for each DOM are
@@ -574,10 +585,10 @@ StringHub collects the rate stream of each DOM, supplies UTC timestamps,
 and forwards the streams to the Secondary Builder.
 
 The supernova DAQ (SNDAQ) system receives the Secondary Builder stream,
-rebins the individual DOM rates, and monitors the sum of rates for a
-significant rise over several timescales.  This analysis is described in
-detail in Ref.~\cite{IC3:supernova}.  One complication is that short-term
-fluctuations in the cosmic ray muon rate can affect the significance
+rebins the individual DOM rates, and monitors the sum of rates over several
+timescales for a significant rise.  This analysis is described in
+detail in Ref.~\cite{IC3:supernova}.  One complication is that light
+deposition from cosmic-ray muons distorts the significance
 calculation.  To correct for this, the trigger rate of the standard DAQ is
 continuously sent to SNDAQ, and any significant alert is corrected
 \cite{IC3:icrc15_sndaq}.  At a high significance threshold, the capture of
@@ -587,18 +598,19 @@ System (SNEWS) \cite{SNEWS} is notified.
 
 \subsubsection{\label{sect:hitspool}HitSpool Request System}
 
-Subsystems such as SNDAQ can send time interval requests to a HitSpool
-Request daemon to collect raw data from significant transient events. Presently, the HitSpool Request System has three clients;
+In the event of a significant transient event, subsystems such as SNDAQ can
+request all untriggered DOM hits from the detector in 
+a particular time interval by sending requests to a HitSpool Request daemon. Presently,
+the HitSpool Request System has three clients; 
 their basic characteristics are described in
 Table~\ref{tab:hsclients}.  The central daemon passes the request onto 
 every DOMHub, where ``worker'' daemons gather the hits in the requested time
 interval and forward them to a single ``sender'' daemon
 that bundles them to be transferred to the Northern Hemisphere for further analysis.
 
-SNDAQ requests HitSpool data from an asymmetrical time window of $90
-\,\mathrm{s}$ around a supernova alert with a significance $\xi > 7.65$,
-and data from a symmetrical $500\,\mathrm{s}$ window around a trigger with
-significance $\xi > 10.0$.  The online High Energy Starting Event (HESE)
+The time windows of SNDAQ HitSpool data requests are based on the
+statistical significance of the alert and are shown in
+Table~\ref{tab:hsclients}. The online High Energy Starting Event (HESE) 
 analysis system requests HitSpool data from a symmetrical time window of
 1~s around events with a total deposited charge of greater than 1500~PE.
 The recently implemented HitSpool client for solar flare analyses is
@@ -609,15 +621,17 @@ over the satellite due to their size but are stored locally on disk, with
 transmission over satellite only allowed in extraordinary cases.
 
 \begin{table}
-  \caption{HitSpool data-requesting services and request characteristics.}
+  \caption{HitSpool data-requesting services and request characteristics.
+    The SNDAQ quantity $\xi$ is related to the statistical significance of
+    the rate fluctuation.}
   \centering
   \footnotesize
 \begin{tabularx}{\textwidth}{lcXXXX}
   \toprule Client & Trigger Threshold & Time\newline Window & Request
   Length & Raw \newline Data Size & Frequency \\
   \midrule
-  SNDAQ & $7.65 \,\xi$
-  ($10.00 \,\xi$) & $[-30\,\mathrm{s},+60\,\mathrm{s}]$ ($[\pm250
+  SNDAQ & $7.65 \ge \xi < 10$\ 
+  ($\xi \ge 10$) & $[-30\,\mathrm{s},+60\,\mathrm{s}]$ ($[\pm250
     \,\mathrm{s}]$)& $90 \,\mathrm{s}$& ~ $18 \,\mathrm{GB}$&
   $0.5/\mathrm{week}$ ($0.0006 / \mathrm{week}$) \\
   HESE & $1500 \,\mathrm{PE} $ ($6000 \,\mathrm{PE} $) &
@@ -714,9 +728,8 @@ data compression, are $\sim$170 GB/day and $\sim$90 GB/day, respectively.
 
 \subsubsection{System Design}
 
-The PnF system uses a modular design, where
-each component is responsible for a portion of data processing built around
-a central master server node and a scalable number of processing client
+The PnF system uses a modular design based on
+a central master server node and a scalable number of data processing client
 nodes.  The central master server handles data distribution and
 aggregation tasks (requesting data blocks from the DAQ, collating event
 SuperDST, reconstruction, filter, and monitoring information and writing
@@ -793,7 +806,7 @@ latencies of about 20 seconds.
  \centering
  \includegraphics[width=0.85\textwidth]{graphics/online/pnf/pnf_latency_160627.pdf}
  \caption{Typical PnF system latency for a
-   24-hour period.  The latency is defined as the time between DAQ event
+   24-hour period.  The latency is defined as the time between DAQ trigger
    time and time when the online filtering processing is complete.  The
    spikes in latency correspond to DAQ run transitions.}
  \label{fig:online_pnf_latency}
@@ -848,12 +861,12 @@ Multiple satellites are currently utilized by the
 U.S.~Antarctic Program, providing a window of about 12 hours of connectivity with
 bandwidth of 250 Mbps for uni-directional data transfer and bandwidth
 of 5 Mbps for bi-directional internet connectivity.  For the remainder of the day, Iridium
-satellites allow limited voice and data connectivity and provide up to 2.4
+communication satellites allow limited voice and data connectivity and provide up to 2.4
 kbps of bandwidth per connection.
 
 IceCube incorporates Iridium modems into two separate systems.  The IceCube
 Teleport System (ITS) uses the Iridium Short Burst Data mode to send short
-messages of 1.8 kB or smaller with a typical latency of 30 seconds.
+messages of 1.8 kB or smaller with a typical latency (transmission time) of 30 seconds.
 Messages may both originate or terminate at the ITS Iridium modem at the
 South Pole.  Messages also contain a recipient ID indicating the intended
 host to receive the message, allowing a many-to-many communications
@@ -872,7 +885,7 @@ Data handling is provided by three servers running the Java Archival and
 Data Exchange (JADE) software. JADE is a
 recent Java-based reimplementation and expansion of earlier software, the
 South Pole Archival and Data Exchange (SPADE).  JADE has 
-four primary tasks: consumption, archival, satellite transmission, and
+four primary tasks: data pickup, archival, satellite transmission, and
 real-time transmission. The three servers operate independently of one
 another, and each is capable of separately handling the nominal
 data volume; thus, data handling can continue seamlessly in case of
@@ -881,18 +894,18 @@ hardware failure or maintenance.
 JADE is configured with a number of input data streams, 
 each consisting of a data server, a dropbox directory, and a filename pattern.  The
 data stream dropbox directories are checked on a regular basis for new
-files. A file pairing scheme (binary and semaphore) prevents files from
-being consumed before they are ready. For each file, a
+files.  File completion is indicated by the producer using a matching
+semaphore file.  For each file, a
 checksum calculated on the data server is compared to a checksum calculated
 on the JADE server.  After validation, the original data file is removed
-from the data host. 
+from the pickup location. 
 
 Files are then routed according to the configuration of their
 data stream, either transmitted via satellite link or 
 archived to a configurable number of archival media copies.  Archival data
 were formerly written to Linear Tape Open (LTO) tapes but are now written to 4 TB disks.
-All of the archival data are buffered on the server until the archival media
-is complete. In case of media failure, the buffered files can be 
+All of the archival data are buffered on the server until the tape or disk
+is full. In case of media failure, the buffered files can be 
 immediately written to new archival media with a single command.
 
 Data streams intended for satellite transfer are queued separately.  
@@ -920,12 +933,12 @@ plots that characterize the state of the detector.
 
 \subsubsection{LiveControl}
 
-LiveControl executes in the background as a daemon and accepts input
-via XML-RPC messaging.  Operators typically control the detector and check basic
-detector status using a command-line interface.  LiveControl is responsible
-for controlling the state of DAQ and PnF, starting and
+LiveControl is responsible for controlling the state of DAQ and PnF, starting and
 stopping data-taking runs, and recording the parameters of these runs.
-Standard operation is to request a run start, supplying a DAQ run configuration
+Human operators typically control the detector and check basic 
+detector status using a command-line interface to the LiveControl
+daemon. Standard operation is to 
+request a run start, supplying a DAQ run configuration 
 file.  LiveControl then records the run number, configuration, start time,
 etc. and sends a request 
 for DAQ to begin data taking.  After data-taking commences successfully,
@@ -944,7 +957,8 @@ data are recorded.
 
 A secondary function of LiveControl is the collection, processing, and
 forwarding of monitoring data from DAQ, PnF, and other
-components.  The associated JavaScript Object Notation (JSON) data are forwarded to LiveControl using ZeroMQ and queued internally
+components.  The associated JavaScript Object Notation (JSON) data are
+forwarded to LiveControl using ZeroMQ and queued internally 
 for processing.  Certain monitoring quantities indicate serious problems with
 the detector, e.g. the PnF latency is too high.  LiveControl
 maintains a database of critical monitoring quantities and raises an alert
@@ -952,7 +966,8 @@ if the value is out of the specified range or
 hasn't been received in a specified amount of time.  The alert usually
 includes an email to parties responsible for the affected subsystem and,
 for serious problems, triggers an automated page to winterover operators.
-Alerts generated controlled components may also trigger emails or pages.
+Alerts generated by controlled components such as DAQ or PnF may also
+generate emails or pages.
 All monitoring data are forwarded to the IceCube Live website for further
 processing and display. 
 
@@ -1026,7 +1041,7 @@ supplies; these are in turn connected to redundant UPSes. This backup battery
 power allows the detector to remain fully operational for about 15 minutes in the
 event of a power outage.
 
-Nagios monitoring software tracks the SPS hardware status and provides the link
+Industry-standard Nagios monitoring software tracks the SPS hardware status and provides the link
 between LiveControl and the paging system.  In the event of a hardware
 or software failure that interrupts data-taking, a partial-detector configuration can
 frequently be started automatically in parallel with the paging alert.

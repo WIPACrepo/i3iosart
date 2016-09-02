@@ -460,7 +460,8 @@ baseline stability.
 \end{figure}
 
 The baselines are sensitive to radio frequency interference (RFI). In
-2009, RF signals from a meteor radar transmitter broadcasting at 46.3~MHz
+2009, RF signals from the COBRA meteor radar transmitter broadcasting at
+46.3~MHz \cite{meteor_radar}
 appeared as sinusoidal or spiky signatures in the waveform
 baselines.  To mitigate this effect, one DOM was operated without PMT high
 voltage and used to monitor the RF broadcasts and tag periods of RFI.  Also
@@ -553,6 +554,22 @@ probability to detect single photons is effectively unchanged.
    which shows unpredictable gain shift behavior. The DOM
    configuration was unchanged during this period.}
  \label{fig:gainshift_spe}
+\end{figure}
+
+Long-term stability of the PMTs can be tracked by examining any change in
+the high voltage vs.~gain calibration over time.  The fractional change in gain for
+all in-ice DOMs over a five-year time period is shown in
+Fig.~\ref{fig:pmt_gainshift}.  For most DOMs, the PMT gain is stable to
+within $\pm3\%$ over the time period shown, while approximately $1\%$ 
+of DOMs have a gain shift of more than 10\%.  Any shifts are tracked with
+regular calibration using the methods previously described.
+
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.7\textwidth]{graphics/dom/reliability/pmt_gainshift.pdf}
+ \caption{Fractional change in PMT gain from 2011 to 2016 for all in-ice
+   DOMs, at the 2011 operating high voltage for each DOM.}
+ \label{fig:pmt_gainshift}
 \end{figure}
 
 \subsection{\label{sec:optical_stability}Optical Efficiency Stability}
