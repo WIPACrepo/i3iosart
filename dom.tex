@@ -43,7 +43,7 @@ a challenging deployment environment, and long-term reliability.
 
 
 The PMT detects signals from particles interacting the ice, typically ranging over
-energies from \unit[10]GeV to \unit[10]PeV and distances from a few meters to \unit[500]m
+energies from \unit[10]GeV to \unit[10]PeV and distances up to \unit[500]m
 away.  At a gain of $10^7$ (see Sec.~\ref{sec:hv}), corresponding PMT waveforms can have amplitudes from \unit[1]mV up
 to and beyond the linearity limit of the PMT (\unit[$\sim2$]V) and widths
 from \unit[12]ns to \unit[1500]ns.  In order to accommodate such a variety
@@ -54,9 +54,10 @@ independently by detection of individual photons, starting a recording of
 the PMT waveform that also includes photons arriving up to
 \unit[6.4]{$\mu$s} later.  The trigger time is saved along with the
 waveform shape, allowing the determination of the times of arriving photons
-relative to this reference.  The DOM typically accumulates such triggered
-data for a period of \unit[1]s before sending the data up as a block, although the DOM
-can store $\mathcal{O}(\SI{10}{\second})$ of data before overflowing local memory,
+relative to this reference.  The DOM accumulates such triggered
+data for a period of \unit[1]s before sending the data up as a block.
+However, if data readout is interrupted, the DOM can store
+$\mathcal{O}(\SI{10}{\second})$ of data before overflowing local memory, 
 depending on trigger rate.  Separately, the PMT trigger rate is recorded by
 the DOM in \unit[1.6]ms intervals, as a collective increase of all rates
 could signify detection of many low energy neutrinos in case of a Galactic
@@ -93,14 +94,16 @@ The glass sphere housing has an outer diameter \SI{13}{''} and thickness \SI{0.5
 The spheres are specified to protect the inside electronics and PMT against long-term applied pressure of 
 \unit[250]bar (\unit[2.6]km equivalent water depth)
 as well as temporary overpressure up to \unit[690]bar during the refreezing of melted ice in the drill hole.
-The housings were produced by Benthos, Inc., based on a design for deep-sea environments but using glass
+The housings were produced by Benthos, Inc., based on a design for deep-sea
+environments but using borosilicate glass
 with very low potassium or other radioactive trace elements that would contribute to the dark noise
 count rate (Section~\ref{sect:darknoise}).  
 Optical transmission was measured in representative glass samples as 93\% at \unit[400]nm,
 decreasing to 50\% at \unit[340]nm and 10\% at \unit[315]nm (normal incidence, excluding Fresnel reflection).
 
 %N.B. not borosilicate, according to analysis shown at final CDR 2005 (Claire's slides), in contrast
-%to the Benthos sphere datasheet which says borosilicate
+%to the Benthos sphere datasheet which says borosilicate.
+% ACTUALLY is borosilicate, analysis can't detector boron
 
 All spheres were tested up to \unit[690]bar hydrostatic pressure by the manufacturer.
 Each was delivered as two hemispheres that mate precisely at the equator

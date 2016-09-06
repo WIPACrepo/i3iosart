@@ -35,7 +35,8 @@ in data reduction takes place in the DOM, using the Local Coincidence (LC) condi
 Sec.~\ref{sec:dom_functional}.  Hits that meet the LC criteria are flagged
 as Hard Local Coincidence (HLC hits) and include a full payload of
 digitized waveforms, while isolated non-LC hits are flagged as Soft Local
-Coincidence (SLC) hits and are compressed more aggressively.
+Coincidence (SLC) hits and are compressed more aggressively, with only a
+timestamp and minimal amplitude / charge information transmitted.
 
 All DOM hits are read out to dedicated computers on the surface
 (Sec.~\ref{sect:sps}) by the data acquisition system (DAQ).  The next level
@@ -51,9 +52,7 @@ and the total DAQ data rate is approximately 1~TB/day.
 The DAQ also produces secondary streams that include time calibration,
 monitoring, and DOM scaler data.  The scaler data, which monitors the
 noise rate of each DOM in 1.6~ms bins, is used in the supernova data
-acquisition system (Sec.~\ref{sect:SNDAQ}) to detect a global rise in the
-noise rate from many $O(10)$ MeV neutrino interactions occurring in the ice
-from a Galactic core-collapse supernova.  The time calibration and
+acquisition system (Sec.~\ref{sect:SNDAQ}).  The time calibration and
 monitoring streams are used to monitor the health and quality of the
 data-taking runs.
 
@@ -114,11 +113,11 @@ single-board computer were upgraded in 2013--14.
 
 The DOMHub is an industrial computer chassis with custom components for DOM
 power, timing, and communication.  A low-power single-board computer
-communicates with 8 custom PCI DOM Readout (DOR) cards via a PICMG 1.0
-backplane.  A dual-redundant ATX power supply powers the DOMHub, while two
+communicates with 8 custom PCI DOM Readout (DOR) cards via an
+industry-standard backplane.  A dual-redundant ATX power supply powers the DOMHub, while two
 48VDC Acopian power supplies, mounted and connected in series inside the
 chassis to double the voltage to 96~V, supply power to the DOMs.  The DOM power is switched and
-monitoring by the DOR cards and is controllable by software.  Another PCI
+monitored by the DOR cards and is controlled by software.  Another PCI
 card, the DOMHub Service Board (DSB), is responsible for GPS timing fanout
 (Sec.~\ref{sect:online:master_clock}).
 
@@ -245,7 +244,8 @@ The Subtrigger components apply a
 configurable set of algorithms to the hit stream and form windows around interesting temporal
 and/or spatial patterns.  These time windows are collected by the
 Global Trigger and used to form non-overlapping trigger requests by merging
-subtriggers as needed.  The trigger requests are used by the Event Builder
+subtriggers as needed, ensuring that the same hit doesn't appear in
+multiple events.  The merged trigger requests are used by the Event Builder
 component as templates 
 to gather the complete hit data from each StringHub and assemble the final
 events.
@@ -300,7 +300,7 @@ the full DAQ system is running, so the detector is essentially ``off''
 during certain hardware failures or the periodic full restarts of the system.
 A future enhancement 
 will split the StringHub into several independent pieces to eliminate these
-brief pauses.  The front end (Omicron) will be moved to an always-on daemon
+brief pauses.  The front end (Omicron) will be moved to a daemon
 that continuously writes data (including secondary, non-physics data and
 other metadata) to the disk cache.  Part of the back end (Sender) 
 will become a simple HitSpool client that reads data from the disk cache
@@ -454,7 +454,7 @@ merged trigger is referred to as the Global Trigger.
 Each trigger has defined readout windows around the trigger window; all
 hits from the full detector, including those DOM sets not involved in the trigger,
 are requested from the StringHub components and built into events.  For the
-DOM set involved in an in-ice trigger, the readout windows are appended at the end of the trigger
+DOM set involved in an in-ice trigger, the readout windows are appended at each end of the trigger
 window, while for other DOM sets, the readout windows are centered around
 the trigger start time.  Readout windows around IceTop triggers are global
 and include hits from all other DOM sets before and after the trigger
@@ -604,9 +604,9 @@ a particular time interval by sending requests to a HitSpool Request daemon. Pre
 the HitSpool Request System has three clients; 
 their basic characteristics are described in
 Table~\ref{tab:hsclients}.  The central daemon passes the request onto 
-every DOMHub, where ``worker'' daemons gather the hits in the requested time
-interval and forward them to a single ``sender'' daemon
-that bundles them to be transferred to the Northern Hemisphere for further analysis.
+every DOMHub, where hits in the requested time
+interval are gathered and forwarded to a ``sender'' component.  The hits
+are then bundled and transferred to the Northern Hemisphere for further analysis.
 
 The time windows of SNDAQ HitSpool data requests are based on the
 statistical significance of the alert and are shown in
@@ -649,9 +649,9 @@ transmission over satellite only allowed in extraordinary cases.
 
 \subsubsection{Overview}
 
-The online Processing and Filtering (PnF) system is charged with the immediate
-handling of all triggered events collected by the DAQ
-and reducing the data volume to a level that can be accommodated in our
+The online Processing and Filtering (PnF) system handles
+all triggered events collected by the DAQ
+and reduces the data volume to a level that can be accommodated in our
 satellite bandwidth allocations (about 100 GB/day).  This treatment
 includes application of calibration constants, event
 characterization and selections, extracting data quality monitoring
@@ -753,16 +753,16 @@ system is shown in Fig.~\ref{fig:online_pnf_internals}.  Standard
 components include: 
 \begin{enumerate}
 \item DAQ Dispatch, a process to pickup event data from the DAQ data cache and forward to the PFServer components.
-\item Central Servers, the primary data flow managers within PnF.  These
-  servers receive data from the 
+\item Central Servers, which
+  receive data from the 
   DAQ Dispatch event source, distribute events to and record results
   returning from the PnF client farm, and send events to file,
   monitoring data and
   alert writing components.  Typically there are 4 servers used in
   operation.
 \item Filter Clients, where the core calibration, reconstruction and
-  filtering processes are applied to each triggered event.  In normal
-  operation, up to 500 of these clients operate in parallel to filter
+  filtering processes are applied to each triggered event.  Up to 500 of
+  these clients operate in parallel to filter 
   events in real time.
 \item GCD Dispatch, a database caching system to prevent the
   Filter Client processes from overwhelming the database system when requesting
@@ -778,9 +778,7 @@ components include:
   monitoring system.
 \item Filtered Data Dispatch and FollowUp Clients, responsible for
   looking for bursts of neutrino events on timescales from 100 seconds up
-  to 3 weeks in duration. This post-filtering search of the data has all
-  filter-selected events available, enabling event-to-event
-  correlations to be discovered.  Any significant burst of neutrinos found generates alerts
+  to 3 weeks in duration.  Any significant burst of neutrinos found generates alerts
   sent to partner observatories worldwide.
 \end{enumerate}
 
@@ -824,10 +822,10 @@ set of core filters, including:
   while only high-energy 
   down-going tracks are selected to avoid the large background of
   down-going atmospheric muons at lower energies.  These selected events
-  are used as the input to point source and transient neutrino searches.
+  are frequently used as the input to point source and transient neutrino searches.
 \item A shower event filter that searches for events producing large energy
   depositions in or near the instrumented volume.  These selected events are
-  used as the input to searches for high-energy shower events arising from
+  frequently used as the input to searches for high-energy shower events arising from
   atmospheric and astrophysical neutrinos.
 \item A high-charge filter that searches for any event depositing a
   large amount of energy leading to a recorded charge of $\geq$~1000
@@ -836,7 +834,7 @@ set of core filters, including:
   and shower filters at high energies, this filter targets the highest
   energy neutrino events of all types. The selected events are used as
   inputs to searches for high-energy astrophysical and cosmogenic
-  neutrinos.
+  neutrinos as well as for relativistic magnetic monopoles.
 \item Cosmic ray filters that search for extended air-shower events in
   IceTop.  The selected events are used as inputs to analyses 
   targeting the flux, spectrum, and composition of the primary cosmic rays
@@ -902,7 +900,7 @@ from the pickup location.
 
 Files are then routed according to the configuration of their
 data stream, either transmitted via satellite link or 
-archived to a configurable number of archival media copies.  Archival data
+archived locally.  Archival data
 were formerly written to Linear Tape Open (LTO) tapes but are now written to 4 TB disks.
 All of the archival data are buffered on the server until the tape or disk
 is full. In case of media failure, the buffered files can be 
@@ -944,7 +942,9 @@ etc. and sends a request
 for DAQ to begin data taking.  After data-taking commences successfully,
 LiveControl waits a specified amount of time, generally eight hours, then
 stops the current run and automatically starts a new run using the same
-configuration.  This cycle continues until stopped by a user request or a
+configuration.
+
+This cycle continues until stopped by a user request or a
 run fails.  In case of failure, LiveControl attempts to restart data-taking
 by starting a new run.  Occasionally a hardware failure occurs, and a new
 run cannot be started with the supplied configuration because requested
@@ -958,7 +958,7 @@ data are recorded.
 A secondary function of LiveControl is the collection, processing, and
 forwarding of monitoring data from DAQ, PnF, and other
 components.  The associated JavaScript Object Notation (JSON) data are
-forwarded to LiveControl using ZeroMQ and queued internally 
+forwarded to LiveControl using the ZeroMQ protocol and queued internally 
 for processing.  Certain monitoring quantities indicate serious problems with
 the detector, e.g. the PnF latency is too high.  LiveControl
 maintains a database of critical monitoring quantities and raises an alert
@@ -975,7 +975,7 @@ processing and display.
 
 Two operational copies of the IceCube Live website exist: one inside the
 IceCube network at the South Pole, and one in the Northern Hemisphere.
-Monitoring data reach the northern website based on priority and using
+Monitoring data reach the northern website based on relative priority and using
 both geosynchronous and Iridium data transport, summarized in Table
 \ref{i3messages}.
 
@@ -994,10 +994,9 @@ both geosynchronous and Iridium data transport, summarized in Table
 \end{table}
 
 Messages reaching the website are processed by a database server daemon
-(DBServer) and inserted into one of several database tables depending on content.
-Messages also may contain directives requesting DBServer to send email, by
+(DBServer).  Messages also may contain directives requesting DBServer to send email, by
 specifying email recipients and content, or requesting that the monitoring
-message be published using ZeroMQ PUB-SUB, allowing the message to be
+message be published using the ZeroMQ PUB-SUB framework, allowing the message to be
 passed to an external process.  The IceCube Live website itself uses the
 Django web framework and contains pages that create graphical views of
 monitoring data stored in the database.  These pages include a front page
@@ -1074,7 +1073,8 @@ uptime loss due to runs not using the full-detector configuration. This
 occurs when certain components of the detector are excluded from the run
 configuration during required repairs and maintenance; these
 partial-detector runs are still useful for analyses that have less strict
-requirements on the active detector volume. There is approximately a 1\%
+requirements on the active detector volume or in the case of an exceptional
+astrophysical transient event. There is approximately a 1\%
 loss of clean uptime due to maintenance, commissioning, and verification
 runs, and short runs that are less than 10 minutes in duration.  A
 breakdown of total detector time by run period is shown in

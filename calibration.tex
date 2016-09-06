@@ -55,8 +55,9 @@ First, the discriminator circuits used to trigger the DOM are calibrated
 using the electronic pulser circuit.  This calibration is later refined using actual
 PMT waveforms, once the PMT gain is known.  Next, the ATWD voltage levels
 are calibrated by sweeping the input DC bias voltage and recording the
-response; because of the slight variations in the ATWD circuits, this
-linear calibration is produced for every sample and every channel.
+response.  Because of the slight variations in the ATWD circuits, this
+calibration provides an individual linear relationship between ATWD counts
+and voltage for each sample and channel.
 
 This ATWD calibration also in principle allows determination of the baseline
 voltage levels of each channel, needed for charge integration.  However, in
@@ -242,10 +243,10 @@ The Reciprocal Active Pulsing calibration (RAPCal) is a
 continuously running method for translating hit timestamps from the the
 individual free-running DOM clock domains to the clock domain in the
 ICL, which is synchronized to UTC
-(Sec.~\ref{sect:online:master_clock}). A bipolar pulse is generated
-and sent to each DOM over the power/communications wire pair.  After
-this pulse has been received, a bipolar pulse - having the same shape
-as the one generated on the surface - is generated in the DOM and sent
+(Sec.~\ref{sect:online:master_clock}). While data transmission is paused, a
+bipolar pulse is generated and sent to each DOM over the power/communications wire pair.  After
+this pulse has been received, a bipolar pulse --- having the same shape
+as the one generated on the surface --- is generated in the DOM and sent
 back to the surface.  The bipolar pulses are time stamped by the local
 clock at each transmission and reception point.  The symmetry of the
 pulses sent in each direction and symmetry of the down- and up- cable
@@ -340,7 +341,7 @@ commissioning, performed on each string after deployment, all 12~LEDs on each DO
 maximum brightness, and the arrival times of the first photons at the DOM above the flashing DOM
 are recorded. Given the vertical spacing of 17~m on a standard IceCube
 string and the group index of
-refraction of  1.356 in ice at 400~nm, the expected light travel time
+refraction of  1.356 in ice at 400~nm \cite{price_woschnagg_ice}, the expected light travel time
 from the flashing DOM to the DOM above is 77~ns. In DeepCore, the DOM
 vertical spacings are 10~m and 7~m, corresponding to light travel
 times of 45~ns and 32~ns respectively. The mean light travel
@@ -471,7 +472,8 @@ The baselines are sensitive to radio frequency interference (RFI). In
 46.3~MHz \cite{meteor_radar}
 appeared as sinusoidal or spiky signatures in the waveform
 baselines.  To mitigate this effect, one DOM was operated without PMT high
-voltage and used to monitor the RF broadcasts and tag periods of RFI.  Also
+voltage and used to monitor the RF broadcasts and tag periods of RFI in
+order to avoid data contamination.  Also
 in 2009, DOM 68-42 was damaged by a high voltage setting during DOM
 calibration, and appeared to begin sparking, causing sinusoidal waveforms
 to appear in the baselines of neighboring DOMs. The meteor radar
@@ -665,8 +667,8 @@ hits per burst increasing from \num{3.3} at \SI{-10}{\celsius} to \num{3.8} at
 phenomenology of the correlated noise component in IceCube is in general in
 good agreement with results reported in the literature~\cite{meyer_noise}, but a satisfying
 physical explanation is still to be determined.  One candidate for the source
-of the process is luminescence triggered by radioactive decay of
-elements such as thorium and uranium in the glass of the DOM.
+of the process is luminescence of the glass triggered by radioactive decay of
+elements such as thorium and uranium contained in the glass of the DOM.
 
 The various sources of dark noise present in a DOM can be separated using
 the time between successive untriggered hits in HitSpool data
@@ -709,7 +711,7 @@ different noise components \cite{heereman2015hitspooling}.}
 The evolution of the dark noise contribution to the total rate over time was investigated using the
 supernova scaler stream \cite{IC3:supernova, briedel_phd}, effectively 
 the summed dark noise rate of the detector with an artificial deadtime
-applied to reduce the effect of correlated noise. An exponential decay in
+applied to reduce the effect of correlated noise. A long-term exponential decay in
 the noise rate is visible; this may be caused by 
 decreasing triboluminescence arising from the initial ``freeze-in''
 of newly deployed DOMs, impurities introduced during the drill
