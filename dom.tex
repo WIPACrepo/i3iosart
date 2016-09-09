@@ -49,16 +49,16 @@ to and beyond the linearity limit of the PMT (\unit[$\sim2$]V) and widths
 from \unit[12]ns to \unit[1500]ns.  In order to accommodate such a variety
 of signals, the DOM includes multiple digitizers with overlapping dynamic
 range and different sampling speeds
-(Sec.~\ref{sec:mainboard}).  Each DOM is triggered
-independently by detection of individual photons, starting a recording of
+(Sec.~\ref{sec:mainboard}).  Each DOM independently
+detects individual photons, starting a recording of
 the PMT waveform that also includes photons arriving up to
-\unit[6.4]{$\mu$s} later.  The trigger time is saved along with the
+\unit[6.4]{$\mu$s} later (a ``hit'').  The hit time is saved along with the
 waveform shape, allowing the determination of the times of arriving photons
-relative to this reference.  The DOM accumulates such triggered
+relative to this reference.  The DOM accumulates such hit
 data for a period of \unit[1]s before sending the data up as a block.
 However, if data readout is interrupted, the DOM can store
 $\mathcal{O}(\SI{10}{\second})$ of data before overflowing local memory, 
-depending on trigger rate.  Separately, the PMT trigger rate is recorded by
+depending on hit rate.  Separately, the PMT hit rate is recorded by
 the DOM in \unit[1.6]ms intervals, as a collective increase of all rates
 could signify detection of many low energy neutrinos in case of a Galactic
 supernova event (see Sec.~\ref{sect:SNDAQ}).
@@ -70,9 +70,9 @@ cables.  Each wire pair is shared between two DOMs, with data transfers
 initiated by a surface computer.  Separately, dedicated wiring to neighbor
 DOMs above and below allows quick recognition of local coincidences
 (LC) where
-nearest or next-to-nearest neighbors trigger within a common \unit[1]$\mu$s
+nearest or next-to-nearest neighbors are hit within a common \unit[1]$\mu$s
 time window. The signals are forwarded from one DOM to the next
-through the dedicated wiring; the span of the forwarding is software-configurable and is currently set to two, i.e. a DOM signals its neighbor and next-to-nearest neighbor DOMs in both up and down directions along the string. Local coincidence triggers often have complex PMT waveforms
+through the dedicated wiring; the span of the forwarding is software-configurable and is currently set to two, i.e. a DOM signals its neighbor and next-to-nearest neighbor DOMs in both up and down directions along the string. Local coincidence hits often have complex PMT waveforms
 indicating multiple photons detected in each DOM, which are therefore saved
 in full detail; otherwise, the DOM saves abbreviated information appropriate
 to single photon detection (Sec.~\ref{sec:mainboard}).
@@ -266,7 +266,7 @@ medium-, and low-gain channels are 15.6, 1.79, and 0.21 respectively.
 
 
 As explained in Ref.~\cite{ICECUBE:DAQ}, two sets of ATWD chips are operated alternately in order to
-reduce deadtime.  The remaining deadtime depends upon the DOM trigger
+reduce deadtime.  The remaining deadtime depends upon the DOM hit
 rate, which varies seasonally based on the atmospheric muon flux~\cite{ICECUBE:IceTop}. 
 The median fractional deadtime during a high-rate period for in-ice DOMs
 is $6.6\times10^{-5}$, for IceTop low-gain DOMs is $7.2\times 10^{-6}$, and
@@ -414,8 +414,10 @@ B5-433-B505 & 505 & 494 & 6.4 &	4.5 & 4.9 \\
 
 \subsection{\label{sec:dom_prodtest}Production and Testing}
 
-Approximately 5500 in-ice and IceTop DOMs were built, tested and
-delivered to the South Pole. The DOMs satisfied stringent requirements, needed to ensure reliable operation in the deep ice for at least 20 years. As hot-water drilling was the principal
+Approximately 5800 in-ice and IceTop DOMs were built and tested, with
+approximately 5500 delivered to the South Pole. The DOMs satisfied
+stringent requirements, needed to ensure reliable operation in the deep ice
+for at least 20 years. As hot-water drilling was the principal 
 driver of the deployment timeline, the DOM production schedule was
 structured to supply DOMs as needed and to avoid any inventory shortfall.
 The production was implemented in a 3-stage approach. Stage 1 was
@@ -428,7 +430,7 @@ quantity of DOMs was sufficient to verify production readiness, supply
 instrumentation for the first year drilling plan, and validate the design after a deployment
 season.  During Stage 2, material and supplies were procured, and another
 1000 DOMs were produced and tested. Finally, Stage 3 involved procurements,
-integration, and testing of the remaining 4100 DOMs.
+integration, and testing of the remaining DOMs.
 
 DOM production utilized a formalized process to track each DOM through to
 the end of the testing process, with each step recorded in a DOM Process
@@ -449,17 +451,19 @@ a DOM. The PMT was then mounted into a special jig for precise
 placement inside the bottom glass hemisphere.  In parallel, the mu-metal
 shield was placed inside the bottom hemisphere, and the
 gel was mixed and poured into the same hemisphere. The gel was then
-degassed in order to avoid bubbles and cracks (``crazing'') in the gel.
+degassed by placing under a partial vacuum, in order to avoid bubbles and
+cracks (``crazing'') in the gel. 
 After degassing, the PMT was placed in the gel and allowed to cure for 48
 hours.  After curing, the PMT Base Board was soldered onto the leads of the
 PMT.  Separately, the PC Board Stack was assembled by attaching the Delay
 Board, Main Board, Flasher Board, and High Voltage Control Board together.
 The Board Stack was then mounted onto the PMT collar, the penetrator assembly
 was mounted into the top hemisphere, and the two halves of the sphere were
-joined.  The spheres were then evacuated and backfilled with dry nitrogen,
+joined.  With the entire assembly under a bell jar, the spheres were
+evacuated and backfilled with dry nitrogen, 
 a butyl rubber sealant applied around the seam, and the seam covered with
 wide plastic tape. The interior gas pressure was reduced to 0.5 bar (at
-room temperature) so that the seal remains tight even at the minimum
+room temperature) so that the seal remains tight even at the assumed minimum
 ambient South Pole air pressure of 0.64 bar.
 
 As the DOMs are not serviceable after deployment, an extensive testing
