@@ -68,14 +68,20 @@ using a twisted wire pair that also provides power (Sec.~\ref{sec:cable}).
 Wire pairs are bundled to form the vertical in-ice cables and the horizontal surface
 cables.  Each wire pair is shared between two DOMs, with data transfers
 initiated by a surface computer.  Separately, dedicated wiring to neighbor
-DOMs above and below allows quick recognition of local coincidences
-(LC) where
-nearest or next-to-nearest neighbors are hit within a common \unit[1]$\mu$s
-time window. The signals are forwarded from one DOM to the next
-through the dedicated wiring; the span of the forwarding is software-configurable and is currently set to two, i.e. a DOM signals its neighbor and next-to-nearest neighbor DOMs in both up and down directions along the string. Local coincidence hits often have complex PMT waveforms
+DOMs above and below allows quick recognition of neighboring
+coincident hits, called local coincidences
+(LC), where
+nearest or next-to-nearest neighbors are hit within a common time
+window. The time window is configurable and is set to  \unit[1]$\mu$s
+for both in-ice and IceTop DOMs. The signals are forwarded from one DOM to the next
+through the dedicated wiring; the span of the forwarding is
+software-configurable and is currently set to two for in-ice DOMs,
+i.e. a DOM signals its neighbor and next-to-nearest neighbor DOMs in
+both up and down directions along the string. The local coincidence
+connections for IceTop are described in Ref.~\cite{ICECUBE:IceTop}. Local coincidence hits often have complex PMT waveforms
 indicating multiple photons detected in each DOM, which are therefore saved
 in full detail; otherwise, the DOM saves abbreviated information appropriate
-to single photon detection (Sec.~\ref{sec:mainboard}).
+to single photon detection (see Sec.~\ref{sect:online:dataflow}).
 
 The DOM is capable of interpreting commands from the surface that specify
 tasks for configuration, data taking and transmission, monitoring or
@@ -99,7 +105,10 @@ environments but using borosilicate glass
 with very low potassium or other radioactive trace elements that would contribute to the dark noise
 count rate (Section~\ref{sect:darknoise}).  
 Optical transmission was measured in representative glass samples as 93\% at \unit[400]nm,
-decreasing to 50\% at \unit[340]nm and 10\% at \unit[315]nm (normal incidence, excluding Fresnel reflection).
+decreasing to 50\% at \unit[340]nm and 10\% at \unit[315]nm (normal
+incidence). Fresnel reflection is not included in the quoted
+transmission, since the effect of Fresnel reflection is small in ice,
+where the refractive index is better matched to the glass.
 
 %N.B. not borosilicate, according to analysis shown at final CDR 2005 (Claire's slides), in contrast
 %to the Benthos sphere datasheet which says borosilicate.
@@ -148,7 +157,7 @@ The other wires lead to neighboring DOMs directly above and below,
 carrying LC digital pulses that signify time-correlated hits in nearby DOMs (Sec.~\ref{sec:mainboard}).
 
 DOMs were produced in two versions, in which the communications wire pair was either electrically
-terminated (\unit[150]$\Omega$) or unterminated inside the DOM.  The
+terminated (\unit[140]$\Omega$) or unterminated inside the DOM.  The
 terminated DOM is deployed \unit[17]m below the unterminated one (\unit[7]m
 or \unit[10]m in DeepCore strings) and therefore includes a correspondingly 
 long penetrator assembly cable (Figure~\ref{fig:domcable}).
@@ -224,7 +233,7 @@ The transformer secondary is then wired to the Main Board analog input with a co
 The single photoelectron (SPE) output waveform has been described in Ref.~\cite{ICECUBE:PMT}.  
 With a \unit[100]$\Omega$ load connected to the transformer, and operating at standard gain $10^7$, the SPE 
 peak voltage is approximately \unit[8]mV
-with a FWHM of \unit[7--8]ns.  When measured on the Main Board, several effects combine to increase
+with a FWHM of \unit[7--8]ns.  After digitization, several effects combine to increase
 the FWHM of digitized SPE waveforms to $\sim$\unit[13]ns (peak $\sim$\unit[5]mV).
 
 \subsubsection{\label{sec:mainboard}Main Board and Delay Board}
@@ -238,7 +247,7 @@ provides many key functions of the DOM, including:
 the flasher board, and various sensors (pressure, temperature, power supply voltage monitor). 
 Also supplies necessary DC power to the subsystems.}
 \item{Digitization of the PMT waveforms, using a custom integrated circuit (ATWD: Analog
-  Transient Waveform Digitizer) and a continuously sampling fast ADC (fADC).}
+  Transient Waveform Digitizer~\cite{ICECUBE:DAQ}) and a continuously sampling fast ADC (fADC).}
 \item{Providing computational functions, including PMT gain calibration, compressing 
 digitized waveforms, temporarily storing the data, and creating time-stamped data packets.}
 \item{Communicating with the data acquisition (DAQ) system on the surface.}
@@ -318,9 +327,10 @@ The standard Flasher Board, shown in Fig.~\ref{fig:flasherdiagram}, is
 included in every DOM except the ``color DOMs''
 described below. It is an annular board fitted with 12 LEDs (ETG-5UV405-30)
 specified with output wavelength \unit[$405\pm5$]nm.  Laboratory
-measurements with sample DOMs indicate a peak at
-\unit[399]nm and spectral width \unit[14]nm (FHWM), which includes a
-\unit[$-1$]nm shift when operating at low temperature~\cite{Aartsen:2013rt}.
+measurements with sample DOMs yield a peak at
+\unit[399]nm and spectral width \unit[14]nm (FHWM) when measured at
+low temperature, where the peak wavelength is shifted by
+\unit[$-1$]nm compared to room temperature~\cite{Aartsen:2013rt}.
 The LEDs are arranged in pairs, evenly spaced around the board
 with a 60$^{\circ}$ separation between each pair. One LED in each pair
 is pointed downward at an angle of 10.7$^{\circ}$; after refraction through the DOM glass and into
@@ -520,7 +530,7 @@ flash filesystem upgrade.  The most recent two DOMs failed on May 23, 2013,
 losing communications after a power outage.  Diagnosis of DOM failures
 beyond identifying electrical shorts is challenging.
 
-A number of DOMs have developed issues that affect their data-taking
+A total of 171~DOMs have developed issues that affect their data-taking
 configuration but are still usable.  For example, DOMs with a single functional
 ATWD chip have a higher deadtime but are otherwise good.  The LC settings of functional DOMs adjacent on a string to
 dead DOMs must also be modified. In most cases, local coincidence is
