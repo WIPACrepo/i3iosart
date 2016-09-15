@@ -1,10 +1,10 @@
 \section{\label{sec:dom_calibration}Calibration and Stability}
 
 Regular calibration of each individual DOM allows translation of the
-recorded signals into a measurement of incident Cherenkov light output at a
+recorded signals into a measurement of incident Cherenkov light at a
 particular time, the basis of particle event reconstructions.  The
 primary DOM calibration routine is DOMCal (Sec.~\ref{sec:domcal}), a
-self-calibration procedure run yearly on in-ice DOMs and monthly on IceTop
+calibration procedure run yearly on in-ice DOMs and monthly on IceTop
 DOMs that provides the constants used to convert DOM waveforms into
 physical units (Sec.~\ref{sec:waveformcal}).  Global time calibration across the array of DOMs is 
 provided by the RAPCal procedure (Sec.~\ref{sect:dom:rapcal}) that runs during
@@ -26,7 +26,7 @@ Further details can be found in Refs.~\cite{Aartsen:2013rt,IC3:spice_lea}.
 The calibration of the PMT waveforms recorded by the DOMs, i.e. translation
 of digitized samples into voltage and time, as well as accounting for the
 gain of the PMT itself, is achieved via DOM-by-DOM calibration constants
-determined by the modules themselves. The primary reference inputs to
+determined by the DOMs themselves. The primary reference inputs to
 the DOM calibration software (DOMCal) are a precision electronic
 pulser circuit providing known charges; a circuit providing a reference DC
 bias voltage level; the 20 MHz oscillator on the Main
@@ -45,7 +45,7 @@ Because the operating conditions for
 the in-ice DOMs are so stable, DOMCal is only run once a year on the full
 detector. IceTop DOMs are calibrated once per month in order to track
 temperature-dependent changes.  Calibration is
-typically performed on half the detector at at time, the other half
+typically performed on half the detector at a time, the other half
 remaining in data-taking mode in case of a transient event (such as a
 supernova) during calibration. The total calibration run length is a
 little under three hours. Because the calibration procedure produces
@@ -57,10 +57,11 @@ PMT waveforms, once the PMT gain is known.  Next, the ATWD voltage levels
 are calibrated by sweeping the input DC bias voltage and recording the
 response.  Because of the slight variations in the ATWD circuits, this
 calibration provides an individual linear relationship between ATWD counts
-and voltage for each sample and channel.
+and voltage for each time sample and gain channel.
 
-This ATWD calibration also in principle allows determination of the baseline
-voltage levels of each channel, needed for charge integration.  However, in
+The average ATWD offset at zero input voltage, or baseline, is needed for
+charge integration and can in principle be determined using the previous
+ATWD calibration. However, in
 practice, these baselines are extremely sensitive to the operating
 condition of the DOMs, and since data-taking conditions cannot be exactly
 replicated while running DOMCal, the baselines used during data-taking are
@@ -82,7 +83,7 @@ speed is fit with a quadratic polynomial.  The fADC sampling speed is
 slaved to the 20 MHz oscillator, which is used as a timing reference, and
 so is not separately calibrated.  The relative timing of 
 the ATWD and fADC waveforms is determined using the electronic pulser circuit;
-non-linear fitting of the digitized waveforms to known templates is
+non-linear fitting of the digitized waveforms to known pulse templates is
 required in order to determine the fADC offset to the required accuracy.
 The transit time of the PMT and Delay Board as a function of PMT high
 voltage $V$ is determined by calculating the delay between the digitized
@@ -97,11 +98,13 @@ Fig.~\ref{fig:domcal_hvfit}).  The peak of the Gaussian component is used to
 determine the amplification of the PMT at each voltage, and a linear fit
 of $\log_{10}(\mathrm{gain})$ versus $\log_{10}(\mathrm{voltage})$ allows
 the high voltage of each PMT to be tuned to the desired operating point ($10^7$
-for in-ice DOMs; see Fig.~\ref{fig:domcal_hv_settings}).  Small ($3-5\%$)
-corrections to the gain of each DOM are determined using charge
-distributions recorded during normal data-taking; this corrects for a small
-systematic difference in the charge as determined by DOMCal's numerical
-integration and the waveform pulse unfolding used in data processing.
+for in-ice DOMs; see Fig.~\ref{fig:domcal_hv_settings}).  Small 
+corrections ($3-5\%$) to the gain of each DOM are determined using charge
+distributions recorded by the Processing and Filtering system
+(Sec.~\ref{sect:online:filter}) during normal data-taking.  These
+corrections are used to eliminate a systematic difference in the charge as
+determined by DOMCal's numerical integration and the waveform pulse
+unfolding used in data processing. 
 
 % From JK DOMCal Hist.ipynb
 \begin{figure}[!h]
@@ -116,38 +119,38 @@ integration and the waveform pulse unfolding used in data processing.
 \begin{figure}[!h]
  \centering
  \includegraphics[width=0.6\textwidth]{graphics/dom/domcal/inice_hv_2016.pdf}
- \caption{PMT high voltage at $10^7$ gain for in-ice DOMs.}
+ \caption{Distribution of PMT high voltages at $10^7$ gain for in-ice DOMs.}
  \label{fig:domcal_hv_settings}
 \end{figure}
 
 \subsection{\label{sec:waveformcal}Waveform Calibration}
 
-An ATWD waveform consists of readouts from 128 effectively independent
+The deposited charge is the basis for all energy measurements in IceCube. The
+calibration constants needed are 1) the pedestal, the value the digitizer
+reads when the input voltage is zero, and 2) the gain, the input voltage change
+required to increase the readout value by one count.  An ATWD waveform
+consists of readouts from 128 effectively independent 
 digitizers, while an fADC waveform consists of successive outputs of a 6-stage
 pipelined digitizer (256 samples). Two calibration constants per digitizer are needed to turn each of these
 raw readout values (an integral number of ADC counts) into a
-voltage, from which the deposited charge is calculated. The deposited
-charge is the basis for all energy measurements in IceCube. The
-calibration constants needed are 1) the pedestal, the value the digitizer reads when the input voltage is zero, and
-2) the gain, the input voltage required to increase the readout value by one count. 
+voltage, from which the deposited charge is calculated.
 
-Since each bin of each ATWD channel is read from an independent
-digitizer, it is important to distinguish between the pedestals of
-individual bins and the common pedestal of the entire waveform. The
-baseline is the mean of the pedestals of each bin in a waveform. For
-the fADC, this is the same as the pedestal. The pedestal pattern is
-the deviation of each bin's pedestal from the common baseline. For the
-fADC, this is identically zero. Since 2008, the DOM has subtracted the
-pedestal pattern from
-the ATWD waveform before sending it to the surface. The pedestal pattern is computed at the beginning of each
-run by comparing 25 averaged pedestals. The autocorrelation coefficient
+The baseline is the mean of the pedestals of each sample in a waveform, while the pedestal pattern is
+the deviation of each sample's pedestal from the common baseline.  The fADC
+has no additional pedestal pattern, but for the ATWD, it is important to distinguish
+between the pedestals of individual samples 
+and the common baseline of the entire waveform.  In order to remove the
+sample-dependent offset, the DOM subtracts the pedestal pattern from
+the ATWD waveform before sending it to the surface. The pedestal pattern is
+computed at the beginning of each 
+run by comparing 25 average pedestal waveforms. The autocorrelation coefficient
 of the difference between pairs of averaged pedestals is computed to detect light
 contamination in the pedestals, and the shift between the baseline of
-the pairs is calculated to determine that the baseline is stable. This
+the pairs is calculated to verify that the baseline is stable. This
 procedure ensures that fewer than 1 DOM in 1000 runs will contain a
 contaminated baseline. Thereafter, both ATWD
 and fADC waveforms can be calibrated by first subtracting the common
-baseline from each bin, then multiplying by the gain. Correct
+baseline from each sample, then multiplying by the gain. Correct
 measurement of the common baseline is critical to correct charge
 measurement and energy reconstruction.
 
@@ -158,8 +161,8 @@ baseline value is set by the DAQ configuration in order to ensure
 stability. The baseline value differs for each digitizer channel in
 each DOM, ranging from 112 to 161 counts in the fADC and 109 to 172
 counts in the ATWD. The baselines for each digitizer channel in each DOM are measured with
-beacon hits, forced triggers which are collected at a rate of 1.2~Hz
-per DOM
+beacon hits, forced triggers which are collected during normal data
+acquisition at a rate of 1.2~Hz per DOM
 in in-ice DOMs and 4.8~Hz in IceTop DOMs. Beacon waveforms
 from the fADC and ATWD of a typical DOM are shown in Figure~\ref{fig:raw_baselines}.
 
@@ -169,7 +172,7 @@ from the fADC and ATWD of a typical DOM are shown in Figure~\ref{fig:raw_baselin
   \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/fadc_average_beacon_raw.pdf}}
   \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/ATWD_average_beacon_raw.pdf}}
   \caption{Beacon waveforms from the fADC (left) and ATWD (right) of
-    an IceCube DOM. The waveforms are an average of $\sim1000$ beacon
+    an IceCube DOM. The waveforms are an average of approximately $1000$ beacon
    launches. The baseline, which is the mean value of the
     beacon waveform, is shown as a horizontal red line. Typical raw SPE
     waveforms are inset.}
@@ -177,16 +180,16 @@ from the fADC and ATWD of a typical DOM are shown in Figure~\ref{fig:raw_baselin
 \end{figure}
 
 The digitizer gain is measured by DOMCal (Sec.~\ref{sec:domcal}), a single
-value for the fADC waveform and a bin-dependent value for the ATWD
+value for the fADC waveform and a sample-dependent value for the ATWD
 waveform. The calibrated waveform voltage is then
 
 \begin{equation}
   \mathrm{voltage} = \mathrm{(counts - baseline) \times gain}
 \end{equation}
 
-The waveform start time is then corrected for the PMT transit time,
+The waveform start time is then corrected for the transit time,
 the average time it takes a pulse to propagate through the entire
-PMT and Delay Board. The PMT transit time correction $t_{\mathrm{transit}}$ is
+PMT and Delay Board. The transit time correction $t_{\mathrm{transit}}$ is
 dependent on the PMT high voltage $V$:
 
 \begin{equation}
@@ -199,7 +202,8 @@ is 2000~ns$\cdot \sqrt{\mathrm{V}}$, and the typical value of $b$ is
 typical transit time is therefore 130~ns.  Waveform start times from the
 second ATWD chip and the fADC are further 
 corrected for the delay $\Delta t$ with respect to the first ATWD
-chip, so the total start time correction is $t_{\mathrm{transit}} + \Delta t$.
+chip as determined by DOMCal, so the total start time correction is
+$t_{\mathrm{transit}} + \Delta t$. 
 
 Finally, the waveforms are corrected for the effects of droop from the
 transformer that couples the Main Board to the PMT output. The toroid
@@ -209,22 +213,22 @@ undershoot the baseline. This effect is temperature-dependent and is larger
 at lower temperatures. The droop correction inverts the effect of the high-pass
 filter and eliminates the undershoot in the waveform tails. This is
 done by calculating the expected reaction voltage from the toroid at
-each time, and adding the reaction voltage to the calibrated waveform
-to compensate. The reaction voltages decay exponentially
+each sample time, and adding the reaction voltage to the calibrated waveform
+to compensate. The reaction voltage decays 
 according to a temperature-dependent model of the transformer behavior. 
 When a readout contains consecutive launches from the same
-DOM, the reaction voltages at the end of the last launch are used to
+DOM, the reaction voltage at the end of the last launch is used to
 correct for the residual droop in the follow-on launch.  DOMs
 use two types of toroid transformers: the ``old toroid'' with a short
 time constant that was used in early DOM production, and a ``new
 toroid'' with a longer time constant that produces less
-distortion.  The full correction is modeled with a dual time constant,
+distortion.  The full correction is modeled with two time constants,
 where the DOM's transient response $\tilde{\delta}(t)$ to an input
 signal $\delta(t)$ is given by
 
 \begin{equation}
-\tilde{\delta}(t) = \delta (t) - N((1 - f) e^{t/\tau_1} +f
-e^{t/\tau_2})
+\tilde{\delta}(t) = \delta (t) - N((1 - f) e^{-t/\tau_1} +f
+e^{-t/\tau_2})
 \end{equation}
 
 \noindent The first time constant $\tau_1$ is given by 
@@ -233,32 +237,42 @@ e^{t/\tau_2})
 \tau_1(T) = A + \frac{B}{1 + e^{(-T/C)}}
 \end{equation}
 
-\noindent where $T$ is temperature and $A$, $B$, $C$, $N$ and $f$ are determined empirically.
-For old toroid DOMs, the second time constant $\tau_2 =0.75\tau_1$. For new
-toroid DOMs, $\tau_2$ is 500~ns.
+\noindent where $T$ is the temperature and $A$, $B$, $C$, $N$ and $f$ are determined empirically.
+For the old toroids, the second time constant $\tau_2 =0.75\tau_1$. For the
+new toroids, $\tau_2$ is 500~ns.
 
 \subsection{\label{sect:dom:rapcal}RAPCal}
 
 The Reciprocal Active Pulsing calibration (RAPCal) is a
-continuously running method for translating hit timestamps from the the
-individual free-running DOM clock domains to the clock domain in the
-ICL, which is synchronized to UTC
-(Sec.~\ref{sect:online:master_clock}). While data transmission is paused, a
-bipolar pulse is generated and sent to each DOM over the power/communications wire pair.  After
+continuously running procedure for translating hit timestamps based on the 
+individual free-running DOM clocks to the synchronized surface clocks in the
+ICL, in order to establish a standard time base for the array to
+$O(\mathrm{ns})$ accuracy.  Subsequently, the ICL-based hit timestamps can
+then be translated to UTC.  The scheme used for the timestamp translation involves
+transmission of a pulse to and from each DOM and is shown in
+Fig.~\ref{fig:rapcal_symmetry}.  The base implementation is described in
+\cite{ICECUBE:DAQ}; we describe here the details of the time translation
+algorithm and validation of the DOM relative time calibration. 
+
+While data transmission is paused, a bipolar pulse is generated and sent to
+each DOM over the power/communications wire pair.  After 
 this pulse has been received, a bipolar pulse --- having the same shape
 as the one generated on the surface --- is generated in the DOM and sent
-back to the surface.  The bipolar pulses are time stamped by the local
-clock at each transmission and reception point.  The symmetry of the
+back to the surface.  The pulses are timestamped using the local
+clock count at each transmission and reception point.  The symmetry of the
 pulses sent in each direction and symmetry of the down- and up- cable
-transmission enables a translation from each free-running DOM clock to the surface clock and hence to UTC, without prior knowledge of the cable length or its dispersive properties. The base implementation is described in \cite{ICECUBE:DAQ}; we describe here the details of the time translation algorithm and validation of the DOM relative time calibration.
+transmission enables a translation from each free-running DOM clock to the
+surface clock and hence to UTC, without prior knowledge of the cable length
+or its dispersive properties.
 
 \begin{figure}[!h]
  \centering
  \includegraphics[width=0.6\textwidth]{graphics/dom/rapcal/rapcal_symmetry.pdf}
- \caption{Diagram of the RAPCal time calibration scheme.
+ \caption{Diagram of the RAPCal time calibration scheme (not to scale).
    Each transmitted and received pair of signals is
    timestamped in the local clock domain, and by the symmetry of the
-   situation the midpoints are synchronous.}
+   situation the midpoints between transmitted and received timestamps are
+   synchronous.} 
  \label{fig:rapcal_symmetry}
 \end{figure}
 
@@ -271,15 +285,17 @@ transmission enables a translation from each free-running DOM clock to the surfa
  \label{fig:rapcal_zero_crossing}
 \end{figure}
 
-A RAPCal pulse sequence to each DOM results in a series of four timestamps
+The received dispersed bipolar pulses are digitized by a 20 MHz communications ADC and 
+timestamped using the local clock count.  A RAPCal pulse sequence to and
+from each DOM therefore results in a series of four timestamps 
 $T_{\mathrm{tx}}^{\mathrm{DOR}}$, $T_{\mathrm{rx}}^{\mathrm{DOM}}$, 
 $T_{\mathrm{tx}}^{\mathrm{DOM}}$,  and $T_{\mathrm{rx}}^{\mathrm{DOR}}$
-(Fig.~\ref{fig:rapcal_symmetry}), with timestamps in 20 MHz units
-of the DOM and surface (DOR, see Sect.~\ref{sect:online:master_clock}) clocks.  The received dispersed bipolar pulses
-are digitized by the communications ADCs and 
-timestamped.  A ``fine delay'' correction $f$ to
+(Fig.~\ref{fig:rapcal_symmetry}), with timestamps in periods
+of the 20MHz clocks of the DOM and surface electronics (DOR, see
+Sect.~\ref{sect:online:master_clock}).  In order to improve the precision
+beyond the sampling speed of the communications ADC, a ``fine delay'' correction $f$ to
 $T_{\mathrm{rx}}^{\mathrm{DOM}}$ and $T_{\mathrm{rx}}^{\mathrm{DOR}}$ is calculated by interpolating
-to find the negative-going zero crossing, relative to a baseline voltage
+to find the negative-going baseline crossing, with the baseline voltage
 calculated using the initial samples of the waveform (Fig.~\ref{fig:rapcal_zero_crossing}):
 
 \begin{equation}
@@ -287,11 +303,20 @@ calculated using the initial samples of the waveform (Fig.~\ref{fig:rapcal_zero_
 \end{equation}
 
 
-\noindent The midpoints $T_C^{\mathrm{DOR,DOM}}$ halfway between $T_\mathrm{tx}^{\mathrm{DOR,DOM}}$ and
-$\tilde{T}_\mathrm{rx}^{\mathrm{DOR,DOM}}$ are identified as synchronous.
-To translate an arbitrary DOM timestamp $t$ to UTC
-time, we use the RAPCal results bracketing $t$ to derive a linear
-relationship
+\noindent The midpoints $T_C^{\mathrm{DOR,DOM}}$ as shown in
+Fig.~\ref{fig:rapcal_symmetry} are then determined, where
+
+\begin{equation}
+  T_C =  \frac{T_{\mathrm{tx}} + \tilde{T}_{\mathrm{rx}}}{2}\ .
+\end{equation}
+
+\noindent $T_C^{\mathrm{DOM}}$ and $T_C^{\mathrm{DOR}}$ then identify a
+single point in time across the two clock domains.
+
+The next stage of the process is to translate an arbitrary DOM hit timestamp
+$t$ to UTC.  In typical operating conditions, the RAPCal procedure
+is repeated once per second for each DOM.  We use the two nearest RAPCal
+results before and after $t$ to derive a linear relationship
 
 \begin{equation}
   \mathrm{UTC}(t) = (1+\epsilon)(t - T_C^{\mathrm{DOM}}) +
@@ -299,7 +324,7 @@ relationship
 \end{equation}
 
 \noindent The slope $(1+\epsilon)$ accounts for drifts in the 20 MHz DOM
-clocks and is calculated from the midpoints $T_C$ of the bracketing RAPCal
+clocks and is calculated from the $T_C$ pairs of the two neighboring RAPCal
 results: 
 
 \begin{equation}
@@ -311,10 +336,11 @@ results:
 \noindent The median magnitude of $\epsilon$ is $1.34 \times 10^{-6}$.
 Finally, because the timestamps $T^{\mathrm{DOR}}$ count the offset into 
 the current UTC second, the UTC time offset $\Delta$ of the previous
-1-second boundary, provided by the master clock, is added.
+1-second boundary, provided by the master clock, is added.  Details on the
+master clock system are provided in Sec.~\ref{sect:online:master_clock}.
 
 The stability and repeatability of the calibration is monitored by
-tracking the cable delay from multiple measurements, defined as
+tracking the cable delay from RAPCal, determined by
 
 \begin{equation}
   T_{\mathrm{cable}} = \frac{1}{2} \left( ( T_{\mathrm{rx}}^{\mathrm{DOR}} -
@@ -324,8 +350,7 @@ tracking the cable delay from multiple measurements, defined as
 
 \noindent A representative distribution of $T_{\mathrm{cable}}$ from one DOM over an 8-hour
 data-taking run is shown in Fig.~\ref{fig:rapcal_cable_len}, with a
-standard deviation of 0.6 ns. In typical operating conditions, a RAPCal procedure
-is repeated once per second for each DOM.  Individual $T_{\mathrm{cable}}$
+standard deviation of 0.6 ns.  Individual $T_{\mathrm{cable}}$
 measurements that deviate by more than 10 ns from a moving average are discarded.
 
 \begin{figure}[!h]
@@ -338,7 +363,8 @@ measurements that deviate by more than 10 ns from a moving average are discarded
 
 The time calibration through the entire data acquisition and software
 processing chain is verified using the LED flashers. During
-commissioning, performed on each string after deployment, all 12~LEDs on each DOM are flashed simultaneously at
+commissioning, performed on each string after deployment, all 12~LEDs on
+each DOM are flashed simultaneously at 
 maximum brightness, and the arrival times of the first photons at the DOM above the flashing DOM
 are recorded. Given the vertical spacing of 17~m on a standard IceCube
 string and the group index of
@@ -371,18 +397,18 @@ A baseline value for the photon detection efficiency has been established
 by combining PMT measurements at 337~nm and a separate model of wavelength-
 and angle-dependent effects.  Absolute sensitivity measurements were
 performed on 13 IceCube PMTs, using photons that were Rayleigh scattered by
-90$^{\circ}$ from a primary 337~nm laser beam of known
+90$^{\circ}$ from a primary 337~nm laser beam of calibrated
 intensity~\cite{ICECUBE:PMT}. The results agree well with independent
 Hamamatsu measurements of sensitivity in the range $270-730$nm, which
 were then normalized to the 337~nm measurement.  The resulting quantum
-efficiency at the center of the PMT and at 390~nm is 25\%.  A full
+efficiency at the center of the PMT at 390~nm is 25\%.  A full
 simulation model for the DOM includes the wavelength dependence of the PMT
 response, optical absorption in the DOM glass and gel, discriminator
 threshold effects, and photocathode non-uniformity.  The angular dependence is
 dominated by the shape of the photocathode and its response variation away
 from the center, which was measured for 135 PMTs~\cite{ICECUBE:PMT}.
 
-The laboratory-based efficiency model was supplemented with \textit{in
+The efficiency model as determined from the laboratory measurements was supplemented with \textit{in
   situ} measurements using Cherenkov light from muons in the ice. The
 efficiency measured \textit{in situ} includes effects of the cable
 shadowing the DOM and the refrozen ``hole ice'' in the vicinity of the
@@ -394,8 +420,8 @@ distances from these muons was then compared to predictions of the
 simulation model~\cite{IC3:ereco}.  Based on this and other \textit{in
   situ} analyses, the central value for the efficiency was adjusted upward
 by 10\% in the simulation, compared to the baseline.  For physics analyses,
-DOM efficiency is generally included as a nuisance parameter with prior
-uncertainty of 10\% that includes other uncertainties related to
+the normalization of the absolute DOM efficiency is generally included as a
+nuisance parameter with prior uncertainty of 10\% that includes other uncertainties related to
 generation and propagation of the light. Additional laboratory measurements
 on assembled DOMs are in progress, including wavelength- and angle-dependent
 effects, and are expected to reduce uncertainties~\cite{ICECUBE:DOMEFF}.
@@ -419,10 +445,11 @@ the design value of $10^7$.
 
 \subsection{\label{sec:baselines}Baseline Voltage Stability}
 
-The beacon hits from which the digitizer baselines are derived are
+The beacon hits from which the digitizer baselines are derived
+(Sec.~\ref{sec:waveformcal}) are 
 monitored continuously throughout the year. The average values of the
 beacon baselines are very stable, with shifts of no more than
-0.2~counts year to year, corresponding to 0.018~mV in the fADC and
+0.2~counts per year, corresponding to 0.018~mV in the fADC and
 0.025~mV in the high-gain ATWD channel. The single photoelectron
 charge peak is stable to within 0.05~PE. The baseline shifts from May
 2015 to April 2016 are shown in Fig.~\ref{fig:baseline_stability_2015}. 
@@ -439,10 +466,11 @@ charge peak is stable to within 0.05~PE. The baseline shifts from May
 Every year when the detector
 is recalibrated, adjustments in the SPE discriminator threshold can
 cause shifts of up to 0.6~counts (0.54~mV) in the fADC
-baselines. ATWD baselines are unaffected by the SPE discriminator
+baselines, for reasons not completely understood. ATWD baselines are
+unaffected by the SPE discriminator 
 setting. Correcting recorded waveforms for the effect of transformer
 coupling as described in Sec.~\ref{sec:waveformcal} has
-the side effect that small DC offset errors are converted into
+the side effect that small DC offset errors are converted into an
 apparent PMT current that increases linearly in time over the course
 of a few microseconds. The effect is stronger for DOMs with old-type toroid
 transformers, where a baseline error of 0.6~counts can 
@@ -471,16 +499,16 @@ baseline stability.
 The baselines are sensitive to radio frequency interference (RFI). In
 2009, RF signals from the COBRA meteor radar transmitter broadcasting at
 46.3~MHz \cite{meteor_radar}
-appeared as sinusoidal or spiky signatures in the waveform
+appeared as sinusoidal or spiky modulations in the waveform
 baselines.  To mitigate this effect, one DOM was operated without PMT high
 voltage and used to monitor the RF broadcasts and tag periods of RFI in
 order to avoid data contamination.  Also
 in 2009, DOM 68-42 was damaged by a high voltage setting during DOM
-calibration, and appeared to begin sparking, causing sinusoidal waveforms
-to appear in the baselines of neighboring DOMs. The meteor radar
+calibration, and appeared to begin sparking, causing sinusoidal distortions
+in the baselines of neighboring DOMs. The meteor radar
 transmitter is no longer operating, and investigations into RFI
 from more recent radar activities at South Pole (SuperDARN
-\cite{superdarn}) have revealed no measurable interference, either in DOM
+\cite{superdarn}) have not revealed any measurable interference, either in DOM
 baselines or in RAPCal time stability. 
 
 \subsection{\label{sec:gain_stability}Gain Stability}
@@ -493,7 +521,7 @@ as well as by tracking the SPE charge during data-taking.
 
 The gain stability of the DOM electronics includes variations in the
 front-end electronic amplifiers and the digitizers themselves.  The
-stability is checked by comparing the Main Board channel amplifier gains
+stability is demonstrated by comparing the Main Board channel amplifier gains
 from sets of calibrations taken from 2011 to 2016
 (Fig.~\ref{fig:domcal_ch_gain}).  From year to year, the amplifier gain 
 calibration is repeatable to 0.1\%, 0.2\%, and 0.5\% in the high-gain,
@@ -514,7 +542,8 @@ each DOM.
   \label{fig:domcal_ch_gain}
 \end{figure}
 
-The PMT gain stability is monitored during data-taking using the
+The stability of the total gain, including both the PMT and
+front-end electronics, is monitored during data-taking using the
 single photoelectron peak of the charge distribution on each DOM from
 cosmic ray muons. A
 Gaussian + exponential function is fit to the peak region as in
@@ -542,7 +571,7 @@ thresholds are unchanged; these settings are only changed once per year.
   \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/mean_value_2015.pdf}}
   \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/meandiff_2015.pdf}}
   \caption{Distribution of the mean of the Gaussian fit to the SPE
-    peak (left) and the shift in this value in every in-ice DOM between  May 2015 and April
+    peak (left) and the shift in this value for each in-ice DOM (right) between May 2015 and April
    2016.}
   \label{fig:gain_spe_stability}
 \end{figure} 
@@ -552,7 +581,7 @@ position of 0.05~PE or more. Fig.~\ref{fig:gainshift_spe} shows the time history
 SPE peak position of one of these DOMs over 4~months. The peak shift
 corresponds to increases or decreases in the multi-photoelectron (MPE) scaler rate,
 indicating that the SPE peak shift is indeed caused by a change in the DOM
-gain. However, the SPE scaler rate is stable, indicating that the
+gain. However, the SPE scaler rate is stable to within 2\%, indicating that the
 probability to detect single photons is effectively unchanged.
 
 \begin{figure}[!h]
@@ -584,14 +613,13 @@ regular calibration using the methods previously described.
 
 \subsection{\label{sec:optical_stability}Optical Efficiency Stability}
 
-The detector response in IceCube is calibrated with low energy muons as
+The detector response in IceCube is verified with low energy muons as
 described in \cite{IC3:ereco}. The detector response is monitored in each run using the track
-detection probability (TDP) calculated from high-multiplicity muon tracks
+detection probability (TDP) calculated from bright muon tracks
 with more than 30 hits in IceCube. The muon 
 tracks are reconstructed using the likelihood methods described in
-\cite{Ahrens:2003fg}; charge and time information from the DOM under
-study are excluded
-from the reconstruction. The TDP is
+\cite{Ahrens:2003fg}, but charge and time information from the DOM under
+study are excluded from the reconstruction. The TDP is
 defined for each DOM as the ratio of the number of detected tracks
 within 100~m of the DOM to the total number of tracks within 100~m of
 the DOM. This ratio depends both on the optical properties of the ice
