@@ -73,6 +73,8 @@ A dedicated system for data movement handles the local archival storage to
 tape or disk and the handoff of satellite data
 (Sec.~\ref{sect:online_jade}).  This includes not only primary data streams
 but also monitoring data, calibration runs, and other data streams.
+Low-latency communications for experiment control and real-time monitoring
+are provided by the IceCube Messaging System (I3MS).  
 Experiment control and detector monitoring are handled by the IceCube Live
 software system, described in Sec.~\ref{sec:online:icecubelive}.
 
@@ -128,7 +130,10 @@ redundant connections to a 10--20 Gbps network backbone.  The DOMHubs are
 connected to the rack switches with two bonded 1 Gbps links.  Typical network I/O during
 data-taking for the DAQ Event Builder (see
 Sec.~\ref{sect:online:evbuilder}) is about 240~Mbps in each direction.
-The PnF Central Server sees 200 Mbps in and 640 Mbps out.
+The PnF Central Server sees 200 Mbps in and 640 Mbps out; the output
+direction is significantly higher than the input as PnF distributes the
+events to filtering clients and generates multiple output streams
+(Sec.~\ref{sect:online:filter}).  
 
 Redundancy and continuous monitoring of SPS is one of the keys to a high
 detector livetime (Sec.~\ref{sec:operational_performance}).
@@ -252,7 +257,7 @@ caused by particle interactions and storing these collections of hits as
 
 Hits are read continuously from the DOMs by the
 StringHub components running on each DOMHub, and a minimal representation of each HLC hit is
-forwarded to the Subtrigger components (either in-ice or IceTop.)
+forwarded to the Subtrigger components (either the in-ice or IceTop Subtrigger.)
 The Subtrigger components apply a
 configurable set of algorithms to the hit stream and form windows around interesting temporal
 and/or spatial patterns.  These time windows are collected by the
@@ -888,14 +893,17 @@ of 5 Mbps for bi-directional internet connectivity.  For the remainder of the da
 communication satellites allow limited voice and data connectivity and provide up to 2.4
 kbps of bandwidth per modem.
 
-IceCube incorporates Iridium modems into two separate systems.  The IceCube
-Teleport System (ITS) uses the Iridium Short Burst Data mode to send short
+IceCube incorporates Iridium modems into two separate systems, the IceCube
+Teleport System (ITS) and the IceCube Messaging System (I3MS).  ITS uses
+the Iridium Short Burst Data mode to send short 
 messages of 1.8 kB or smaller with a typical latency (transmission time) of 30 seconds.
 Messages may either originate or terminate at the ITS Iridium modem at the
 South Pole.  Messages also contain a recipient ID indicating the intended
 host to receive the message, allowing a many-to-many communications
 infrastructure between systems running at the South Pole and systems in the
-Northern Hemisphere.  The IceCube Messaging System (I3MS) incorporates
+Northern Hemisphere.
+
+The newer IceCube Messaging System (I3MS), deployed in 2015, incorporates
 multiple Iridium modems and uses the Iridium RUDICS data mode, providing a
 2.4 kbit/s bidirectional serial stream per modem and a minimum latency of
 about 1.5 seconds.  I3MS runs as a daemon on both ends of the link, accepts
@@ -903,7 +911,9 @@ messages via the ZeroMQ distributed messaging protocol, and transports
 those messages across the link based on message priority and fair sharing
 of bandwidth among all users. I3MS message recipients listen for messages
 using ZeroMQ publish-subscribe (PUB-SUB), allowing a given message to be
-sent to multiple recipients.
+sent to multiple recipients.  I3MS also provides low-bandwidth secure shell
+(ssh) connectivity to the South Pole, allowing operators in the north
+access to SPS in the case of detector issues.
 
 Data handling is provided by three servers running the Java Archival and
 Data Exchange (JADE) software. JADE is a
