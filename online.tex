@@ -516,8 +516,7 @@ these typically are re-split before reconstruction and analysis.
 The Event Builder receives requests from the Global Trigger, extracts the
 individual readout windows, and sends them to the appropriate subset of the
 StringHubs.  The StringHubs each send back a list of all hits within the
-window.  When all StringHubs have returned a list of hits, extraneous data are
-removed from the trigger, and hit payloads are bundled into an event payload.
+window. When all StringHubs have returned a list of hits, these are bundled with the trigger data into an event.
 
 Events are written to a temporary file.  When the temporary file
 reaches a preset configurable size, it is renamed to a standard unique name.  When the PnF
@@ -526,7 +525,7 @@ system sees a new file, it accepts it for processing and filtering
 photons at the DOMs to DAQ events written to disk is approximately five
 seconds. 
 
-\subsubsection{DAQ and DOM Configuration}
+\subsubsection{\label{sect:online:daqdomconfig}DAQ and DOM Configuration}
 
 The configuration of the DAQ is managed by two sets of XML files: a cluster
 configuration file and a hierarchical tree of run configuration files.
@@ -547,7 +546,7 @@ threshold, trigger period, prescale factor, etc.).
 DOM configuration files (one per hub) list all DOMs that contribute to
 the data-taking run.  All configuration parameters for each DOM are
 specified, including PMT high voltages, ATWD operating parameters,
-discriminator thresholds, local coincidence settings, and others.
+discriminator thresholds, local coincidence settings, baselines and others.
 
 Run configuration files (including trigger and DOM files) are versioned and
 frozen once used for data-taking.  All relevant configuration parameters

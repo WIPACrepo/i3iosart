@@ -150,14 +150,14 @@ the pairs is calculated to verify that the baseline is stable. This
 procedure ensures that fewer than 1 DOM in 1000 runs will contain a
 contaminated baseline. Thereafter, both ATWD
 and fADC waveforms can be calibrated by first subtracting the common
-baseline from each sample, then multiplying by the gain. Correct
-measurement of the common baseline is critical to correct charge
-measurement and energy reconstruction.
+baseline from each sample, then multiplying by the gain. Correct charge
+measurement and energy reconstruction depends on correct measurement
+of the baseline, as discussed in Sec.~\ref{sec:baselines}.
 
 The baseline is set to about 10\% of the maximum value of the
 digitizer counts in
 order to capture signals that go below the baseline. Since 2012, the
-baseline value is set by the DAQ configuration in order to ensure 
+baseline value for each DOM is configured (see Sec.~\ref{sect:online:daqdomconfig}) in order to ensure 
 stability. The baseline value differs for each digitizer channel in
 each DOM, ranging from 112 to 161 counts in the fADC and 109 to 172
 counts in the ATWD. The baselines for each digitizer channel in each DOM are measured with
@@ -222,7 +222,8 @@ correct for the residual droop in the follow-on launch.  DOMs
 use two types of toroid transformers: the ``old toroid'' with a short
 time constant that was used in early DOM production, and a ``new
 toroid'' with a longer time constant that produces less
-distortion.  The full correction is modeled with two time constants,
+distortion. Of 5484~DOMs deployed in IceCube, 1204 are the old
+toroid type and 4280 are the new toroid type. The full correction is modeled with two time constants,
 where the DOM's transient response $\tilde{\delta}(t)$ to an input
 signal $\delta(t)$ is given by
 
@@ -376,18 +377,31 @@ time to the DOM above for all flashing DOMs in ice is shown in
 Fig.~\ref{fig:flashertiming}. The mean arrival time agrees with the
 expectation for the DeepCore DOMs. For the standard DOMs, the observed
 light travel time is about 3~ns longer than the expected light travel
-time, due to the effects of scattering in the ice over the longer distance. Muons are also used to
-verify the time calibration, including the absolute time difference
+time, due to the effects of scattering in the ice over the longer
+distance. The accuracy of the photon arrival time with respect to the
+arrival time of any other photon is measured using
+the difference between arrival times at the two DOMs above the
+flasher, which eliminates any uncertainty in the flasher source
+time. Fig.~\ref{fig:flashertiming} shows the distribution of the
+difference in arrival times at the two DOMs above the flasher for the
+DOMs with 7~m spacing, as the DOMs with larger spacing are more
+affected by scattering in ice. The width of the distribution is
+1.7~ns, so the measured timing accuracy is 1.7/$\sqrt{2}$~ns $=$ 1.2~ns. Muons are also used to
+verify the time calibration~\cite{ICECUBE:DAQ}, including the absolute time difference
 between the IceTop surface stations and the in-ice DOMs~\cite{IC3:perf}.
 
 \begin{figure}[!h]
   \captionsetup[subfigure]{labelformat=empty}
   \centering
-  \includegraphics[width=0.8\textwidth]{graphics/dom/rapcal/flashmean.pdf}
-  \caption{Time from flasher emission to detection at the DOM above for 17~m vertical spacing
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/rapcal/flashmean.pdf}}
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/rapcal/oneabove.pdf}}
+  \caption{Left: Time from flasher emission to detection at the DOM above for 17~m vertical spacing
     (red), 10~m vertical spacing (blue) and 7~m vertical spacing
     (green). The expected light travel times in ice for each distance are marked with
-    vertical lines.}
+    vertical lines. Right: arrival time difference between the two
+    DOMs above the flasher for DOMs with 7~m vertical spacing; vertical line denotes expected light
+    travel time in ice; the mean of the distribution is 33~ns, due to
+    the effects of scattering in ice. The width of the distribution is 1.7~ns.}
   \label{fig:flashertiming}
 \end{figure}
 
@@ -396,8 +410,7 @@ between the IceTop surface stations and the in-ice DOMs~\cite{IC3:perf}.
 A baseline value for the photon detection efficiency has been established
 by combining PMT measurements at 337~nm and a separate model of wavelength-
 and angle-dependent effects.  Absolute sensitivity measurements were
-performed on 13 IceCube PMTs, using photons that were Rayleigh scattered by
-90$^{\circ}$ from a primary 337~nm laser beam of calibrated
+performed on 13 IceCube PMTs, using single photons from a primary 337~nm laser beam of calibrated
 intensity~\cite{ICECUBE:PMT}. The results agree well with independent
 Hamamatsu measurements of sensitivity in the range $270-730$nm, which
 were then normalized to the 337~nm measurement.  The resulting quantum
@@ -430,8 +443,8 @@ The absolute calibration at 337~nm was performed at room temperature on a
 small subset of IceCube PMTs. The relative efficiency of all assembled DOMs
 was separately measured as part of production testing
 (Sec.~\ref{sec:dom_prodtest}), using a 405~nm pulsed laser and a system of
-fibers and diffusers to illuminate DOMs evenly within 50$^{\circ}$ of the
-optical axis.  Using this system, the relative efficiency of DeepCore DOMs
+fibers and diffusers to illuminate DOMs within 50$^{\circ}$ of the
+PMT axis.  Using this system, the relative efficiency of DeepCore DOMs
 (high quantum efficiency type) was measured to be higher by a factor
 of 1.39
 compared to standard IceCube DOMs, agreeing well with the

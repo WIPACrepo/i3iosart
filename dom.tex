@@ -333,8 +333,7 @@ included in every DOM except the ``color DOMs''
 described below. It is an annular board fitted with 12 LEDs (ETG-5UV405-30)
 specified with output wavelength \unit[$405\pm5$]nm.  Laboratory
 measurements with sample DOMs yield a peak at
-\unit[399]nm and spectral width \unit[14]nm (FHWM) when measured at
-low temperature, where the peak wavelength is shifted by
+\unit[399]nm and spectral width \unit[14]nm (FHWM) when measured at -20$^{\circ}$~C, where the peak wavelength is shifted by
 \unit[$-1$]nm compared to room temperature~\cite{Aartsen:2013rt}.
 The LEDs are arranged in pairs, evenly spaced around the board
 with a 60$^{\circ}$ separation between each pair. One LED in each pair
@@ -343,7 +342,11 @@ the ice, the LED
 emits light horizontally into the ice. The other LED is tilted upward
 at an angle of 51.6$^{\circ}$; after refraction the tilted LED
 emits light upward at an angle 
-of 48$^{\circ}$, close to the Cherenkov angle in ice.
+of 48$^{\circ}$, close to the Cherenkov angle in ice. The angular
+emission profile of the flasher LEDs was measured in the lab by
+rotating a PMT connected to an
+optical fiber pickup around the DOM; the readout angle was recorded
+using the resistance of a potentiometer at the rotation axis.
 The angular emission profile of each LED has a FWHM of
 30$^{\circ}$ in air and is modeled as a Gaussian emission profile
 with $\sigma = 13^{\circ}$. After refraction through the DOM glass and into
@@ -354,17 +357,16 @@ About 10\% of the light is emitted outside the Gaussian beam, modeled by
 a secondary profile proportional to $(1+\cos{\alpha})$, where $\alpha$ is the angle
 away from the LED axis.
 
-The LEDs are controlled by a current pulse applied to each LED through
-a high-speed MOSFET driver with a series resistor. The LEDs can be turned on individually or in any
+The LEDs are controlled via individual high-speed MOSFET drivers. The LEDs can be turned on individually or in any
 combination of the 12, by setting bits in a configuration parameter.
 The photon output of each LED depends on the width and
 amplitude of the driving current pulse, which are controlled as common
 values for all enabled LEDs in each DOM (Figure~\ref{fig:flasheroutput}).  
 The pulse width parameter controls the width up to a maximum of \unit[70]{ns}; 
 for sufficiently short driving current pulses the light output narrows to \unit[6]{ns} (FWHM) with
-10\% afterglow decaying over \unit[15--20]{ns}.
-The brightness parameter (0-127) controls the driving voltage between $4.5$ and \unit[15]{volts}, yielding
-peak current up to \unit[300]{mA}.
+10\% afterglow decaying over \unit[15--20]{ns}. The brightness parameter (0-127) controls the driving voltage between
+$4.5$ and \unit[15]{V}, which yields a peak current up to
+\unit[300]{mA} through the LED and current-limiting resistor.
 By varying brightness and width settings as well as the number of LEDs enabled, DOMs can generate flashes
 from $10^6$ to $1.4\times10^{11}$ photons, similar to the total light from
 neutrino interaction showers between \unit[7]GeV and \unit[1]PeV energy.
@@ -406,15 +408,18 @@ The properties of the LEDs are given in
 Table~\ref{table:cdom_properties}.
 
 \begin{table}
-\caption{Properties of the cDOM LEDs, including wavelength $\lambda$,
+\caption{Properties of the standard IceCube flasher LED (tilted (t)
+  and horizontal (h)) and the cDOM LEDs, including wavelength $\lambda$,
   emission FWHW $\sigma$ in air, DOM polar
-  angular emission FWHM $\sigma_{\theta}$, and DOM azimuthal angular emission
-  FWHM $\sigma_{\phi}$.}
+  angular emission FWHM in ice $\sigma_{\theta}$, and DOM azimuthal angular emission
+  FWHM in ice $\sigma_{\phi}$.}
 \begin{tabularx}{\linewidth}{lXXXXXX}
 \toprule
  LED& nominal $\lambda$ (nm) & measured $\lambda$ (nm) & $\sigma$ air ($^{\circ}$) &
  $\sigma_{\theta}$ ($^{\circ}$) & $\sigma_{\phi}$ ($^{\circ}$)\\
 \midrule
+ETG-5UV405-30 & 405 & 399 & 30.0 & 9.7 (t)& 9.8 (t) \\
+ &  &  &  & 9.2 (h)& 10.1 (h)\\
 UVTOP335-FW-TO39 & 340 & 338 & 51.0 & 36.1 & 42.9 \\
 %\hline
 NS370L\_5RFS & 370 & 371 & 55.2 & 39.1 & 42.9 \\
