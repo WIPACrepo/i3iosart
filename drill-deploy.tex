@@ -101,14 +101,15 @@ at other holes. The firn drill reliably achieved a rate of 2~m per hour~\cite{eh
 \label{fig:drilldepthtime}
 \end{figure}
 
-The EHWD system was implemented across two separate sites.  The Seasonal
+The EHWD system was implemented across two separate sites. The Seasonal
 Equipment Site (SES) provided electricity and a stable supply of hot
 pressurized water, and the Tower Operations Site (TOS) was where the hole
 was drilled.  The two sites were linked by long cables and insulated
 hoses. The SES comprised generators, water tanks, pump and heating
 buildings, a central control building, mechanical and electrical shops,
 spare parts storage, and the Rodriguez well system (Rodwell), which
-provides make-up water~\cite{rodriguez_well}. Hoses and cables connected SES subsystem buildings together, and
+provides water to compensate for the volume change from ice to water
+in each hole~\cite{rodriguez_well}. Hoses and cables connected SES subsystem buildings together, and
 wherever necessary custom electrically heated hoses were installed,
 providing an effective freeze mitigation strategy. The TOS included the
 drill tower and attached operations building as well as the hose and cable
@@ -135,7 +136,7 @@ while the SES and TOS were excavated from accumulated snow drift and commissione
 tasks included SES and TOS warming and hookups, reinstallation of
 do-not-freeze equipment (such as motor drives, sensors, and some
 rubber items such as gaskets), generator commissioning, safety checkout and system
-tuning, seed water delivery, and Rodwell development.  This phase typically
+tuning, initial (``seed'') water delivery to begin the drilling process, and Rodwell development.  This phase typically
 took four weeks.
 
 The production drilling sequence was to drill, ream, and move to the next
@@ -178,7 +179,7 @@ outside the drill tower. For a sample of seven holes drilled between
 2005 and 2009, the hole diameter was logged before deployment using a
 dedicated winch. After verification that the hole was 
 ready for deployment and a pre-deployment safety check was carried out, the in-ice cable
-was pulled over the tower crescent above the open hole. Four 100-pound
+was pulled over the top of the tower above the open hole. Four 100-pound
 weights were connected together and attached via a 2.1~m steel cable to a
 DOM that had a 17 meter penetrator assembly (see Fig.~\ref{fig:domcable}). The weights and
 lowermost DOM were attached to the bottom of the in-ice cable via a 15.5~m
@@ -202,7 +203,10 @@ attachment to string drop is shown in Fig.~\ref{fig:deploytime}.
  \centering
  \includegraphics[width=0.70\textwidth]{graphics/drill/String48_deploy.pdf}
 \caption{Depth of the lowermost DOM vs.~time for a string deployed in the
-  2006--2007 season.}
+  2006--2007 season. The final depth is the preliminary Stage~1 depth
+  measured during deployment (Sec.~\ref{subsec:stage1_geo}),
+prior to the Stage~2 corrections derived from LED flasher
+measurements (Sec.~\ref{subsec:stage2_geo}).}
 \label{fig:deploytime}
 \end{figure}
 
@@ -239,7 +243,7 @@ pointing toward Greenwich, UK. The x-axis of the IceCube coordinate
 system points 90$^{\circ}$ clockwise from the y-axis. The z-axis is
 normal to the Earth's surface, pointing upward. 
 
-\subsubsection{Stage 1 Geometry Measurement}
+\subsubsection{\label{subsec:stage1_geo}Stage 1 Geometry Measurement}
 The $(x,y)$-coordinates of the string were calculated using the position of
 the drill tower. Before deployment, when the drill tower is in position, at
 least three of the tower corners were surveyed from at least one control
@@ -262,7 +266,7 @@ ranger aimed down the hole after each DOM attachment. All depths were
 converted to $z$-coordinates in the IceCube 
 coordinate system.
 
-\subsubsection{Stage 2 Geometry Measurement}
+\subsubsection{\label{subsec:stage2_geo}Stage 2 Geometry Measurement}
 
 The LED flashers on the DOMs were used to correct the depths of the strings relative to
 the Stage 1 geometry measurements. The correction was calculated by flashing
@@ -276,15 +280,20 @@ describes a hyperbola, $d = \sqrt{D^2 + (z' -\Delta z)^2}$, where $D$ is
 the horizontal distance between the flasher string and the receiver string,
 calculated from Stage 1 data, and $\Delta z$ is the relative offset between
 the depths of the flashing and receiving string as shown in
-Fig.~\ref{fig:geohyperbola}. The hyperbolic fit was performed simultaneously for
-each flashing string and all surrounding receiving strings in order to
-calculate the relative offsets, which were then applied to the $z$-coordinate
-of all DOMs on the string. The depth offset was typically less than 1~m
+Fig.~\ref{fig:geohyperbola}. The hyperbola fit was performed
+simultaneously on multiple flasher--receiver pairs; in order to avoid
+bias, this global fit was performed multiple times on randomly
+selected sets of string pairs. An average offset was calculated for
+each string and applied as a correction to the Stage~1 $z$-coordinates
+of all DOMs on that string. The correction was typically less than 1~m
 relative to the Stage 1 data, but could be as large as 20~m (larger than the
 17~m DOM spacing) in cases where the pressure sensor failed during string
-deployment before it recorded the final depth reading, and the Stage 1 depth
-had to be estimated. The Stage 2 depth correction was less than 3~m for 93\%
-of the strings.
+deployment before it recorded the final depth reading, resulting in a
+poor estimate of the Stage~1 depth. The Stage 2 depth correction was less than 3~m for 93\%
+of the strings. The uncertainty on the correction varied from string
+to string but was typically less than 0.2~m. The uncertainty on the
+absolute $z$-coordinate is 1~m, based on timing residual studies from
+downgoing muons~\cite{IC3:perf}.
 
 \begin{figure}[!ht]
   \captionsetup[subfigure]{labelformat=empty} \centering
@@ -302,37 +311,44 @@ of the strings.
 \subsubsection{\label{sec:trilateration}Trilateration Validation of DOM Coordinates}
 
 The Stage 2 geometry assumes that all strings are vertical. However,
-positional data from the drill show that the string is not perfectly vertical,
+positional data from an inclinometer installed on the drill show that the string is not perfectly vertical,
 although deviations from the vertical are less than 1~m. The
 $(x,y)$-coordinates from the drilling data were validated on the DeepCore strings
 using a trilateration method. In this method, the 5~DOMs closest to the
 flasher on each of the three closest strings surrounding the flasher are
-selected, and a circle of radius $r = \sqrt{d^2 - (\Delta z)^2)}$ is
+selected, and a circle of radius $r = \sqrt{d^2 - (z')^2)}$ is
 described around each receiving DOM, where $d$ is the distance between the DOM
 and the flasher calculated from the leading edge time of the received
-light, and $\Delta z$ is the relative depth of the flashing and receiving
-DOMs calculated from the method described above. The intersection points of
-all the circles are calculated, and the $(x,y)$-position of the flashing DOM
-is taken to be the average of the centroid of the intersection points. The
-error bars on the positions are $1 \sigma$ from a Gaussian fit to all
-centroid values; the $x$- and $y$-coordinates are fitted independently. The
-shifts relative to the deployment data are found to be less than 2~m, and
-agree with the drill head coordinates within the error bars as shown in
+light, and $z'$ is the relative depth of the flashing and receiving
+DOMs calculated from the method described above. With 15~circles,
+there are 125 possible combinations of three circles which can be used
+for trilateration. For each combination, the six intersection points
+of the three circles are calculated as shown in Fig.~\ref{fig:trilateration}, and the $(x,y)$-position of the flashing DOM
+is taken to be the centroid of the three innermost intersection
+points. The final $(x,y)$-position is the average of the values
+calculated from each of the 125~combinations of circles. The
+error bars on the positions are $1 \sigma$ from a Gaussian fit to all centroid
+coordinates; the $x$- and $y$-coordinates are fitted independently. The
+measured positions agree with the drill data within the error bars as shown in
 Fig.~\ref{fig:trilateration}. Since the shifts from the nominal
 $(x,y)$-coordinates are less than 1~m, and the trilateration measurement is only
 practical in a few DeepCore strings where the interstring spacing is 40--70~m, these
 corrections were not applied to the IceCube geometry, which still assumes
 the vertical string geometry from Stage 2.
 
+
 \begin{figure}[!ht]
- \centering
- \includegraphics[width=0.7\textwidth]{graphics/geometry/newtrilat85.pdf}
-\caption{Results of the trilateration fit to String 85, one of the DeepCore
-  strings near the $(x,y)$ center of the detector. The shifts in the
-  $x$- and $y$-coordinates are shown as a function of depth, with the drill data
-  shown as a gray line.}
-\label{fig:trilateration}
+  \captionsetup[subfigure]{labelformat=empty} \centering
+  \subfloat[]{\includegraphics[width=0.4\textwidth]{graphics/geometry/Trilat_full.pdf}}
+  \subfloat[]{\includegraphics[width=0.6\textwidth]{graphics/geometry/newtrilat85.pdf}}
+  \caption{Left: example of the trilateration procedure. Right: distance vs. relative depth as measured by flashers for
+    two strings that were deployed at nearly the same depth with no
+    anomalies during deployment. Right: the same plot for a different pair;
+    in this case, the pressure sensor on the flashing string failed during
+    deployment.}
+  \label{fig:trilateration}
 \end{figure}
+
 
 \subsubsection{Inclinometers}
 
