@@ -32,7 +32,7 @@ pulser circuit providing known charges; a circuit providing a reference DC
 bias voltage level; the 20 MHz oscillator on the Main
 Board, used as the timing reference; and single photoelectrons, either from
 ambient ``dark noise'' photons or a low-luminosity LED on the Main
-Board. The Main Board oscillator is manufactured by Vectron
+Board.  The Main Board oscillator is manufactured by Vectron
 International (model C2560A-0009 TCXO) and has a certified stability
 of roughly $1 \times 10^{-11}$ for a sample interval of 5 seconds~\cite{ICECUBE:DAQ}.
 PMT on the same DOM, as opposed to the LED flashers described in
@@ -52,7 +52,9 @@ little under three hours. Because the calibration procedure produces
 light, these runs are excluded from normal analyses.
 
 First, the discriminator circuits used to trigger the DOM are calibrated
-using the electronic pulser circuit.  This calibration is later refined using actual
+using the electronic pulser circuit, which is capacatively coupled into the
+analog front-end before the delay board~\cite{ICECUBE:DAQ}.  This
+calibration is later refined using actual 
 PMT waveforms, once the PMT gain is known.  Next, the ATWD voltage levels
 are calibrated by sweeping the input DC bias voltage and recording the
 response.  Because of the slight variations in the ATWD circuits, this
@@ -92,8 +94,9 @@ the ATWDs; this relationship is linear in $1/\sqrt{V}$.
 
 The PMT gain as a function of high voltage is calibrated using ambient
 ``dark noise'' photons --- the charge $e$ prior to amplification is quantized
-and known.  At each voltage level, a histogram of many waveform charges is recorded,
-and each histogram is fit with an exponential plus Gaussian model (see
+and known.  At each voltage level, a histogram of many observed charges is
+recorded, where the charge is determined by numerical integration of the waveform.
+Each histogram is fit with an exponential plus Gaussian model (see
 Fig.~\ref{fig:domcal_hvfit}).  The peak of the Gaussian component is used to
 determine the amplification of the PMT at each voltage, and a linear fit
 of $\log_{10}(\mathrm{gain})$ versus $\log_{10}(\mathrm{voltage})$ allows
@@ -110,7 +113,7 @@ unfolding used in data processing.
 \begin{figure}[!h]
  \centering
  \includegraphics[width=0.6\textwidth]{graphics/dom/domcal/hvfit.pdf}
- \caption{Sample SPE charge spectrum as recorded by DOMCal and fit
+ \caption{Sample SPE charge spectrum at a gain of $10^{7.5}$ as recorded by DOMCal and fit
    \textit{in situ} with a Gaussian+exponential model.} 
  \label{fig:domcal_hvfit}
 \end{figure}
@@ -141,18 +144,24 @@ has no additional pedestal pattern, but for the ATWD, it is important to disting
 between the pedestals of individual samples 
 and the common baseline of the entire waveform.  In order to remove the
 sample-dependent offset, the DOM subtracts the pedestal pattern from
-the ATWD waveform before sending it to the surface. The pedestal pattern is
-computed at the beginning of each 
-run by comparing 25 average pedestal waveforms. The autocorrelation coefficient
-of the difference between pairs of averaged pedestals is computed to detect light
-contamination in the pedestals, and the shift between the baseline of
-the pairs is calculated to verify that the baseline is stable. This
-procedure ensures that fewer than 1 DOM in 1000 runs will contain a
-contaminated baseline. Thereafter, both ATWD
+the ATWD waveform before sending it to the surface.  Thereafter, both ATWD
 and fADC waveforms can be calibrated by first subtracting the common
 baseline from each sample, then multiplying by the gain. Correct charge
 measurement and energy reconstruction depends on correct measurement
 of the baseline, as discussed in Sec.~\ref{sec:baselines}.
+
+The pedestal pattern is computed at the beginning of each 
+run by averaging 200 forced-readout waveforms.  Single photoelectrons in
+the individual waveforms are averaged out, but a single coincident bright event can
+result in an offset in the pedestal average.  In order to avoid such
+light contamination, a second average is computed, and the
+autocorrelation coefficient of the difference between the two pedestal
+averages is computed.  The autocorrelation test detects averages in which a
+single waveform contains approximately at least 12 PE (at least 0.06 PE in the
+average).  If light contamination is detected, the procedure is repeated.
+The shift between the baseline of the pairs is also calculated to verify
+that the baseline is stable.  This procedure ensures that fewer than 1 DOM
+in 1000 runs will contain a contaminated baseline.
 
 The baseline is set to about 10\% of the maximum value of the
 digitizer counts in
@@ -249,10 +258,10 @@ continuously running procedure for translating hit timestamps based on the
 individual free-running DOM clocks to the synchronized surface clocks in the
 ICL, in order to establish a standard time base for the array to
 $O(\mathrm{ns})$ accuracy.  Subsequently, the ICL-based hit timestamps can
-then be translated to UTC.  The scheme used for the timestamp translation involves
+then be translated to UTC.  The scheme used for the time transfer involves
 transmission of a pulse to and from each DOM and is shown in
 Fig.~\ref{fig:rapcal_symmetry}.  The base implementation is described in
-\cite{ICECUBE:DAQ}; we describe here the details of the time translation
+\cite{ICECUBE:DAQ}; we describe here the details of the 
 algorithm and validation of the DOM relative time calibration. 
 
 While data transmission is paused, a bipolar pulse is generated and sent to
@@ -262,7 +271,7 @@ as the one generated on the surface --- is generated in the DOM and sent
 back to the surface.  The pulses are timestamped using the local
 clock count at each transmission and reception point.  The symmetry of the
 pulses sent in each direction and symmetry of the down- and up- cable
-transmission enables a translation from each free-running DOM clock to the
+transmission enables the time transfer from each free-running DOM clock to the
 surface clock and hence to UTC, without prior knowledge of the cable length
 or its dispersive properties.
 
@@ -628,11 +637,11 @@ regular calibration using the methods previously described.
 \subsection{\label{sec:optical_stability}Optical Efficiency Stability}
 
 The detector response in IceCube is verified with low energy muons as
-described in \cite{IC3:ereco}. The detector response is monitored in each run using the track
+described in Ref.~\cite{IC3:ereco}. The detector response is monitored in each run using the track
 detection probability (TDP) calculated from bright muon tracks
 with more than 30 hits in IceCube. The muon 
 tracks are reconstructed using the likelihood methods described in
-\cite{Ahrens:2003fg}, but charge and time information from the DOM under
+Ref.~\cite{Ahrens:2003fg}, but charge and time information from the DOM under
 study are excluded from the reconstruction. The TDP is
 defined for each DOM as the ratio of the number of detected tracks
 within 100~m of the DOM to the total number of tracks within 100~m of
@@ -724,7 +733,7 @@ the dynodes.  A parametrized noise model incorporating these various sources
 is used for detector simulation \cite{larson2013simulation}. 
 
 \begin{table}[h!]
-\caption{Characteristics of noise components in IceCube DOMs, adapted from \cite{stanisha_noise_14}.}
+\caption{Characteristics of noise components in IceCube DOMs, adapted from Ref.~\cite{stanisha_noise_14}.}
   \centering
   \footnotesize
 \begin{tabularx}{\textwidth}{lXXr}

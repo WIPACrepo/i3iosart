@@ -57,8 +57,8 @@ waveform shape, allowing the determination of the times of arriving photons
 relative to this reference.  The DOM accumulates such hit
 data for a period of \unit[1]s before sending the data up as a block.
 However, if data readout is interrupted, the DOM can store
-$\mathcal{O}(\SI{10}{\second})$ of data before overflowing local memory, 
-depending on hit rate.  Separately, the PMT hit rate is recorded by
+$\mathcal{O}(\SI{10}{\second})$ of data before overflowing local memory
+(16MB of SDRAM), depending on hit rate.  Separately, the PMT hit rate is recorded by
 the DOM in \unit[1.6]ms intervals, as a collective increase of all rates
 could signify detection of many low energy neutrinos in case of a Galactic
 supernova event (see Sec.~\ref{sect:SNDAQ}).
@@ -194,16 +194,20 @@ and later as a similar formulation from Quantum Silicones (Virginia, USA).
 It is optically clear with transmission 97\% at \unit[400]nm, 91\% at \unit[340]nm, and 65\% at \unit[300]nm
 (normal incidence).  The refractive index is 1.41, yielding less than 0.1\% reflection as light
 passes from the sphere glass into the gel and then into the PMT envelope.
-The characteristics of the cured gel are specified to remain stable in the temperature range $-70^\circ$C to $45^\circ$C.
+The characteristics of the cured gel are specified to remain stable in the
+temperature range $-70^\circ$C to $45^\circ$C.  Visual inspection of
+non-deployed DOMs reveals no indication of crazing after more than 10
+years, and studies of the long-term optical efficiency of deployed DOMs
+reveal no measurable ageing effects (Sec.~\ref{sec:optical_stability}).  
 
 To reduce effects of the ambient South Pole magnetic field (\unit[550]mG, $17^\circ$
 from vertical) on the PMT collection efficiency, a mu-metal cage surrounds the PMT bulb up to
 the neck join.  It was constructed as a wire mesh with typical wire spacing \unit[66]mm and
 wire diameter \unit[1]mm, blocking about 4\% of the incident light,
 and delivered by ITEP Moscow.
-Without such a shield, this type of PMT would exhibit 5-10\% lower
+Without such a shield, this PMT exhibits 5-10\% lower
 collection efficiency, poorer single photoelectron resolution, and gain variations of 20\% depending on 
-azimuthal orientation~\cite{calvo}.
+azimuthal orientation, for a South Pole magnetic field strength and orientation~\cite{calvo}.
 With the shield in place, the interior magnetic field is 2.8 times
 smaller than the external field, pointing mostly along the axis and therefore reducing efficiency by
 less than 2\% for this type of PMT.
@@ -219,10 +223,10 @@ solder-mounted on the PMT and a separate High Voltage Control Board.
 The High Voltage Control Board includes a DAC and ADC for setting and reading out the PMT high voltage,
 connected to the Main Board with a digital interface. The maximum high voltage is
 \unit[2047]volts, specified for up to $30\,{\rm \upmu A}$ current.  The
-voltage setting is controlled by the DAC
+voltage setting, in steps of 0.5V, is controlled by the DAC
 output, and the actual voltage is monitored via a high-impedance divider and the ADC.  The output ripple
 is less than \unit[1]mV, and stability is better than \unit[200]ppm over
-8~hours.  Power consumption is less than \unit[300]mW at full load.
+8~hours.  Power consumption of the high voltage supply is less than \unit[300]mW at full load.
 
 The generator output is carried to the PMT Base Board \cite{ICECUBE:PMT} via a high voltage
 coaxial cable.  The voltage divider presents a total resistive load of \unit[130]M$\Omega$.
@@ -232,8 +236,9 @@ toroid was modified once during DOM production in order to reduce
 distortion of high-amplitude signals (Sec.~\ref{sec:waveformcal}).
 The transformer secondary is then wired to the Main Board analog input with a coaxial cable.
 The single photoelectron (SPE) output waveform has been described in Ref.~\cite{ICECUBE:PMT}.  
-With a \unit[100]$\Omega$ load connected to the transformer, and operating at standard gain $10^7$, the SPE 
-peak voltage is approximately \unit[8]mV
+With a \unit[100]$\Omega$ load connected to the transformer, and operating
+at standard PMT gain of $10^7$, the SPE 
+peak voltage before front-end amplification is approximately \unit[8]mV
 with a FWHM of \unit[7--8]ns.  After digitization, several effects combine to increase
 the FWHM of digitized SPE waveforms to $\sim$\unit[13]ns (peak $\sim$\unit[5]mV).
 
@@ -265,7 +270,7 @@ A discriminator crossing begins a "launch" of the high speed waveform
 capture and digitization. Each DOM is equipped with two ATWD chips,
 and each chip is provided with three different amplifier
 gains in order to completely cover the 
-dynamic range of the PMT output (up to 150~mA when saturated). 
+dynamic range of the PMT output (up to 150~mA, or 7.5V, when saturated). 
 The ATWD chips are configured to sample the input voltage at \unit[300]Msps
 and operate by analog storage of waveform samples in switched capacitor arrays of depth 128,
 followed by a 10-bit digitization \cite{atwd}.  In order to record the waveform starting from before the discriminator
@@ -274,9 +279,9 @@ threshold crossing, the signal is first routed through the Delay Board.  Here a 
 serpentine copper trace embedded in the dielectric and sandwiched between
 ground planes.  The highest-gain channel is used
 for most pulses, and lower-gain recordings are also retained as needed when pulses reach 75\% of the range 
-of a higher gain channel.  The mean amplifier gains of all deployed DOMs for high-,
+of a higher-gain channel, in order to avoid any loss of information due to
+digital saturation.  The mean amplifier gains of all deployed DOMs for high-,
 medium-, and low-gain channels are 15.6, 1.79, and 0.21 respectively.
-
 
 As explained in Ref.~\cite{ICECUBE:DAQ}, two sets of ATWD chips are operated alternately in order to
 reduce deadtime.  The remaining deadtime depends upon the DOM hit
@@ -576,9 +581,9 @@ The estimated survival fraction as a function of
 time is shown in Fig.~\ref{fig:dom_survival}; currently we estimate the
 surviving fraction in 2030 to be $97.3\pm0.3\%$.  While this simplified
 model does not account for an increase in failure rate due to component aging, the
-observed failure rate since detector completion of $2.0~\mathrm{yr}^{-1}$ is
+recent observed failure rate since detector completion of $2.0~\mathrm{yr}^{-1}$ is
 currently both stable and significantly lower than the mean predicted rate
-of $4.5~\mathrm{yr}^{-1}$.  We attribute 
+of $4.5~\mathrm{yr}^{-1}$, since the failure rate during construction was higher.  We attribute 
 this to infant mortality and/or to improved operational protocols that
 minimize the number of DOM power cycles.  DOMs are not regularly
 power-cycled during data-taking but only when required to resolve an

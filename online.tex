@@ -190,7 +190,7 @@ is 720 kbps per twisted pair.
 Messaging is managed from the surface, in that the DOR requests data from
 each DOM in turn; only one DOM per pair can transmit at a time.  Communication is
 paused once per second to perform a timing calibration (RAPCal; see
-Sec.~\ref{sect:dom:rapcal}); this provides a time-dependent translation of DOM clock to DOR
+Sec.~\ref{sect:dom:rapcal}); this enables time transfer of DOM clock to DOR
 clock for every DOM.  
 
 % Add more details about actual usage?
@@ -689,9 +689,10 @@ suite that utilizes about 20 standard, multi-processor servers located in
 the SPS computing cluster.  
 
 The first step in the analysis of triggered events is the calibration of
-the digitized DOM waveforms, as described in Sec.~\ref{sec:waveformcal}, using
-calibration results from DOMCal stored in a database.  Next, each
-DOM's waveform is deconvolved using the known DOM response to single photons to
+the digitized DOM waveforms, as described in Sec.~\ref{sec:waveformcal}.
+The geometry, calibration, and detector status (GCD) information needed to
+process the data is stored in a database.  Next, each DOM's waveform is
+deconvolved using the known DOM response to single photons to 
 extract the light arrival time and amplitude information~\cite{IC3:ereco}.
 This series of time and amplitude light arrival information for each DOM is
 the base for event reconstruction and characterization.  PnF encodes this
@@ -793,8 +794,7 @@ components include:
   these clients operate in parallel to filter 
   events in real time.
 \item GCD Dispatch, a database caching system to prevent the
-  Filter Client processes from overwhelming the database system when requesting
-  geometry, calibration and detector status (GCD) information.  
+  Filter Client processes from overwhelming the GCD database at run transitions.
 \item File Writers, responsible for creation of files and metadata for
   the data archive.  There is one writer component for each file type created.
 \item Online Writer, responsible for extracting event reconstruction and
