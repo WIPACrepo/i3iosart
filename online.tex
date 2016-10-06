@@ -47,8 +47,9 @@ causal relationship.  A number of different trigger algorithms run in
 parallel, described in Sec.~\ref{sect:online:trigger}.  All hits (both HLC
 and SLC) within a window around the trigger are combined into events, the
 fundamental output of the DAQ.  The event rate varies
-seasonally with the atmospheric muon flux~\cite{ICECUBE:IceTop} from 2.5 to 2.9 kHz,
-and the total DAQ data rate is approximately 1~TB/day.
+seasonally with the atmospheric muon flux~\cite{ICECUBE:IceTop} from 2.5 to
+2.9 kHz, with a median rate of 2.7 kHz, and the total DAQ data rate is
+approximately 1~TB/day. 
 
 The DAQ also produces secondary streams that include time calibration,
 monitoring, and DOM scaler data.  The scaler data, which monitors the
@@ -618,7 +619,9 @@ continuously sent to SNDAQ, and any significant alert is corrected
 \cite{IC3:icrc15_sndaq}.  At a high significance threshold, the capture of
 all untriggered data around the alert time is initiated using the HitSpool
 system (Sec.~\ref{sect:hitspool}), and the Supernova Neutrino Early Warning
-System (SNEWS) \cite{SNEWS} is notified.
+System (SNEWS) \cite{SNEWS} is notified.  SNDAQ latency of approximately 7
+minutes is dominated by the sliding window algorithm used to determine
+average DOM rates. 
 
 \subsubsection{\label{sect:hitspool}HitSpool Request System}
 

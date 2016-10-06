@@ -59,7 +59,7 @@ data for a period of \unit[1]s before sending the data up as a block.
 However, if data readout is interrupted, the DOM can store
 $\mathcal{O}(\SI{10}{\second})$ of data before overflowing local memory
 (16MB of SDRAM), depending on hit rate.  Separately, the PMT hit rate is recorded by
-the DOM in \unit[1.6]ms intervals, as a collective increase of all rates
+the DOM in \unit[1.6384]ms intervals, as a collective increase of all rates
 could signify detection of many low energy neutrinos in case of a Galactic
 supernova event (see Sec.~\ref{sect:SNDAQ}).
 
@@ -67,10 +67,9 @@ DOMs transmit their data to computers in the IceCube Laboratory building (ICL)
 using a twisted wire pair that also provides power (Sec.~\ref{sec:cable}).
 Wire pairs are bundled to form the vertical in-ice cables and the horizontal surface
 cables.  Each wire pair is shared between two DOMs, with data transfers
-initiated by a surface computer.  Separately, dedicated wiring to neighbor
-DOMs above and below allows quick recognition of neighboring
-coincident hits, called local coincidences
-(LC), where
+initiated by a surface computer.  Separately, dedicated local coincidence
+(LC) wiring to neighbor DOMs above and below allows quick recognition of neighboring
+coincident hits, where
 nearest or next-to-nearest neighbors are hit within a common time
 window. The time window is configurable and is set to  \unit[1]$\mu$s
 for both in-ice and IceTop DOMs. The signals are forwarded from one DOM to the next
@@ -79,7 +78,8 @@ software-configurable and is currently set to two for in-ice DOMs,
 i.e. a DOM signals its neighbor and next-to-nearest neighbor DOMs in
 both up and down directions along the string. The local coincidence
 connections for IceTop, which allow coincidences between the two tanks in a
-station, are described in Ref.~\cite{ICECUBE:IceTop}. Local coincidence hits often have complex PMT waveforms
+station, are described in Ref.~\cite{ICECUBE:IceTop}. Local coincidence
+hits (``HLC'' hits) often have complex PMT waveforms
 indicating multiple photons detected in each DOM, which are therefore saved
 in full detail; otherwise, the DOM saves abbreviated information appropriate
 to single photon detection (see Sec.~\ref{sect:online:dataflow}).
@@ -217,19 +217,22 @@ a molded plastic collar glued around the PMT neck.  The PMT Base Board is solder
 
 \subsubsection{\label{sec:hv}High Voltage Supply and Divider}
 
-The PMT high voltage generator is a custom encapsulated module designed by EMCO (California).  The PMT high voltage subsystem consists of a resistive voltage divider
-circuit (PMT Base Board) directly
+The PMT high voltage generator is a custom encapsulated module designed by
+EMCO (California).  The PMT high voltage subsystem consists of a resistive
+voltage divider circuit (PMT Base Board) directly
 solder-mounted on the PMT and a separate High Voltage Control Board. 
 The High Voltage Control Board includes a DAC and ADC for setting and reading out the PMT high voltage,
 connected to the Main Board with a digital interface. The maximum high voltage is
 \unit[2047]volts, specified for up to $30\,{\rm \upmu A}$ current.  The
 voltage setting, in steps of 0.5V, is controlled by the DAC
 output, and the actual voltage is monitored via a high-impedance divider and the ADC.  The output ripple
-is less than \unit[1]mV, and stability is better than \unit[200]ppm over
-8~hours.  Power consumption of the high voltage supply is less than \unit[300]mW at full load.
+is less than \unit[1]mV, and stability is better than \unit[1]V RMS.  Power
+consumption of the high voltage supply is less than \unit[300]mW at full
+load. 
 
 The generator output is carried to the PMT Base Board \cite{ICECUBE:PMT} via a high voltage
-coaxial cable.  The voltage divider presents a total resistive load of \unit[130]M$\Omega$.
+coaxial cable.  The voltage divider, designed for low power consumption,
+presents a total resistive load of \unit[130]M$\Omega$. 
 The PMT is operated with cathode at ground potential, so the anode signal output is AC-coupled using 
 a 1:1 bifilar-wound toroid transformer mounted on the Base Board; this
 toroid was modified once during DOM production in order to reduce
@@ -314,7 +317,7 @@ the extra wire pairs described in Sec.~\ref{sec:penetrator}.
  \caption{Data flow diagram for recording and processing of PMT waveforms in the DOM to form 
  "Hit Records" that are sent to the surface DAQ computers.  As shown by dashes, full waveform data are only included
  when neighbor DOMs report time-coincident signals above the SPE discriminator threshold.  Additionally,
- data from low gain channels is omitted for waveforms that are within range of higher gain channels.}
+ data from low gain channels are omitted for waveforms that are within range of higher gain channels.}
  \label{fig:domdataflow}
 \end{figure}
 
@@ -502,9 +505,14 @@ each module.  Other tests included gain calibration, dark noise monitoring,
 and LC validation.  Optical sensitivity, time resolution,
 and linearity were measured using external light sources fed into the DFLs
 via optical fibers and diffused over the DOM lower hemispheres at each
-testing station. Sensitivity was measured primarily with a monochromator-selected white lamp; time resolution was measured with a pulsed diode laser (405~nm), and linearity was measured with a bright pulsed LED source (405~nm). A typical FAT temperature and testing cycle is shown in
+testing station. Sensitivity was measured primarily with a
+monochromator-selected white lamp; time resolution was measured with a
+pulsed diode laser (405~nm), and linearity was measured with a bright
+pulsed LED source (405~nm).
+
+A typical FAT temperature and testing cycle is shown in
 Fig.~\ref{fig:fat_cycle}. The initial pass rate of DOMs during FAT was
-92\%.  The primary causes of failures were elevated noise rates during the
+92\%.  The primary causes of failures were elevated noise rates detected during the
 low-temperature soak, functional issues on the Main Board or Flasher Board,
 and PMT gain instability.  The majority of failing DOMs were retested and
 subsequently passed, while DOMs with serious issues were repaired and
@@ -578,12 +586,13 @@ deployment, assuming a constant, random failure rate after freeze-in.
 Specifically, we calculate the Wilson score binomial confidence interval \cite{Wilson_Score} of
 survival probability using the post-commissioning failure rate of DOMs.
 The estimated survival fraction as a function of 
-time is shown in Fig.~\ref{fig:dom_survival}; currently we estimate the
-surviving fraction in 2030 to be $97.3\pm0.3\%$.  While this simplified
+time is shown in Fig.~\ref{fig:dom_survival}.  Currently we estimate the
+mean failure rate to be $4.1\pm1.2~\mathrm{yr}^{-1}$, resulting in a
+survival fraction in 2030 of $97.4\pm0.3\%$.  While this simplified 
 model does not account for an increase in failure rate due to component aging, the
-recent observed failure rate since detector completion of $2.0~\mathrm{yr}^{-1}$ is
-currently both stable and significantly lower than the mean predicted rate
-of $4.5~\mathrm{yr}^{-1}$, since the failure rate during construction was higher.  We attribute 
+recent observed failure rate since detector completion of $1.7~\mathrm{yr}^{-1}$ is
+significantly lower than the mean predicted rate, since the failure rate
+during construction was higher.  We attribute
 this to infant mortality and/or to improved operational protocols that
 minimize the number of DOM power cycles.  DOMs are not regularly
 power-cycled during data-taking but only when required to resolve an

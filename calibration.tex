@@ -157,7 +157,7 @@ result in an offset in the pedestal average.  In order to avoid such
 light contamination, a second average is computed, and the
 autocorrelation coefficient of the difference between the two pedestal
 averages is computed.  The autocorrelation test detects averages in which a
-single waveform contains approximately at least 12 PE (at least 0.06 PE in the
+single waveform contains at least a 15 PE pulse (approximately 0.1 PE in the
 average).  If light contamination is detected, the procedure is repeated.
 The shift between the baseline of the pairs is also calculated to verify
 that the baseline is stable.  This procedure ensures that fewer than 1 DOM
@@ -525,8 +525,8 @@ appeared as sinusoidal or spiky modulations in the waveform
 baselines.  To mitigate this effect, one DOM was operated without PMT high
 voltage and used to monitor the RF broadcasts and tag periods of RFI in
 order to avoid data contamination.  Also
-in 2009, DOM 68-42 was damaged by a high voltage setting during DOM
-calibration, and appeared to begin sparking, causing sinusoidal distortions
+in 2009, RFI from DOM 68-42 affected nearby DOMs after it failed during DOM
+calibration and appeared to begin sparking, resulting in sinusoidal distortions
 in the baselines of neighboring DOMs. The meteor radar
 transmitter is no longer operating, and investigations into RFI
 from more recent radar activities at South Pole (SuperDARN
@@ -680,20 +680,32 @@ charge collected between 2012 and 2015.
 
 The vast majority of background hits result from dark noise, i.e. effects
 that lead to the emission of an electron from the cathode of the PMT in the
-absence of a photon source external to the DOM. The average total hit rate of
+absence of a photon source external to the DOM. The average total in-ice hit rate of
 DOMs with standard PMTs is \SI{560}{\hertz} and \SI{780}{\hertz} for high
-quantum efficiency DOMs. The dark noise is composed of two major 
-components.  First, electronics noise and radioactive decays in the DOM material form
+quantum efficiency DOMs. The contribution from muons, estimated as the
+in-ice HLC hit rate, decreases with depth from 25 Hz to 5 Hz.  The dark noise is composed of two major 
+components.  First, electronic noise, field and thermionic emission, and
+radioactive decays \cite{hamamatsu_pmt} in the DOM material form 
 the uncorrelated (Poissonian) noise pulses with a rate between
-\SI{230}{\hertz} and \SI{250}{\hertz}, following the Richardson law for
+\SI{230}{\hertz} and \SI{250}{\hertz}, following Richardson's law \cite{richardson1901} for
 thermal emission.  The second component is the so-called correlated
-noise with a hit rate that increases with decreasing temperature from
-\SI{280}{\hertz} to \SI{340}{\hertz} (Figure
-\ref{fig:dom_darknoise_vs_temperature}).  This temperature-dependent noise
-rate profile was determined by combining a measured temperature profile of
+noise, with a pulse rate from \SI{280}{\hertz} to \SI{340}{\hertz}, that
+manifests itself as an overabundance of short time intervals between hits
+in a single DOM compared to the Poisson expectation (Fig.~\ref{fig:darknoise_deltaT}).
+The temperature dependence of the noise rate
+\ref{fig:dom_darknoise_vs_temperature}) was determined by combining a
+measured temperature profile of 
 the the South Pole ice cap \cite{price2002temperature} with a fit of the
 Poissonian expectation of the total dark noise rate to every individual
-DOM.
+DOM, and was verified in lab measurements.  
+
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{graphics/dom/performance/darknoise/DarkNoise_Layer2Doms.pdf}
+ \caption{Time interval between successive hits for all next-to-top layer DOMs (DeepCore excluded).}
+ \label{fig:darknoise_deltaT}
+\end{figure}
 
 \begin{figure}
   \centering
@@ -703,46 +715,41 @@ DOM.
   \label{fig:dom_darknoise_vs_temperature}
 \end{figure}
 
-\begin{figure}
-  \centering
-  \includegraphics[width=0.7\textwidth]{graphics/dom/performance/darknoise/DarkNoise_Layer2Doms.pdf}
- \caption{Time interval between successive hits for all next-to-top layer DOMs (DeepCore excluded).}
- \label{fig:darknoise_deltaT}
-\end{figure}
-
-The correlated noise component manifests itself in an overabundance of
-short time intervals between hits in a single DOM compared to the
-Poisson expectation (Fig.~\ref{fig:darknoise_deltaT}). The short time
-intervals are correlated and are clustered in bursts with an average number of
+The short time intervals are clustered in bursts (uninterrupted sequences
+of time intervals less than 3 ms) with an average number of
 hits per burst increasing from \num{3.3} at \SI{-10}{\celsius} to \num{3.8} at
 \SI{-30}{\celsius}. A study with forced-readout data shows that the
 phenomenology of the correlated noise component in IceCube is in general in
-good agreement with results reported in the literature~\cite{meyer_noise}, but a satisfying
-physical explanation is still to be determined.  One candidate for the source
-of the process is luminescence of the glass triggered by radioactive decay of
-elements such as thorium and uranium contained in the glass of the DOM.
+good agreement with results reported in Ref.~\cite{meyer_noise},
+but an unambiguous physical explanation is still to be determined.  One
+candidate for the source of the process is luminescence of the glass
+triggered by radioactive decay of elements such as thorium and uranium
+contained in the glass of the DOM.  
 
 The various sources of dark noise present in a DOM can be separated using
-the time between successive untriggered hits in HitSpool data
-(Sec.~\ref{sec:domhub_hitspool}), as shown in 
+the time between successive untriggered hits in HitSpool 
+data (Sec.~\ref{sec:domhub_hitspool}), as shown in 
 Fig.~\ref{fig:darknoise_deltaT_components}. An overview of the various 
-noise components is given in Table \ref{tab:noise}.  Late-time
+noise components and their parametrizations is given in Table \ref{tab:noise}.  Late-time
 correlated afterpulses, a common feature of PMTs, is attributed to
 ionization of residual gases by electrons that were accelerated between
-the dynodes.  A parametrized noise model incorporating these various sources
-is used for detector simulation \cite{larson2013simulation}. 
+the dynodes.  Although afterpulses occur at various time delays, this
+component is parametrized here with a single average timescale.  A
+noise model incorporating these various sources is used for detector
+simulation \cite{larson2013simulation}. 
 
 \begin{table}[h!]
-\caption{Characteristics of noise components in IceCube DOMs, adapted from Ref.~\cite{stanisha_noise_14}.}
+\caption{Characteristics of noise components in IceCube DOMs, adapted from
+  Ref.~\cite{stanisha_noise_14}.}
   \centering
   \footnotesize
 \begin{tabularx}{\textwidth}{lXXr}
 \toprule
 Noise Component& Origin & Distribution & Parameters \\
 \midrule
-Afterpulses & PMT & Gaussian & $\mu = \SI{6}{\micro\second}$, $\sigma = \SI{2}{\micro\second}$\\
-Uncorrelated & Thermal noise, \newline radioactive decay & Poissonian & $\lambda \simeq \SI{250}{\hertz}$\\
-Correlated & Luminescence (?) & Log-normal &
+afterpulses & PMT & Gaussian & $\mu = \SI{6}{\micro\second}$, $\sigma = \SI{2}{\micro\second}$\\
+uncorrelated & thermal noise, \newline radioactive decay & Poissonian & $\lambda \simeq \SI{250}{\hertz}$\\
+correlated & luminescence (?) & log-normal &
 $\mu = \num{-6}\ [\log_{10}(\delta t/\mathrm{sec})]$, \\
 & & & 
 $\sigma = \num{0.85}\ [\log_{10}(\delta t/\mathrm{sec})]$ \\
@@ -756,25 +763,29 @@ $\sigma = \num{0.85}\ [\log_{10}(\delta t/\mathrm{sec})]$ \\
   \includegraphics[width=0.8\textwidth]{graphics/dom/performance/darknoise/SingleDOM_HitSpool_Hits_deltaT_fits_example.pdf}
  \caption{Histogram of time differences between successive hits from HitSpool data of
 DOM 15 on string 27 (blue) on a logarithmic scale in order to visualize the
-different noise components \cite{heereman2015hitspooling}.}
+different noise components \cite{heereman2015hitspooling}.  A fourth
+subdominant component centered at \SI{100}{\micro\second} is not parameterized and is still under study.}
  \label{fig:darknoise_deltaT_components}
 \end{figure}
 
 The evolution of the dark noise contribution to the total rate over time was investigated using the
 supernova scaler stream \cite{IC3:supernova, briedel_phd}, effectively 
 the summed dark noise rate of the detector with an artificial deadtime
-applied to reduce the effect of correlated noise. A long-term exponential decay in
+applied to reduce the effect of correlated noise
+(Sec.~\ref{sect:SNDAQ}). A long-term exponential decay in 
 the noise rate is visible; this may be caused by 
 decreasing triboluminescence arising from the initial ``freeze-in''
 of newly deployed DOMs, impurities introduced during the drill
 process, or a combination of the two effects.  The decay
 is especially recognizable in the standard deviation of the scaler
 distribution (Fig.~\ref{fig:noise_over_time_briedel}), which decreases by
-25\% over the course of the three years. Changes in the mean rate are
+25\% over the course of the three years, with the decrease increasing with
+depth~\cite{Piegsa09}. Changes in the mean rate are
 initially dominated by the decay component and later by the seasonal
 variation of atmospheric muons. The noise
-rate decay is seen to be more pronounced when selecting only strings
-which were deployed in the previous season, as shown in Fig.~\ref{fig:noise_over_time_briedel_lastseasondepoyed} for strings deployed in the last drill season of IceCube.
+rate decay is most pronounced when selecting only strings
+that were deployed in the final construction season, as shown in
+Fig.~\ref{fig:noise_over_time_briedel_lastseasondepoyed}. 
 
 %As the ice refreezes after deployment, it
 %becomes cleaner and impurities introduced during the drill process (mainly
@@ -811,10 +822,11 @@ Since the dark noise components are not correlated between
 DOMs, the dark noise rate change is not prominent in local coincidence
 hits, which are dominated by atmospheric muons (Fig.
 \ref{fig:hlc_over_time_briedel}).  Thus, the detector trigger rate as well
-as higher-level reconstruction variables are relatively isolated from the
-noise rate variations.  Nevertheless, the noise rates for each DOM are
+as many higher-level reconstruction variables are relatively isolated from the
+noise rate variations.  Nevertheless, the total hit rates for each DOM are
 tracked over time and updated yearly in a database for simulation and
-reconstruction purposes. 
+reconstruction purposes.  Seasonal variations of in-ice DOM hit rates are
+below the 1\% level.
 
 \begin{figure}[!h]
  \centering
