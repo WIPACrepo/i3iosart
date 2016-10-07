@@ -680,25 +680,37 @@ charge collected between 2012 and 2015.
 
 The vast majority of background hits result from dark noise, i.e. effects
 that lead to the emission of an electron from the cathode of the PMT in the
-absence of a photon source external to the DOM. The average total in-ice hit rate of
-DOMs with standard PMTs is \SI{560}{\hertz} and \SI{780}{\hertz} for high
-quantum efficiency DOMs. The contribution from muons, estimated as the
-in-ice HLC hit rate, decreases with depth from 25 Hz to 5 Hz.  The dark noise is composed of two major 
-components.  First, electronic noise, field and thermionic emission, and
-radioactive decays \cite{hamamatsu_pmt} in the DOM material form 
-the uncorrelated (Poissonian) noise pulses with a rate between
-\SI{230}{\hertz} and \SI{250}{\hertz}, following Richardson's law \cite{richardson1901} for
-thermal emission.  The second component is the so-called correlated
-noise, with a pulse rate from \SI{280}{\hertz} to \SI{340}{\hertz}, that
-manifests itself as an overabundance of short time intervals between hits
-in a single DOM compared to the Poisson expectation (Fig.~\ref{fig:darknoise_deltaT}).
+absence of a photon source external to the DOM. 
+Dark noise is a complex phenomenon with numerous possible sources,
+including: thermionic emission, electronic noise, field emission 
+within the PMT, Cherenkov light from radioactive decays, and
+scintillation / luminescence in the glass of the PMT and pressure sphere.
+The average total in-ice hit rate of DOMs with standard PMTs is
+\SI{560}{\hertz} and \SI{780}{\hertz} for high quantum efficiency DOMs. The
+contribution from cosmic-ray muons, estimated as the in-ice HLC hit rate,
+is small and decreases with depth from 25 Hz to 5 Hz. 
+
+The dark noise can be characterized as a combination of uncorrelated
+(Poissonian) noise pulses with a rate between \SI{230}{\hertz} and
+\SI{250}{\hertz}, and a correlated component, with a pulse rate from
+\SI{280}{\hertz} to \SI{340}{\hertz}.  A comparison at low temperature of
+DOM dark noise to that of a bare PMT suggests that the majority of the
+noise originates from the glass pressure sphere.  Cherenkov light from
+$^{40}\mathrm{K}$ decays contributes to the uncorrelated noise component,
+and thus the potassium content of the glass was limited.
+Measurements of early samples indicated a $\mathrm{K}_2\mathrm{O}$
+concentration of 0.03\% by weight, roughly corresponding to 100 Bq of beta
+decays per sphere. 
+
+The correlated noise manifests itself as an overabundance of short time
+intervals between hits in a single DOM compared to the Poisson expectation
+(Fig.~\ref{fig:darknoise_deltaT}). 
 The temperature dependence of the noise rate
 \ref{fig:dom_darknoise_vs_temperature}) was determined by combining a
 measured temperature profile of 
 the the South Pole ice cap \cite{price2002temperature} with a fit of the
 Poissonian expectation of the total dark noise rate to every individual
 DOM, and was verified in lab measurements.  
-
 
 \begin{figure}
   \centering
@@ -720,11 +732,13 @@ of time intervals less than 3 ms) with an average number of
 hits per burst increasing from \num{3.3} at \SI{-10}{\celsius} to \num{3.8} at
 \SI{-30}{\celsius}. A study with forced-readout data shows that the
 phenomenology of the correlated noise component in IceCube is in general in
-good agreement with results reported in Ref.~\cite{meyer_noise},
-but an unambiguous physical explanation is still to be determined.  One
-candidate for the source of the process is luminescence of the glass
-triggered by radioactive decay of elements such as thorium and uranium
-contained in the glass of the DOM.  
+good agreement with results reported in Ref.~\cite{meyer_noise}, but an
+unambiguous physical explanation is still to be confirmed.  Stimulation of
+glass samples with radioactive sources results in scintillation
+\cite{helbing_glass}, suggesting that luminescence of the glass triggered
+by the radioactive decay of $^{40}\mathrm{K}$ and other elements in the
+pressure sphere is responsible.  Naturally-occurring cerium in the glass is
+a candidate for the active scintillator. 
 
 The various sources of dark noise present in a DOM can be separated using
 the time between successive untriggered hits in HitSpool 
@@ -783,9 +797,9 @@ distribution (Fig.~\ref{fig:noise_over_time_briedel}), which decreases by
 depth~\cite{Piegsa09}. Changes in the mean rate are
 initially dominated by the decay component and later by the seasonal
 variation of atmospheric muons. The noise
-rate decay is most pronounced when selecting only strings
+rate decay is most pronounced when selecting strings
 that were deployed in the final construction season, as shown in
-Fig.~\ref{fig:noise_over_time_briedel_lastseasondepoyed}. 
+Fig.~\ref{fig:noise_over_time_briedel_lastseasondepoyed}.
 
 %As the ice refreezes after deployment, it
 %becomes cleaner and impurities introduced during the drill process (mainly
