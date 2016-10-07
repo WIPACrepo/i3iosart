@@ -32,7 +32,7 @@ pulser circuit providing known charges; a circuit providing a reference DC
 bias voltage level; the 20 MHz oscillator on the Main
 Board, used as the timing reference; and single photoelectrons, either from
 ambient ``dark noise'' photons or a low-luminosity LED on the Main
-Board. The Main Board oscillator is manufactured by Vectron
+Board.  The Main Board oscillator is manufactured by Vectron
 International (model C2560A-0009 TCXO) and has a certified stability
 of roughly $1 \times 10^{-11}$ for a sample interval of 5 seconds~\cite{ICECUBE:DAQ}.
 PMT on the same DOM, as opposed to the LED flashers described in
@@ -52,7 +52,9 @@ little under three hours. Because the calibration procedure produces
 light, these runs are excluded from normal analyses.
 
 First, the discriminator circuits used to trigger the DOM are calibrated
-using the electronic pulser circuit.  This calibration is later refined using actual
+using the electronic pulser circuit, which is capacitively coupled into the
+analog front-end before the delay board~\cite{ICECUBE:DAQ}.  This
+calibration is later refined using actual 
 PMT waveforms, once the PMT gain is known.  Next, the ATWD voltage levels
 are calibrated by sweeping the input DC bias voltage and recording the
 response.  Because of the slight variations in the ATWD circuits, this
@@ -92,8 +94,9 @@ the ATWDs; this relationship is linear in $1/\sqrt{V}$.
 
 The PMT gain as a function of high voltage is calibrated using ambient
 ``dark noise'' photons --- the charge $e$ prior to amplification is quantized
-and known.  At each voltage level, a histogram of many waveform charges is recorded,
-and each histogram is fit with an exponential plus Gaussian model (see
+and known.  At each voltage level, a histogram of many observed charges is
+recorded, where the charge is determined by numerical integration of the waveform.
+Each histogram is fit with an exponential plus Gaussian model (see
 Fig.~\ref{fig:domcal_hvfit}).  The peak of the Gaussian component is used to
 determine the amplification of the PMT at each voltage, and a linear fit
 of $\log_{10}(\mathrm{gain})$ versus $\log_{10}(\mathrm{voltage})$ allows
@@ -110,7 +113,7 @@ unfolding used in data processing.
 \begin{figure}[!h]
  \centering
  \includegraphics[width=0.6\textwidth]{graphics/dom/domcal/hvfit.pdf}
- \caption{Sample SPE charge spectrum as recorded by DOMCal and fit
+ \caption{Sample SPE charge spectrum at a gain of $10^{7.5}$ as recorded by DOMCal and fit
    \textit{in situ} with a Gaussian+exponential model.} 
  \label{fig:domcal_hvfit}
 \end{figure}
@@ -141,18 +144,24 @@ has no additional pedestal pattern, but for the ATWD, it is important to disting
 between the pedestals of individual samples 
 and the common baseline of the entire waveform.  In order to remove the
 sample-dependent offset, the DOM subtracts the pedestal pattern from
-the ATWD waveform before sending it to the surface. The pedestal pattern is
-computed at the beginning of each 
-run by comparing 25 average pedestal waveforms. The autocorrelation coefficient
-of the difference between pairs of averaged pedestals is computed to detect light
-contamination in the pedestals, and the shift between the baseline of
-the pairs is calculated to verify that the baseline is stable. This
-procedure ensures that fewer than 1 DOM in 1000 runs will contain a
-contaminated baseline. Thereafter, both ATWD
+the ATWD waveform before sending it to the surface.  Thereafter, both ATWD
 and fADC waveforms can be calibrated by first subtracting the common
 baseline from each sample, then multiplying by the gain. Correct charge
 measurement and energy reconstruction depends on correct measurement
 of the baseline, as discussed in Sec.~\ref{sec:baselines}.
+
+The pedestal pattern is computed at the beginning of each 
+run by averaging 200 forced-readout waveforms.  Single photoelectrons in
+the individual waveforms are averaged out, but a single coincident bright event can
+result in an offset in the pedestal average.  In order to avoid such
+light contamination, a second average is computed, and the
+autocorrelation coefficient of the difference between the two pedestal
+averages is computed.  The autocorrelation test detects averages in which a
+single waveform contains at least a 15 PE pulse (approximately 0.1 PE in the
+average).  If light contamination is detected, the procedure is repeated.
+The shift between the baseline of the pairs is also calculated to verify
+that the baseline is stable.  This procedure ensures that fewer than 1 DOM
+in 1000 runs will contain a contaminated baseline.
 
 The baseline is set to about 10\% of the maximum value of the
 digitizer counts in
@@ -249,10 +258,10 @@ continuously running procedure for translating hit timestamps based on the
 individual free-running DOM clocks to the synchronized surface clocks in the
 ICL, in order to establish a standard time base for the array to
 $O(\mathrm{ns})$ accuracy.  Subsequently, the ICL-based hit timestamps can
-then be translated to UTC.  The scheme used for the timestamp translation involves
+then be translated to UTC.  The scheme used for the time transfer involves
 transmission of a pulse to and from each DOM and is shown in
 Fig.~\ref{fig:rapcal_symmetry}.  The base implementation is described in
-\cite{ICECUBE:DAQ}; we describe here the details of the time translation
+\cite{ICECUBE:DAQ}; we describe here the details of the 
 algorithm and validation of the DOM relative time calibration. 
 
 While data transmission is paused, a bipolar pulse is generated and sent to
@@ -262,7 +271,7 @@ as the one generated on the surface --- is generated in the DOM and sent
 back to the surface.  The pulses are timestamped using the local
 clock count at each transmission and reception point.  The symmetry of the
 pulses sent in each direction and symmetry of the down- and up- cable
-transmission enables a translation from each free-running DOM clock to the
+transmission enables the time transfer from each free-running DOM clock to the
 surface clock and hence to UTC, without prior knowledge of the cable length
 or its dispersive properties.
 
@@ -516,8 +525,8 @@ appeared as sinusoidal or spiky modulations in the waveform
 baselines.  To mitigate this effect, one DOM was operated without PMT high
 voltage and used to monitor the RF broadcasts and tag periods of RFI in
 order to avoid data contamination.  Also
-in 2009, DOM 68-42 was damaged by a high voltage setting during DOM
-calibration, and appeared to begin sparking, causing sinusoidal distortions
+in 2009, RFI from DOM 68-42 affected nearby DOMs after it failed during DOM
+calibration and appeared to begin sparking, resulting in sinusoidal distortions
 in the baselines of neighboring DOMs. The meteor radar
 transmitter is no longer operating, and investigations into RFI
 from more recent radar activities at South Pole (SuperDARN
@@ -628,11 +637,11 @@ regular calibration using the methods previously described.
 \subsection{\label{sec:optical_stability}Optical Efficiency Stability}
 
 The detector response in IceCube is verified with low energy muons as
-described in \cite{IC3:ereco}. The detector response is monitored in each run using the track
+described in Ref.~\cite{IC3:ereco}. The detector response is monitored in each run using the track
 detection probability (TDP) calculated from bright muon tracks
 with more than 30 hits in IceCube. The muon 
 tracks are reconstructed using the likelihood methods described in
-\cite{Ahrens:2003fg}, but charge and time information from the DOM under
+Ref.~\cite{Ahrens:2003fg}, but charge and time information from the DOM under
 study are excluded from the reconstruction. The TDP is
 defined for each DOM as the ratio of the number of detected tracks
 within 100~m of the DOM to the total number of tracks within 100~m of
@@ -671,20 +680,46 @@ charge collected between 2012 and 2015.
 
 The vast majority of background hits result from dark noise, i.e. effects
 that lead to the emission of an electron from the cathode of the PMT in the
-absence of a photon source external to the DOM. The average total hit rate of
-DOMs with standard PMTs is \SI{560}{\hertz} and \SI{780}{\hertz} for high
-quantum efficiency DOMs. The dark noise is composed of two major 
-components.  First, electronics noise and radioactive decays in the DOM material form
-the uncorrelated (Poissonian) noise pulses with a rate between
-\SI{230}{\hertz} and \SI{250}{\hertz}, following the Richardson law for
-thermal emission.  The second component is the so-called correlated
-noise with a hit rate that increases with decreasing temperature from
-\SI{280}{\hertz} to \SI{340}{\hertz} (Figure
-\ref{fig:dom_darknoise_vs_temperature}).  This temperature-dependent noise
-rate profile was determined by combining a measured temperature profile of
+absence of a photon source external to the DOM. 
+Dark noise is a complex phenomenon with numerous possible sources,
+including: thermionic emission, electronic noise, field emission 
+within the PMT, Cherenkov light from radioactive decays, and
+scintillation / luminescence in the glass of the PMT and pressure sphere.
+The average total in-ice hit rate of DOMs with standard PMTs is
+\SI{560}{\hertz} and \SI{780}{\hertz} for high quantum efficiency DOMs. The
+contribution from cosmic-ray muons, estimated as the in-ice HLC hit rate,
+is small and decreases with depth from 25 Hz to 5 Hz. 
+
+The dark noise can be characterized as a combination of uncorrelated
+(Poissonian) noise pulses with a rate between \SI{230}{\hertz} and
+\SI{250}{\hertz}, and a correlated component, with a pulse rate from
+\SI{280}{\hertz} to \SI{340}{\hertz}.  A comparison at low temperature of
+DOM dark noise to that of a bare PMT suggests that the majority of the
+noise originates from the glass pressure sphere.  Cherenkov light from
+$^{40}\mathrm{K}$ decays contributes to the uncorrelated noise component,
+and thus the potassium content of the glass was limited.
+Measurements of early samples indicated a $\mathrm{K}_2\mathrm{O}$
+concentration of 0.03\% by weight, roughly corresponding to 100 Bq of beta
+decays per sphere. 
+
+The correlated noise manifests itself as an overabundance of short time
+intervals between hits in a single DOM compared to the Poisson expectation
+(Fig.~\ref{fig:darknoise_deltaT}). 
+The temperature dependence of the noise rate
+\ref{fig:dom_darknoise_vs_temperature}) was determined by combining a
+measured temperature profile of 
 the the South Pole ice cap \cite{price2002temperature} with a fit of the
 Poissonian expectation of the total dark noise rate to every individual
-DOM.
+DOM, and was verified in lab measurements.  
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{graphics/dom/performance/darknoise/DarkNoise_Layer2Doms.pdf}
+ \caption{Time interval between successive hits for all next-to-top layer
+   DOMs (DeepCore excluded).  The line is an exponential fit to the
+   Poissonian regime.}
+ \label{fig:darknoise_deltaT}
+\end{figure}
 
 \begin{figure}
   \centering
@@ -694,46 +729,43 @@ DOM.
   \label{fig:dom_darknoise_vs_temperature}
 \end{figure}
 
-\begin{figure}
-  \centering
-  \includegraphics[width=0.7\textwidth]{graphics/dom/performance/darknoise/DarkNoise_Layer2Doms.pdf}
- \caption{Time interval between successive hits for all next-to-top layer DOMs (DeepCore excluded).}
- \label{fig:darknoise_deltaT}
-\end{figure}
-
-The correlated noise component manifests itself in an overabundance of
-short time intervals between hits in a single DOM compared to the
-Poisson expectation (Fig.~\ref{fig:darknoise_deltaT}). The short time
-intervals are correlated and are clustered in bursts with an average number of
+The short time intervals are clustered in bursts (uninterrupted sequences
+of time intervals less than 3 ms) with an average number of
 hits per burst increasing from \num{3.3} at \SI{-10}{\celsius} to \num{3.8} at
 \SI{-30}{\celsius}. A study with forced-readout data shows that the
 phenomenology of the correlated noise component in IceCube is in general in
-good agreement with results reported in the literature~\cite{meyer_noise}, but a satisfying
-physical explanation is still to be determined.  One candidate for the source
-of the process is luminescence of the glass triggered by radioactive decay of
-elements such as thorium and uranium contained in the glass of the DOM.
+good agreement with results reported in Ref.~\cite{meyer_noise}, but an
+unambiguous physical explanation is still to be confirmed.  Stimulation of
+glass samples with radioactive sources results in scintillation
+\cite{helbing_glass}, suggesting that luminescence of the glass triggered
+by the radioactive decay of $^{40}\mathrm{K}$ and other elements in the
+pressure sphere is responsible.  Naturally-occurring cerium in the glass is
+a candidate for the active scintillator. 
 
 The various sources of dark noise present in a DOM can be separated using
-the time between successive untriggered hits in HitSpool data
-(Sec.~\ref{sec:domhub_hitspool}), as shown in 
+the time between successive untriggered hits in HitSpool 
+data (Sec.~\ref{sec:domhub_hitspool}), as shown in 
 Fig.~\ref{fig:darknoise_deltaT_components}. An overview of the various 
-noise components is given in Table \ref{tab:noise}.  Late-time
+noise components and their parameterizations is given in Table \ref{tab:noise}.  Late-time
 correlated afterpulses, a common feature of PMTs, is attributed to
 ionization of residual gases by electrons that were accelerated between
-the dynodes.  A parametrized noise model incorporating these various sources
-is used for detector simulation \cite{larson2013simulation}. 
+the dynodes.  Although afterpulses occur at various time delays, this
+component is parametrized here with a single average timescale.  A
+noise model incorporating these various sources is used for detector
+simulation \cite{larson2013simulation}. 
 
 \begin{table}[h!]
-\caption{Characteristics of noise components in IceCube DOMs, adapted from \cite{stanisha_noise_14}.}
+\caption{Characteristics of noise components in IceCube DOMs, adapted from
+  Ref.~\cite{stanisha_noise_14}.}
   \centering
   \footnotesize
 \begin{tabularx}{\textwidth}{lXXr}
 \toprule
 Noise Component& Origin & Distribution & Parameters \\
 \midrule
-Afterpulses & PMT & Gaussian & $\mu = \SI{6}{\micro\second}$, $\sigma = \SI{2}{\micro\second}$\\
-Uncorrelated & Thermal noise, \newline radioactive decay & Poissonian & $\lambda \simeq \SI{250}{\hertz}$\\
-Correlated & Luminescence (?) & Log-normal &
+afterpulses & PMT & Gaussian & $\mu = \SI{6}{\micro\second}$, $\sigma = \SI{2}{\micro\second}$\\
+uncorrelated & thermal noise, \newline radioactive decay & Poissonian & $\lambda \simeq \SI{250}{\hertz}$\\
+correlated & luminescence (?) & log-normal &
 $\mu = \num{-6}\ [\log_{10}(\delta t/\mathrm{sec})]$, \\
 & & & 
 $\sigma = \num{0.85}\ [\log_{10}(\delta t/\mathrm{sec})]$ \\
@@ -747,25 +779,29 @@ $\sigma = \num{0.85}\ [\log_{10}(\delta t/\mathrm{sec})]$ \\
   \includegraphics[width=0.8\textwidth]{graphics/dom/performance/darknoise/SingleDOM_HitSpool_Hits_deltaT_fits_example.pdf}
  \caption{Histogram of time differences between successive hits from HitSpool data of
 DOM 15 on string 27 (blue) on a logarithmic scale in order to visualize the
-different noise components \cite{heereman2015hitspooling}.}
+different noise components \cite{heereman2015hitspooling}.  A fourth
+subdominant component centered at \SI{100}{\micro\second} is not parameterized and is still under study.}
  \label{fig:darknoise_deltaT_components}
 \end{figure}
 
 The evolution of the dark noise contribution to the total rate over time was investigated using the
 supernova scaler stream \cite{IC3:supernova, briedel_phd}, effectively 
 the summed dark noise rate of the detector with an artificial deadtime
-applied to reduce the effect of correlated noise. A long-term exponential decay in
+applied to reduce the effect of correlated noise
+(Sec.~\ref{sect:SNDAQ}). A long-term exponential decay in 
 the noise rate is visible; this may be caused by 
-decreasing triboluminescence arising from the initial ``freeze-in''
+decreasing triboluminescence \cite{ice_tribo} arising from the initial ``freeze-in''
 of newly deployed DOMs, impurities introduced during the drill
 process, or a combination of the two effects.  The decay
 is especially recognizable in the standard deviation of the scaler
 distribution (Fig.~\ref{fig:noise_over_time_briedel}), which decreases by
-25\% over the course of the three years. Changes in the mean rate are
+25\% over the course of the three years, with the decrease increasing with
+depth~\cite{Piegsa09}. Changes in the mean rate are
 initially dominated by the decay component and later by the seasonal
 variation of atmospheric muons. The noise
-rate decay is seen to be more pronounced when selecting only strings
-which were deployed in the previous season, as shown in Fig.~\ref{fig:noise_over_time_briedel_lastseasondepoyed} for strings deployed in the last drill season of IceCube.
+rate decay is most pronounced when selecting strings
+that were deployed in the final construction season, as shown in
+Fig.~\ref{fig:noise_over_time_briedel_lastseasondepoyed}.
 
 %As the ice refreezes after deployment, it
 %becomes cleaner and impurities introduced during the drill process (mainly
@@ -802,10 +838,11 @@ Since the dark noise components are not correlated between
 DOMs, the dark noise rate change is not prominent in local coincidence
 hits, which are dominated by atmospheric muons (Fig.
 \ref{fig:hlc_over_time_briedel}).  Thus, the detector trigger rate as well
-as higher-level reconstruction variables are relatively isolated from the
-noise rate variations.  Nevertheless, the noise rates for each DOM are
+as many higher-level reconstruction variables are relatively isolated from the
+noise rate variations.  Nevertheless, the total hit rates for each DOM are
 tracked over time and updated yearly in a database for simulation and
-reconstruction purposes. 
+reconstruction purposes.  Seasonal variations of in-ice DOM hit rates are
+below the 1\% level.
 
 \begin{figure}[!h]
  \centering

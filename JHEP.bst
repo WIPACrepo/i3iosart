@@ -958,7 +958,7 @@ FUNCTION {phdthesis}
   new.block
   format.eprint output
   new.block
-  % note output
+  note output
   doi output
   fin.entry
 }
@@ -996,7 +996,7 @@ FUNCTION {techreport}
   address output
   format.date "year" output.check
   new.block
-  % note output
+  note output
   doi output
   fin.entry
 }
