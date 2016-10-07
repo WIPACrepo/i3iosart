@@ -179,8 +179,9 @@ the broader context of the online systems.
 
 Digital communication between the DOR card and DOM occurs via copper
 twisted pairs, with two DOMs per pair on the in-ice cable, and one IceTop
-DOM per pair for increased bandwidth.  The physical layer signaling
-uses on-off keying with bipolar pulses.  The protocol is a custom
+DOM per pair for increased bandwidth (IceTop hit rates can exceed 3 kHz).
+The physical layer signaling uses on-off keying with bipolar pulses.  The
+protocol is a custom 
 packet-based scheme.  Each packet is assigned a sequence number, and all
 received packets are acknowledged if the sequence number is correct.  Each
 packet also contains a cyclic redundancy checksum to detect transmission errors.

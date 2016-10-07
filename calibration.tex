@@ -52,7 +52,7 @@ little under three hours. Because the calibration procedure produces
 light, these runs are excluded from normal analyses.
 
 First, the discriminator circuits used to trigger the DOM are calibrated
-using the electronic pulser circuit, which is capacatively coupled into the
+using the electronic pulser circuit, which is capacitively coupled into the
 analog front-end before the delay board~\cite{ICECUBE:DAQ}.  This
 calibration is later refined using actual 
 PMT waveforms, once the PMT gain is known.  Next, the ATWD voltage levels
@@ -715,7 +715,9 @@ DOM, and was verified in lab measurements.
 \begin{figure}
   \centering
   \includegraphics[width=0.7\textwidth]{graphics/dom/performance/darknoise/DarkNoise_Layer2Doms.pdf}
- \caption{Time interval between successive hits for all next-to-top layer DOMs (DeepCore excluded).}
+ \caption{Time interval between successive hits for all next-to-top layer
+   DOMs (DeepCore excluded).  The line is an exponential fit to the
+   Poissonian regime.}
  \label{fig:darknoise_deltaT}
 \end{figure}
 
@@ -744,7 +746,7 @@ The various sources of dark noise present in a DOM can be separated using
 the time between successive untriggered hits in HitSpool 
 data (Sec.~\ref{sec:domhub_hitspool}), as shown in 
 Fig.~\ref{fig:darknoise_deltaT_components}. An overview of the various 
-noise components and their parametrizations is given in Table \ref{tab:noise}.  Late-time
+noise components and their parameterizations is given in Table \ref{tab:noise}.  Late-time
 correlated afterpulses, a common feature of PMTs, is attributed to
 ionization of residual gases by electrons that were accelerated between
 the dynodes.  Although afterpulses occur at various time delays, this
@@ -788,7 +790,7 @@ the summed dark noise rate of the detector with an artificial deadtime
 applied to reduce the effect of correlated noise
 (Sec.~\ref{sect:SNDAQ}). A long-term exponential decay in 
 the noise rate is visible; this may be caused by 
-decreasing triboluminescence arising from the initial ``freeze-in''
+decreasing triboluminescence \cite{ice_tribo} arising from the initial ``freeze-in''
 of newly deployed DOMs, impurities introduced during the drill
 process, or a combination of the two effects.  The decay
 is especially recognizable in the standard deviation of the scaler

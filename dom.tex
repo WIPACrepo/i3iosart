@@ -198,7 +198,7 @@ The characteristics of the cured gel are specified to remain stable in the
 temperature range $-70^\circ$C to $45^\circ$C.  Visual inspection of
 non-deployed DOMs reveals no indication of crazing after more than 10
 years, and studies of the long-term optical efficiency of deployed DOMs
-reveal no measurable ageing effects (Sec.~\ref{sec:optical_stability}).  
+reveal no measurable aging effects (Sec.~\ref{sec:optical_stability}).  
 
 To reduce effects of the ambient South Pole magnetic field (\unit[550]mG, $17^\circ$
 from vertical) on the PMT collection efficiency, a mu-metal cage surrounds the PMT bulb up to
@@ -286,12 +286,15 @@ of a higher-gain channel, in order to avoid any loss of information due to
 digital saturation.  The mean amplifier gains of all deployed DOMs for high-,
 medium-, and low-gain channels are 15.6, 1.79, and 0.21 respectively.
 
-As explained in Ref.~\cite{ICECUBE:DAQ}, two sets of ATWD chips are operated alternately in order to
-reduce deadtime.  The remaining deadtime depends upon the DOM hit
-rate, which varies seasonally based on the atmospheric muon flux~\cite{ICECUBE:IceTop}. 
-The median fractional deadtime during a high-rate period for in-ice DOMs
-is $6.6\times10^{-5}$, for IceTop low-gain DOMs is $7.2\times 10^{-6}$, and
-for IceTop high-gain DOMs is $3.2 \times 10^{-3}$.  
+\begin{figure}[h]
+ \centering
+ \includegraphics[width=0.9\textwidth]{graphics/dom/functional/domfig3-DOMDataFlow.pdf}
+ \caption{Data flow diagram for recording and processing of PMT waveforms in the DOM to form 
+ "Hit Records" that are sent to the surface DAQ computers.  As shown by dashes, full waveform data are only included
+ when neighbor DOMs report time-coincident signals above the SPE discriminator threshold.  Additionally,
+ data from low gain channels are omitted for waveforms that are within range of higher gain channels.}
+ \label{fig:domdataflow}
+\end{figure}
 
 The ATWD recording duration is \unit[427]ns.  This is sufficient for
 reconstructing light produced within tens of meters of
@@ -310,16 +313,17 @@ the digitization process is aborted.  Conversely, when a nearest or next-to-near
 also signals a launch within $\pm$\unit[1]$\mu$s (local coincidence), the full waveform is compressed
 and included in the hit record.  The LC signaling operates via digital pulse codes sent on
 the extra wire pairs described in Sec.~\ref{sec:penetrator}.
- 
-\begin{figure}[h]
- \centering
- \includegraphics[width=0.9\textwidth]{graphics/dom/functional/domfig3-DOMDataFlow.pdf}
- \caption{Data flow diagram for recording and processing of PMT waveforms in the DOM to form 
- "Hit Records" that are sent to the surface DAQ computers.  As shown by dashes, full waveform data are only included
- when neighbor DOMs report time-coincident signals above the SPE discriminator threshold.  Additionally,
- data from low gain channels are omitted for waveforms that are within range of higher gain channels.}
- \label{fig:domdataflow}
-\end{figure}
+
+As explained in Ref.~\cite{ICECUBE:DAQ}, two sets of ATWD chips are
+operated alternately in order to reduce deadtime; the second ATWD is
+available to launch during the digitization step of the first.  Significant deadtime
+then only occurs after two back-to-back launches and depends on how many
+ATWD channels are digitized, or if the digitization was aborted due to lack
+of LC.  Therefore, the deadtime depends upon the DOM hit
+rate, which varies seasonally based on the atmospheric muon flux~\cite{ICECUBE:IceTop}. 
+The median fractional deadtime during a high-rate period for in-ice DOMs
+is $6.6\times10^{-5}$, for IceTop low-gain DOMs is $7.2\times 10^{-6}$, and
+for IceTop high-gain DOMs is $3.2 \times 10^{-3}$.  
 
 \subsubsection{\label{sec:flasher}Flasher Board}
 
