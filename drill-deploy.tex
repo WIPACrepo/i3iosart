@@ -21,7 +21,11 @@ is found in Ref.~\cite{ehwd}.
 
 The procedure involved a drilling phase to create the initial hole,
 followed by an upward reaming phase to give the 
-hole a targeted diameter profile.  The hole diameter was oversized relative to
+hole a targeted diameter profile.  During drilling, the location of
+the drill was recorded with an onboard navigational pack consisting of
+of a Paroscientific pressure sensor
+(model 8CB4000-I) to measure depth, two
+liquid pendulums to measure tilt and a fluxgate compass to measure orientation. The hole diameter was oversized relative to
 the DOM (35~cm diameter) to compensate for closure from refreezing to provide sufficient
 time to deploy instrumentation, with contingency time for delays.  The
 elapsed duration from the end of drilling until the hole closes to
@@ -138,7 +142,8 @@ tuning, initial (``seed'') water delivery to begin the drilling process, and Rod
 took four weeks.
 
 The production drilling sequence was to drill, ream, and move to the next
-location.  Independent firn drilling stayed ahead of deep drilling by at
+location. The drill crews worked in three shifts per day of ten people
+per shift. Independent firn drilling stayed ahead of deep drilling by at
 least two holes, and often the Rodwell and first few holes of
 the season had already been firn-drilled the prior season. Hole production rate was 48 hours per hole on average,
 and the quickest cycle time was 32 hours. The idle phase
@@ -151,7 +156,8 @@ austral summer season. Shutdown tasks included flushing the system with
 propylene glycol, blowing out the plumbing with compressed air, removing
 do-not-freeze equipment for warm storage, storing the TOS structures and
 other support equipment, and finally, moving the SES into place for the
-following season.  Due to a strong safety culture, IceCube had only
+following season.  Due to a strong safety culture and retention of
+experienced personnel, IceCube had only
 four reportable drilling-related safety incidents in approximately 52 on-ice 
 person-years. 
 
@@ -184,7 +190,7 @@ lowermost DOM were attached to the bottom of the in-ice cable via a 15.5~m
 steel cable. After lowering of the DOM and weights, the next DOM with a
 1.8~m penetrator assembly was attached to the in-ice cable. The two DOMs were
 then electrically connected to the in-ice cable at the breakout. A
-Paroscientific pressure sensor (model 8CB400D-I) was attached just above the second DOM
+Paroscientific pressure sensor (model 8CB4000-I) was attached just above the second DOM
 and a Keller AG pressure sensor (model 300DS-340-003700) was attached in the middle of the
 instrumented section of the string. The
 pressure sensors were read out during deployment to confirm that the string
@@ -308,10 +314,10 @@ downgoing muons~\cite{IC3:perf}.
 
 \subsubsection{\label{sec:trilateration}Trilateration Validation of DOM Coordinates}
 
-The Stage 2 geometry assumes that all strings are vertical. However,
-positional data from an inclinometer installed on the drill show that the string is not perfectly vertical,
-although deviations from the vertical are less than 1~m. The
-$(x,y)$-coordinates from the drilling data were validated on the DeepCore strings
+The Stage 2 geometry assumes that all strings are vertical. The
+location data from the drilling process show that the string is not perfectly vertical,
+although deviations from the vertical are typically less than 1~m. The
+$(x,y)$-coordinates from the drill location data were validated on the DeepCore strings
 using a trilateration method. In this method, the 5~DOMs closest to the
 flasher on each of the three closest strings surrounding the flasher are
 selected, and a circle of radius $r = \sqrt{d^2 - (z')^2)}$ is
@@ -337,9 +343,12 @@ the vertical string geometry from Stage 2.
 
 \begin{figure}[!ht]
   \captionsetup[subfigure]{labelformat=empty} \centering
-  \subfloat[]{\includegraphics[width=0.4\textwidth]{graphics/geometry/Trilat_full.pdf}}
-  \subfloat[]{\includegraphics[width=0.6\textwidth]{graphics/geometry/newtrilat85.pdf}}
-  \caption{Left: example of the trilateration procedure. Right: distance vs. relative depth as measured by flashers for
+  \subfloat[]{\includegraphics[width=0.48\textwidth]{graphics/geometry/trilat_circles.pdf}}
+  \subfloat[]{\includegraphics[width=0.48\textwidth]{graphics/geometry/newtrilat85.pdf}}
+  \caption{Left: example of three circles drawn around strings
+    receiving flasher data from string~80. The inner intersection
+    points of the circles are marked with triangles, and the centroid
+    of these points, marked with a black dot, is the fitted flasher position. Right: distance vs. relative depth as measured by flashers for
     two strings that were deployed at nearly the same depth with no
     anomalies during deployment. Right: the same plot for a different pair;
     in this case, the pressure sensor on the flashing string failed during

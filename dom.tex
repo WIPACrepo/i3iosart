@@ -304,7 +304,18 @@ also lower in amplitude, and the information is captured in the \unit[40]Msps fA
 The fADC samples continuously, and the FPGA is programmed to save an
 interval of \unit[6.4]$\mu$s after the launch. Its amplifier provides a
 dynamic range comparable to the high-gain ATWD channel, but has extra pulse shaping to accommodate the lower
-sampling speed.
+sampling speed. An example of a digitized waveform with multiple pulses is shown in
+Fig.~\ref{fig:mpe_waveform}.
+
+\begin{figure}[h]
+ \centering
+ \includegraphics[width=0.9\textwidth]{graphics/dom/functional/mpe_waveform.pdf}
+ \caption{Digitized waveforms in the ATWD (top) and the FADC (bottom):
+   the ATWD recording duration is 427~ns whereas the FADC recording
+   duration is 6.4~$\mu$s. Energy reconstruction in IceCube uses
+   the charge and time recorded in the waveform~\cite{IC3:ereco}.}
+ \label{fig:mpe_waveform}
+\end{figure}
 
 Every digitizer launch results in a ``hit'' record being sent to the surface computers, but the amount of
 information included depends on whether a signal was also detected in one of the neighboring DOMs.
