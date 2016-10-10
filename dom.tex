@@ -325,14 +325,14 @@ the extra wire pairs described in Sec.~\ref{sec:penetrator}.
 
 As explained in Ref.~\cite{ICECUBE:DAQ}, two sets of ATWD chips are
 operated alternately in order to reduce deadtime; the second ATWD is
-available to launch during the digitization step of the first.  Significant deadtime
-then only occurs after two back-to-back launches and depends on how many
-ATWD channels are digitized, or if the digitization was aborted due to lack
-of LC (Fig.~\ref{fig:atwd_timing}).  Therefore, the deadtime depends upon the DOM hit
-rate, which varies seasonally based on the atmospheric muon flux~\cite{ICECUBE:IceTop}. 
-The median fractional deadtime during a high-rate period for in-ice DOMs
-is $6.6\times10^{-5}$, for IceTop low-gain DOMs is $7.2\times 10^{-6}$, and
-for IceTop high-gain DOMs is $3.2 \times 10^{-3}$.  
+available to launch during the digitization step of the first,
+after a re-arm delay of $50~\mathrm{ns}$.  Significant deadtime
+only occurs after two back-to-back launches and depends on how many
+ATWD channels are digitized, and whether the initial hit had an LC
+condition.  Since the full waveform is not needed in the absence of LC, the
+digitization can be aborted early, and the ATWD channels can be cleared and
+reset.  The timing sequence for back-to-back hits is shown in
+Fig.~\ref{fig:atwd_timing}).
 
 \begin{figure}[]
  \centering
@@ -342,6 +342,14 @@ for IceTop high-gain DOMs is $3.2 \times 10^{-3}$.
    horizontal (time) axis is not to scale.}
  \label{fig:atwd_timing}
 \end{figure}
+
+The total accumulated deadtime is measured by the DOMs by counting
+discriminator crossings when both ATWDs and the fADC are not acquiring
+data. This deadtime varies seasonally based on the atmospheric muon
+flux~\cite{ICECUBE:IceTop}.  The median fractional deadtime during a
+high-rate period for in-ice DOMs 
+is $6.6\times10^{-5}$, for IceTop low-gain DOMs is $7.2\times 10^{-6}$, and
+for IceTop high-gain DOMs is $3.2 \times 10^{-3}$.  
 
 \subsubsection{\label{sec:flasher}Flasher Board}
 
