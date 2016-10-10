@@ -27,18 +27,16 @@ the precise recording of a wide variety of PMT pulse widths and amplitudes with 
 a challenging deployment environment, and long-term reliability.
 
 %============================================================
-\begin{figure}
-\vspace{3pt}
-\begin{center}
-\begin{tabular}{c@{\hspace{0pt}}c}
-\includegraphics[width=0.49\textwidth,clip=true]{graphics/dom/functional/domfig1a-DOM3DModel.png} & \
-\includegraphics[width=0.49\textwidth,clip=true]{graphics/dom/functional/domfig1b-DOMBlockDiagram.pdf} \\
-\end{tabular}
-\end{center}
-\caption{Components of the DOM, showing mechanical layout (left) and functional connections (right).
-}
-\label{fig:domcomponents}
+
+\begin{figure}[!h]
+  \captionsetup[subfigure]{labelformat=empty}
+  \centering
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/functional/domfig1a-DOM3DModel.pdf}}
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/functional/domfig1b-DOMBlockDiagram.pdf}}
+  \caption{Components of the DOM, showing mechanical layout (left) and functional connections (right).}
+  \label{fig:domcomponents}
 \end{figure}
+
 %============================================================
 
 
@@ -330,11 +328,20 @@ operated alternately in order to reduce deadtime; the second ATWD is
 available to launch during the digitization step of the first.  Significant deadtime
 then only occurs after two back-to-back launches and depends on how many
 ATWD channels are digitized, or if the digitization was aborted due to lack
-of LC.  Therefore, the deadtime depends upon the DOM hit
+of LC (Fig.~\ref{fig:atwd_timing}).  Therefore, the deadtime depends upon the DOM hit
 rate, which varies seasonally based on the atmospheric muon flux~\cite{ICECUBE:IceTop}. 
 The median fractional deadtime during a high-rate period for in-ice DOMs
 is $6.6\times10^{-5}$, for IceTop low-gain DOMs is $7.2\times 10^{-6}$, and
 for IceTop high-gain DOMs is $3.2 \times 10^{-3}$.  
+
+\begin{figure}[]
+ \centering
+ \includegraphics[width=1.0\textwidth]{graphics/dom/functional/atwd_timing.pdf}
+ \caption{Timing of ATWD and fADC acquisition and associated deadtime, for
+   back-to-back HLC hits with one ATWD gain channel digitized and read out.  The
+   horizontal (time) axis is not to scale.}
+ \label{fig:atwd_timing}
+\end{figure}
 
 \subsubsection{\label{sec:flasher}Flasher Board}
 
