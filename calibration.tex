@@ -35,7 +35,8 @@ ambient ``dark noise'' photons or a low-luminosity LED on the Main
 Board.  The Main Board oscillator is manufactured by Vectron
 International (model C2560A-0009 TCXO) and has a certified stability
 of roughly $1 \times 10^{-11}$ for a sample interval of 5 seconds~\cite{ICECUBE:DAQ}.
-PMT on the same DOM, as opposed to the LED flashers described in
+The Main Board LED is used to illuminate the PMT on the same DOM, as opposed
+to the LED flashers described in 
 Sec.~\ref{sec:flasher} which stimulate other DOMs. This LED produces
 zero to a few tens of photoelectrons at the PMT~\cite{ICECUBE:DAQ}. Analysis and fitting of the
 calibration results is done by the DOMCal software, with the results being
@@ -51,9 +52,9 @@ supernova) during calibration. The total calibration run length is a
 little under three hours. Because the calibration procedure produces
 light, these runs are excluded from normal analyses.
 
-First, the discriminator circuits used to trigger the DOM are calibrated
+First, the discriminator circuits used to launch the DOM are calibrated
 using the electronic pulser circuit, which is capacitively coupled into the
-analog front-end before the delay board~\cite{ICECUBE:DAQ}.  This
+analog front-end before the Delay Board~\cite{ICECUBE:DAQ}.  This
 calibration is later refined using actual 
 PMT waveforms, once the PMT gain is known.  Next, the ATWD voltage levels
 are calibrated by sweeping the input DC bias voltage and recording the
@@ -69,9 +70,9 @@ condition of the DOMs, and since data-taking conditions cannot be exactly
 replicated while running DOMCal, the baselines used during data-taking are
 determined instead by using averaged forced triggers taken during a normal
 run (Sec.~\ref{sec:baselines}).  DOMCal can still use its own
-baselines for charge integration during the calibration procedure.
+baselines for numerical charge integration during the calibration procedure.
 
-The highest-gain channels of each ATWD is calibrated using the electronic
+The highest-gain channels of each ATWD are calibrated using the electronic
 pulser circuit, and then the gains of the other ATWD channels and the fADC
 are determined by varying the pulser output and comparing the charges
 simultaneously recorded in multiple gain channels.  This relative
@@ -96,12 +97,13 @@ The PMT gain as a function of high voltage is calibrated using ambient
 ``dark noise'' photons --- the charge $e$ prior to amplification is quantized
 and known.  At each voltage level, a histogram of many observed charges is
 recorded, where the charge is determined by numerical integration of the waveform.
-Each histogram is fit with an exponential plus Gaussian model (see
-Fig.~\ref{fig:domcal_hvfit}).  The peak of the Gaussian component is used to
+Each histogram is fit with an exponential plus Gaussian model
+(Fig.~\ref{fig:domcal_hvfit}).  The peak of the Gaussian component is used
+to 
 determine the amplification of the PMT at each voltage, and a linear fit
 of $\log_{10}(\mathrm{gain})$ versus $\log_{10}(\mathrm{voltage})$ allows
 the high voltage of each PMT to be tuned to the desired operating point ($10^7$
-for in-ice DOMs; see Fig.~\ref{fig:domcal_hv_settings}).  Small 
+for in-ice DOMs; Fig.~\ref{fig:domcal_hv_settings}).  Small 
 corrections ($3-5\%$) to the gain of each DOM are determined using charge
 distributions recorded by the Processing and Filtering system
 (Sec.~\ref{sect:online:filter}) during normal data-taking.  These
@@ -151,12 +153,12 @@ measurement and energy reconstruction depends on correct measurement
 of the baseline, as discussed in Sec.~\ref{sec:baselines}.
 
 The pedestal pattern is computed at the beginning of each 
-run by averaging 200 forced-readout waveforms.  Single photoelectrons in
+run by averaging 200 forced-readout waveforms.  Accidental single photoelectrons in
 the individual waveforms are averaged out, but a single coincident bright event can
 result in an offset in the pedestal average.  In order to avoid such
 light contamination, a second average is computed, and the
 autocorrelation coefficient of the difference between the two pedestal
-averages is computed.  The autocorrelation test detects averages in which a
+averages is computed at two different lags.  This autocorrelation test detects averages in which a
 single waveform contains at least a 15 PE pulse (approximately 0.1 PE in the
 average).  If light contamination is detected, the procedure is repeated.
 The shift between the baseline of the pairs is also calculated to verify
@@ -166,7 +168,7 @@ in 1000 runs will contain a contaminated baseline.
 The baseline is set to about 10\% of the maximum value of the
 digitizer counts in
 order to capture signals that go below the baseline. Since 2012, the
-baseline value for each DOM is configured (see Sec.~\ref{sect:online:daqdomconfig}) in order to ensure 
+baseline value for each DOM is configured (Sec.~\ref{sect:online:daqdomconfig}) in order to ensure 
 stability. The baseline value differs for each digitizer channel in
 each DOM, ranging from 112 to 161 counts in the fADC and 109 to 172
 counts in the ATWD. The baselines for each digitizer channel in each DOM are measured with
@@ -180,7 +182,7 @@ from the fADC and ATWD of a typical DOM are shown in Figure~\ref{fig:raw_baselin
   \centering
   \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/fadc_average_beacon_raw.pdf}}
   \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/ATWD_average_beacon_raw.pdf}}
-  \caption{Beacon waveforms from the fADC (left) and ATWD (right) of
+  \caption{Averaged beacon waveforms from the fADC (left) and ATWD (right) of
     an IceCube DOM. The waveforms are an average of approximately $1000$ beacon
    launches. The baseline, which is the mean value of the
     beacon waveform, is shown as a horizontal red line. Typical raw SPE
@@ -280,8 +282,8 @@ or its dispersive properties.
  \includegraphics[width=0.6\textwidth]{graphics/dom/rapcal/rapcal_symmetry.pdf}
  \caption{Diagram of the RAPCal time calibration scheme (not to scale).
    Each transmitted and received pair of signals is
-   timestamped in the local clock domain, and by the symmetry of the
-   situation the midpoints between transmitted and received timestamps are
+   timestamped $(T_{\mathrm{tx}},T_{\mathrm{rx}})$ in the local clock domain, and by the symmetry of the
+   situation the midpoints $T_C$ between transmitted and received timestamps are
    synchronous.} 
  \label{fig:rapcal_symmetry}
 \end{figure}
@@ -291,7 +293,7 @@ or its dispersive properties.
  \includegraphics[width=0.6\textwidth]{graphics/dom/rapcal/dom_wf_zero_crossing.pdf}
  \caption{Digitized RAPCal pulse as received by a DOM, after cable dispersion.  The
    zero-crossing of the baseline-subtracted pulse is used as a fine-delay
-   correction to the received timestamp.}
+   correction $f$ to the received timestamp $T_{\mathrm{rx}}$.}
  \label{fig:rapcal_zero_crossing}
 \end{figure}
 
@@ -301,8 +303,7 @@ from each DOM therefore results in a series of four timestamps
 $T_{\mathrm{tx}}^{\mathrm{DOR}}$, $T_{\mathrm{rx}}^{\mathrm{DOM}}$, 
 $T_{\mathrm{tx}}^{\mathrm{DOM}}$,  and $T_{\mathrm{rx}}^{\mathrm{DOR}}$
 (Fig.~\ref{fig:rapcal_symmetry}), with timestamps in periods
-of the 20MHz clocks of the DOM and surface electronics (DOR, see
-Sect.~\ref{sect:online:master_clock}).  In order to improve the precision
+of the 20MHz clocks of the DOM and surface electronics (DOR, Sect.~\ref{sect:online:master_clock}).  In order to improve the precision
 beyond the sampling speed of the communications ADC, a ``fine delay'' correction $f$ to
 $T_{\mathrm{rx}}^{\mathrm{DOM}}$ and $T_{\mathrm{rx}}^{\mathrm{DOR}}$ is calculated by interpolating
 to find the negative-going baseline crossing, with the baseline voltage
@@ -360,14 +361,14 @@ tracking the cable delay from RAPCal, determined by
 
 \noindent A representative distribution of $T_{\mathrm{cable}}$ from one DOM over an 8-hour
 data-taking run is shown in Fig.~\ref{fig:rapcal_cable_len}, with a
-standard deviation of 0.6 ns.  Individual $T_{\mathrm{cable}}$
-measurements that deviate by more than 10 ns from a moving average are discarded.
+standard deviation of 0.6 ns.  Individual RAPCal measurements in which $T_{\mathrm{cable}}$
+deviates by more than 10 ns from a moving average are discarded.
 
 \begin{figure}[!h]
  \centering
  \includegraphics[width=0.6\textwidth]{graphics/dom/rapcal/tcal_hist_22-60.pdf}
  \caption{Distribution of one-way cable delays from multiple RAPCal
-   measurements on DOM 22-60 (bottom of String 22).}
+   measurements on DOM 22-60 (bottom of String 22), shown with a Gaussian fit.}
  \label{fig:rapcal_cable_len}
 \end{figure}
 
@@ -421,7 +422,7 @@ by combining PMT measurements at 337~nm and a separate model of wavelength-
 and angle-dependent effects.  Absolute sensitivity measurements were
 performed on 13 IceCube PMTs, using single photons from a primary 337~nm laser beam of calibrated
 intensity~\cite{ICECUBE:PMT}. The results agree well with independent
-Hamamatsu measurements of sensitivity in the range $270-730$nm, which
+Hamamatsu measurements of sensitivity in the range 270--730~nm, which
 were then normalized to the 337~nm measurement.  The resulting quantum
 efficiency at the center of the PMT at 390~nm is 25\%.  A full
 simulation model for the DOM includes the wavelength dependence of the PMT
@@ -537,15 +538,15 @@ baselines or in RAPCal time stability.
 
 The gain stability of the DOM, or the stability of the amplified charge
 from converted photons, depends on a number of factors including stability
-of the PMT high voltage, Main Board channel amplifiers, and the digitizers.
+of the PMT high voltage, Main Board channel preamplifiers, and the digitizers.
 We can examine these subsystems using both historical calibration results
 as well as by tracking the SPE charge during data-taking.
 
 The gain stability of the DOM electronics includes variations in the
-front-end electronic amplifiers and the digitizers themselves.  The
-stability is demonstrated by comparing the Main Board channel amplifier gains
+front-end electronic preamplifiers and the digitizers themselves.  The
+stability is demonstrated by comparing the Main Board channel preamplifier gains
 from sets of calibrations taken from 2011 to 2016
-(Fig.~\ref{fig:domcal_ch_gain}).  From year to year, the amplifier gain 
+(Fig.~\ref{fig:domcal_ch_gain}).  From year to year, the preamplifier gain 
 calibration is repeatable to 0.1\%, 0.2\%, and 0.5\% in the high-gain,
 medium-gain, and low-gain channels respectively.  Since detector completion
 in 2011, a small systematic shift of $-0.3\%$ is visible in the low-gain
@@ -558,7 +559,7 @@ each DOM.
   \centering
   \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/channel_gain_shift_2016_2015.pdf}}
   \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/channel_gain_shift_2016_2011.pdf}}
-  \caption{Fractional DOM channel amplifier gain shifts, from 2015 to
+  \caption{Fractional ATWD channel preamplifier gain shifts, from 2015 to
     2016 (left) and 2011 to 2016 (right).  Channels 0, 1, and 2 are
     high gain, medium gain, and low gain respectively.}
   \label{fig:domcal_ch_gain}
@@ -613,7 +614,7 @@ probability to detect single photons is effectively unchanged.
  \caption{Mean of the Gaussian fit to the SPE peak (top) and the SPE
    scaler rate (middle) and MPE
    scaler rate (bottom) from July 2015 to November 2015 for a DOM
-   which shows unpredictable gain shift behavior. The DOM
+   that shows unpredictable gain shift behavior. The DOM
    configuration was unchanged during this period.}
  \label{fig:gainshift_spe}
 \end{figure}
@@ -629,7 +630,7 @@ regular calibration using the methods previously described.
 \begin{figure}[!h]
  \centering
  \includegraphics[width=0.7\textwidth]{graphics/dom/reliability/pmt_gainshift.pdf}
- \caption{Fractional change in PMT gain from 2011 to 2016 for all in-ice
+ \caption{Distribution of the fractional changes in PMT gain from 2011 to 2016 for all in-ice
    DOMs, at the 2011 operating high voltage for each DOM.}
  \label{fig:pmt_gainshift}
 \end{figure}
@@ -644,7 +645,7 @@ tracks are reconstructed using the likelihood methods described in
 Ref.~\cite{Ahrens:2003fg}, but charge and time information from the DOM under
 study are excluded from the reconstruction. The TDP is
 defined for each DOM as the ratio of the number of detected tracks
-within 100~m of the DOM to the total number of tracks within 100~m of
+within $\SI{100}{\meter}$ of the DOM to the total number of tracks within $\SI{100}{\meter}$ of
 the DOM. This ratio depends both on the optical properties of the ice
 near the DOM and the optical efficiency of the DOM. We do not attempt
 to separate
@@ -662,6 +663,7 @@ in 2015.
   \centering
   \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/tdp_onestring.pdf}}
   \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/tdpcomparison.pdf}}
+  \vspace{-1\baselineskip}  
   \caption{Left: track detection probability (TDP) in String 80, with a
     mixture of standard DOMs (red crosses) and HQE DOMs (blue
     circles). Right: shift in TDP for all in-ice DOMs between 2012 and 2015; standard DOMs are in blue and
@@ -682,7 +684,7 @@ The vast majority of background hits result from dark noise, i.e. effects
 that lead to the emission of an electron from the cathode of the PMT in the
 absence of a photon source external to the DOM. 
 Dark noise is a complex phenomenon with numerous possible sources,
-including: thermionic emission, electronic noise, field emission 
+including thermionic emission, electronic noise, field emission 
 within the PMT, Cherenkov light from radioactive decays, and
 scintillation / luminescence in the glass of the PMT and pressure sphere.
 The average total in-ice hit rate of DOMs with standard PMTs is
@@ -706,7 +708,7 @@ The correlated noise manifests itself as an overabundance of short time
 intervals between hits in a single DOM compared to the Poisson expectation
 (Fig.~\ref{fig:darknoise_deltaT}). 
 The temperature dependence of the noise rate
-\ref{fig:dom_darknoise_vs_temperature}) was determined by combining a
+(Fig.~\ref{fig:dom_darknoise_vs_temperature}) was determined by combining a
 measured temperature profile of 
 the the South Pole ice cap \cite{price2002temperature} with a fit of the
 Poissonian expectation of the total dark noise rate to every individual
@@ -717,7 +719,7 @@ DOM, and was verified in lab measurements.
   \includegraphics[width=0.7\textwidth]{graphics/dom/performance/darknoise/DarkNoise_Layer2Doms.pdf}
  \caption{Time interval between successive hits for all next-to-top layer
    DOMs (DeepCore excluded).  The line is an exponential fit to the
-   Poissonian regime.}
+   Poissonian regime between 7 and 15 ms.}
  \label{fig:darknoise_deltaT}
 \end{figure}
 
@@ -841,15 +843,15 @@ hits, which are dominated by atmospheric muons (Fig.
 as many higher-level reconstruction variables are relatively isolated from the
 noise rate variations.  Nevertheless, the total hit rates for each DOM are
 tracked over time and updated yearly in a database for simulation and
-reconstruction purposes.  Seasonal variations of in-ice DOM hit rates are
+reconstruction purposes.  Seasonal variations of these rates are
 below the 1\% level.
 
 \begin{figure}[!h]
  \centering
  \includegraphics[width=0.95\textwidth]{graphics/dom/performance/darknoise/HLC_Whole_Detector_Mean_Variance_IC86_2011_2012_2013.pdf}
- \caption{Mean and standard deviation of the local coincidence rate distribution
-   \cite{briedel_phd}.  Secular changes in dark noise rate do not
-   contribute significantly to the local coincidence rate,
+ \caption{Mean and standard deviation of the local coincidence hit rate distribution
+   \cite{briedel_phd}.  Changes in dark noise rate do not
+   contribute significantly to changes in the local coincidence hit rate,
   which is dominated by seasonal and weather-related
    changes in the atmospheric muon flux.} 
  \label{fig:hlc_over_time_briedel}

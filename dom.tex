@@ -16,14 +16,15 @@
 
 The DOM is the fundamental light sensor and data acquisition unit for IceCube.
 It consists of a spherical glass housing 
-containing a downward-facing \SI{10}{''} diameter PMTs~\cite{ICECUBE:PMT}
-and associated circuit boards that allow near-autonomous operation (Figure~\ref{fig:domcomponents}).
-Data acquisition, control, calibration, communication, and low voltage power conversion 
+containing a downward-facing \SI{10}{''} diameter PMT~\cite{ICECUBE:PMT}
+and associated circuit boards that allow near-autonomous operation (Fig.~\ref{fig:domcomponents}).
+Data acquisition, control, calibration, communication, and low-voltage power conversion 
 are integrated in one annular circuit board (Main Board) that fits around the neck of the PMT~\cite{ICECUBE:DAQ}. 
-Separate circuit boards generate PMT high voltage, interface to the PMT pin,
+Separate circuit boards generate PMT high voltage, interface to the PMT pins,
 delay PMT signals, and generate calibration light flashes that can reach other DOMs.
 Key requirements for the DOM include
-the precise recording of a wide variety of PMT pulse widths and amplitudes with nanosecond time resolution, robustness in
+the precise recording of a wide variety of PMT pulse widths and amplitudes
+with nanosecond time resolution, robustness in 
 a challenging deployment environment, and long-term reliability.
 
 %============================================================
@@ -42,7 +43,7 @@ a challenging deployment environment, and long-term reliability.
 
 The PMT detects signals from particles interacting the ice, typically ranging over
 energies from \unit[10]GeV to \unit[10]PeV and distances up to \unit[500]m
-away.  At a gain of $10^7$ (see Sec.~\ref{sec:hv}), corresponding PMT waveforms can have amplitudes from \unit[1]mV up
+away.  At a gain of $10^7$ (Sec.~\ref{sec:hv}), corresponding PMT waveforms can have amplitudes from \unit[1]mV up
 to and beyond the linearity limit of the PMT (\unit[$\sim2$]V) and widths
 from \unit[12]ns to \unit[1500]ns.  In order to accommodate such a variety
 of signals, the DOM includes multiple digitizers with overlapping dynamic
@@ -59,7 +60,7 @@ $\mathcal{O}(\SI{10}{\second})$ of data before overflowing local memory
 (16MB of SDRAM), depending on hit rate.  Separately, the PMT hit rate is recorded by
 the DOM in \unit[1.6384]ms intervals, as a collective increase of all rates
 could signify detection of many low energy neutrinos in case of a Galactic
-supernova event (see Sec.~\ref{sect:SNDAQ}).
+supernova event (Sec.~\ref{sect:SNDAQ}).
 
 DOMs transmit their data to computers in the IceCube Laboratory building (ICL)
 using a twisted wire pair that also provides power (Sec.~\ref{sec:cable}).
@@ -69,22 +70,22 @@ initiated by a surface computer.  Separately, dedicated local coincidence
 (LC) wiring to neighbor DOMs above and below allows quick recognition of neighboring
 coincident hits, where
 nearest or next-to-nearest neighbors are hit within a common time
-window. The time window is configurable and is set to  \unit[1]$\mu$s
+window. The time window is configurable and is set to $\pm1~\mu\mathrm{s}$
 for both in-ice and IceTop DOMs. The signals are forwarded from one DOM to the next
-through the dedicated wiring; the span of the forwarding is
+through the dedicated wiring.  The span of the forwarding is
 software-configurable and is currently set to two for in-ice DOMs,
 i.e. a DOM signals its neighbor and next-to-nearest neighbor DOMs in
 both up and down directions along the string. The local coincidence
 connections for IceTop, which allow coincidences between the two tanks in a
 station, are described in Ref.~\cite{ICECUBE:IceTop}. Local coincidence
 hits (``HLC'' hits) often have complex PMT waveforms
-indicating multiple photons detected in each DOM, which are therefore saved
+indicating multiple photons detected in each DOM and are therefore saved
 in full detail; otherwise, the DOM saves abbreviated information appropriate
-to single photon detection (see Sec.~\ref{sect:online:dataflow}).
+to single photon detection (Sec.~\ref{sect:online:dataflow}).
 
 The DOM is capable of interpreting commands from the surface that specify
 tasks for configuration, data taking and transmission, monitoring or
-self-calibration.  Self-calibration functions establish PMT and amplifier
+self-calibration.  Self-calibration functions establish PMT and preamplifier
 gains as well as sampling speed (Sec.~\ref{sec:domcal}).  The RAPCal
 system (Sec.~\ref{sect:dom:rapcal}) is implemented for tracking each
 local DOM clock's offset from universal time, allowing PMT pulses that were
@@ -95,9 +96,10 @@ computers.
 
 \subsubsection{\label{sec:sphere}Glass Sphere and Harness}
 
-The glass sphere housing has an outer diameter \SI{13}{''} and thickness \SI{0.5}{''}.
+The glass sphere housing has an outer diameter of \SI{13}{''} and thickness
+of\SI{0.5}{''}.
 The spheres are specified to protect the inside electronics and PMT against long-term applied pressure of 
-\unit[250]bar (\unit[2.6]km equivalent water depth)
+\unit[250]bar (\unit[2.6]km-equivalent water depth)
 as well as temporary overpressure up to \unit[690]bar during the refreezing of melted ice in the drill hole.
 The housings were produced by Benthos, Inc., based on a design for deep-sea
 environments but using borosilicate glass from Kopp Glass
@@ -146,7 +148,7 @@ detections.
 \subsubsection{\label{sec:penetrator}Cable Penetrator, Cable and Connector}
 
 A penetrator assembly brings three wire pairs out through a \unit[16.3]mm hole in
-the DOM glass.  They are routed inside a customized cable, shown in Fig.~\ref{fig:domcable},
+the DOM glass.  The wires are routed inside a customized cable, shown in Fig.~\ref{fig:domcable},
 and terminate at a pressure-tight, waterproof connector that mates with a similar connector
 that continues each pair into the main cable.  One wire pair carries power and a
 bidirectional digital communications stream, connecting ultimately
@@ -159,7 +161,7 @@ DOMs were produced in two versions, in which the communications wire pair was ei
 terminated (\unit[140]$\Omega$) or unterminated inside the DOM.  The
 terminated DOM is deployed \unit[17]m below the unterminated one (\unit[7]m
 or \unit[10]m in DeepCore strings) and therefore includes a correspondingly 
-long penetrator assembly cable (Figure~\ref{fig:domcable}).
+long penetrator assembly cable (Fig.~\ref{fig:domcable}).
 
 The entire penetrator assembly was designed and produced by SEACON
 (California).  The part that seals against the DOM glass is a
@@ -169,7 +171,7 @@ The steel part includes additional sealing around the wires that pass
 through it.  Outside the DOM, a plastic shell is molded around the steel
 and onto the cable jacket.  External mechanical features like the
 penetrator are subject to large stresses during deployment and the
-refreezing process; a right angle bend outside the DOM was included for
+refreezing process; a right-angle bend outside the DOM was included for
 robustness, based on previous experience deploying AMANDA modules.
 
 \subsubsection{\label{sec:pmt}PMT, Gel and Magnetic Shield}
@@ -189,7 +191,7 @@ as well as good optical coupling.
 The gel thickness between PMT envelope and glass sphere is approximately \unit[1]cm.  
 Originally the gel was supplied from General Electric as RTV6136-D1,
 and later as a similar formulation from Quantum Silicones (Virginia, USA).  
-It is optically clear with transmission 97\% at \unit[400]nm, 91\% at \unit[340]nm, and 65\% at \unit[300]nm
+It is optically clear with transmission of 97\% at \unit[400]nm, 91\% at \unit[340]nm, and 65\% at \unit[300]nm
 (normal incidence).  The refractive index is 1.41, yielding less than 0.1\% reflection as light
 passes from the sphere glass into the gel and then into the PMT envelope.
 The characteristics of the cured gel are specified to remain stable in the
@@ -211,7 +213,8 @@ smaller than the external field, pointing mostly along the axis and therefore re
 less than 2\% for this type of PMT.
 
 Other interior DOM components are held in place by attachment to the PMT, mostly via screws into
-a molded plastic collar glued around the PMT neck.  The PMT Base Board is soldered directly to the pins.
+a molded plastic collar glued around the PMT neck.  The PMT Base Board is
+soldered directly to the PMT pins.
 
 \subsubsection{\label{sec:hv}High Voltage Supply and Divider}
 
@@ -269,7 +272,7 @@ and typically set to a voltage threshold corresponding to \unit[0.25]PE,
 and an MPE discriminator used for the larger-amplitude signals in IceTop.
 A discriminator crossing begins a "launch" of the high speed waveform
 capture and digitization. Each DOM is equipped with two ATWD chips,
-and each chip is provided with three different amplifier
+and each chip is provided with three different preamplifier
 gains in order to completely cover the 
 dynamic range of the PMT output (up to 150~mA, or 7.5V, when saturated). 
 The ATWD chips are configured to sample the input voltage at \unit[300]Msps
@@ -281,7 +284,7 @@ serpentine copper trace embedded in the dielectric and sandwiched between
 ground planes.  The highest-gain channel is used
 for most pulses, and lower-gain recordings are also retained as needed when pulses reach 75\% of the range 
 of a higher-gain channel, in order to avoid any loss of information due to
-digital saturation.  The mean amplifier gains of all deployed DOMs for high-,
+digital saturation.  The mean preamplifier gains of all deployed DOMs for high-,
 medium-, and low-gain channels are 15.6, 1.79, and 0.21 respectively.
 
 \begin{figure}[h]
@@ -300,7 +303,7 @@ a DOM, but photons from farther away may arrive over a broader time
 interval due to the optical scattering of the ice.  Such distant signals are
 also lower in amplitude, and the information is captured in the \unit[40]Msps fADC.
 The fADC samples continuously, and the FPGA is programmed to save an
-interval of \unit[6.4]$\mu$s after the launch. Its amplifier provides a
+interval of \unit[6.4]$\mu$s after the launch. Its preamplifier provides a
 dynamic range comparable to the high-gain ATWD channel, but has extra pulse shaping to accommodate the lower
 sampling speed. An example of a digitized waveform with multiple pulses is shown in
 Fig.~\ref{fig:mpe_waveform}.
@@ -308,8 +311,8 @@ Fig.~\ref{fig:mpe_waveform}.
 \begin{figure}[h]
  \centering
  \includegraphics[width=0.9\textwidth]{graphics/dom/functional/mpe_waveform.pdf}
- \caption{Digitized waveforms in the ATWD (top) and the FADC (bottom):
-   the ATWD recording duration is 427~ns whereas the FADC recording
+ \caption{Example digitized waveforms in the ATWD (top) and the fADC (bottom):
+   the ATWD recording duration is 427~ns whereas the fADC recording
    duration is 6.4~$\mu$s. Energy reconstruction in IceCube uses
    the charge and time recorded in the waveform~\cite{IC3:ereco}.}
  \label{fig:mpe_waveform}
@@ -354,7 +357,7 @@ for IceTop high-gain DOMs is $3.2 \times 10^{-3}$.
 \subsubsection{\label{sec:flasher}Flasher Board}
 
 Each DOM contains an LED Flasher Board, which is used to generate
-light $in situ$ for a
+light \emph{in situ} for a
 variety of calibration purposes, including: 
 
 \begin{enumerate}
@@ -371,7 +374,8 @@ included in every DOM except the ``color DOMs''
 described below. It is an annular board fitted with 12 LEDs (ETG-5UV405-30)
 specified with output wavelength \unit[$405\pm5$]nm.  Laboratory
 measurements with sample DOMs yield a peak at
-\unit[399]nm and spectral width \unit[14]nm (FWHM) when measured at -20$^{\circ}$~C, where the peak wavelength is shifted by
+\unit[399]nm and spectral width \unit[14]nm (FWHM) when measured at
+$-20^{\circ}$~C, where the peak wavelength is shifted by 
 \unit[$-1$]nm compared to room temperature~\cite{Aartsen:2013rt}.
 The LEDs are arranged in pairs, evenly spaced around the board
 with a 60$^{\circ}$ separation between each pair. One LED in each pair
@@ -399,7 +403,7 @@ The LEDs are controlled via individual high-speed MOSFET drivers. The LEDs can b
 combination of the 12, by setting bits in a configuration parameter.
 The photon output of each LED depends on the width and
 amplitude of the driving current pulse, which are controlled as common
-values for all enabled LEDs in each DOM (Figure~\ref{fig:flasheroutput}).  
+values for all enabled LEDs in each DOM (Fig.~\ref{fig:flasheroutput}).  
 The pulse width parameter controls the width up to a maximum of \unit[70]{ns}; 
 for sufficiently short driving current pulses the light output narrows to \unit[6]{ns} (FWHM) with
 10\% afterglow decaying over \unit[15--20]{ns}. The brightness parameter (0--127) controls the driving voltage between
@@ -482,7 +486,7 @@ The production was implemented in a 3-stage approach. Stage 1 was
 the production of the initial 400 DOMs at three sites: one in the United
 States (Physical Sciences Laboratory (PSL), Stoughton, Wisconsin) and two
 in Europe (DESY, Zeuthen, Germany, and Stockholm University,
-Sweden). DOM testing was performed at PSL, DESY and Uppsala University,
+Sweden). DOM testing was performed at PSL, DESY, and Uppsala University,
 Sweden. This
 quantity of DOMs was sufficient to verify production readiness, supply
 instrumentation for the first year drilling plan, and validate the design after a deployment
@@ -536,7 +540,7 @@ and LC validation.  Optical sensitivity, time resolution,
 and linearity were measured using external light sources fed into the DFLs
 via optical fibers and diffused over the DOM lower hemispheres at each
 testing station. Sensitivity was measured primarily with a
-monochromator-selected white lamp; time resolution was measured with a
+monochromator-selected white lamp, time resolution was measured with a
 pulsed diode laser (405~nm), and linearity was measured with a bright
 pulsed LED source (405~nm).
 
@@ -547,13 +551,13 @@ low-temperature soak, functional issues on the Main Board or Flasher Board,
 and PMT gain instability.  The majority of failing DOMs were retested and
 subsequently passed, while DOMs with serious issues were repaired and
 retested prior to shipment. After the successful completion of FAT, DOM
-deployment harnesses were attached (see Fig.~\ref{fig:domcable}) and the DOMs individually packed. 
+deployment harnesses were attached (Fig.~\ref{fig:domcable}) and the DOMs individually packed. 
 
 \begin{figure}[!h]
  \centering
  \includegraphics[width=0.6\textwidth]{graphics/dom/production/fat_cycle.pdf}
  \caption{Final Acceptance Testing (FAT) temperature profile, including
-   testing steps performed at each stage.}
+   DOM testing steps performed at each stage.}
  \label{fig:fat_cycle}
 \end{figure}
 
@@ -568,7 +572,7 @@ returned to the U.S.~after failing on-ice testing.
 
 As of 2016, 5397 of the 5484 deployed DOMs ($98.4\%$) are operating in
 data-taking mode in the data acquisition system; the remaining 87~DOMs
-have failed (see Table
+have failed (Table
 \ref{tab:dom_failures}).  We classify DOM 
 failures into two broad categories: failures during deployment and
 freeze-in, and failures during subsequent operation.  The majority of the
@@ -588,7 +592,7 @@ configuration but are still usable.  For example, DOMs with a single functional
 ATWD chip have a higher deadtime but are otherwise good.  The LC settings of functional DOMs adjacent on a string to
 dead DOMs must also be modified. In most cases, local coincidence is
 disabled in the direction of a dead neighbor DOM, but in a few cases a
-malfunctioned DOM can still be configured to forward the local
+malfunctioning DOM can still be configured to forward the local
 coincidence signals along the string even if it is not used in
 data-taking. These are enumerated in Table \ref{tab:dom_failures}.  
 
@@ -601,12 +605,12 @@ data-taking. These are enumerated in Table \ref{tab:dom_failures}.
   \label{tab:dom_failures}
   \begin{tabular}{rc|rc}
     \toprule
-    DOM failures & N & DOMs in non-standard mode & N\\
+    DOM failures & $N$ & DOMs in non-standard mode & $N$\\
     \hline    
     deployment / freeze-in & 55 &single functional ATWD & 12\\
     post-commissioning & 32  & reduced PMT gain & 1 \\
    & & non-standard LC & 158 \\
- total & 87 & total& 171\\
+ \bf{total} & \bf{87} & \bf{total}& \bf{171}\\
     \bottomrule 
   \end{tabular}
 \end{table}
