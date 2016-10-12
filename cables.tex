@@ -14,10 +14,10 @@ fiber during freeze-in in the deep ice.
 
 The cable system comprises the following assemblies: the in-ice cable,
 IceTop cables, the surface junction box (SJB), the surface cables, and the patch
-cables. The in-ice cable, 2505~m long, is deployed
+cables  (Fig.~\ref{fig:icecube-cables-logical}). The in-ice cable, $\SI{2505}{\meter}$ long, is deployed
 into the ice along with 60 DOMs that are attached to connectors at 30
-breakouts spaced 34~m apart. Each pair of DOMs is connected to a distinct
-single twisted wire pair. Two wire pairs are combined into four-conductor quad
+breakouts spaced $\SI{34}{\meter}$ apart. Each pair of DOMs is connected to a distinct
+twisted wire pair. Two wire pairs are combined into four-conductor quad
 cables meeting stringent electrical performance requirements; the quad
 arrangement provides enhanced cross-talk immunity and improved
 mechanical stability during freeze-in compared to a twisted pair.
@@ -29,14 +29,13 @@ cable terminates at the SJB, located just below the snow surface between
 the IceTop tanks. The SJB is a stainless steel
 enclosure that houses the in-ice cable and surface cable
 connections. IceTop cables also terminate and connect to the surface cable
-in the SJB. The surface cable is trenched 1~m deep into the
+in the SJB. The surface cable is trenched $\SI{1}{\meter}$ deep into the
 surface of the snow between the SJB and the ICL. The surface
 cables vary in length from 300~m to approximately 800~m in length depending on hole location. The surface cables are
 pulled up two cable towers into the ICL and terminate at patch panels where the individual
 quads are separated and connected to patch cables that finally
-terminate at the DOMHub, the computer which receives DOM signals in the ICL (see Sec.~\ref{sect:sps}). Each
-DOMHub services a single in-ice string or 8 IceTop stations (see
-Fig.~\ref{fig:icecube-cables-logical}). IceTop DOMHubs service fewer
+terminate at the DOMHub, the computer which receives DOM signals in the ICL (Sec.~\ref{sect:sps}). Each
+DOMHub services a single in-ice string or 8 IceTop stations. IceTop DOMHubs service fewer
 DOMs than in-ice DOMHubs due to the higher rates recorded by IceTop DOMs~\cite{ICECUBE:IceTop}.
 
 \begin{figure}
@@ -65,28 +64,21 @@ cables are provided in Table ~\ref{tab:quad_requirements}.
     Characteristic& Specification & Conditions \\
     \midrule
 
-    Attenuation & 20 dB maximum & At 1.0 MHz end-to-end \\
-   % \hline
-%
- %   crosstalk attenuation & intra-quad \& quad-quad & \\
-  %  \hline
+    Attenuation & $\le20~\mathrm{dB}$ & At 1.0 MHz end-to-end \\
 
-   Near-end crosstalk suppression& 50 dB minimum & At 2~MHz \\
-(intra-quad and quad-quad)&24 dB minimum& At 100 MHz\\
-%\hline
-   Far-end crosstalk suppression& 30 dB minimum & At 2 MHz \\
-(intra-quad and quad-quad)&24 dB minimum& At 20 MHz\\
+    Near-end crosstalk suppression& $\ge50~\mathrm{dB}$ intra-quad & At 2~MHz \\
 
-   % \hline
+      &$\ge24~\mathrm{dB}$ quad-quad& At 100 MHz\\
 
-    Differential impedance & Nominal $145\Omega \pm 10\Omega$ & At 1.0 MHz \\
-    %\hline
+    Far-end crosstalk suppression& $\ge30~\mathrm{dB}$ intra-quad & At 2 MHz \\
 
-    Loop resistance & $160~\Omega$ maximum & \\
-    %\hline
+      &$\ge24~\mathrm{dB}$ quad-quad& At 20 MHz\\
 
-    Dielectric breakdown voltage & 2000~VDC minimum, 1.0~$\mu A$ maximum
-    leakage & \\
+    Differential impedance & $145\Omega \pm 10\Omega$ & At 1.0 MHz \\
+
+    Loop resistance & $\le160~\Omega$ & \\
+
+    Dielectric breakdown voltage & $\ge2000~\mathrm{VDC}$, $\le1~\mu\mathrm{A}$ leakage & \\
     \bottomrule  
   \end{tabularx}
   \label{tab:quad_requirements}
@@ -108,7 +100,7 @@ The in-ice cable includes 20 quads, 2 polyethylene fillers to maintain structura
 symmetry, Kevlar outer and inner core strength members, a copper foil
 shield with drain wires to provide electrical noise isolation, and a water
 block that prevented water or ice from damaging the symmetry of the
-cable (see Fig.~\ref{fig:cable_xsection}). The surface cable has a similar
+cable (Fig.~\ref{fig:cable_xsection}). The surface cable has a similar
 construction to the in-ice 
 cable with two exceptions: first, the inner Kevlar strength member was replaced
 with additional conductors needed to service the IceTop tanks; and second, the
@@ -132,7 +124,7 @@ attached 120 Yale Cordage (Saco, Maine) YaleGrips to the in-ice
 cable that served as mechanical attachment points for the 60 deployed DOMs
 per cable. The separate quads in each cable were terminated with
 Military Standard round,
-metal shell connectors. After cable assembly was complete, 
+metal-shell connectors. After cable assembly was complete, 
 each cable was individually tested for electrical continuity and subjected to high
 potential testing. 
 
@@ -146,10 +138,9 @@ IceTop trench; patch cable installation in the ICL; and testing,
 troubleshooting and repair after all connections were made. Surface cables
 were installed early in the season to support IceTop tank freeze control
 operations, which were necessary to ensure clear crack-free ice in the
-IceTop tanks~\cite{ICECUBE:IceTop},
-required connection to the ICL. A 1~m-deep trench was mechanically
+IceTop tanks~\cite{ICECUBE:IceTop}. A 1~m-deep trench was mechanically
 dug between the ICL and each IceTop station. After the cable was placed in
-the trench, it was pulled into the ICL and connected to the IceTop
+the trench, it was pulled into the ICL and connected to an IceTop
 DOMHub. Later, just prior to filling the tanks with water in the field, the
 connections were made between the surface cable and the SJB. The IceTop
 DOMs with their long 17~m penetrator assemblies were connected to the
@@ -157,10 +148,9 @@ appropriate quad located in the center of the surface cable via the SJB. Two add
 cables were connected between the SJB and the tanks that provided power and
 communications to the IceTop freeze control units. The in-ice cable
 was prepared for installation while the Enhanced Hot Water Drill was coming
-up the hole in its reaming phase (see
-Sec.~\ref{sec:hot_water_drilling}).  After the drill was removed,
+up the hole in its reaming phase (Sec.~\ref{sec:hot_water_drilling}).  After the drill was removed,
 the end of the in-ice cable was pulled into the drill tower, and DOM deployment
-commenced as described in Sec.~\ref{sec:deployment_inst}. After DOM
+commenced (Sec.~\ref{sec:deployment_inst}). After DOM
 deployment was complete, the in-ice cable end was taken off the spool and
 dragged to the IceTop station where its connection to the surface cable in the SJB was
 made. Finally, patch cables were installed in the ICL between the

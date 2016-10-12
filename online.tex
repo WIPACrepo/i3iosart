@@ -53,7 +53,7 @@ approximately 1~TB/day.
 
 The DAQ also produces secondary streams that include time calibration,
 monitoring, and DOM scaler data.  The scaler data, which monitors the
-hit rate of each DOM in 1.6~ms bins, is used in the supernova data
+hit rate of each DOM, is used in the supernova data
 acquisition system (Sec.~\ref{sect:SNDAQ}).  The time calibration and
 monitoring streams are used to monitor the health and quality of the
 data-taking runs.
@@ -70,7 +70,7 @@ also responsible for applying up-to-date calibration constants to the DAQ
 data. All processed events, even those not selected by the online filters,
 are archived locally.
 
-A dedicated system for data movement handles the local archival storage to
+A dedicated system for data movement, JADE, handles the local archival storage to
 tape or disk and the handoff of satellite data
 (Sec.~\ref{sect:online_jade}).  This includes not only primary data streams
 but also monitoring data, calibration runs, and other data streams.
@@ -94,7 +94,7 @@ custom 4U computers, called DOMHubs, one DOMHub per in-ice string and 11 additio
 hubs for IceTop.  The remaining servers, including those for higher-level
 data acquisition, event filtering, detector monitoring, and core
 infrastructure, are currently 2U Dell PowerEdge R720 servers running
-Scientific Linux (see Table \ref{tab:sps_breakdown}).  The servers are
+Scientific Linux (Table \ref{tab:sps_breakdown}).  The servers are
 typically upgraded every three to four years.  The custom hardware components in
 the DOMHubs are replaced with spares as failures warrant, and the disks and
 single-board computer were upgraded in 2013--14.
@@ -129,8 +129,7 @@ card, the DOMHub Service Board (DSB), is responsible for GPS timing fanout
 The SPS computers are connected via switches in each rack that provide
 redundant connections to a 10--20 Gbps network backbone.  The DOMHubs are
 connected to the rack switches with two bonded 1 Gbps links.  Typical network I/O during
-data-taking for the DAQ Event Builder (see
-Sec.~\ref{sect:online:evbuilder}) is about 240~Mbps in each direction.
+data-taking for the DAQ Event Builder (Sec.~\ref{sect:online:evbuilder}) is about 240~Mbps in each direction.
 The PnF Central Server sees 200 Mbps in and 640 Mbps out; the output
 direction is significantly higher than the input as PnF distributes the
 events to filtering clients and generates multiple output streams
@@ -191,8 +190,7 @@ is 720 kbps per twisted pair.
 
 Messaging is managed from the surface, in that the DOR requests data from
 each DOM in turn; only one DOM per pair can transmit at a time.  Communication is
-paused once per second to perform a timing calibration (RAPCal; see
-Sec.~\ref{sect:dom:rapcal}); this enables time transfer of DOM clock to DOR
+paused once per second to perform a timing calibration (RAPCal; Sec.~\ref{sect:dom:rapcal}); this enables time transfer of DOM clock to DOR
 clock for every DOM.  
 
 % Add more details about actual usage?
@@ -231,12 +229,12 @@ the primary.
 \subsubsection{DOR Card and Driver}
 
 Each DOR card is connected to up to 8 DOMs, with 8 DOR cards in a
-DOMHub. The DOR card controls the 96~V DC power supply to the DOMs and
+DOMHub. The DOR card controls the 96~VDC power supply to the DOMs and
 modulates the communications signaling on top of this DC level; the DOMs
 can accept input voltages from 40--120 V.
 Dedicated circuitry monitors the current draw and voltage levels on each
 twisted pair. A ``firmware fuse'' can disable power if the current draw
-deviates from programmable maximum or minimum levels; this mechanism is
+deviates from programmable maximum or minimum levels, and this mechanism is
 supplemented with standard physical fuses.  
 
 The software interface to the DOR card, and thus to the DOMs, is provided
@@ -312,7 +310,7 @@ ignore all further data.  Details of the Splicer algorithm can be found in
 Ref.~\cite{vlvnt13_trigger}.  
 
 As hits move from Omicron to the Sender, they are written to the
-HitSpool.  These files are
+HitSpool disk cache.  These files are
 written in a circular order so that the newest hits overwrite the oldest
 data.  The files are catalogued in a SQLite database to
 aid in fast retrieval of raw hit data.
@@ -387,7 +385,7 @@ muons that pass vertically through the detector.
 \end{figure}
 
 IceCube has the potential to detect hypothetical subrelativistic heavy
-particles such as magnetic monopoles, via catalyzed nucleon decays along
+particles such as magnetic monopoles via catalyzed nucleon decays along
 the particle trajectory \cite{Aartsen:2014awd}.  However, because these
 particles may travel at velocities less than $0.01c$, the time
 windows used in the standard triggers are too short.  A dedicated Slow
@@ -401,7 +399,7 @@ is tuned to remove most hits from particles traveling near $c$, such as muons.
 For all parameters, the trigger algorithm considers the time and 
 position of the first hit within each HLC pair.  Next, triplets of HLC
 pairs within a time window $T_{\mathrm{max}}$ 
-are formed.  The geometry of each triplet formed (see Fig.~\ref{fig:slop})
+are formed.  The geometry of each triplet formed (Fig.~\ref{fig:slop})
 must satisfy track-like 
 conditions: the largest inner angle $\alpha$ of the triangle formed by the
 HLC pairs must be greater than $\alpha_{\mathrm{min}}$, and the
@@ -419,10 +417,9 @@ the normalized inverted velocity difference $v_\mathrm{rel}$, defined as
 
 \noindent where $\ v_{ij} = \Delta x_{ij}/\Delta t_{ij}$, must be less than
 or equal to a predefined maximum value
-$v_{\mathrm{rel}}^{\mathrm{max}}$.  Fig.~\ref{fig:slop} shows the geometry
-parameters of the triplet.  Finally, the total number of track-like triplets
-must be greater than or equal to $N_{\mathrm{triplet}}$ which is set to
-be 5, and all of these track-like triplets must overlap in time. 
+$v_{\mathrm{rel}}^{\mathrm{max}}$.  Finally, the total number of track-like triplets
+must be greater than or equal to $N_{\mathrm{triplet}}$, set to 5, and all
+of these track-like triplets must overlap in time.  
 
 \begin{figure}[!ht]
  \centering
@@ -441,7 +438,7 @@ include all events due to LED flashers in cases where flasher
 operations require disabling standard triggers. Finally, a Minimum Bias
 trigger can select one of every $N$ HLC hits and promote this hit to a trigger, adding
 readout windows as usual; currently an IceTop Minimum Bias trigger with a
-prescale factor of 10000 is active.
+prescale factor $N$ of 10000 is active.
 
 \begin{table}
   \centering \footnotesize
@@ -462,7 +459,7 @@ prescale factor of 10000 is active.
   SLOP & in-ice & $N_{\mathrm{triplet}} = 5$ & $T_{\mathrm{prox}} = 2.5$, &
   $\alpha_{\mathrm{min}} = 140^\circ,\ v_{\mathrm{rel}}^{\mathrm{max}}
   = 0.5$ & 12\\
-  & & & $T_{\mathrm{min}} = 0$ & &\\
+  & & & $T_{\mathrm{min}} = 0$, & &\\
   & & & $T_{\mathrm{max}} = 500$ & &\\
   FRT & all & --- & --- & --- & 0.003\\
   \hline
@@ -523,7 +520,7 @@ window. When all StringHubs have returned a list of hits, these are bundled with
 Events are written to a temporary file.  When the temporary file
 reaches a preset configurable size, it is renamed to a standard unique name.  When the PnF
 system sees a new file, it accepts it for processing and filtering
-(see Sec.~\ref{sect:online:filter}).  The total latency from detection of
+(Sec.~\ref{sect:online:filter}).  The total latency from detection of
 photons at the DOMs to DAQ events written to disk is approximately five
 seconds. 
 
@@ -606,8 +603,8 @@ individual hit rates of the DOMs~\cite{IC3:supernova}.
 Each DOM monitors its hit rate and sends a stream of binned counts, using a
 bin width of 1.6384~ms ($2^{16}$ clock cycles at 40 MHz).  An artificial
 deadtime of $250\ {\mu}\mathrm{s}$ is applied after each hit to reduce the
-impact of correlated hits (see Sec.~\ref{sect:darknoise}).  Each
-StringHub collects the rate stream of each DOM, supplies UTC timestamps,
+impact of correlated hits (Sec.~\ref{sect:darknoise}).  Each
+StringHub collects the rate stream of each DOM, supplies UTC-based timestamps,
 and forwards the streams to the Secondary Builder.
 
 The supernova DAQ (SNDAQ) system receives the Secondary Builder stream,
@@ -659,7 +656,7 @@ transmission over satellite only pursued in extraordinary cases.
   \toprule Client & Trigger Threshold & Time\newline Window & Request
   Length & Raw \newline Data Size & Frequency \\
   \midrule
-  SNDAQ & $7.65 \ge \xi < 10$  & $[-30\,\mathrm{s},+60\,\mathrm{s}]$ &
+  SNDAQ & $7.65 \le \xi < 10$  & $[-30\,\mathrm{s},+60\,\mathrm{s}]$ &
   $90 \,\mathrm{s}$& $15 \,\mathrm{GB}$&
   $0.5/\mathrm{week}$ \\
    & $\xi \ge 10$ &  $[\pm250\,\mathrm{s}]$ & $500\,\mathrm{s}$ & $85
@@ -685,7 +682,7 @@ all triggered events collected by the DAQ
 and reduces the data volume to a level that can be accommodated in our
 satellite bandwidth allocation (about 100 GB/day).  This treatment
 includes application of calibration constants, event
-characterization and selections, extraction of data quality monitoring
+characterization and selection, extraction of data quality monitoring
 information, generation of realtime alerts for events of astrophysical
 interest, and creation of data files and metadata information for long-term
 archiving.  The PnF system is a custom software
@@ -699,7 +696,7 @@ process the data is stored in a database.  Next, each DOM's waveform is
 deconvolved using the known DOM response to single photons to 
 extract the light arrival time and amplitude information~\cite{IC3:ereco}.
 This series of time and amplitude light arrival information for each DOM is
-the base for event reconstruction and characterization.  PnF encodes this
+the basis for event reconstruction and characterization.  PnF encodes this
 information in a compact data format known as the Super Data
 Storage and Transfer format (SuperDST); this format uses only 9\% of the storage
 size of the full waveform information.  The encoding does introduce a
@@ -862,7 +859,7 @@ set of core filters, including:
   frequently used as the input to searches for high-energy shower events arising from
   atmospheric and astrophysical neutrinos.
 \item A high-charge filter that searches for any event depositing a
-  large amount of energy leading to a recorded charge of $\geq$~1000
+  large amount of energy leading to a recorded charge of $\geq1000$
   photoelectrons in the 
   instrumented volume.  While having a large overlap with the muon track
   and shower filters at high energies, this filter targets the highest
@@ -874,13 +871,13 @@ set of core filters, including:
   targeting the flux, spectrum, and composition of the primary cosmic rays
   observed in the Earth's atmosphere.
 \item A DeepCore contained event filter that searches for contained, lower-energy
-  neutrino events (in the range of 10-100 GeV) from atmospheric neutrino interactions
+  neutrino events (in the range of 10--100 GeV) from atmospheric neutrino interactions
   that are contained within the more densely instrumented DeepCore region.
   The selected events are used as inputs to analyses that measure
   neutrino oscillation effects and search for indirect signatures of dark matter.
 \end{enumerate}
 
-Other filters are employed for more specialized searches, as well as for minimum bias selections.
+\noindent Other filters are employed for more specialized searches, as well as for minimum bias selections.
 
 \subsection{\label{sect:online_jade}Data Handling}
 
@@ -896,7 +893,7 @@ of 5 Mbps for bi-directional internet connectivity.  For the remainder of the da
 communication satellites allow limited voice and data connectivity and provide up to 2.4
 kbps of bandwidth per modem.
 
-IceCube incorporates Iridium modems into two separate systems, the IceCube
+IceCube incorporates Iridium modems into two separate systems, the legacy IceCube
 Teleport System (ITS) and the IceCube Messaging System (I3MS).  ITS uses
 the Iridium Short Burst Data mode to send short 
 messages of 1.8 kB or smaller with a typical latency (transmission time) of 30 seconds.
@@ -904,7 +901,7 @@ Messages may either originate or terminate at the ITS Iridium modem at the
 South Pole.  Messages also contain a recipient ID indicating the intended
 host to receive the message, allowing a many-to-many communications
 infrastructure between systems running at the South Pole and systems in the
-Northern Hemisphere.
+Northern Hemisphere.  ITS was retired in 2016.
 
 The newer IceCube Messaging System (I3MS), deployed in 2015, incorporates
 multiple Iridium modems and uses the Iridium RUDICS data mode, providing a
@@ -915,7 +912,7 @@ those messages across the link based on message priority and fair sharing
 of bandwidth among all users. I3MS message recipients listen for messages
 using ZeroMQ publish-subscribe (PUB-SUB), allowing a given message to be
 sent to multiple recipients.  I3MS also provides low-bandwidth secure shell
-(ssh) connectivity to the South Pole, allowing operators in the north
+(ssh) connectivity to the South Pole, allowing off-site operators
 access to SPS in the case of detector issues.
 
 Data handling is provided by three servers running the Java Archival and
@@ -979,7 +976,7 @@ daemon. Standard operation is to
 request a run start, supplying a DAQ run configuration 
 file.  LiveControl then records the run number, configuration, start time,
 etc. and sends a request 
-for DAQ to begin data taking.  After data-taking commences successfully,
+for DAQ to begin data-taking.  After data-taking commences successfully,
 LiveControl waits a specified amount of time, generally eight hours, then
 stops the current run and automatically starts a new run using the same
 configuration.
@@ -991,7 +988,7 @@ run cannot be started with the supplied configuration because requested
 DOMs are unpowered or temporarily unable to communicate.  In this case,
 LiveControl cycles through predefined partial-detector 
 configurations in an attempt to exclude problematic DOMs.  This results in
-taking data with less than the full number of available strings, but it
+taking data with fewer than the full number of available strings, but it
 greatly reduces the chance of a prolonged complete outage where no IceCube
 data are recorded.
 
@@ -1026,7 +1023,7 @@ both geosynchronous and Iridium data transport, summarized in Table
   \label{i3messages}  
   \begin{tabularx}{0.85\textwidth}{|c|c|c|c|X|}
     \hline Priority & Transport System & Messages/day~ & Data/day & Latency\\
-    \hline 1 & ITS (Iridium) & 10,000 & 1 MB & 1 min. \\
+    \hline 1 & I3MS (Iridium) & 10,000 & 1 MB & 1 min. \\
     \hline 2 & I3MS (Iridium) & 150,000 & 5 MB & 1--5 min. \\
     \hline 3 & JADE (Geosynchronous) & 300,000 & 100 MB & 1 day \\
     \hline
@@ -1044,8 +1041,8 @@ displaying active alerts and plots of event rates and processing latencies
 from the previous few hours (Fig.~\ref{fig:live_screenshot}), and a page
 for each run that displays start  
 time, stop time, and other essential data.  The run page contains low-level
-diagnostic data that includes e.g. DOM charge histograms, digitizer baselines,
-DOM occupancy, etc., and is used to diagnose any problems that occurred
+diagnostic data that include e.g. DOM charge histograms, digitizer baselines,
+DOM occupancy, etc., and are used to diagnose any problems that occurred
 during the run and to determine if the run can be used in physics
 analysis.  Historical monitoring data are available from runs back to
 2011.  
@@ -1062,7 +1059,7 @@ analysis.  Historical monitoring data are available from runs back to
 
 Finally, the IceCube Live website in the Northern Hemisphere can transmit
 messages to LiveControl at SPS using the Iridium systems.  This capability
-is used to link the Slack chat service to a chat web page in
+is used to link the commercial Slack chat service to a chat web page in
 IceCube Live, allowing the IceCube winterover operators to communicate with
 experts in the Northern Hemisphere during periods with no geosynchronous satellite
 connectivity.  This connection also provides a limited capability to
