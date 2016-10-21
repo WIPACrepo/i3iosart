@@ -41,11 +41,11 @@ a challenging deployment environment, and long-term reliability.
 %============================================================
 
 
-The PMT detects signals from particles interacting the ice, typically ranging over
+The PMT detects signals from particles interacting in the ice, typically ranging over
 energies from \unit[10]GeV to \unit[10]PeV and distances up to \unit[500]m
 away.  At a gain of $10^7$ (Sec.~\ref{sec:hv}), corresponding PMT waveforms can have amplitudes from \unit[1]mV up
 to and beyond the linearity limit of the PMT (\unit[$\sim2$]V) and widths
-from \unit[12]ns to \unit[1500]ns.  In order to accommodate such a variety
+from \unit[12]ns up to around \unit[1500]ns.  In order to accommodate such a variety
 of signals, the DOM includes multiple digitizers with overlapping dynamic
 range and different sampling speeds
 (Sec.~\ref{sec:mainboard}).  Each DOM independently
@@ -85,7 +85,7 @@ to single photon detection (Sec.~\ref{sect:online:dataflow}).
 
 The DOM is capable of interpreting commands from the surface that specify
 tasks for configuration, data taking and transmission, monitoring or
-self-calibration.  Self-calibration functions establish PMT and preamplifier
+self-calibration.  Self-calibration functions establish PMT and amplifier
 gains as well as sampling speed (Sec.~\ref{sec:domcal}).  The RAPCal
 system (Sec.~\ref{sect:dom:rapcal}) is implemented for tracking each
 local DOM clock's offset from universal time, allowing PMT pulses that were
@@ -97,7 +97,7 @@ computers.
 \subsubsection{\label{sec:sphere}Glass Sphere and Harness}
 
 The glass sphere housing has an outer diameter of \SI{13}{''} and thickness
-of\SI{0.5}{''}.
+of \SI{0.5}{''}.
 The spheres are specified to protect the inside electronics and PMT against long-term applied pressure of 
 \unit[250]bar (\unit[2.6]km-equivalent water depth)
 as well as temporary overpressure up to \unit[690]bar during the refreezing of melted ice in the drill hole.
@@ -272,7 +272,7 @@ and typically set to a voltage threshold corresponding to \unit[0.25]PE,
 and an MPE discriminator used for the larger-amplitude signals in IceTop.
 A discriminator crossing begins a "launch" of the high speed waveform
 capture and digitization. Each DOM is equipped with two ATWD chips,
-and each chip is provided with three different preamplifier
+and each chip is provided with three different amplifier
 gains in order to completely cover the 
 dynamic range of the PMT output (up to 150~mA, or 7.5V, when saturated). 
 The ATWD chips are configured to sample the input voltage at \unit[300]Msps
@@ -284,7 +284,7 @@ serpentine copper trace embedded in the dielectric and sandwiched between
 ground planes.  The highest-gain channel is used
 for most pulses, and lower-gain recordings are also retained as needed when pulses reach 75\% of the range 
 of a higher-gain channel, in order to avoid any loss of information due to
-digital saturation.  The mean preamplifier gains of all deployed DOMs for high-,
+digital saturation.  The mean amplifier gains of all deployed DOMs for high-,
 medium-, and low-gain channels are 15.6, 1.79, and 0.21 respectively.
 
 \begin{figure}[h]
@@ -301,9 +301,9 @@ The ATWD recording duration is \unit[427]ns.  This is sufficient for
 reconstructing light produced within tens of meters of
 a DOM, but photons from farther away may arrive over a broader time
 interval due to the optical scattering of the ice.  Such distant signals are
-also lower in amplitude, and the information is captured in the \unit[40]Msps fADC.
+also lower in amplitude, and the information is captured in the 10-bit \unit[40]Msps fADC.
 The fADC samples continuously, and the FPGA is programmed to save an
-interval of \unit[6.4]$\mu$s after the launch. Its preamplifier provides a
+interval of \unit[6.4]$\mu$s after the launch. Its amplifier provides a
 dynamic range comparable to the high-gain ATWD channel, but has extra pulse shaping to accommodate the lower
 sampling speed. An example of a digitized waveform with multiple pulses is shown in
 Fig.~\ref{fig:mpe_waveform}.

@@ -710,7 +710,7 @@ FUNCTION {article}
   if$
   new.sentence
   % format.doi output
-  % note output
+  note output
   fin.entry
 }
 
@@ -917,7 +917,7 @@ FUNCTION {mastersthesis}
   address output
   format.date "year" output.check
   new.block
-  % note output
+  note output
   doi output
   fin.entry
 }

@@ -69,8 +69,8 @@ practice, these baselines are extremely sensitive to the operating
 condition of the DOMs, and since data-taking conditions cannot be exactly
 replicated while running DOMCal, the baselines used during data-taking are
 determined instead by using averaged forced triggers taken during a normal
-run (Sec.~\ref{sec:baselines}).  DOMCal can still use its own
-baselines for numerical charge integration during the calibration procedure.
+run (Sec.~\ref{sec:baselines}).  DOMCal can still use baselines that it measures
+for numerical charge integration during the calibration procedure.
 
 The highest-gain channels of each ATWD are calibrated using the electronic
 pulser circuit, and then the gains of the other ATWD channels and the fADC
@@ -97,8 +97,8 @@ The PMT gain as a function of high voltage is calibrated using ambient
 ``dark noise'' photons --- the charge $e$ prior to amplification is quantized
 and known.  At each voltage level, a histogram of many observed charges is
 recorded, where the charge is determined by numerical integration of the waveform.
-Each histogram is fit with an exponential plus Gaussian model
-(Fig.~\ref{fig:domcal_hvfit}).  The peak of the Gaussian component is used
+Each histogram is fit with the sum of an exponential and a Gaussian
+function (Fig.~\ref{fig:domcal_hvfit}).  The peak of the Gaussian component is used
 to 
 determine the amplification of the PMT at each voltage, and a linear fit
 of $\log_{10}(\mathrm{gain})$ versus $\log_{10}(\mathrm{voltage})$ allows
@@ -116,7 +116,7 @@ unfolding used in data processing.
  \centering
  \includegraphics[width=0.6\textwidth]{graphics/dom/domcal/hvfit.pdf}
  \caption{Sample SPE charge spectrum at a gain of $10^{7.5}$ as recorded by DOMCal and fit
-   \textit{in situ} with a Gaussian+exponential model.} 
+   \textit{in situ} with the sum of an exponential and a Gaussian function.}
  \label{fig:domcal_hvfit}
 \end{figure}
 
@@ -135,7 +135,7 @@ calibration constants needed are 1) the pedestal, the value the digitizer
 reads when the input voltage is zero, and 2) the gain, the input voltage change
 required to increase the readout value by one count.  An ATWD waveform
 consists of readouts from 128 effectively independent 
-digitizers, while an fADC waveform consists of successive outputs of a 6-stage
+digitizers, while an fADC waveform consists of successive outputs of a 
 pipelined digitizer (256 samples). Two calibration constants per digitizer are needed to turn each of these
 raw readout values (an integral number of ADC counts) into a
 voltage, from which the deposited charge is calculated.
@@ -345,8 +345,8 @@ results:
 \end{equation}
 
 \noindent The median magnitude of $\epsilon$ is $1.34 \times 10^{-6}$.
-Finally, because the timestamps $T^{\mathrm{DOR}}$ count the offset into 
-the current UTC second, the UTC time offset $\Delta$ of the previous
+Finally, because the timestamps $T^{\mathrm{DOR}}$ count the sub-second
+time offset into the current UTC second, the UTC time offset $\Delta$ of the previous
 1-second boundary, provided by the master clock, is added.  Details on the
 master clock system are provided in Sec.~\ref{sect:online:master_clock}.
 
@@ -463,7 +463,7 @@ using muons yielded a factor of 1.35~\cite{ICECUBE:DC}, an
 effective value including the Cherenkov spectrum folded with the different
 wavelength sensitivity curves of the two types of PMTs.  The production
 testing system also established that the efficiency change from room
-temperature to $-40^{\circ}$~C is less than 1\% when gain is maintained at
+temperature to $-40\ ^{\circ}\mathrm{C}$ is less than 1\% when gain is maintained at
 the design value of $10^7$.
 
 \subsection{\label{sec:baselines}Baseline Voltage Stability}
@@ -538,15 +538,15 @@ baselines or in RAPCal time stability.
 
 The gain stability of the DOM, or the stability of the amplified charge
 from converted photons, depends on a number of factors including stability
-of the PMT high voltage, Main Board channel preamplifiers, and the digitizers.
+of the PMT high voltage, Main Board channel amplifiers, and the digitizers.
 We can examine these subsystems using both historical calibration results
 as well as by tracking the SPE charge during data-taking.
 
 The gain stability of the DOM electronics includes variations in the
-front-end electronic preamplifiers and the digitizers themselves.  The
-stability is demonstrated by comparing the Main Board channel preamplifier gains
+front-end electronic amplifiers and the digitizers themselves.  The
+stability is demonstrated by comparing the Main Board channel amplifier gains
 from sets of calibrations taken from 2011 to 2016
-(Fig.~\ref{fig:domcal_ch_gain}).  From year to year, the preamplifier gain 
+(Fig.~\ref{fig:domcal_ch_gain}).  From year to year, the amplifier gain 
 calibration is repeatable to 0.1\%, 0.2\%, and 0.5\% in the high-gain,
 medium-gain, and low-gain channels respectively.  Since detector completion
 in 2011, a small systematic shift of $-0.3\%$ is visible in the low-gain
@@ -559,7 +559,7 @@ each DOM.
   \centering
   \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/channel_gain_shift_2016_2015.pdf}}
   \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/channel_gain_shift_2016_2011.pdf}}
-  \caption{Fractional ATWD channel preamplifier gain shifts, from 2015 to
+  \caption{Fractional ATWD channel amplifier gain shifts, from 2015 to
     2016 (left) and 2011 to 2016 (right).  Channels 0, 1, and 2 are
     high gain, medium gain, and low gain respectively.}
   \label{fig:domcal_ch_gain}

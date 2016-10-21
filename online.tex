@@ -725,7 +725,7 @@ and trigger alerts that are distributed to followup observatories
 worldwide~\cite{Abbasi:2011ja,Aartsen:2015trq}.
 
 The PnF system also extracts and aggregates data quality and monitoring
-information from the data as it is processed.  This information includes
+information from the data during processing.  This information includes
 stability and quality information from the DOM waveform and calibration
 process, rates of DOM readouts, and rates and 
 stability information for all detector triggers and filters.  This
@@ -786,10 +786,8 @@ components include:
 \item Central Servers, which
   receive data from the 
   DAQ Dispatch event source, distribute events to and record results
-  returning from the PnF client farm, and send events to file,
-  monitoring data and
-  alert writing components.  Typically there are four servers used in
-  operation.
+  returning from the PnF client farm, and send events to Writer components.
+  Typically there are four servers used in operation.
 \item Filter Clients, where the core calibration, reconstruction and
   filtering processes are applied to each triggered event.  Up to 500 of
   these clients operate in parallel to filter 
