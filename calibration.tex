@@ -152,7 +152,7 @@ baseline from each sample, then multiplying by the gain. Correct charge
 measurement and energy reconstruction depends on correct measurement
 of the baseline, as discussed in Sec.~\ref{sec:baselines}.
 
-The pedestal pattern is computed at the beginning of each 
+The pedestal pattern is computed by the DAQ software at the beginning of each 
 run by averaging 200 forced-readout waveforms.  Accidental single photoelectrons in
 the individual waveforms are averaged out, but a single coincident bright event can
 result in an offset in the pedestal average.  In order to avoid such
@@ -249,9 +249,9 @@ e^{-t/\tau_2})
 \tau_1(T) = A + \frac{B}{1 + e^{(-T/C)}}
 \end{equation}
 
-\noindent where $T$ is the temperature and $A$, $B$, $C$, $N$ and $f$ are determined empirically.
-For the old toroids, the second time constant $\tau_2 =0.75\tau_1$. For the
-new toroids, $\tau_2$ is 500~ns.
+\noindent where $T$ is the temperature and $A$, $B$, $C$, $N$ and $f$ were
+determined empirically with a dedicated analysis. For the old toroids, the
+second time constant $\tau_2 =0.75\tau_1$. For the new toroids, $\tau_2$ is 500~ns.
 
 \subsection{\label{sect:dom:rapcal}RAPCal}
 
