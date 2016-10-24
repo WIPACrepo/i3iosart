@@ -926,7 +926,7 @@ hardware failure or maintenance.
 JADE is configured with a number of input data streams, 
 each consisting of a data server, a dropbox directory, and a filename pattern.  The
 data stream dropbox directories are checked on a regular basis for new
-files.  File completion is indicated by the producer using a matching
+files.  File completion is indicated by the producer creating a matching
 semaphore file.  For each file, a
 checksum calculated on the data server is compared to a checksum calculated
 on the JADE server.  After validation, the original data file is removed
@@ -937,16 +937,16 @@ data stream, either transmitted via satellite link or
 archived locally.  Archival data
 were formerly written to Linear Tape Open (LTO) tapes; the tape system was
 retired in 2015, and archival data are now written to disks.
-All of the archival data are buffered on the server until the tape or disk
+All of the archival data are buffered on the server until the storage medium
 is full. In case of media failure, the buffered files can be 
 immediately written to new archival media with a single command.
 
 Data streams intended for satellite transfer are queued separately.  
-JADE bundles multiple smaller files or splits large files to create $\sim1$
-GB chunks, allowing satellite link operators to manage the daily data
+JADE combines multiple smaller files or splits large files to create $\sim1$
+GB bundles, allowing satellite link operators to manage the daily data
 transmission.  A configurable number of bundles is then transferred to the
 satellite relay server.  If satellite transmission is temporarily
-interrupted, the excess is staged on the server. 
+interrupted, the excess bundles are staged on the JADE server. 
 
 Small files ($<$50 KB) with high priority are sent via
 the I3MS Iridium link.  In cases where the real-time link is not available, I3MS
