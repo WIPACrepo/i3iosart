@@ -58,7 +58,7 @@ analog front-end before the Delay Board~\cite{ICECUBE:DAQ}.  This
 calibration is later refined using actual 
 PMT waveforms, once the PMT gain is known.  Next, the ATWD voltage levels
 are calibrated by sweeping the input DC bias voltage and recording the
-response.  Because of the slight variations in the ATWD circuits, this
+corresponding waveforms at each DC level.  Because of the slight variations in the ATWD circuits, this
 calibration provides an individual linear relationship between ATWD counts
 and voltage for each time sample and gain channel.
 
@@ -622,7 +622,7 @@ Long-term stability of the PMTs can be tracked by examining any change in
 the high voltage vs.~gain calibration over time.  The fractional change in gain for
 all in-ice DOMs over a five-year time period is shown in
 Fig.~\ref{fig:pmt_gainshift}.  For most DOMs, the PMT gain is stable to
-within $\pm3\%$ over the time period shown, while approximately $1\%$ 
+within $\pm3\%$ over the time period shown, with a median gain shift of $0.3\%$, while approximately $1\%$ 
 of DOMs have a gain shift of more than 10\%.  Any shifts are tracked with
 regular calibration using the methods previously described.
 
@@ -709,7 +709,7 @@ intervals between hits in a single DOM compared to the Poisson expectation
 The temperature dependence of the noise rate
 (Fig.~\ref{fig:dom_darknoise_vs_temperature}) was determined by combining a
 measured temperature profile of 
-the the South Pole ice cap \cite{price2002temperature} with a fit of the
+the South Pole ice cap \cite{price2002temperature} with a fit of the
 Poissonian expectation of the total dark noise rate to every individual
 DOM, and was verified in lab measurements.  
 

@@ -292,7 +292,9 @@ uses the RAPCal procedure as described in Sec.~\ref{sect:dom:rapcal},
 performed for each DOM every second.  
 
 The Sender caches SLC and HLC hits in memory, then forwards a
-condensed version of each HLC hit to the appropriate local Trigger. After the
+condensed version of each HLC hit to the appropriate local Trigger. Each
+condensed HLC hit record contains the hit time, a DOM identifier, and the
+trigger mode.  After the
 Trigger components have determined interesting time intervals, 
 the Event Builder requests each interval from the Sender which returns a list of
 all hits within the interval and prunes all older hits from the in-memory hit
@@ -550,6 +552,12 @@ discriminator thresholds, local coincidence settings, baselines and others.
 Run configuration files (including trigger and DOM files) are versioned and
 frozen once used for data-taking.  All relevant configuration parameters
 are also stored in a database for use in analysis.
+
+An additional geometry XML file contains the $(x,y,z)$ and (string,
+position) coordinates of the DOMs, needed by the Trigger components.  DOMs
+are individually identified by the DAQ using an ID generated from a
+component device identifier on the DOM Main Board.  This ensures that cabling changes
+on a DOMHub do not result in changes in data-taking or errors in the geometry.
 
 \subsubsection{Component Control}
 
