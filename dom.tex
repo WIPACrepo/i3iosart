@@ -273,7 +273,7 @@ and an MPE discriminator used for the larger-amplitude signals in IceTop.
 A discriminator crossing begins a "launch" of the high speed waveform
 capture and digitization. Each DOM is equipped with two ATWD chips,
 and each chip is provided with three different amplifier
-gains in order to completely cover the 
+gains with nominal values of 16, 2, and 0.25 in order to completely cover the 
 dynamic range of the PMT output (up to 150~mA, or 7.5V, when saturated). 
 The ATWD chips are configured to sample the input voltage at \unit[300]Msps
 and operate by analog storage of waveform samples in switched capacitor arrays of depth 128,
@@ -377,7 +377,7 @@ measurements with sample DOMs yield a peak at
 \unit[399]nm and spectral width \unit[14]nm (FWHM) when measured at
 $-20^{\circ}$~C, where the peak wavelength is shifted by 
 \unit[$-1$]nm compared to room temperature~\cite{Aartsen:2013rt}.
-The LEDs are arranged in pairs, evenly spaced around the board
+The LEDs are arranged in six pairs, evenly spaced around the board
 with a 60$^{\circ}$ separation between each pair. One LED in each pair
 is pointed downward at an angle of 10.7$^{\circ}$; after refraction through the DOM glass and into
 the ice, the LED
@@ -444,8 +444,10 @@ Sixteen ``color DOMs'' (cDOMs) are fitted with multi-wavelength
 Flasher Boards; 8 are deployed on String~79 in the center of IceCube, and 8
 are deployed on String~14 on the edge of IceCube.  Each cDOM includes
 3 LEDs each with nominal
-wavelengths of 505~nm, 450~nm, 370~nm, and 340~nm. The LEDs are arranged in pairs as on the
-standard flasher board, but all LEDs point outward horizontally. 
+wavelengths of 505~nm, 450~nm, 370~nm, and 340~nm. The LEDs are
+arranged in six pairs as on the
+standard flasher board, three pairs of 370~nm and 450~nm and three
+pairs of 340~nm and 550~nm, but all LEDs point outward horizontally. 
 The properties of the LEDs are given in
 Table~\ref{table:cdom_properties}.
 
@@ -483,8 +485,9 @@ for at least 20 years. As hot-water drilling was the principal
 driver of the deployment timeline, the DOM production schedule was
 structured to supply DOMs as needed and to avoid any inventory shortfall.
 The production was implemented in a 3-stage approach. Stage 1 was
-the production of the initial 400 DOMs at three sites: one in the United
-States (Physical Sciences Laboratory (PSL), Stoughton, Wisconsin) and two
+the production of the initial 400 DOMs at three sites: one in the
+United States at the University of Wisconsin--Madison's Physical
+Sciences Lab (PSL, Stoughton, Wisconsin) and two
 in Europe (DESY, Zeuthen, Germany, and Stockholm University,
 Sweden). DOM testing was performed at PSL, DESY, and Uppsala University,
 Sweden. This

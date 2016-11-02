@@ -303,7 +303,7 @@ from each DOM therefore results in a series of four timestamps
 $T_{\mathrm{tx}}^{\mathrm{DOR}}$, $T_{\mathrm{rx}}^{\mathrm{DOM}}$, 
 $T_{\mathrm{tx}}^{\mathrm{DOM}}$,  and $T_{\mathrm{rx}}^{\mathrm{DOR}}$
 (Fig.~\ref{fig:rapcal_symmetry}), with timestamps in periods
-of the 20MHz clocks of the DOM and surface electronics (DOR, Sect.~\ref{sect:online:master_clock}).  In order to improve the precision
+of the 20 MHz clocks of the DOM and surface electronics (DOR, Sect.~\ref{sect:online:master_clock}).  In order to improve the precision
 beyond the sampling speed of the communications ADC, a ``fine delay'' correction $f$ to
 $T_{\mathrm{rx}}^{\mathrm{DOM}}$ and $T_{\mathrm{rx}}^{\mathrm{DOR}}$ is calculated by interpolating
 to find the negative-going baseline crossing, with the baseline voltage
@@ -473,8 +473,7 @@ The beacon hits from which the digitizer baselines are derived
 monitored continuously throughout the year. The average values of the
 beacon baselines are very stable, with shifts of no more than
 0.2~counts per year, corresponding to 0.018~mV in the fADC and
-0.025~mV in the high-gain ATWD channel. The single photoelectron
-charge peak is stable to within 0.05~PE. The baseline shifts from May
+0.025~mV in the high-gain ATWD channel. The baseline shifts from May
 2015 to April 2016 are shown in Fig.~\ref{fig:baseline_stability_2015}. 
 
 \begin{figure}[!h]
@@ -665,11 +664,11 @@ in 2015.
   \subfloat[]{\includegraphics[width=0.5\textwidth]{graphics/dom/reliability/tdpcomparison.pdf}}
   \vspace{-1\baselineskip}  
   \caption{Left: track detection probability (TDP) in String 80, with a
-    mixture of standard DOMs (red crosses) and HQE DOMs (blue
+    mixture of standard DOMs (blue crosses) and HQE DOMs (red
     circles). Right: shift in TDP for all in-ice DOMs between 2012 and 2015; standard DOMs are in blue and
-    DeepCore DOMs are in red. The mean of the Gaussian fit to
+    HQE DOMs are in red. The mean of the Gaussian fit to
     the TDP shift in the standard DOMs is -0.1\%, and the mean 
-    TDP shift in the DeepCore DOMs is 0.05\%.}
+    TDP shift in the HQE DOMs is 0.05\%.}
   \label{fig:tdp}
 \end{figure}
 
