@@ -62,7 +62,7 @@ the DOM in \unit[1.6384]ms intervals, as a collective increase of all rates
 could signify detection of many low energy neutrinos in case of a Galactic
 supernova event (Sec.~\ref{sect:SNDAQ}).
 
-DOMs transmit their data to computers in the IceCube Laboratory building (ICL)
+DOMs transmit their data to computers in the ICL
 using a twisted wire pair that also provides power (Sec.~\ref{sec:cable}).
 Wire pairs are bundled to form the vertical in-ice cables and the horizontal surface
 cables.  Each wire pair is shared between two DOMs, with data transfers
@@ -81,7 +81,7 @@ station, are described in Ref.~\cite{ICECUBE:IceTop}. Local coincidence
 hits (``HLC'' hits) often have complex PMT waveforms
 indicating multiple photons detected in each DOM and are therefore saved
 in full detail; otherwise, the DOM saves abbreviated information appropriate
-to single photon detection (Sec.~\ref{sect:online:dataflow}).
+to single photon detection (Sec.~\ref{sect:online:payloads}).
 
 The DOM is capable of interpreting commands from the surface that specify
 tasks for configuration, data taking and transmission, monitoring or
@@ -263,6 +263,8 @@ digitized waveforms, temporarily storing the data, and creating time-stamped dat
 \item{Communicating with the data acquisition (DAQ) system on the surface.}
 \item{Exchanging timing pulses with the surface DAQ to calibrate the internal DOM clock. }
 \item{Exchanging LC pulses with the adjacent DOMs.}
+\item{Uniquely identifying each DOM by providing a Main Board ID generated from a 
+component device identifier.}
 \end{enumerate}
 
 The data flow starting from the PMT is shown in Fig.~\ref{fig:domdataflow}.

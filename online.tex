@@ -36,7 +36,8 @@ Sec.~\ref{sec:dom_functional}.  Hits that meet the LC criteria are flagged
 as Hard Local Coincidence (HLC hits) and include a full payload of
 digitized waveforms, while isolated non-LC hits are flagged as Soft Local
 Coincidence (SLC) hits and are compressed more aggressively, with only a
-timestamp and minimal amplitude / charge information transmitted.
+timestamp and minimal amplitude / charge information transmitted
+(Sec.~\ref{sect:online:payloads}). 
 
 All DOM hits are read out to dedicated computers on the surface
 (Sec.~\ref{sect:sps}) by the data acquisition system (DAQ).  The next level
@@ -244,6 +245,29 @@ monitoring, is facilitated using the Linux \texttt{/proc} filesystem
 interface.  Data transfer from the cards to the single-board computer is
 achieved via Direct Memory Access (DMA) over the PCI bus.  The driver
 provides a device file for each DOM for read/write access by higher-level software.
+
+\subsubsection{\label{sect:online:payloads}DOM Hit Payloads}
+
+The content of the DOM hit payloads transmitted to the surface depends on whether local
+coincidence was satisfied, i.e. whether the hit was flagged as HLC or SLC.
+The DOM Main Board ID and the timestamp of the hit in DOM clock counts are
+always transmitted, along with trigger and LC flags.
+
+For HLC hits, the digitized ATWD and fADC waveforms are transmitted.
+Waveforms from lower-gain ATWD channels are only included if the signal
+amplitude in the higher-gain channel exceeds 75\% of the digitizer range.  The waveforms are
+compressed losslessly in the DOM using a delta-compression algorithm that
+encodes the difference between subsequent samples.  The difference values
+are packed into words of length 1, 2, 3, 6, or 11 bits depending on
+magnitude, and special values in the bitstream are used to transition
+between different word lengths.
+
+For both HLC and SLC hits, a chargestamp is included that provides an
+estimate of the amplitude/charge even if, as in the SLC case, the full
+waveform is not transmitted.  For in-ice DOMs, the chargestamp consists of
+three samples of the fADC waveform centered around the peak value, along
+with the peak sample number.  For IceTop DOMs, the chargestamp is the sum
+of all samples of the ATWD waveform, after pedestal subtraction.
 
 \subsection{Data Acquisition Software}
 
@@ -554,9 +578,8 @@ frozen once used for data-taking.  All relevant configuration parameters
 are also stored in a database for use in analysis.
 
 An additional geometry XML file contains the $(x,y,z)$ and (string,
-position) coordinates of the DOMs, needed by the Trigger components.  DOMs
-are individually identified by the DAQ using an ID generated from a
-component device identifier on the DOM Main Board.  This ensures that cabling changes
+position) coordinates of the DOMs, needed by the Trigger components.  The
+DOMs entries are indexed by their unique Main Board ID.  This ensures that cabling changes
 on a DOMHub do not result in changes in data-taking or errors in the geometry.
 
 \subsubsection{Component Control}
