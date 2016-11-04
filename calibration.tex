@@ -298,14 +298,19 @@ or its dispersive properties.
 \end{figure}
 
 The received dispersed bipolar pulses are digitized by a 20 MHz communications ADC and 
-timestamped using the local clock count.  A RAPCal pulse sequence to and
+timestamped using the local clock count.  The received pulse timestamp
+corresponds to a fixed delay after the start of the final pulse recovery.  A RAPCal pulse sequence to and
 from each DOM therefore results in a series of four timestamps 
 $T_{\mathrm{tx}}^{\mathrm{DOR}}$, $T_{\mathrm{rx}}^{\mathrm{DOM}}$, 
 $T_{\mathrm{tx}}^{\mathrm{DOM}}$,  and $T_{\mathrm{rx}}^{\mathrm{DOR}}$
-(Fig.~\ref{fig:rapcal_symmetry}), with timestamps in periods
-of the 20 MHz clocks of the DOM and surface electronics (DOR, Sect.~\ref{sect:online:master_clock}).  In order to improve the precision
-beyond the sampling speed of the communications ADC, a ``fine delay'' correction $f$ to
-$T_{\mathrm{rx}}^{\mathrm{DOM}}$ and $T_{\mathrm{rx}}^{\mathrm{DOR}}$ is calculated by interpolating
+(Fig.~\ref{fig:rapcal_symmetry}).  These timestamps initially count periods
+of the DOM's 40 MHz clock and of the 20 MHz clock of the surface
+electronics (DOR, Sect.~\ref{sect:online:master_clock}); they are
+translated into common units for the calculations described below.
+
+Next, in order to improve the precision beyond the sampling speed of the
+communications ADC, a ``fine delay'' correction $f$ to $T_{\mathrm{rx}}^{\mathrm{DOM}}$ and
+$T_{\mathrm{rx}}^{\mathrm{DOR}}$ is calculated by interpolating 
 to find the negative-going baseline crossing, with the baseline voltage
 calculated using the initial samples of the waveform (Fig.~\ref{fig:rapcal_zero_crossing}):
 
@@ -334,7 +339,7 @@ results before and after $t$ to derive a linear relationship
   T_C^{\mathrm{DOR}} + \Delta\ .
 \end{equation}
 
-\noindent The slope $(1+\epsilon)$ accounts for drifts in the 20 MHz DOM
+\noindent The slope $(1+\epsilon)$ accounts for drifts in the DOM
 clocks and is calculated from the $T_C$ pairs of the two neighboring RAPCal
 results: 
 
