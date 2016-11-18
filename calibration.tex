@@ -91,7 +91,7 @@ required in order to determine the fADC offset to the required accuracy.
 The transit time of the PMT and Delay Board as a function of PMT high
 voltage $V$ is determined by calculating the delay between the digitized
 current pulse through the Main Board LED and the observed light pulse in
-the ATWDs; this relationship is linear in $1/\sqrt{V}$.
+the ATWDs.
 
 The PMT gain as a function of high voltage is calibrated using ambient
 ``dark noise'' photons --- the charge $e$ prior to amplification is quantized
@@ -430,7 +430,7 @@ intensity~\cite{ICECUBE:PMT}. The results agree well with independent
 Hamamatsu measurements of sensitivity in the range 270--730~nm, which
 were then normalized to the 337~nm measurement.  The resulting quantum
 efficiency at the center of the PMT at 390~nm is 25\%.  A full
-simulation model for the DOM includes the wavelength dependence of the PMT
+simulation model of the DOM includes the wavelength dependence of the PMT
 response, optical absorption in the DOM glass and gel, discriminator
 threshold effects, and photocathode non-uniformity.  The angular dependence is
 dominated by the shape of the photocathode and its response variation away
@@ -523,7 +523,7 @@ baseline stability.
  \label{fig:charge_fadcshift}
 \end{figure}
 
-The baselines are sensitive to radio-frequency interference (RFI). In
+The baselines can be sensitive to radio-frequency interference (RFI). In
 2009, RF signals from the COBRA meteor radar transmitter broadcasting at
 46.3~MHz \cite{meteor_radar}
 appeared as sinusoidal or spiky modulations in the waveform
@@ -716,7 +716,10 @@ The temperature dependence of the noise rate
 measured temperature profile of 
 the South Pole ice cap \cite{price2002temperature} with a fit of the
 Poissonian expectation of the total dark noise rate to every individual
-DOM, and was verified in lab measurements.  
+DOM, and was verified in lab measurements.  The temperature of the in-ice
+DOMs, measured on the Main Board, increases with depth from
+$-31\ ^{\circ}\mathrm{C}$ to $-9\ ^{\circ}\mathrm{C}$
+($10\ ^{\circ}\mathrm{C}$ above the ambient ice temperature). 
 
 \begin{figure}
   \centering

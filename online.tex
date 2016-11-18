@@ -116,7 +116,7 @@ single-board computer were upgraded in 2013--14.
   \label{tab:sps_breakdown}
 \end{table}
 
-The DOMHub is an industrial computer chassis with custom components for DOM
+Each of the DOMHubs is an industrial computer chassis with custom components for DOM
 power, timing, and communication.  A low-power single-board computer
 communicates with 8 custom PCI DOM Readout (DOR) cards via an
 industry-standard backplane.  An ATX power supply with two
@@ -132,13 +132,13 @@ redundant connections to a 10--20 Gbps network backbone.  The DOMHubs are
 connected to the rack switches with two bonded 1 Gbps links.  Typical network I/O during
 data-taking for the DAQ Event Builder (Sec.~\ref{sect:online:evbuilder}) is about 240~Mbps in each direction.
 The PnF Central Server sees 200 Mbps in and 640 Mbps out; the output
-direction is significantly higher than the input as PnF distributes the
+stream is significantly higher than the input as PnF distributes the
 events to filtering clients and generates multiple output streams
 (Sec.~\ref{sect:online:filter}).  
 
 Redundancy and continuous monitoring of SPS is one of the keys to a high
 detector livetime (Sec.~\ref{sec:operational_performance}).
-Industry-standard Nagios monitoring software detects and flags problems, 
+Nagios monitoring software detects and flags problems, 
 including issues with DOM power and communication on the DOMHubs.  Severe
 problems impacting data-taking result in a page to the IceCube winterover 
 personnel via the station's Land Mobile Radio (LMR) system.  A dedicated
@@ -277,7 +277,7 @@ Fig.~\ref{fig:online_dataflow} and include StringHub, Trigger, Event
 Builder, Secondary Builder, and a Command and Control server.  The DAQ is
 responsible for detecting patterns of hits in the detector likely to be
 caused by particle interactions and storing these collections of hits as
-``events''.
+events.
 
 Hits are read continuously from the DOMs by the
 StringHub components running on each DOMHub, and a minimal representation of each HLC hit is
@@ -381,11 +381,11 @@ window without any HLC hits from the relevant DOM set.  The
 multiplicity value $N$ is tuned to the energy threshold of the sub-detector,
 which fundamentally is set by the string or tank spacing.
 
-Other triggers use a lower multiplicity threshold by adding constrains on
+Other triggers use a lower multiplicity threshold by adding constraints on
 the HLC hit topology.  The time windows for these triggers are based upon
 the size of the locality volume. The Volume Trigger defines a cylinder of fixed size around
 each hit DOM and requires a given multiplicity within this cylinder
-(Fig.~\ref{fig:trig_cylinder}); this allows one to trigger on localized
+(Fig.~\ref{fig:trig_cylinder}); this allows IceCube to trigger on localized
 low-energy events that do not satisfy the SMT condition.  The Volume Trigger
 has an additional simple multiplicity parameter that fires the trigger when
 a certain number of hits is reached, regardless of any spatial
@@ -410,9 +410,9 @@ muons that pass vertically through the detector.
     represent HLC-hit DOMs.  Left: Volume Trigger.  Right: String Trigger. }
 \end{figure}
 
-IceCube has the potential to detect hypothetical subrelativistic heavy
-particles such as magnetic monopoles via catalyzed nucleon decays along
-the particle trajectory \cite{Aartsen:2014awd}.  However, because these
+IceCube can detect hypothetical subrelativistic heavy
+particles such as magnetic monopoles that may catalyze nucleon decays along
+their trajectory \cite{Aartsen:2014awd}.  However, because these
 particles may travel at velocities less than $0.01c$, the time
 windows used in the standard triggers are too short.  A dedicated Slow
 Particle (SLOP) trigger has thus been developed to search for slow
@@ -799,7 +799,7 @@ tasks (event calibration, reconstruction, analysis, and filtering).
 The system is built upon the IceCube analysis software framework,
 IceTray~\cite{DeYoung:2005zz}, allowing standard IceCube algorithms to be
 used online without modifications.
-Additionally, the system uses the Common Object Request Broker Architecture
+The system uses the Common Object Request Broker Architecture
 (CORBA) system as a means for controlling, supervising and interconnecting
 the modular portions of the system.  Specialized CORBA classes allow
 data to stream from one component to another using IceTray formats.
