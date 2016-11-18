@@ -54,16 +54,16 @@ the PMT waveform that also includes photons arriving up to
 \unit[6.4]{$\mu$s} later (a ``hit'').  The hit time is saved along with the
 waveform shape, allowing the determination of the times of arriving photons
 relative to this reference.  The DOM accumulates such hit
-data for a period of \unit[1]s before sending the data up as a block.
+data for a period of about \unit[1]s before sending the data up as a block.
 However, if data readout is interrupted, the DOM can store
 $\mathcal{O}(\SI{10}{\second})$ of data before overflowing local memory
 (16MB of SDRAM), depending on hit rate.  Separately, the PMT hit rate is recorded by
 the DOM in \unit[1.6384]ms intervals, as a collective increase of all rates
 could signify detection of many low energy neutrinos in case of a Galactic
-supernova event (Sec.~\ref{sect:SNDAQ}).
+supernova event (Sec.~\ref{sect:SNDAQ}) \cite{IC3:supernova}.
 
 DOMs transmit their data to computers in the ICL
-using a twisted wire pair that also provides power (Sec.~\ref{sec:cable}).
+over a twisted wire pair that also provides power (Sec.~\ref{sec:cable}).
 Wire pairs are bundled to form the vertical in-ice cables and the horizontal surface
 cables.  Each wire pair is shared between two DOMs, with data transfers
 initiated by a surface computer.  Separately, dedicated local coincidence
@@ -98,7 +98,7 @@ computers.
 
 The glass sphere housing has an outer diameter of \SI{13}{''} and thickness
 of \SI{0.5}{''}.
-The spheres are specified to protect the inside electronics and PMT against long-term applied pressure of 
+The spheres protect the inside electronics and PMT against long-term applied pressure of 
 \unit[250]bar (\unit[2.6]km-equivalent water depth)
 as well as temporary overpressure up to \unit[690]bar during the refreezing of melted ice in the drill hole.
 The housings were produced by Benthos, Inc., based on a design for deep-sea
@@ -243,12 +243,13 @@ The single photoelectron (SPE) output waveform has been described in Ref.~\cite{
 With a \unit[100]$\Omega$ load connected to the transformer, and operating
 at standard PMT gain of $10^7$, the SPE 
 peak voltage before front-end amplification is approximately \unit[8]mV
-with a FWHM of \unit[7--8]ns.  After digitization, several effects combine to increase
+with a FWHM of \unit[7--8]ns.  Several effects combine to increase
 the FWHM of digitized SPE waveforms to $\sim$\unit[13]ns (peak $\sim$\unit[5]mV).
 
 \subsubsection{\label{sec:mainboard}Main Board and Delay Board}
 
-The Main Board and its operation has been described in detail in \cite{ICECUBE:DAQ}.  
+The Main Board, designed at Lawrence Berkeley National Laboratory,
+has been described in detail in \cite{ICECUBE:DAQ}.   
 It interfaces to other boards as shown in Fig.~\ref{fig:domcomponents} and
 provides many key functions of the DOM, including:
 
@@ -287,7 +288,7 @@ ground planes.  The highest-gain channel is used
 for most pulses, and lower-gain recordings are also retained as needed when pulses reach 75\% of the range 
 of a higher-gain channel, in order to avoid any loss of information due to
 digital saturation.  The mean amplifier gains of all deployed DOMs for high-,
-medium-, and low-gain channels are 15.6, 1.79, and 0.21 respectively.
+medium-, and low-gain channels are $15.7\pm0.6$, $1.79\pm0.06$, and $0.21\pm0.01$ respectively.
 
 \begin{figure}[h]
  \centering
@@ -538,10 +539,10 @@ protocol (Final Acceptance Testing, or FAT) including temperature-cycling
 and cold-soaking ensured that bad modules and early component failures were
 identified and repaired before shipping.  This testing at production sites
 was performed in Dark Freezer Labs (DFLs), light-tight walk-in 
-modules capable of sustaining temperatures down to $-55^\circ$C.  Main Board
+enclosures capable of sustaining temperatures down to $-55^\circ$C.  Main Board
 and DOM functionality was tested by self-diagnostic software installed on
 each module.  Other tests included gain calibration, dark noise monitoring,
-and LC validation.  Optical sensitivity, time resolution,
+LC validation, and booting after cold-soaking.  Optical sensitivity, time resolution,
 and linearity were measured using external light sources fed into the DFLs
 via optical fibers and diffused over the DOM lower hemispheres at each
 testing station. Sensitivity was measured primarily with a
@@ -594,7 +595,8 @@ beyond identifying electrical shorts is challenging.
 
 A total of 171~DOMs have developed issues that affect their data-taking
 configuration but are still usable.  For example, DOMs with a single functional
-ATWD chip have a higher deadtime but are otherwise good.  The LC settings of functional DOMs adjacent on a string to
+ATWD chip have a higher deadtime but are otherwise good.  The LC settings
+of functional DOMs adjacent on a string to 
 dead DOMs must also be modified. In most cases, local coincidence is
 disabled in the direction of a dead neighbor DOM, but in a few cases a
 malfunctioning DOM can still be configured to forward the local
@@ -605,8 +607,9 @@ data-taking. These are enumerated in Table \ref{tab:dom_failures}.
   \centering
   \caption{Number of DOM failures during deployment/freeze-in and after
     commissioning during detector operation, as well as DOMs with various
-    issues (including a failed neighbor) causing them to be operated in a
-    non-standard data-taking mode.} 
+    issues causing them to be operated in a
+    non-standard data-taking mode.  The majority of DOMs with non-standard
+    LC settings function normally but have a neighbor with an issue.}  
   \label{tab:dom_failures}
   \begin{tabular}{rc|rc}
     \toprule
