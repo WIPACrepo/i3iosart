@@ -413,9 +413,11 @@ between the IceTop surface stations and the in-ice DOMs~\cite{IC3:perf}.
   \caption{Left: Time from flasher emission to detection at the DOM above for 17~m vertical spacing
     (red), 10~m vertical spacing (blue) and 7~m vertical spacing
     (green). The expected light travel times in ice for each distance are marked with
-    vertical lines. Right: arrival time difference between the two
-    DOMs above the flasher for DOMs with 7~m vertical spacing; vertical line denotes expected light
-    travel time in ice; the mean of the distribution is 33~ns, due to
+    vertical lines. Right: arrival time difference (blue) between the two
+    DOMs above the flasher for DOMs with 7~m vertical spacing; the
+    vertical red line denotes expected light
+    travel time in ice; the mean of a Gaussian fit to the distribution
+    (dashed blue line) is 33~ns, due to
     the effects of scattering in ice. The width of the distribution is 1.7~ns.}
   \label{fig:flashertiming}
 \end{figure}
@@ -434,7 +436,21 @@ simulation model of the DOM includes the wavelength dependence of the PMT
 response, optical absorption in the DOM glass and gel, discriminator
 threshold effects, and photocathode non-uniformity.  The angular dependence is
 dominated by the shape of the photocathode and its response variation away
-from the center, which was measured for 135 PMTs~\cite{ICECUBE:PMT}.
+from the center, which was measured for 135 bare
+PMTs~\cite{ICECUBE:PMT}. The efficiency was also measured for 16 fully integrated
+DOMs, including glass and gel; the response of an example DOM is shown
+in Fig.~\ref{fig:goldendom}. The efficiency measurement used the
+337~nm nitrogen laser, as well as LEDs at 365~nm, 470~nm, 520~nm, and
+572~nm due to the low transparency of the glass at short wavelengths.
+
+\begin{figure}[!h]
+ \centering
+ \includegraphics[width=0.6\textwidth]{graphics/dom/performance/GDOM-NemuriNeko-2D-colz.pdf}
+ \caption{Position dependence of the response of a DOM, normalized to
+   the absolute efficiency at 365~nm. The x-y coordinates measure
+   distance from the center of the DOM.}
+ \label{fig:goldendom}
+\end{figure}
 
 The efficiency model as determined from the laboratory measurements was supplemented with \textit{in
   situ} measurements using Cherenkov light from muons in the ice. The
@@ -670,7 +686,8 @@ in 2015.
   \vspace{-1\baselineskip}  
   \caption{Left: track detection probability (TDP) in String 80, with a
     mixture of standard DOMs (blue crosses) and HQE DOMs (red
-    circles). Right: shift in TDP for all in-ice DOMs between 2012 and 2015; standard DOMs are in blue and
+    circles). The variation with depth is due to the depth-dependent
+    optical properties of the ice. Right: shift in TDP for all in-ice DOMs between 2012 and 2015; standard DOMs are in blue and
     HQE DOMs are in red. The mean of the Gaussian fit to
     the TDP shift in the standard DOMs is -0.1\%, and the mean 
     TDP shift in the HQE DOMs is 0.05\%.}
