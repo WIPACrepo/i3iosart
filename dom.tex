@@ -251,7 +251,8 @@ the FWHM of digitized SPE waveforms to $\sim$\unit[13]ns (peak $\sim$\unit[5]mV)
 
 The Main Board, designed at Lawrence Berkeley National Laboratory,
 has been described in detail in \cite{ICECUBE:DAQ}.   
-It interfaces to other boards as shown in Fig.~\ref{fig:domcomponents} and
+Essentially an embedded single-board data-acquisition computer, the Main
+Board interfaces to other boards as shown in Fig.~\ref{fig:domcomponents} and
 provides many key functions of the DOM, including:
 
 \begin{enumerate}
@@ -322,8 +323,11 @@ Fig.~\ref{fig:mpe_waveform}.
  \label{fig:mpe_waveform}
 \end{figure}
 
-Every digitizer launch results in a ``hit'' record being sent to the surface computers, but the amount of
-information included depends on whether a signal was also detected in one of the neighboring DOMs.
+Every digitizer launch results in a ``hit'' record.  Hits are
+transferred from the FPGA to SDRAM lookback memory (LBM) via Direct Memory Access
+(DMA), and the Main Board CPU bundles them and sends them on request to the surface
+computers.   The amount of
+information included in a hit depends on whether a signal was also detected in one of the neighboring DOMs.
 In case of an isolated signal (no coincidence), only a time stamp and brief charge summary are sent, and
 the digitization process is aborted.  Conversely, when a nearest or next-to-nearest neighbor DOM 
 also signals a launch within $\pm$\unit[1]$\mu$s (local coincidence), the full waveform is compressed
@@ -350,13 +354,13 @@ Fig.~\ref{fig:atwd_timing}).
  \label{fig:atwd_timing}
 \end{figure}
 
-The total accumulated deadtime is measured by the DOMs by counting
+The total accumulated deadtime for each individual DOM is measured by counting
 discriminator crossings when both ATWDs and the fADC are not acquiring
 data. This deadtime varies seasonally based on the atmospheric muon
 flux~\cite{ICECUBE:IceTop}.  The median fractional deadtime during a
 high-rate period for in-ice DOMs 
 is $6.6\times10^{-5}$, for IceTop low-gain DOMs is $7.2\times 10^{-6}$, and
-for IceTop high-gain DOMs is $3.2 \times 10^{-3}$.  
+for IceTop high-gain DOMs is $3.2 \times 10^{-3}$.
 
 \subsubsection{\label{sec:flasher}Flasher Board}
 
