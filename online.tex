@@ -20,7 +20,7 @@ The online data flow consists of a number of steps of data reduction and
 selection in the progression from photon detection in the ice to
 candidate physics event selection, along with associated secondary
 monitoring and data streams.  An overview of the data flow is shown in
-Fig.~\ref{fig:online_dataflow}.
+figure~\ref{fig:online_dataflow}.
 
 \begin{figure}[!ht]
  \centering
@@ -32,20 +32,20 @@ Fig.~\ref{fig:online_dataflow}.
 
 DOM hits are mostly due to dark noise. The first step
 in data reduction takes place in the DOM, using the Local Coincidence (LC) condition described in
-Sec.~\ref{sec:dom_functional}.  Hits that meet the LC criteria are flagged
+section~\ref{sec:dom_functional}.  Hits that meet the LC criteria are flagged
 as Hard Local Coincidence (HLC hits) and include a full payload of
 digitized waveforms, while isolated non-LC hits are flagged as Soft Local
 Coincidence (SLC) hits and are compressed more aggressively, with only a
 timestamp and minimal amplitude / charge information transmitted
-(Sec.~\ref{sect:online:payloads}). 
+(section~\ref{sect:online:payloads}). 
 
 All DOM hits are read out to dedicated computers on the surface
-(Sec.~\ref{sect:sps}) by the data acquisition system (DAQ).  The next level
+(section~\ref{sect:sps}) by the data acquisition system (DAQ).  The next level
 of data selection is the formation of software triggers by the DAQ
 system. HLC hits across the detector are examined 
 for temporal and in some cases spatial patterns that suggest a common
 causal relationship.  A number of different trigger algorithms run in
-parallel, described in Sec.~\ref{sect:online:trigger}.  All hits (both HLC
+parallel, described in section~\ref{sect:online:trigger}.  All hits (both HLC
 and SLC) within a window around the trigger are combined into events, the
 fundamental output of the DAQ.  The event rate varies
 seasonally with the atmospheric muon flux~\cite{ICECUBE:IceTop} from 2.5 to
@@ -55,13 +55,13 @@ approximately 1~TB/day.
 The DAQ also produces secondary streams that include time calibration,
 monitoring, and DOM scaler data.  The scaler data, which monitors the
 hit rate of each DOM, is used in the supernova data
-acquisition system (Sec.~\ref{sect:SNDAQ}).  The time calibration and
+acquisition system (section~\ref{sect:SNDAQ}).  The time calibration and
 monitoring streams are used to monitor the health and quality of the
 data-taking runs.
 
 The DAQ event data are then processed further with approximately 25 filters
 in order to select a subset of events (about 15\%) to transfer over
-satellite to the Northern Hemisphere (Sec.~\ref{sect:online:filter}).  Each
+satellite to the Northern Hemisphere (section~\ref{sect:online:filter}).  Each
 filter, typically designed to select events useful for a particular physics
 analysis, is run over all events using a computing cluster in the ICL.
 Because of limitations both on total computing power and bounds on the
@@ -73,12 +73,12 @@ are archived locally.
 
 A dedicated system for data movement, JADE, handles the local archival storage to
 tape or disk and the handoff of satellite data
-(Sec.~\ref{sect:online_jade}).  This includes not only primary data streams
+(section~\ref{sect:online_jade}).  This includes not only primary data streams
 but also monitoring data, calibration runs, and other data streams.
 Low-latency communications for experiment control and real-time monitoring
 are provided by the IceCube Messaging System (I3MS).  
 Experiment control and detector monitoring are handled by the IceCube Live
-software system, described in Sec.~\ref{sec:online:icecubelive}.
+software system, described in section~\ref{sec:online:icecubelive}.
 
 Data-taking runs are arbitrarily divided into 8-hour periods and assigned
 a unique run number; data acquisition need not actually pause during
@@ -125,19 +125,19 @@ redundant modules powers the DOMHub, while two
 chassis to double the voltage to 96~V, supply power to the DOMs.  The DOM power is switched and
 monitored by the DOR cards and is controlled by software.  Another PCI
 card, the DOMHub Service Board (DSB), is responsible for GPS timing fanout
-(Sec.~\ref{sect:online:master_clock}).
+(section~\ref{sect:online:master_clock}).
 
 The SPS computers are connected via switches in each rack that provide
 redundant connections to a 10--20 Gbps network backbone.  The DOMHubs are
 connected to the rack switches with two bonded 1 Gbps links.  Typical network I/O during
-data-taking for the DAQ Event Builder (Sec.~\ref{sect:online:evbuilder}) is about 240~Mbps in each direction.
+data-taking for the DAQ Event Builder (section~\ref{sect:online:evbuilder}) is about 240~Mbps in each direction.
 The PnF Central Server sees 200 Mbps in and 640 Mbps out; the output
 stream is significantly higher than the input as PnF distributes the
 events to filtering clients and generates multiple output streams
-(Sec.~\ref{sect:online:filter}).  
+(section~\ref{sect:online:filter}).  
 
 Redundancy and continuous monitoring of SPS is one of the keys to a high
-detector livetime (Sec.~\ref{sec:operational_performance}).
+detector livetime (section~\ref{sec:operational_performance}).
 Nagios monitoring software detects and flags problems, 
 including issues with DOM power and communication on the DOMHubs.  Severe
 problems impacting data-taking result in a page to the IceCube winterover 
@@ -172,7 +172,7 @@ timing.
 \subsection{Data Readout and Timing}
 
 While the low-level communications and timing systems of the DOM are
-described in detail in Ref.~\cite{ICECUBE:DAQ}, we review those here in
+described in detail in ref.~\cite{ICECUBE:DAQ}, we review those here in
 the broader context of the online systems.
 
 \subsubsection{\label{sect:online:comms}Communications}
@@ -191,7 +191,7 @@ is 720 kbps per twisted pair.
 
 Messaging is managed from the surface, in that the DOR requests data from
 each DOM in turn; only one DOM per pair can transmit at a time.  Communication is
-paused once per second to perform a timing calibration (RAPCal; Sec.~\ref{sect:dom:rapcal}); this enables time transfer of DOM clock to DOR
+paused once per second to perform a timing calibration (RAPCal; section~\ref{sect:dom:rapcal}); this enables time transfer of DOM clock to DOR
 clock for every DOM.  
 
 % Add more details about actual usage?
@@ -203,7 +203,7 @@ The DOR clocks themselves are synchronized to UTC via an active fanout
 system from a single Symmetricom ET6000 GPS receiver with a
 temperature-stabilized 10 MHz oscillator, also known as the Master
 Clock. The fanout tree is shown in
-Fig.~\ref{fig:clock_fanout}. The 10 MHz output, a 1 Hz output, and a
+figure~\ref{fig:clock_fanout}. The 10 MHz output, a 1 Hz output, and a
 proprietary serial time string indicating
 the UTC date and time are distributed to the DOMHubs via a series of
 fanouts, using shielded, delay-matched twisted-pair cables.  Within the
@@ -273,7 +273,7 @@ of all samples of the ATWD waveform, after pedestal subtraction.
 
 IceCube's data acquisition (DAQ) system is a set of software components
 running on the DOMHubs and dedicated servers in the ICL.  These components are shown in
-Fig.~\ref{fig:online_dataflow} and include StringHub, Trigger, Event
+figure~\ref{fig:online_dataflow} and include StringHub, Trigger, Event
 Builder, Secondary Builder, and a Command and Control server.  The DAQ is
 responsible for detecting patterns of hits in the detector likely to be
 caused by particle interactions and storing these collections of hits as
@@ -312,7 +312,7 @@ DOMs into a single time-ordered stream before passing them to the Sender.
 Omicron is also responsible for translating DOM hit times into
 UTC-compatible ``DAQ time'', which counts the number of 0.1-ns periods
 since the UTC start of the year (including leap seconds).  The translation
-uses the RAPCal procedure as described in Sec.~\ref{sect:dom:rapcal},
+uses the RAPCal procedure as described in section~\ref{sect:dom:rapcal},
 performed for each DOM every second.  
 
 The Sender caches SLC and HLC hits in memory, then forwards a
@@ -333,7 +333,7 @@ pushes new data onto a ``tail'', and the Splicer merges the data from all
 streams into a single sorted output stream.  When a stream is closed, it
 issues an end-of-stream marker that causes the Splicer to
 ignore all further data.  Details of the Splicer algorithm can be found in
-Ref.~\cite{vlvnt13_trigger}.  
+ref.~\cite{vlvnt13_trigger}.  
 
 As hits move from Omicron to the Sender, they are written to the
 HitSpool disk cache.  These files are
@@ -385,7 +385,7 @@ Other triggers use a lower multiplicity threshold by adding constraints on
 the HLC hit topology.  The time windows for these triggers are based upon
 the size of the locality volume. The Volume Trigger defines a cylinder of fixed size around
 each hit DOM and requires a given multiplicity within this cylinder
-(Fig.~\ref{fig:trig_cylinder}); this allows IceCube to trigger on localized
+(figure~\ref{fig:trig_cylinder}); this allows IceCube to trigger on localized
 low-energy events that do not satisfy the SMT condition.  The Volume Trigger
 has an additional simple multiplicity parameter that fires the trigger when
 a certain number of hits is reached, regardless of any spatial
@@ -393,7 +393,7 @@ restrictions; this prevents the trigger
 algorithm from slowing down when the detector has triggered already from
 the primary SMT. The String Trigger requires a certain number of hits
 within a span of DOMs along a single string 
-(Fig.~\ref{fig:trig_string}); this allows one to trigger on low-energy
+(figure~\ref{fig:trig_string}); this allows one to trigger on low-energy
 muons that pass vertically through the detector.
 
 \begin{figure}[ht]
@@ -425,7 +425,7 @@ is tuned to remove most hits from particles traveling near $c$, such as muons.
 For all parameters, the trigger algorithm considers the time and 
 position of the first hit within each HLC pair.  Next, triplets of HLC
 pairs within a time window $T_{\mathrm{max}}$ 
-are formed.  The geometry of each triplet formed (Fig.~\ref{fig:slop})
+are formed.  The geometry of each triplet formed (figure~\ref{fig:slop})
 must satisfy track-like 
 conditions: the largest inner angle $\alpha$ of the triangle formed by the
 HLC pairs must be greater than $\alpha_{\mathrm{min}}$, and the
@@ -507,7 +507,7 @@ window, while for other DOM sets, the readout windows are centered around
 the trigger start time.  Readout windows around IceTop triggers are global
 and include hits from all other DOM sets before and after the trigger
 window. The union of overlapping readout windows defines 
-an event (Fig.~\ref{fig:trigger_readout}).  Long events such as SLOP or FRT
+an event (figure~\ref{fig:trigger_readout}).  Long events such as SLOP or FRT
 triggers typically contain several causally independent ``physics'' events;
 these typically are re-split before reconstruction and analysis.
 
@@ -546,7 +546,7 @@ window. When all StringHubs have returned a list of hits, these are bundled with
 Events are written to a temporary file.  When the temporary file
 reaches a preset configurable size, it is renamed to a standard unique name.  When the PnF
 system sees a new file, it accepts it for processing and filtering
-(Sec.~\ref{sect:online:filter}).  The total latency from detection of
+(section~\ref{sect:online:filter}).  The total latency from detection of
 photons at the DOMs to DAQ events written to disk is approximately five
 seconds. 
 
@@ -634,20 +634,20 @@ individual hit rates of the DOMs~\cite{IC3:supernova}.
 Each DOM monitors its hit rate and sends a stream of binned counts, using a
 bin width of 1.6384~ms ($2^{16}$ clock cycles at 40 MHz).  An artificial
 deadtime of $250\ {\mu}\mathrm{s}$ is applied after each hit to reduce the
-impact of correlated hits (Sec.~\ref{sect:darknoise}).  Each
+impact of correlated hits (section~\ref{sect:darknoise}).  Each
 StringHub collects the rate stream of each DOM, supplies UTC-based timestamps,
 and forwards the streams to the Secondary Builder.
 
 The supernova DAQ (SNDAQ) system receives the Secondary Builder stream,
 rebins the individual DOM rates, and monitors the sum of rates over several
 timescales for a significant rise.  This analysis is described in
-detail in Ref.~\cite{IC3:supernova}.  One complication is that light
+detail in ref.~\cite{IC3:supernova}.  One complication is that light
 deposition from cosmic-ray muons distorts the significance
 calculation.  To correct for this, the trigger rate of the standard DAQ is
 continuously sent to SNDAQ, and any significant alert is corrected
 \cite{IC3:icrc15_sndaq}.  At a high significance threshold, the capture of
 all untriggered data around the alert time is initiated using the HitSpool
-system (Sec.~\ref{sect:hitspool}), and the Supernova Neutrino Early Warning
+system (section~\ref{sect:hitspool}), and the Supernova Neutrino Early Warning
 System (SNEWS) \cite{SNEWS} is notified.  SNDAQ latency of approximately 7
 minutes is dominated by the sliding window algorithm used to determine
 average DOM rates. 
@@ -721,7 +721,7 @@ suite that utilizes about 20 standard, multi-processor servers located in
 the SPS computing cluster.  
 
 The first step in the analysis of triggered events is the calibration of
-the digitized DOM waveforms, as described in Sec.~\ref{sec:waveformcal}.
+the digitized DOM waveforms, as described in section~\ref{sec:waveformcal}.
 The geometry, calibration, and detector status (GCD) information needed to
 process the data is stored in a database.  Next, each DOM's waveform is
 deconvolved using the known DOM response to single photons to 
@@ -761,7 +761,7 @@ stability and quality information from the DOM waveform and calibration
 process, rates of DOM readouts, and rates and 
 stability information for all detector triggers and filters.  This
 information is aggregated for each data segment and reported to the IceCube
-Live monitoring system (Sec.~\ref{sec:online:icecubelive}).
+Live monitoring system (section~\ref{sec:online:icecubelive}).
 
 Finally, the PnF system generates several types of files for satellite
 transmission and for long term archival. These
@@ -809,7 +809,7 @@ processing load.
 \subsubsection{Components}
 
 The flow of triggered event data in the PnF
-system is shown in Fig.~\ref{fig:online_pnf_internals}.  Standard
+system is shown in figure~\ref{fig:online_pnf_internals}.  Standard
 components include: 
 \begin{enumerate}
 \item DAQ Dispatch, a process to pick up event data from the DAQ data cache
@@ -855,7 +855,7 @@ possible after collection by the data acquisition
 system.  A key performance metric is processing system latency, defined as the duration
 of time between the DAQ trigger and the completion of event
 processing and filtering.  A representative latency history for the system is
-shown in Fig.~\ref{fig:online_pnf_latency}, showing typical system
+shown in figure~\ref{fig:online_pnf_latency}, showing typical system
 latencies of about 20 seconds.
 
 \begin{figure}[!ht]
@@ -1042,7 +1042,7 @@ processing and display.
 Two operational copies of the IceCube Live website exist: one inside the
 IceCube network at the South Pole, and one in the Northern Hemisphere.
 Monitoring data reach the northern website based on relative priority and using
-both geosynchronous and Iridium data transport, summarized in Table
+both geosynchronous and Iridium data transport, summarized in table
 \ref{i3messages}.
 
 \begin{table}[!ht]
@@ -1067,7 +1067,7 @@ passed to an external process.  The IceCube Live website itself uses the
 Django web framework and contains pages that create graphical views of
 monitoring data stored in the database.  These pages include a front page
 displaying active alerts and plots of event rates and processing latencies
-from the previous few hours (Fig.~\ref{fig:live_screenshot}), and a page
+from the previous few hours (figure~\ref{fig:live_screenshot}), and a page
 for each run that displays start  
 time, stop time, and other essential data.  The run page contains low-level
 diagnostic data that include e.g. DOM charge histograms, digitizer baselines,
@@ -1124,7 +1124,7 @@ detector stability and decreased detector downtime. These features
 contribute to an average ``clean uptime'' in recent years of 97--98\% of
 full-detector, analysis-ready data, exceeding our target of 95\%.
 Historical total detector uptime and clean uptime are shown in
-Fig.~\ref{fig:clean-uptime}.   
+figure~\ref{fig:clean-uptime}.   
 
 \begin{figure}[!ht]
  \centering
@@ -1146,7 +1146,7 @@ astrophysical transient event. There is approximately a 1\%
 loss of clean uptime due to maintenance, commissioning, and verification
 runs, and short runs that are less than 10 minutes in duration.  A
 breakdown of total detector time by run period is shown in
-Fig.~\ref{fig:period-performance}.  
+figure~\ref{fig:period-performance}.  
 
 \begin{figure}[!ht]
 	\centering
