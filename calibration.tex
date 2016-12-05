@@ -3,23 +3,23 @@
 Regular calibration of each individual DOM allows translation of the
 recorded signals into a measurement of incident Cherenkov light at a
 particular time, the basis of particle event reconstructions.  The
-primary DOM calibration routine is DOMCal (Sec.~\ref{sec:domcal}), a
+primary DOM calibration routine is DOMCal (section~\ref{sec:domcal}), a
 calibration procedure run yearly on in-ice DOMs and monthly on IceTop
 DOMs that provides the constants used to convert DOM waveforms into
-physical units (Sec.~\ref{sec:waveformcal}).  Global time calibration across the array of DOMs is 
-provided by the RAPCal procedure (Sec.~\ref{sect:dom:rapcal}) that runs during
+physical units (section~\ref{sec:waveformcal}).  Global time calibration across the array of DOMs is 
+provided by the RAPCal procedure (section~\ref{sect:dom:rapcal}) that runs during
 data-taking.  The relative and absolute optical efficiency of the DOMs is
 determined both by laboratory and \emph{in situ} measurements
-(Sec.~\ref{sec:domeff}). The stability of these calibrations is also relevant
+(section~\ref{sec:domeff}). The stability of these calibrations is also relevant
 as not every calibration parameter can be tracked continuously during
-data-taking (Secs.~\ref{sec:baselines} to \ref{sec:optical_stability}).
+data-taking (sections~\ref{sec:baselines} to \ref{sec:optical_stability}).
 Understanding the statistical properties and time-dependence of the ambient ``dark
 noise'' is also important for low-energy neutrino analyses, supernova
-searches, and detector simulation (Sec.~\ref{sect:darknoise}).
+searches, and detector simulation (section~\ref{sect:darknoise}).
 
 The determination of the optical properties of the ice is crucial to
 the understanding of IceCube data but is beyond the scope of this work.
-Further details can be found in Refs.~\cite{Aartsen:2013rt,IC3:spice_lea}.
+Further details can be found in refs.~\cite{Aartsen:2013rt,IC3:spice_lea}.
 
 \subsection{\label{sec:domcal}DOMCal}
 
@@ -37,7 +37,7 @@ International (model C2560A-0009 TCXO) and has a certified stability
 of roughly $1 \times 10^{-11}$ for a sample interval of 5 seconds~\cite{ICECUBE:DAQ}.
 The Main Board LED is used to illuminate the PMT on the same DOM, as opposed
 to the LED flashers described in 
-Sec.~\ref{sec:flasher} which stimulate other DOMs. This LED produces
+section~\ref{sec:flasher} which stimulate other DOMs. This LED produces
 zero to a few tens of photoelectrons at the PMT~\cite{ICECUBE:DAQ}. Analysis and fitting of the
 calibration results is done by the DOMCal software, with the results being
 transmitted from each DOM to the surface as an XML file of fit parameters.
@@ -69,7 +69,7 @@ practice, these baselines are extremely sensitive to the operating
 condition of the DOMs, and since data-taking conditions cannot be exactly
 replicated while running DOMCal, the baselines used during data-taking are
 determined instead by using averaged forced triggers taken during a normal
-run (Sec.~\ref{sec:baselines}).  DOMCal can still use baselines that it measures
+run (section~\ref{sec:baselines}).  DOMCal can still use baselines that it measures
 for numerical charge integration during the calibration procedure.
 
 The highest-gain channels of each ATWD are calibrated using the electronic
@@ -98,15 +98,15 @@ The PMT gain as a function of high voltage is calibrated using ambient
 and known.  At each voltage level, a histogram of many observed charges is
 recorded, where the charge is determined by numerical integration of the waveform.
 Each histogram is fit with the sum of an exponential and a Gaussian
-function (Fig.~\ref{fig:domcal_hvfit}).  The peak of the Gaussian component is used
+function (figure~\ref{fig:domcal_hvfit}).  The peak of the Gaussian component is used
 to 
 determine the amplification of the PMT at each voltage, and a linear fit
 of $\log_{10}(\mathrm{gain})$ versus $\log_{10}(\mathrm{voltage})$ allows
 the high voltage of each PMT to be tuned to the desired operating point ($10^7$
-for in-ice DOMs; Fig.~\ref{fig:domcal_hv_settings}).  Small 
+for in-ice DOMs; figure~\ref{fig:domcal_hv_settings}).  Small 
 corrections ($3-5\%$) to the gain of each DOM are determined using charge
 distributions recorded by the Processing and Filtering system
-(Sec.~\ref{sect:online:filter}) during normal data-taking.  These
+(section~\ref{sect:online:filter}) during normal data-taking.  These
 corrections are used to eliminate a systematic difference in the charge as
 determined by DOMCal's numerical integration and the waveform pulse
 unfolding used in data processing. 
@@ -150,7 +150,7 @@ the ATWD waveform before sending it to the surface.  Thereafter, both ATWD
 and fADC waveforms can be calibrated by first subtracting the common
 baseline from each sample, then multiplying by the gain. Correct charge
 measurement and energy reconstruction depends on correct measurement
-of the baseline, as discussed in Sec.~\ref{sec:baselines}.
+of the baseline, as discussed in section~\ref{sec:baselines}.
 
 The pedestal pattern is computed by the DAQ software at the beginning of each 
 run by averaging 200 forced-readout waveforms.  Accidental single photoelectrons in
@@ -168,14 +168,14 @@ in 1000 runs will contain a contaminated baseline.
 The baseline is set to about 10\% of the maximum value of the
 digitizer counts in
 order to capture signals that go below the baseline. Since 2012, the
-baseline value for each DOM is configured (Sec.~\ref{sect:online:daqdomconfig}) in order to ensure 
+baseline value for each DOM is configured (section~\ref{sect:online:daqdomconfig}) in order to ensure 
 stability. The baseline value differs for each digitizer channel in
 each DOM, ranging from 112 to 161 counts in the fADC and 109 to 172
 counts in the ATWD. The baselines for each digitizer channel in each DOM are measured with
 beacon hits, forced triggers which are collected during normal data
 acquisition at a rate of 1.2~Hz per DOM
 in in-ice DOMs and 4.8~Hz in IceTop DOMs. Beacon waveforms
-from the fADC and ATWD of a typical DOM are shown in Figure~\ref{fig:raw_baselines}.
+from the fADC and ATWD of a typical DOM are shown in figure~\ref{fig:raw_baselines}.
 
 \begin{figure}[!h]
   \captionsetup[subfigure]{labelformat=empty}
@@ -190,7 +190,7 @@ from the fADC and ATWD of a typical DOM are shown in Figure~\ref{fig:raw_baselin
   \label{fig:raw_baselines}
 \end{figure}
 
-The digitizer gain is measured by DOMCal (Sec.~\ref{sec:domcal}), a single
+The digitizer gain is measured by DOMCal (section~\ref{sec:domcal}), a single
 value for the fADC waveform and a sample-dependent value for the ATWD
 waveform. The calibrated waveform voltage is then
 
@@ -262,7 +262,7 @@ ICL, in order to establish a standard time base for the array to
 $O(\mathrm{ns})$ accuracy.  Subsequently, the ICL-based hit timestamps can
 then be translated to UTC.  The scheme used for the time transfer involves
 transmission of a pulse to and from each DOM and is shown in
-Fig.~\ref{fig:rapcal_symmetry}.  The base implementation is described in
+figure~\ref{fig:rapcal_symmetry}.  The base implementation is described in
 \cite{ICECUBE:DAQ}; we describe here the details of the 
 algorithm and validation of the DOM relative time calibration. 
 
@@ -303,16 +303,16 @@ corresponds to a fixed delay after the start of the final pulse recovery.  A RAP
 from each DOM therefore results in a series of four timestamps 
 $T_{\mathrm{tx}}^{\mathrm{DOR}}$, $T_{\mathrm{rx}}^{\mathrm{DOM}}$, 
 $T_{\mathrm{tx}}^{\mathrm{DOM}}$,  and $T_{\mathrm{rx}}^{\mathrm{DOR}}$
-(Fig.~\ref{fig:rapcal_symmetry}).  These timestamps initially count periods
+(figure~\ref{fig:rapcal_symmetry}).  These timestamps initially count periods
 of the DOM's 40 MHz clock and of the 20 MHz clock of the surface
-electronics (DOR, Sect.~\ref{sect:online:master_clock}); they are
+electronics (DOR, section~\ref{sect:online:master_clock}); they are
 translated into common units for the calculations described below.
 
 Next, in order to improve the precision beyond the sampling speed of the
 communications ADC, a ``fine delay'' correction $f$ to $T_{\mathrm{rx}}^{\mathrm{DOM}}$ and
 $T_{\mathrm{rx}}^{\mathrm{DOR}}$ is calculated by interpolating 
 to find the negative-going baseline crossing, with the baseline voltage
-calculated using the initial samples of the waveform (Fig.~\ref{fig:rapcal_zero_crossing}):
+calculated using the initial samples of the waveform (figure~\ref{fig:rapcal_zero_crossing}):
 
 \begin{equation}
   \tilde{T}_{\mathrm{rx}} = T_{\mathrm{rx}} - f\ .
@@ -320,7 +320,7 @@ calculated using the initial samples of the waveform (Fig.~\ref{fig:rapcal_zero_
 
 
 \noindent The midpoints $T_C^{\mathrm{DOR,DOM}}$ as shown in
-Fig.~\ref{fig:rapcal_symmetry} are then determined, where
+figure~\ref{fig:rapcal_symmetry} are then determined, where
 
 \begin{equation}
   T_C =  \frac{T_{\mathrm{tx}} + \tilde{T}_{\mathrm{rx}}}{2}\ .
@@ -353,7 +353,7 @@ results:
 Finally, because the timestamps $T^{\mathrm{DOR}}$ count the sub-second
 time offset into the current UTC second, the UTC time offset $\Delta$ of the previous
 1-second boundary, provided by the master clock, is added.  Details on the
-master clock system are provided in Sec.~\ref{sect:online:master_clock}.
+master clock system are provided in section~\ref{sect:online:master_clock}.
 
 The stability and repeatability of the calibration is monitored by
 tracking the cable delay from RAPCal, determined by
@@ -365,7 +365,7 @@ tracking the cable delay from RAPCal, determined by
 \end{equation}
 
 \noindent A representative distribution of $T_{\mathrm{cable}}$ from one DOM over an 8-hour
-data-taking run is shown in Fig.~\ref{fig:rapcal_cable_len}, with a
+data-taking run is shown in figure~\ref{fig:rapcal_cable_len}, with a
 standard deviation of 0.6 ns.  Individual RAPCal measurements in which $T_{\mathrm{cable}}$
 deviates by more than 10 ns from a moving average are discarded.
 
@@ -389,7 +389,7 @@ from the flashing DOM to the DOM above is 77~ns. In DeepCore, the DOM
 vertical spacings are 10~m and 7~m, corresponding to light travel
 times of 45~ns and 32~ns respectively. The mean light travel
 time to the DOM above for all flashing DOMs in ice is shown in
-Fig.~\ref{fig:flashertiming}. The mean arrival time agrees with the
+figure~\ref{fig:flashertiming}. The mean arrival time agrees with the
 expectation for the DeepCore DOMs. For the standard DOMs, the observed
 light travel time is about 3~ns longer than the expected light travel
 time, due to the effects of scattering in the ice over the longer
@@ -397,7 +397,7 @@ distance. The accuracy of the photon arrival time with respect to the
 arrival time of any other photon is measured using
 the difference between arrival times at the two DOMs above the
 flasher, which eliminates any uncertainty in the flasher source
-time. Fig.~\ref{fig:flashertiming} shows the distribution of the
+time. Figure~\ref{fig:flashertiming} shows the distribution of the
 difference in arrival times at the two DOMs above the flasher for the
 DOMs with 7~m spacing, as the DOMs with larger spacing are more
 affected by scattering in ice. The width of the distribution is
@@ -439,7 +439,7 @@ dominated by the shape of the photocathode and its response variation away
 from the center, which was measured for 135 bare
 PMTs~\cite{ICECUBE:PMT}. The efficiency was also measured for 16 fully integrated
 DOMs, including glass and gel; the response of an example DOM is shown
-in Fig.~\ref{fig:goldendom}. The efficiency measurement used the
+in figure~\ref{fig:goldendom}. The efficiency measurement used the
 337~nm nitrogen laser, as well as LEDs at 365~nm, 470~nm, 520~nm, and
 572~nm due to the low transparency of the glass at short wavelengths.
 
@@ -473,7 +473,7 @@ effects, and are expected to reduce uncertainties~\cite{ICECUBE:DOMEFF}.
 The absolute calibration at 337~nm was performed at room temperature on a
 small subset of IceCube PMTs. The relative efficiency of all assembled DOMs
 was separately measured as part of production testing
-(Sec.~\ref{sec:dom_prodtest}), using a 405~nm pulsed laser and a system of
+(section~\ref{sec:dom_prodtest}), using a 405~nm pulsed laser and a system of
 fibers and diffusers to illuminate DOMs within 50$^{\circ}$ of the
 PMT axis.  Using this system, the relative efficiency of DeepCore DOMs
 (high quantum efficiency type) was measured to be higher by a factor
@@ -490,12 +490,12 @@ the design value of $10^7$.
 \subsection{\label{sec:baselines}Baseline Voltage Stability}
 
 The beacon hits from which the digitizer baselines are derived
-(Sec.~\ref{sec:waveformcal}) are 
+(section~\ref{sec:waveformcal}) are 
 monitored continuously throughout the year. The average values of the
 beacon baselines are very stable, with shifts of no more than
 0.2~counts per year, corresponding to 0.018~mV in the fADC and
 0.025~mV in the high-gain ATWD channel. The baseline shifts from May
-2015 to April 2016 are shown in Fig.~\ref{fig:baseline_stability_2015}. 
+2015 to April 2016 are shown in figure~\ref{fig:baseline_stability_2015}. 
 
 \begin{figure}[!h]
  \centering
@@ -512,7 +512,7 @@ cause shifts of up to 0.6~counts (0.54~mV) in the fADC
 baselines, for reasons not completely understood. ATWD baselines are
 unaffected by the SPE discriminator 
 setting. Correcting recorded waveforms for the effect of transformer
-coupling as described in Sec.~\ref{sec:waveformcal} has
+coupling as described in section~\ref{sec:waveformcal} has
 the side effect that small DC offset errors are converted into an
 apparent PMT current that increases linearly in time over the course
 of a few microseconds. The effect is stronger for DOMs with old-type toroid
@@ -520,7 +520,7 @@ transformers, where a baseline error of 0.6~counts can
 turn an actual deposited charge of 1~PE into a measured charge of over
 2~PE with an unphysical time structure. The observed distortion in a
 simulated single photoelectron charge due to fADC baseline shifts is
-shown in Figure~\ref{fig:charge_fadcshift}.  To avoid this problem, whenever the
+shown in figure~\ref{fig:charge_fadcshift}.  To avoid this problem, whenever the
 discriminator thresholds are changed, the fADC baselines are re-measured,
 and the values used for calibration are updated. As long as 
 the discriminator thresholds are unchanged, the baselines are stable
@@ -566,7 +566,7 @@ The gain stability of the DOM electronics includes variations in the
 front-end electronic amplifiers and the digitizers themselves.  The
 stability is demonstrated by comparing the Main Board channel amplifier gains
 from sets of calibrations taken from 2011 to 2016
-(Fig.~\ref{fig:domcal_ch_gain}).  From year to year, the amplifier gain 
+(figure~\ref{fig:domcal_ch_gain}).  From year to year, the amplifier gain 
 calibration is repeatable to 0.1\%, 0.2\%, and 0.5\% in the high-gain,
 medium-gain, and low-gain channels respectively.  Since detector completion
 in 2011, a small systematic shift of $-0.3\%$ is visible in the low-gain
@@ -590,11 +590,11 @@ front-end electronics, is monitored during data-taking using the
 single photoelectron peak of the charge distribution on each DOM from
 cosmic ray muons. A
 Gaussian + exponential function is fit to the peak region as in
-Fig.~\ref{fig:spe_fit_thresh}, and the mean of the Gaussian is
+figure~\ref{fig:spe_fit_thresh}, and the mean of the Gaussian is
 tracked throughout the year. The threshold, defined as the bin in the histogram for which 99\% of the area of the histogram is contained in the sum of all higher bins, is also tracked through
 the year. The peak position is calibrated to 1~PE
 and is stable to within 0.01~PE for 95\% of all DOMs, as shown in
-Fig.~\ref{fig:gain_spe_stability}. Over 99\% of DOMs show no
+figure~\ref{fig:gain_spe_stability}. Over 99\% of DOMs show no
 measurable change in the threshold as long as the discriminator
 thresholds are unchanged; these settings are only changed once per year.
 
@@ -620,7 +620,7 @@ thresholds are unchanged; these settings are only changed once per year.
 \end{figure} 
 
 There are on the order of 12~DOMs that show unpredictable, abrupt shifts in the SPE peak
-position of 0.05~PE or more. Fig.~\ref{fig:gainshift_spe} shows the time history of the
+position of 0.05~PE or more. Figure~\ref{fig:gainshift_spe} shows the time history of the
 SPE peak position of one of these DOMs over 4~months. The peak shift
 corresponds to increases or decreases in the multi-photoelectron (MPE)
 scaler rate, where the scaler counts the discriminator crossings.  This
@@ -642,7 +642,7 @@ probability to detect single photons is effectively unchanged.
 Long-term stability of the PMTs can be tracked by examining any change in
 the high voltage vs.~gain calibration over time.  The fractional change in gain for
 all in-ice DOMs over a five-year time period is shown in
-Fig.~\ref{fig:pmt_gainshift}.  For most DOMs, the PMT gain is stable to
+figure~\ref{fig:pmt_gainshift}.  For most DOMs, the PMT gain is stable to
 within $\pm3\%$ over the time period shown, with a median gain shift of $0.3\%$, while approximately $1\%$ 
 of DOMs have a gain shift of more than 10\%.  Any shifts are tracked with
 regular calibration using the methods previously described.
@@ -658,11 +658,11 @@ regular calibration using the methods previously described.
 \subsection{\label{sec:optical_stability}Optical Efficiency Stability}
 
 The detector response in IceCube is verified with low energy muons as
-described in Ref.~\cite{IC3:ereco}. The detector response is monitored in each run using the track
+described in ref.~\cite{IC3:ereco}. The detector response is monitored in each run using the track
 detection probability (TDP) calculated from bright muon tracks
 with more than 30 hits in IceCube. The muon 
 tracks are reconstructed using the likelihood methods described in
-Ref.~\cite{Ahrens:2003fg}, but charge and time information from the DOM under
+ref.~\cite{Ahrens:2003fg}, but charge and time information from the DOM under
 study are excluded from the reconstruction. The TDP is
 defined for each DOM as the ratio of the number of detected tracks
 within $\SI{100}{\meter}$ of the DOM to the total number of tracks within $\SI{100}{\meter}$ of
@@ -670,11 +670,11 @@ the DOM. This ratio depends both on the optical properties of the ice
 near the DOM and the optical efficiency of the DOM. We do not attempt
 to separate
 these effects in the TDP, but rather use the TDP to monitor the
-overall stability of the detector response. Fig.~\ref{fig:tdp} shows the TDP on
+overall stability of the detector response. Figure~\ref{fig:tdp} shows the TDP on
 String 80, which includes both standard and HQE DOMs; the TDP is
 20--25\% higher for HQE DOMs than for neighboring standard
 DOMs, whereas the quantum efficiency is 35\% higher. The TDP is stable to within 1\% since 2012, when the baselines
-were stabilized by being set in the DAQ configuration. Fig.~\ref{fig:tdp} shows
+were stabilized by being set in the DAQ configuration. Figure~\ref{fig:tdp} shows
 the difference in the TDP for all DOMs between a run in 2012 and a run
 in 2015.
 
@@ -727,9 +727,9 @@ decays per sphere.
 
 The correlated noise manifests itself as an overabundance of short time
 intervals between hits in a single DOM compared to the Poisson expectation
-(Fig.~\ref{fig:darknoise_deltaT}). 
+(figure~\ref{fig:darknoise_deltaT}). 
 The temperature dependence of the noise rate
-(Fig.~\ref{fig:dom_darknoise_vs_temperature}) was determined by combining a
+(figure~\ref{fig:dom_darknoise_vs_temperature}) was determined by combining a
 measured temperature profile of 
 the South Pole ice cap \cite{price2002temperature} with a fit of the
 Poissonian expectation of the total dark noise rate to every individual
@@ -761,7 +761,7 @@ of time intervals less than 3 ms) with an average number of
 hits per burst increasing from \num{3.3} at \SI{-10}{\celsius} to \num{3.8} at
 \SI{-30}{\celsius}. A study with forced-readout data shows that the
 phenomenology of the correlated noise component in IceCube is in general in
-good agreement with results reported in Ref.~\cite{meyer_noise}, but an
+good agreement with results reported in ref.~\cite{meyer_noise}, but an
 unambiguous physical explanation is still to be confirmed.  Stimulation of
 glass samples with radioactive sources results in scintillation
 \cite{helbing_glass}, suggesting that luminescence of the glass triggered
@@ -771,9 +771,9 @@ a candidate for the active scintillator.
 
 The various sources of dark noise present in a DOM can be separated using
 the time between successive untriggered hits in HitSpool 
-data (Sec.~\ref{sec:domhub_hitspool}), as shown in 
-Fig.~\ref{fig:darknoise_deltaT_components}. An overview of the various 
-noise components and their parameterizations is given in Table \ref{tab:noise}.  Late-time
+data (section~\ref{sec:domhub_hitspool}), as shown in 
+figure~\ref{fig:darknoise_deltaT_components}. An overview of the various 
+noise components and their parameterizations is given in table \ref{tab:noise}.  Late-time
 correlated afterpulses, a common feature of PMTs, is attributed to
 ionization of residual gases by electrons that were accelerated between
 the dynodes.  Although afterpulses occur at various time delays, this
@@ -783,7 +783,7 @@ simulation \cite{larson2013simulation}.
 
 \begin{table}[h!]
 \caption{Characteristics of noise components in IceCube DOMs, adapted from
-  Ref.~\cite{stanisha_noise_14}.}
+  ref.~\cite{stanisha_noise_14}.}
   \centering
   \footnotesize
 \begin{tabularx}{\textwidth}{lXXr}
@@ -815,20 +815,20 @@ The evolution of the dark noise contribution to the total rate over time was inv
 supernova scaler stream \cite{IC3:supernova, briedel_phd}, effectively 
 the summed dark noise rate of the detector with an artificial deadtime
 applied to reduce the effect of correlated noise
-(Sec.~\ref{sect:SNDAQ}). A long-term exponential decay in 
+(section~\ref{sect:SNDAQ}). A long-term exponential decay in 
 the noise rate is visible; this may be caused by 
 decreasing triboluminescence \cite{ice_tribo} arising from the initial ``freeze-in''
 of newly deployed DOMs, impurities introduced during the drill
 process, or a combination of the two effects.  The decay
 is especially recognizable in the standard deviation of the scaler
-distribution (Fig.~\ref{fig:noise_over_time_briedel}), which decreases by
+distribution (figure~\ref{fig:noise_over_time_briedel}), which decreases by
 25\% over the course of the three years, with the decrease increasing with
 depth~\cite{Piegsa09}. Changes in the mean rate are
 initially dominated by the decay component and later by the seasonal
 variation of atmospheric muons. The noise
 rate decay is most pronounced when selecting strings
 that were deployed in the final construction season, as shown in
-Fig.~\ref{fig:noise_over_time_briedel_lastseasondepoyed}.
+figure~\ref{fig:noise_over_time_briedel_lastseasondepoyed}.
 
 %As the ice refreezes after deployment, it
 %becomes cleaner and impurities introduced during the drill process (mainly
@@ -863,7 +863,7 @@ still dominated by the decay component. Spikes are due to calibration
 
 Since the dark noise components are not correlated between
 DOMs, the dark noise rate change is not prominent in local coincidence
-hits, which are dominated by atmospheric muons (Fig.
+hits, which are dominated by atmospheric muons (figure
 \ref{fig:hlc_over_time_briedel}).  Thus, the detector trigger rate as well
 as many higher-level reconstruction variables are relatively isolated from the
 noise rate variations.  Nevertheless, the total hit rates for each DOM are
