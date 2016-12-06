@@ -218,13 +218,15 @@ soldered directly to the PMT pins.
 
 \subsubsection{\label{sec:hv}High Voltage Supply and Divider}
 
-The PMT high voltage generator is a custom encapsulated module (\#9730A) designed by
-EMCO High Voltage (California).  The PMT high voltage
-subsystem consists of a resistive 
+The PMT high voltage subsystem consists of a resistive 
 voltage divider circuit (PMT Base Board) directly
 solder-mounted on the PMT and a separate High Voltage Control Board. 
 The High Voltage Control Board includes a DAC and ADC for setting and reading out the PMT high voltage,
-connected to the Main Board with a digital interface. The maximum high voltage is
+connected to the Main Board with a digital interface, as well as the high
+voltage generator itself.
+
+The high voltage generator is a custom encapsulated module (\#9730A) designed by
+EMCO High Voltage (California).  The maximum high voltage is
 \unit[2047]volts, specified for up to $30\,{\rm \upmu A}$ current.  The
 voltage setting, in steps of 0.5V, is controlled by the DAC
 output, and the actual voltage is monitored via a high-impedance divider and the ADC.  The output ripple
@@ -282,7 +284,8 @@ A discriminator crossing begins a "launch" of the high speed waveform
 capture and digitization. Each DOM is equipped with two ATWD chips,
 and each chip is provided with three different amplifier
 gains with nominal values of 16, 2, and 0.25 in order to completely cover the 
-dynamic range of the PMT output (up to 150~mA, or 7.5V, when saturated). 
+dynamic range of the PMT output (up to 150~mA, or 7.5V, when saturated).  A
+fourth ATWD channel on each chip is used for calibration inputs and is not normally read out.
 The ATWD chips are configured to sample the input voltage at \unit[300]Msps
 and operate by analog storage of waveform samples in switched capacitor arrays of depth 128,
 followed by a 10-bit digitization \cite{atwd}.  In order to record the waveform starting from before the discriminator
@@ -352,7 +355,7 @@ figure~\ref{fig:atwd_timing}).
  \centering
  \includegraphics[width=1.0\textwidth]{graphics/dom/functional/atwd_timing.pdf}
  \caption{Timing of ATWD and fADC acquisition and associated deadtime, for
-   back-to-back HLC hits with one ATWD gain channel digitized and read out.  The
+   back-to-back HLC hits with one ATWD gain channel of four digitized and read out.  The
    horizontal (time) axis is not to scale.}
  \label{fig:atwd_timing}
 \end{figure}
