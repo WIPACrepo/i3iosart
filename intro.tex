@@ -93,11 +93,12 @@ are a \SI{10}{''} PMT, embedded high-voltage generation, a
 light-emitting diode (LED) Flasher 
 Board, and a Main Board containing the analog and digital processing circuitry
 for PMT pulses.  Detector calibration
-is described in section~\ref{sec:dom_calibration}. The digitized data are sent to a
+is described in section~\ref{sec:dom_calibration}.  Digitized, timestamped
+PMT signals are sent from the DOMs to a
 central computing facility at the surface via a cable system described in
 section~\ref{sec:cable}.  Aspects of detector deployment and ice drilling are
-covered in section~\ref{sec:drill-deploy}. An overview of the data flow as well as
-its readout, processing and filtering are presented in
+covered in section~\ref{sec:drill-deploy}.  An overview of the data flow including
+DOM readout, event triggering, processing and filtering are presented in
 section~\ref{sect:online}, along with data handling, monitoring, and operational performance of
 the observatory.
 
@@ -140,10 +141,10 @@ a high-energy muon neutrino with a nucleus, producing a hadronic shower at
 the vertex and an outgoing muon that emits Cherenkov light in a cone along its
 track.  The angular resolution for muon tracks and hence the incident
 neutrino direction is typically $\SI{0.6}{\degree}$, confirmed by analysis of both the Moon and Sun's shadows
-in cosmic rays \cite{IC3:moon,IC3:sun}.  Muons with energies above the
+in cosmic rays \cite{IC3:moon,IC3:sun}.  Muons with energies above a
 critical energy, about $\SI{1}{\tera\electronvolt}$ in ice,
-predominantly lose energy by radiative processes which exhibit a stochastic behaviour with large fluctuations.  This results in
-large fluctuations in the amount of energy deposited 
+predominantly lose energy by radiative processes that exhibit a stochastic behavior with large fluctuations.  This results in
+large variability in the amount of energy deposited 
 for different muons of the same energy.  A second class of events are
 electromagnetic or hadronic showers from interactions of all neutrino
 flavors, resulting in a more spherical light generation in the detector.
@@ -190,7 +191,7 @@ supernovae~\cite{ICECUBE:DC}.
 The cosmic ray air shower array IceTop \cite{ICECUBE:IceTop}, located
 on the surface of the ice at 2835~m above sea level, consists
 of \num{162} ice-filled tanks, instrumented with PMTs that detect Cherenkov
-radiation and arranged in \num{81} pairs on the
+radiation and arranged in \num{81} stations on the
 surface, using approximately the same grid on which the in-ice
 array is deployed. A denser infill array is formed by the eight
 stations in the center of IceTop, corresponding to the denser
