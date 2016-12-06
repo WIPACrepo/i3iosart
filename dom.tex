@@ -218,13 +218,15 @@ soldered directly to the PMT pins.
 
 \subsubsection{\label{sec:hv}High Voltage Supply and Divider}
 
-The PMT high voltage generator is a custom encapsulated module (\#9730A) designed by
-EMCO High Voltage (California).  The PMT high voltage
-subsystem consists of a resistive 
+The PMT high voltage subsystem consists of a resistive 
 voltage divider circuit (PMT Base Board) directly
 solder-mounted on the PMT and a separate High Voltage Control Board. 
 The High Voltage Control Board includes a DAC and ADC for setting and reading out the PMT high voltage,
-connected to the Main Board with a digital interface. The maximum high voltage is
+connected to the Main Board with a digital interface, as well as the high
+voltage generator itself.
+
+The high voltage generator is a custom encapsulated module (\#9730A) designed by
+EMCO High Voltage (California).  The maximum high voltage is
 \unit[2047]volts, specified for up to $30\,{\rm \upmu A}$ current.  The
 voltage setting, in steps of 0.5V, is controlled by the DAC
 output, and the actual voltage is monitored via a high-impedance divider and the ADC.  The output ripple
