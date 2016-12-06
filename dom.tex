@@ -101,9 +101,9 @@ of \SI{0.5}{''}.
 The spheres protect the inside electronics and PMT against long-term applied pressure of 
 \unit[250]bar (\unit[2.6]km-equivalent water depth)
 as well as temporary overpressure up to \unit[690]bar during the refreezing of melted ice in the drill hole.
-The housings were produced by Benthos, Inc., based on a design for deep-sea
+The housings were produced by Benthos (Falmouth, Massachusetts), based on a design for deep-sea
 environments but using borosilicate glass from Kopp Glass
-with very low potassium or other radioactive trace elements that would contribute to the dark noise
+with very low potassium and other radioactive trace elements that would contribute to the dark noise
 count rate (section~\ref{sect:darknoise}).  
 Optical transmission was measured in representative glass samples as 93\% at \unit[400]nm,
 decreasing to 50\% at \unit[340]nm and 10\% at \unit[315]nm (normal
@@ -148,7 +148,7 @@ detections.
 \subsubsection{\label{sec:penetrator}Cable Penetrator, Cable and Connector}
 
 A penetrator assembly brings three wire pairs out through a \unit[16.3]mm hole in
-the DOM glass.  The wires are routed inside a customized cable, shown in figure~\ref{fig:domcable},
+the DOM glass sphere.  The wires are routed inside a customized cable, shown in figure~\ref{fig:domcable},
 and terminate at a pressure-tight, waterproof connector that mates with a similar connector
 that continues each pair into the main cable.  One wire pair carries power and a
 bidirectional digital communications stream, connecting ultimately
@@ -163,8 +163,8 @@ terminated DOM is deployed \unit[17]m below the unterminated one (\unit[7]m
 or \unit[10]m in DeepCore strings) and therefore includes a correspondingly 
 long penetrator assembly cable (figure~\ref{fig:domcable}).
 
-The entire penetrator assembly was designed and produced by SEACON
-(California).  The part that seals against the DOM glass is a
+The entire penetrator assembly was designed and produced by SEACON Brantner \& Associates (El Cajon,
+California).  The part that seals against the DOM glass is a
 hollow steel bolt that is secured inside the DOM by a nut and spring
 washer and compresses a fluorosilicone O-ring against the outside surface.
 The steel part includes additional sealing around the wires that pass
@@ -177,7 +177,7 @@ robustness, based on previous experience deploying AMANDA modules.
 \subsubsection{\label{sec:pmt}PMT, Gel and Magnetic Shield}
 
 DOMs use the \SI{10}{''}-diameter Hamamatsu R7081-02 PMT, 
-or the corresponding high-quantum-efficiency (HQE) version, Hamamatsu R7081MOD, for DeepCore strings.
+or the corresponding high-quantum-efficiency (HQE) version, Hamamatsu R7081-02MOD, for DeepCore strings.
 The PMT properties have been measured and described in ref.~\cite{ICECUBE:PMT}.
 The PMT is specified by Hamamatsu for the wavelength range
 \unit[300]nm--\unit[650]nm, with peak quantum efficiency around 25\% (34\%
@@ -202,7 +202,7 @@ reveal no measurable aging effects (section~\ref{sec:optical_stability}).
 
 To reduce effects of the ambient South Pole magnetic field (\unit[550]mG, $17^\circ$
 from vertical) on the PMT collection efficiency, a mu-metal cage surrounds the PMT bulb up to
-the neck join.  It was constructed as a wire mesh with typical wire spacing \unit[66]mm and
+the neck.  It was constructed as a wire mesh with typical wire spacing \unit[66]mm and
 wire diameter \unit[1]mm, blocking about 4\% of the incident light,
 and delivered by ITEP Moscow.
 Without such a shield, this PMT exhibits 5-10\% lower
@@ -268,6 +268,9 @@ digitized waveforms, temporarily storing the data, and creating time-stamped dat
 \item{Exchanging LC pulses with the adjacent DOMs.}
 \item{Uniquely identifying each DOM by providing a Main Board ID generated from a 
 component device identifier.}
+\item{Providing an onboard adjustable low-intensity optical source
+    for direct calibration of PMT gain and timing, and hosting a
+    daughter board with an adjustable high-intensity optical source for inter-module calibration.}
 \end{enumerate}
 
 The data flow starting from the PMT is shown in figure~\ref{fig:domdataflow}.
@@ -377,7 +380,7 @@ variety of calibration purposes~\cite{IC3:SC,Aartsen:2013rt}, including:
   in measuring position, direction, and energy.
 \end{enumerate}
 
-The standard Flasher Board, shown in figure~\ref{fig:flasherdiagram}, is
+The standard Flasher Board is
 included in every DOM except the ``color DOMs''
 described below. It is an annular board fitted with 12 LEDs (ETG-5UV405-30)
 specified with output wavelength \unit[$405\pm5$]nm.  Laboratory
@@ -407,7 +410,8 @@ About 10\% of the light is emitted outside the Gaussian beam, modeled by
 a secondary profile proportional to $(1+\cos{\alpha})$, where $\alpha$ is the angle
 away from the LED axis.
 
-The LEDs are controlled via individual high-speed MOSFET drivers. The LEDs can be turned on individually or in any
+The LEDs are controlled via individual high-speed MOSFET drivers; the
+flasher circuit diagram is shown in Fig.~\ref{fig:flasherdiagram}. The LEDs can be turned on individually or in any
 combination of the 12, by setting bits in a configuration parameter.
 The photon output of each LED depends on the width and
 amplitude of the driving current pulse, which are controlled as common
@@ -564,7 +568,8 @@ low-temperature soak, functional issues on the Main Board or Flasher Board,
 and PMT gain instability.  The majority of failing DOMs were retested and
 subsequently passed, while DOMs with serious issues were repaired if possible and
 retested prior to shipment. After the successful completion of FAT, DOM
-deployment harnesses were attached (figure~\ref{fig:domcable}) and the DOMs individually packed. 
+deployment harnesses were attached (figure~\ref{fig:domcable}) and the
+DOMs individually packed for shipment. 
 
 \begin{figure}[!h]
  \centering
