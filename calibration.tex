@@ -13,7 +13,7 @@ determined both by laboratory and \emph{in situ} measurements
 (section~\ref{sec:domeff}). The stability of these calibrations is also relevant
 as not every calibration parameter can be tracked continuously during
 data-taking (sections~\ref{sec:baselines} to \ref{sec:optical_stability}).
-Understanding the statistical properties and time-dependence of the ambient ``dark
+Understanding the statistical properties and time-dependence of the background ``dark
 noise'' is also important for low-energy neutrino analyses, supernova
 searches, and detector simulation (section~\ref{sect:darknoise}).
 
@@ -31,7 +31,7 @@ the DOM calibration software (DOMCal) are a precision electronic
 pulser circuit providing known charges; a circuit providing a reference DC
 bias voltage level; the 20 MHz oscillator on the Main
 Board, used as the timing reference; and single photoelectrons, either from
-ambient ``dark noise'' photons or a low-luminosity LED on the Main
+background ``dark noise'' photons or a low-luminosity LED on the Main
 Board.  The Main Board oscillator is manufactured by Vectron
 International (model C2560A-0009 TCXO) and has a certified stability
 of roughly $1 \times 10^{-11}$ for a sample interval of 5 seconds~\cite{ICECUBE:DAQ}.
@@ -93,7 +93,7 @@ voltage $V$ is determined by calculating the delay between the digitized
 current pulse through the Main Board LED and the observed light pulse in
 the ATWDs.
 
-The PMT gain as a function of high voltage is calibrated using ambient
+The PMT gain as a function of high voltage is calibrated using background
 ``dark noise'' photons --- the charge $e$ prior to amplification is quantized
 and known.  At each voltage level, a histogram of many observed charges is
 recorded, where the charge is determined by numerical integration of the waveform.
@@ -239,17 +239,20 @@ where the DOM's transient response $\tilde{\delta}(t)$ to an input
 signal $\delta(t)$ is given by
 
 \begin{equation}
-\tilde{\delta}(t) = \delta (t) - N((1 - f) e^{-t/\tau_1} +f
+\tilde{\delta}(t) = \delta (t) - N((1 - f) e^{-t/\tau_1} +f\ ,
 e^{-t/\tau_2})
+\label{eq:droop}
 \end{equation}
 
-\noindent The first time constant $\tau_1$ is given by 
+\noindent where first time constant $\tau_1$ is given by 
 
 \begin{equation}
-\tau_1(T) = A + \frac{B}{1 + e^{(-T/C)}}
+  \tau_1(T) = A + \frac{B}{1 + e^{(-T/C)}}\ .
+  \label{eq:tau1}
 \end{equation}
 
-\noindent where $T$ is the temperature and $A$, $B$, $C$, $N$ and $f$ were
+\noindent In eqs.~\ref{eq:droop} and \ref{eq:tau1}, $T$ is the
+temperature, and the constants $A$, $B$, $C$, $N$ and $f$ were
 determined empirically with a dedicated analysis. For the old toroids, the
 second time constant $\tau_2 =0.75\tau_1$. For the new toroids, $\tau_2$ is 500~ns.
 
@@ -414,9 +417,9 @@ between the IceTop surface stations and the in-ice DOMs~\cite{IC3:perf}.
     (red), 10~m vertical spacing (blue) and 7~m vertical spacing
     (green). The expected light travel times in ice for each distance are marked with
     vertical lines. Right: arrival time difference (blue) between the two
-    DOMs above the flasher for DOMs with 7~m vertical spacing; the
+    DOMs above the flasher for DOMs with 7~m vertical spacing.  The
     vertical red line denotes expected light
-    travel time in ice; the mean of a Gaussian fit to the distribution
+    travel time in ice, and the mean of a Gaussian fit to the distribution
     (dashed blue line) is 33~ns, due to
     the effects of scattering in ice. The width of the distribution is 1.7~ns.}
   \label{fig:flashertiming}
@@ -560,11 +563,11 @@ The gain stability of the DOM, or the stability of the amplified charge
 from converted photons, depends on a number of factors including stability
 of the PMT high voltage, Main Board channel amplifiers, and the digitizers.
 We can examine these subsystems using both historical calibration results
-as well as by tracking the SPE charge during data-taking.
+and by tracking the SPE charge during data-taking.
 
-The gain stability of the DOM electronics includes variations in the
-front-end electronic amplifiers and the digitizers themselves.  The
-stability is demonstrated by comparing the Main Board channel amplifier gains
+Variations of the front-end electronic amplifiers or the digitizers
+themselves can potentially lead to changes in the overall gain of the DOM electronics.
+The stability is demonstrated by comparing the Main Board channel amplifier gains
 from sets of calibrations taken from 2011 to 2016
 (figure~\ref{fig:domcal_ch_gain}).  From year to year, the amplifier gain 
 calibration is repeatable to 0.1\%, 0.2\%, and 0.5\% in the high-gain,
@@ -619,7 +622,7 @@ thresholds are unchanged; these settings are only changed once per year.
   \label{fig:gain_spe_stability}
 \end{figure} 
 
-There are on the order of 12~DOMs that show unpredictable, abrupt shifts in the SPE peak
+There are about 12~DOMs that show unpredictable, abrupt shifts in the SPE peak
 position of 0.05~PE or more. Figure~\ref{fig:gainshift_spe} shows the time history of the
 SPE peak position of one of these DOMs over 4~months. The peak shift
 corresponds to increases or decreases in the multi-photoelectron (MPE)
