@@ -48,13 +48,13 @@ causal relationship.  A number of different trigger algorithms run in
 parallel, described in section~\ref{sect:online:trigger}.  All hits (both HLC
 and SLC) within a window around the trigger are combined into events, the
 fundamental output of the DAQ.  The event rate varies
-seasonally with the atmospheric muon flux~\cite{ICECUBE:IceTop} from 2.5 to
-2.9 kHz, with a median rate of 2.7 kHz, and the total DAQ data rate is
+seasonally with the atmospheric muon flux~\cite{ICECUBE:IceTop} from 2.5
+kHz to 2.9 kHz, with a median rate of 2.7 kHz, and the total DAQ data rate is
 approximately 1~TB/day. 
 
 The DAQ also produces secondary streams that include time calibration,
-monitoring, and DOM scaler data.  The scaler data, which monitors the
-hit rate of each DOM, is used in the supernova data
+monitoring, and DOM scaler data.  The scaler data report the
+hit rate of each DOM and are used in the supernova data
 acquisition system (section~\ref{sect:SNDAQ}).  The time calibration and
 monitoring streams are used to monitor the health and quality of the
 data-taking runs.
@@ -82,7 +82,7 @@ software system, described in section~\ref{sec:online:icecubelive}.
 
 Data-taking runs are arbitrarily divided into 8-hour periods and assigned
 a unique run number; data acquisition need not actually pause during
-this transition.  Detector configuration parameters that affect physics
+the run transition.  Detector configuration parameters that affect physics
 analyses are changed at most once per year (typically in May), indicating
 the start of a new ``physics run''.   
 
@@ -232,7 +232,7 @@ the primary.
 Each DOR card is connected to up to 8 DOMs, with 8 DOR cards in a
 DOMHub. The DOR card controls the 96~VDC power supply to the DOMs and
 modulates the communications signaling on top of this DC level; the DOMs
-can accept input voltages from 40--120 V.
+can accept input voltages from 40 V to 120 V.
 Dedicated circuitry monitors the current draw and voltage levels on each
 twisted pair. A ``firmware fuse'' can disable power if the current draw
 deviates from programmable maximum or minimum levels, and this mechanism is
@@ -419,7 +419,7 @@ Particle (SLOP) trigger has thus been developed to search for slow
 track-like particle signatures.
 
 The SLOP trigger operates in several stages.  The HLC hits, which by design
-come in at least in pairs along a string, are cleaned by removing pairs that
+occur at least in pairs along a string, are cleaned by removing pairs that
 are proximate in time ($\Delta t < T_{\mathrm{prox}}$); $T_{\mathrm{prox}}$
 is tuned to remove most hits from particles traveling near $c$, such as muons.
 For all parameters, the trigger algorithm considers the time and 
