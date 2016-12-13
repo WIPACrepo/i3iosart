@@ -1,7 +1,3 @@
-%!TEX TS-program = pdflatex
-%!TEX root = i3det-top.tex
-%!TEX encoding = UTF-8 Unicode
-
 \section{\label{sect:online}Online Systems}
 
 The IceCube online systems comprise both the software and hardware at the
@@ -108,7 +104,6 @@ single-board computer were upgraded in 2013--14.
 \hline
     Component & \# \\ \hline DOMHubs & 97 \\ Other data
     acquisition & 4 \\
-%    Experiment control & 1 \\
     Monitoring & 3 \\ Event filtering & 24 \\ System infrastructure & 8 \\ Other &
     6 \\
 \hline
@@ -194,9 +189,6 @@ each DOM in turn; only one DOM per pair can transmit at a time.  Communication i
 paused once per second to perform a timing calibration (RAPCal; section~\ref{sect:dom:rapcal}); this enables time transfer of DOM clock to DOR
 clock for every DOM.  
 
-% Add more details about actual usage?
-% Q: is LC signaling documented anywhere yet?  Should it go here?
-
 \subsubsection{\label{sect:online:master_clock}Master Clock System}
 
 The DOR clocks themselves are synchronized to UTC via an active fanout
@@ -223,9 +215,6 @@ the primary.
    each DOMHub.}
  \label{fig:clock_fanout}
 \end{figure}
-
-% Q: do we correct for fanout delay of ~150 ns anywhere?
-% Q: say anything about leap seconds?
 
 \subsubsection{DOR Card and Driver}
 
@@ -437,8 +426,6 @@ the normalized inverted velocity difference $v_\mathrm{rel}$, defined as
   v_\mathrm{inverse}|}{\overline{v}_\mathrm{inverse}} = 
   3\cdot\frac{|\frac{1}{v_{23}}-\frac{1}{v_{12}}|}
   {\frac{1}{v_{12}}+\frac{1}{v_{23}}+\frac{1}{v_{13}}}
-%  v_{\mathrm{rel}} = 3\left|\frac{1}{v_{12}} - \frac{1}{v_{23}}\right|/\left(\frac{1}{v_{12}} +
-%  \frac{1}{v_{23}} + \frac{1}{v_{13}}\right)
 \end{equation}
 
 \noindent where $\ v_{ij} = \Delta x_{ij}/\Delta t_{ij}$, must be less than
@@ -519,23 +506,6 @@ these typically are re-split before reconstruction and analysis.
  \label{fig:trigger_readout}
 \end{figure}
 
-% \begin{figure}[ht]
-%   \centering
-%   \subfloat[Sample bright event satisfying multiple triggers.  The vertical ticks
-%     indicate the time of DOM hits (including SLC hits).  Trigger windows are
-%     illustrated with solid horizontal lines, readout windows by dashed lines.]{
-%     \includegraphics[scale=0.5]{graphics/online/trigger/trigger_example}
-%     \label{fig:trigger_example}
-%   }
-%   \quad
-%   \subfloat[In-ice, IceTop, and merged readout windows for a long event
-%     satisfying SLOP and SMT8 triggers (not to scale).]{
-%     \includegraphics[scale=0.5]{graphics/online/trigger/trigger_readout}
-%     \label{fig:trigger_readout}
-%   }
-%   \caption{IceCube trigger and readout window merging.}
-% \end{figure}
-
 \subsubsection{\label{sect:online:evbuilder}Event Builder}
 
 The Event Builder receives requests from the Global Trigger, extracts the
@@ -597,29 +567,6 @@ run configuration files, it then distributes each component configuration
 appropriately.  The components are then started to begin a data-taking run.
 When a run is in progress, CnCServer regularly checks that components are
 still active and that data are flowing between components.
-
-%CnCServer starts out knowing nothing about the detector components.  During the
-%DAQ's launch phase, components are given the host and port used by CnCServer.
-%When components start up, each one sends CnCServer its name, host/port pairs,
-%and the types of inputs and outputs it expects, and CnCServer adds them to its
-%internal list.
-
-%To start a run, CnCServer is given the name of the run configuration.  That
-%run configuration may include all components or only a subset.  Using
-%that file, CnCServer builds a list of components required for the run.
-%Each of the included components is told to connect to their downstream
-%neighbor, then to use the run configuration to initialize as appropriate
-%(configure DOM hardware, initialize trigger algorithms, etc.).
-%Once all components are successfully
-%configured CnCServer instructs them to start, working its way from the Event
-%Builder back to the String Hubs.
-
-%When a run is in progress, CnCServer regularly checks that components are still
-%active and that data are flowing between components.  If it detects a problem,
-%it stops the run and relaunches all the components.  CnCServer also
-%periodically collects all components' monitoring data and writes it to
-%monitoring files which can be used for post-mortem diagnosis of detector
-%failures.
 
 \subsubsection{\label{sect:SNDAQ}Supernova Data Acquisition System}
 
@@ -738,9 +685,6 @@ good representation of the original waveform, or sees large amounts of
 light, also has the full waveform data saved in addition to the
 SuperDST record.
 
-% JVS internal study on discretization:  
-% https://events.icecube.wisc.edu/getFile.py/access?contribId=140&sessionId=4&resId=0&materialId=slides&confId=33
-
 Each event is then characterized with a series of reconstruction
 algorithms that attempt to match the observed patterns of recorded light in
 the SuperDST with known patterns of light from track and shower event
@@ -777,8 +721,7 @@ include:
   the online filtering process.  This file set is intended as the long-term
   archive version of IceCube data.
 \item Raw data files containing all uncalibrated waveforms from all DOMs for
-  every event.  %This large data set is saved until final data quality
-%  assurance on the SuperDST sample can be completed.
+  every event.  
 \end{enumerate}
 
 During normal operations, the DAQ produces a raw data output of
