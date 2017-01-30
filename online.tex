@@ -914,7 +914,11 @@ were formerly written to Linear Tape Open (LTO) tapes; the tape system was
 retired in 2015, and archival data are now written to disks.
 All of the archival data are buffered on the server until the storage medium
 is full. In case of media failure, the buffered files can be 
-immediately written to new archival media with a single command.
+immediately written to new archival media with a single command.  Two
+copies of each archival data stream are saved, and the disks are
+transported from the South Pole to a Northern Hemisphere data center each
+year.  Archival data are not regularly reprocessed but are retained
+indefinitely in case of an issue with the filtered data streams.
 
 Data streams intended for satellite transfer are queued separately.  
 JADE combines multiple smaller files or splits large files to create $\sim1$
