@@ -287,7 +287,7 @@ FUNCTION {format.eprint}
      { ""}
      { archive empty$
           {"\href{http://arxiv.org/abs/" eprint * "}" *
-             "{{\tt " * eprint * "}}" *}
+             "{{\tt arXiv:" * eprint * "}}" *}
           {"\href{http://arxiv.org/abs/" archive *  "/" * eprint * "}" *
              "{{\tt " * archive * "/" * eprint * "}}" *}
        if$
@@ -861,7 +861,7 @@ FUNCTION {inproceedings}
     }
   if$
   new.block
-  format.eprint output
+  format.eprint.paren output
   new.block
   % note output
   formatfull.doi output
@@ -906,6 +906,21 @@ FUNCTION {manual}
 }
 
 FUNCTION {electronic} { manual }
+
+FUNCTION {bachelorsthesis}
+{ output.bibitem
+  format.authors "author" output.check
+  format.title "title" output.check
+  blank.sep
+  "Bachelor's thesis" format.thesis.type output.nonnull
+  school "school" output.check
+  address output
+  format.date "year" output.check
+  new.block
+  note output
+  doi output
+  fin.entry
+}
 
 FUNCTION {mastersthesis}
 { output.bibitem
