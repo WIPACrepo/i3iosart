@@ -117,7 +117,7 @@ power, timing, and communication.  A low-power single-board computer
 communicates with 8 custom PCI DOM Readout (DOR) cards via an
 industry-standard backplane.  An ATX power supply with two
 redundant modules powers the DOMHub, while two
-48VDC Acopian power supplies, mounted and connected in series inside the
+48~VDC Acopian power supplies, mounted and connected in series inside the
 chassis to double the voltage to 96~V, supply power to the DOMs.  The DOM power is switched and
 monitored by the DOR cards and is controlled by software.  Another PCI
 card, the DOMHub Service Board (DSB), is responsible for GPS timing fanout
@@ -146,10 +146,10 @@ outages of up to 15 minutes.
 
 Total power usage of the detector and online systems, including computing servers, is
 approximately 53 kW.  The majority is consumed by the DOMs, with an
-average power consumption of 5.7W each, including power supply efficiency
-and transmission losses, for a total of 30.6 kW.  The DOMHubs require 128W
-each not including the DOM power, for a total of 12.4 kW.  The
-computing servers consume approximately 200--300W each, depending on
+average power consumption of 5.7~W each, including power supply efficiency
+and transmission losses, for a total of 30.6 kW.  The DOMHubs require 128~W
+each, not including the DOM power, for a total of 12.4 kW.  The
+computing servers consume approximately 200--300~W each, depending on
 configuration.  Most of the of the remaining power is used by the PnF
 Filter Clients: 20 servers of 300W each for a total of 6 kW.
 
@@ -197,7 +197,7 @@ system from a single Symmetricom ET6000 GPS receiver with a
 temperature-stabilized 10 MHz oscillator, also known as the Master
 Clock. The fanout tree is shown in
 figure~\ref{fig:clock_fanout}. The 10 MHz output, a 1 Hz output, and a
-proprietary serial time string indicating
+serial time string indicating
 the UTC date and time are distributed to the DOMHubs via a series of
 fanouts, using shielded, delay-matched twisted-pair cables.  Within the
 DOMHub, the DSB card continues the fanout via short delay-matched patch
@@ -206,8 +206,8 @@ phase-locked to the distributed 10 MHz signal.
 
 To avoid the Master Clock being a single-point failure for the detector, a
 hot spare receiver, using its own GPS antenna and powered through a
-dedicated UPS, is continuously active and satellite-locked in case of problems with
-the primary.
+separate UPS, is continuously active and satellite-locked in case of
+problems with the primary.
 
 \begin{figure}[!ht]
  \centering
@@ -271,8 +271,8 @@ events.
 
 Hits are read continuously from the DOMs by the
 StringHub components running on each DOMHub, and a minimal representation of each HLC hit is
-forwarded to the Subtrigger components (either the in-ice or IceTop Subtrigger.)
-The Subtrigger components apply a
+forwarded to the Trigger components (either the in-ice or IceTop Trigger.)
+The Trigger components apply a
 configurable set of algorithms to the hit stream and form windows around interesting temporal
 and/or spatial patterns.  These time windows are collected by the
 Global Trigger and used to form non-overlapping trigger requests by merging
@@ -293,7 +293,7 @@ in-memory cache to service future requests from the Event Builder for full
 waveform data.
 
 The StringHub component is divided into two logical pieces: the front
-end is called Omicron and the back end is the Sender. Omicron controls all
+end is called Omicron, and the back end is the Sender. Omicron controls all
 of the connected DOMs, forwarding any 
 non-physics data (calibration, monitoring) to its downstream consumers and
 sorting the hits from all 
@@ -762,7 +762,7 @@ components include:
   receive data from the 
   DAQ Dispatch event source, distribute events to and record results
   returning from the PnF client farm, and send events to Writer components.
-  Typically there are four servers used in operation.
+  Typically there are four servers in operation.
 \item Filter Clients, where the core calibration, reconstruction and
   filtering processes are applied to each triggered event.  Up to 500 of
   these clients operate in parallel to filter 

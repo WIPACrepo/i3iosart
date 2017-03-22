@@ -14,7 +14,7 @@
 
 The DOM is the fundamental light sensor and data acquisition unit for IceCube.
 It consists of a spherical glass housing 
-containing a downward-facing \SI{10}{''} diameter PMT~\cite{ICECUBE:PMT}
+containing a downward-facing \SI{10}{''}-diameter PMT~\cite{ICECUBE:PMT}
 and associated circuit boards that allow near-autonomous operation (figure~\ref{fig:domcomponents}).
 Data acquisition, control, calibration, communication, and low-voltage power conversion 
 are integrated in one annular circuit board (Main Board) that fits around the neck of the PMT~\cite{ICECUBE:DAQ}. 
@@ -55,7 +55,7 @@ relative to this reference.  The DOM accumulates such hit
 data for a period of about \unit[1]s before sending the data up as a block.
 However, if data readout is interrupted, the DOM can store
 $\mathcal{O}(\SI{10}{\second})$ of data before overflowing local memory
-(16MB of SDRAM), depending on hit rate.  Separately, the PMT hit rate is recorded by
+(16~MB of SDRAM), depending on hit rate.  Separately, the PMT hit rate is recorded by
 the DOM in \unit[1.6384]ms intervals, as a collective increase of all rates
 could signify detection of many low energy neutrinos in case of a Galactic
 supernova event (section~\ref{sect:SNDAQ}) \cite{IC3:supernova}.
@@ -82,7 +82,7 @@ in full detail; otherwise, the DOM saves abbreviated information appropriate
 to single photon detection (section~\ref{sect:online:payloads}).
 
 The DOM is capable of interpreting commands from the surface that specify
-tasks for configuration, data taking and transmission, monitoring or
+tasks for configuration, data-taking and transmission, monitoring or
 self-calibration.  Self-calibration functions establish PMT and amplifier
 gains as well as sampling speed (section~\ref{sec:domcal}).  The RAPCal
 system (section~\ref{sect:dom:rapcal}) is implemented for tracking each
@@ -115,7 +115,7 @@ and were sealed during assembly (section~\ref{sec:dom_prodtest}).  The DOM
 is held by an aluminum waistband with rubber gaskets against 
 the glass above and below the equator seam. 
 Figure~\ref{fig:domcable} shows how the DOM is attached to the main in-ice cable via a harness
-of steel rope and chain that carries the weight load around the DOM.
+of steel rope and a chain that carries the weight load around the DOM.
 The main cable bends around the DOM, and the DOM axis stays vertically aligned with the string.
 
 %============================================================
@@ -181,7 +181,7 @@ with in-ice DOMs (both standard and HQE) operated at a gain of $10^7$ (section~\
 The PMT bulb faces downwards in the bottom glass hemisphere, secured in high-strength 
 silicone gel to a depth sufficient to surround the photocathode area.  
 The gel provides both good optical coupling and mechanical support for the
-whole assembly of PMT and circuit boards. The gel thickness between PMT
+whole assembly of PMT and circuit boards. The gel thickness between the PMT
 envelope and glass sphere is approximately \unit[1]cm.   
 Originally the gel was supplied from General Electric as RTV6136-D1,
 and later as a similar formulation from Quantum Silicones (Virginia, USA).  
@@ -190,7 +190,7 @@ It is optically clear with transmission of 97\% at \unit[400]nm, 91\% at \unit[3
 passes from the sphere glass into the gel and then into the PMT envelope.
 The characteristics of the cured gel are specified to remain stable in the
 temperature range $-70^\circ$C to $45^\circ$C.  Visual inspection of
-non-deployed DOMs reveals no indication of crazing after more than 10
+non-deployed DOMs reveals no indication of cracks (``crazing'') after more than 10
 years, and studies of the long-term optical efficiency of deployed DOMs
 reveal no measurable aging effects (section~\ref{sec:optical_stability}).  
 
@@ -199,7 +199,7 @@ from vertical) on the PMT collection efficiency, a mu-metal cage surrounds the P
 the neck.  It was constructed as a wire mesh with typical wire spacing \unit[66]mm and
 wire diameter \unit[1]mm, blocking about 4\% of the incident light,
 and delivered by ITEP Moscow.
-Without such a shield, this PMT exhibits 5-10\% lower
+Without such a shield, this PMT exhibits 5--10\% lower
 collection efficiency, poorer single photoelectron resolution, and gain variations of 20\% depending on 
 azimuthal orientation, for a South Pole magnetic field strength and orientation~\cite{calvo}.
 With the shield in place, the interior magnetic field is 2.8 times
@@ -222,7 +222,7 @@ voltage generator itself.
 The high voltage generator is a custom encapsulated module (\#9730A) designed by
 EMCO High Voltage (California).  The maximum high voltage is
 \unit[2047]volts, specified for up to $30\,{\rm \upmu A}$ current.  The
-voltage setting, in steps of 0.5V, is controlled by the DAC
+voltage setting, in steps of 0.5~V, is controlled by the DAC
 output, and the actual voltage is monitored via a high-impedance divider and the ADC.  The output ripple
 is less than \unit[1]mV, and stability is better than \unit[1]V RMS.  Power
 consumption of the high voltage supply is less than \unit[300]mW at full
@@ -274,11 +274,11 @@ PMT waveforms are amplified and compared to a discriminator threshold.  Two
 discriminators are available, the SPE discriminator that is used for in-ice DOMs
 and typically set to a voltage threshold corresponding to \unit[0.25]PE,
 and an MPE discriminator used for the larger-amplitude signals in IceTop.
-A discriminator crossing begins a "launch" of the high speed waveform
+A discriminator crossing begins a "launch" of the high-speed waveform
 capture and digitization. Each DOM is equipped with two ATWD chips,
 and each chip is provided with three different amplifier
 gains with nominal values of 16, 2, and 0.25 in order to completely cover the 
-dynamic range of the PMT output (up to 150~mA, or 7.5V, when saturated).  A
+dynamic range of the PMT output (up to 150~mA, or 7.5~V, when saturated).  A
 fourth ATWD channel on each chip is used for calibration inputs and is not normally read out.
 The ATWD chips are configured to sample the input voltage at \unit[300]Msps
 and operate by analog storage of waveform samples in switched capacitor arrays of depth 128,
@@ -298,7 +298,7 @@ medium-, and low-gain channels are $15.7\pm0.6$, $1.79\pm0.06$, and $0.21\pm0.01
  \caption{Data flow diagram for recording and processing of PMT waveforms in the DOM to form 
  "Hit Records" that are sent to the surface DAQ computers.  As shown by dashes, full waveform data are only included
  when neighbor DOMs report time-coincident signals above the SPE discriminator threshold.  Additionally,
- data from low gain channels are omitted for waveforms that are within range of higher gain channels.}
+ data from low-gain channels are omitted for waveforms that are within range of higher-gain channels.}
  \label{fig:domdataflow}
 \end{figure}
 
@@ -343,7 +343,7 @@ ATWD channels are digitized, and whether the initial hit had an LC
 condition.  Since the full waveform is not needed in the absence of LC, the
 digitization can be aborted early, and the ATWD channels can be cleared and
 reset.  The timing sequence for back-to-back hits is shown in
-figure~\ref{fig:atwd_timing}).
+figure~\ref{fig:atwd_timing}.
 
 \begin{figure}[]
  \centering
@@ -527,7 +527,7 @@ placement inside the bottom glass hemisphere.  In parallel, the mu-metal
 shield was placed inside the bottom hemisphere, and the
 gel was mixed and poured into the same hemisphere. The gel was then
 degassed by placing under a partial vacuum, in order to avoid bubbles and
-cracks (``crazing'') in the gel. 
+crazing in the gel. 
 After degassing, the PMT was placed in the gel, and the gel was allowed to
 cure for 48 hours.  After curing, the PMT Base Board was soldered onto the
 leads of the 

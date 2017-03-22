@@ -11,8 +11,8 @@ physical units (section~\ref{sec:waveformcal}).  Global time calibration across 
 provided by the RAPCal procedure (section~\ref{sect:dom:rapcal}) that runs during
 data-taking.  The relative and absolute optical efficiency of the DOMs is
 determined both by laboratory and \emph{in situ} measurements
-(section~\ref{sec:domeff}). The stability of these calibrations is also relevant
-as not every calibration parameter can be tracked continuously during
+(section~\ref{sec:domeff}). The stability of these calibrations is also
+relevant, as not every calibration parameter can be tracked continuously during
 data-taking (sections~\ref{sec:baselines} to \ref{sec:optical_stability}).
 Understanding the statistical properties and time-dependence of the background ``dark
 noise'' is also important for low-energy neutrino analyses, supernova
@@ -90,7 +90,7 @@ the ATWD and fADC waveforms is determined using the electronic pulser circuit;
 non-linear fitting of the digitized waveforms to known pulse templates is
 required in order to determine the fADC time offset to the required accuracy.
 The transit time of the PMT and Delay Board as a function of PMT high
-voltage $V$ is determined by calculating the delay between the digitized
+voltage is determined by calculating the delay between the digitized
 current pulse through the Main Board LED and the observed light pulse in
 the ATWDs.
 
@@ -171,7 +171,7 @@ baseline value for each DOM is configured (section~\ref{sect:online:daqdomconfig
 stability. The baseline value differs for each digitizer channel in
 each DOM, ranging from 112 to 161 counts in the fADC and 109 to 172
 counts in the ATWD. The baselines for each digitizer channel in each DOM are measured with
-beacon hits, forced triggers which are collected during normal data
+beacon hits, forced triggers that are collected during normal data
 acquisition at a rate of 1.2~Hz per DOM
 in in-ice DOMs and 4.8~Hz in IceTop DOMs. Beacon waveforms
 from the fADC and ATWD of a typical DOM are shown in figure~\ref{fig:raw_baselines}.
@@ -228,22 +228,22 @@ to compensate. The reaction voltage decays
 according to a temperature-dependent model of the transformer behavior. 
 When a readout contains consecutive launches from the same
 DOM, the reaction voltage at the end of the last launch is used to
-correct for the residual droop in the follow-on launch.  DOMs
+correct for the residual droop in the following launch.  DOMs
 use two types of toroid transformers: the ``old toroid'' with a short
 time constant that was used in early DOM production, and a ``new
 toroid'' with a longer time constant that produces less
 distortion. Of 5484~DOMs deployed in IceCube, 1204 are the old
-toroid type and 4280 are the new toroid type. The full correction is modeled with two time constants,
+toroid type, and 4280 are the new toroid type. The full correction is
+modeled with two time constants, 
 where the DOM's transient response $\tilde{\delta}(t)$ to an input
 signal $\delta(t)$ is given by
 
 \begin{equation}
-\tilde{\delta}(t) = \delta (t) - N((1 - f) e^{-t/\tau_1} +f\ ,
-e^{-t/\tau_2})
+\tilde{\delta}(t) = \delta (t) - N((1 - f) e^{-t/\tau_1} +f\ e^{-t/\tau_2})
 \label{eq:droop}
 \end{equation}
 
-\noindent where first time constant $\tau_1$ is given by 
+\noindent where the first time constant $\tau_1$ is given by 
 
 \begin{equation}
   \tau_1(T) = A + \frac{B}{1 + e^{(-T/C)}}\ .
@@ -258,7 +258,7 @@ second time constant $\tau_2 =0.75\tau_1$. For the new toroids, $\tau_2$ is 500~
 \subsection{\label{sect:dom:rapcal}RAPCal}
 
 The Reciprocal Active Pulsing Calibration (RAPCal) is a
-continuously running procedure for translating hit timestamps based on the 
+continuously-running procedure for translating hit timestamps based on the 
 individual free-running DOM clocks to the synchronized surface clocks in the
 ICL, in order to establish a standard time base for the array to
 $O(\mathrm{ns})$ accuracy.  Subsequently, the ICL-based hit timestamps can
@@ -688,9 +688,9 @@ in 2015.
   \caption{Left: track detection probability (TDP) in String 80, with a
     mixture of standard DOMs (blue crosses) and HQE DOMs (red
     circles). The variation with depth is due to the depth-dependent
-    optical properties of the ice. Right: shift in TDP for all in-ice DOMs between 2012 and 2015; standard DOMs are in blue and
+    optical properties of the ice. Right: shift in TDP for all in-ice DOMs between 2012 and 2015; standard DOMs are in blue, and
     HQE DOMs are in red. The mean of the Gaussian fit to
-    the TDP shift in the standard DOMs is -0.1\%, and the mean 
+    the TDP shift in the standard DOMs is $-0.1$\%, and the mean 
     TDP shift in the HQE DOMs is 0.05\%.}
   \label{fig:tdp}
 \end{figure}
@@ -709,8 +709,8 @@ Dark noise is a complex phenomenon with numerous possible sources,
 including thermionic emission, electronic noise, field emission 
 within the PMT, Cherenkov light from radioactive decays, and
 scintillation / luminescence in the glass of the PMT and pressure sphere.
-The average total in-ice hit rate of DOMs with standard PMTs is
-\SI{560}{\hertz} and \SI{780}{\hertz} for high quantum efficiency DOMs. The
+The average total in-ice hit rate is \SI{560}{\hertz} for DOMs with
+standard PMTs and \SI{780}{\hertz} for high quantum efficiency DOMs. The 
 contribution from cosmic-ray muons, estimated as the in-ice HLC hit rate,
 is small and decreases with depth from 25 Hz to 5 Hz. 
 
