@@ -40,23 +40,23 @@ a challenging deployment environment, and long-term reliability.
 
 
 The PMT detects signals from particles interacting in the ice, typically ranging over
-energies from \unit[10]GeV to \unit[10]PeV and distances up to \unit[500]m
-away.  At a gain of $10^7$ (section~\ref{sec:hv}), corresponding PMT waveforms can have amplitudes from \unit[1]mV up
-to and beyond the linearity limit of the PMT (\unit[$\sim2$]V) and widths
-from \unit[12]ns up to around \unit[1500]ns.  In order to accommodate such a variety
+energies from \qty{10}{GeV} to \qty{10}{PeV} and distances up to \qty{500}{m}
+away.  At a gain of $10^7$ (section~\ref{sec:hv}), corresponding PMT waveforms can have amplitudes from \qty{1}{mV} up
+to and beyond the linearity limit of the PMT ($\sim$\qty{2}{V}) and widths
+from \qty{12}{ns} up to around \qty{1500}{ns}.  In order to accommodate such a variety
 of signals, the DOM includes multiple digitizers with overlapping dynamic
 range and different sampling speeds
 (section~\ref{sec:mainboard}).  Each DOM independently
 detects individual photons, starting a recording of
 the PMT waveform that also includes photons arriving up to
-\unit[6.4]{$\mu$s} later (a ``hit'').  The hit time is saved along with the
+\qty{6.4}{\micro\second} later (a ``hit'').  The hit time is saved along with the
 waveform shape, allowing the determination of the times of arriving photons
 relative to this reference.  The DOM accumulates such hit
-data for a period of about \unit[1]s before sending the data up as a block.
+data for a period of about \qty{1}{s} before sending the data up as a block.
 However, if data readout is interrupted, the DOM can store
 $\mathcal{O}(\SI{10}{\second})$ of data before overflowing local memory
 (16~MB of SDRAM), depending on hit rate.  Separately, the PMT hit rate is recorded by
-the DOM in \unit[1.6384]ms intervals, as a collective increase of all rates
+the DOM in \qty{1.6384}{ms} intervals, as a collective increase of all rates
 could signify detection of many low energy neutrinos in case of a Galactic
 supernova event (section~\ref{sect:SNDAQ}) \cite{IC3:supernova}.
 
@@ -97,19 +97,19 @@ computers.
 The glass sphere housing has an outer diameter of \SI{13}{''} and thickness
 of \SI{0.5}{''}.
 The spheres protect the inside electronics and PMT against long-term applied pressure of 
-\unit[250]bar (\unit[2.6]km-equivalent water depth)
-as well as temporary overpressure up to \unit[690]bar during the refreezing of melted ice in the drill hole.
+\qty{250}{bar} (\qty{2.6}{km}-equivalent water depth)
+as well as temporary overpressure up to \qty{690}{bar} during the refreezing of melted ice in the drill hole.
 The housings were produced by Benthos (Falmouth, Massachusetts), based on a design for deep-sea
 environments but using borosilicate glass from Kopp Glass
 with very low potassium and other radioactive trace elements that would contribute to the dark noise
 count rate (section~\ref{sect:darknoise}).  
-Optical transmission was measured in representative glass samples as 93\% at \unit[400]nm,
-decreasing to 50\% at \unit[340]nm and 10\% at \unit[315]nm (normal
+Optical transmission was measured in representative glass samples as 93\% at \qty{400}{nm},
+decreasing to 50\% at \qty{340}{nm} and 10\% at \qty{315}{nm} (normal
 incidence). Fresnel reflection is not included in the quoted
 transmission, since the effect of Fresnel reflection is small in ice,
 where the refractive index is better matched to the glass.
 
-All spheres were tested up to \unit[690]bar hydrostatic pressure by the manufacturer.
+All spheres were tested up to \qty{690}{bar} hydrostatic pressure by the manufacturer.
 Each was delivered as two hemispheres that mate precisely at the equator
 and were sealed during assembly (section~\ref{sec:dom_prodtest}).  The DOM
 is held by an aluminum waistband with rubber gaskets against 
@@ -130,7 +130,7 @@ The main cable bends around the DOM, and the DOM axis stays vertically aligned w
 (Left) DOM as deployed on main in-ice cable, showing cable breakout to the penetrator
 assembly and the mechanical support system.  (Right) Schematic of cable connections for a set
 of four DOMs serviced by two wire pairs from the surface that carry power and
-communications.  The ``T'' labels indicate where electrical termination (\unit[140]$\Omega$) is
+communications.  The ``T'' labels indicate where electrical termination (\qty{140}{\ohm}) is
 installed in one of two DOMs that share such a wire pair.  Other wire pairs are used for
 bidirectional signaling between neighboring DOMs, in order to check for in-time coincident
 detections.
@@ -141,7 +141,7 @@ detections.
 
 \subsubsection{\label{sec:penetrator}Cable Penetrator, Cable and Connector}
 
-A penetrator assembly brings three wire pairs out through a \unit[16.3]mm hole in
+A penetrator assembly brings three wire pairs out through a \qty{16.3}{mm} hole in
 the DOM glass sphere.  The wires are routed inside a customized cable, shown in figure~\ref{fig:domcable},
 and terminate at a pressure-tight, waterproof connector that mates with a similar connector
 that continues each pair into the main cable.  One wire pair carries power and a
@@ -152,9 +152,9 @@ The other wires lead to neighboring DOMs directly above and below,
 carrying LC digital pulses that signify time-correlated hits in nearby DOMs (section~\ref{sec:mainboard}).
 
 DOMs were produced in two versions, in which the communications wire pair was either electrically
-terminated (\unit[140]$\Omega$) or unterminated inside the DOM.  The
-terminated DOM is deployed \unit[17]m below the unterminated one (\unit[7]m
-or \unit[10]m in DeepCore strings) and therefore includes a correspondingly 
+terminated (\qty{140}{\ohm}) or unterminated inside the DOM.  The
+terminated DOM is deployed \qty{17}{m} below the unterminated one (\qty{7}{m}
+or \qty{10}{m} in DeepCore strings) and therefore includes a correspondingly 
 long penetrator assembly cable (figure~\ref{fig:domcable}).
 
 The entire penetrator assembly was designed and produced by SEACON Brantner \& Associates (El Cajon,
@@ -174,18 +174,18 @@ DOMs use the \SI{10}{''}-diameter Hamamatsu R7081-02 PMT,
 or the corresponding high-quantum-efficiency (HQE) version, Hamamatsu R7081-02MOD, for DeepCore strings.
 The PMT properties have been measured and described in ref.~\cite{ICECUBE:PMT}.
 The PMT is specified by Hamamatsu for the wavelength range
-\unit[300]nm--\unit[650]nm, with peak quantum efficiency around 25\% (34\%
-for HQE) near \unit[390]nm.  It features a box-and-line dynode chain with 10 stages,
+\qty{300}{nm}--\qty{650}{nm}, with peak quantum efficiency around 25\% (34\%
+for HQE) near \qty{390}{nm}.  It features a box-and-line dynode chain with 10 stages,
 with in-ice DOMs (both standard and HQE) operated at a gain of $10^7$ (section~\ref{sec:domcal}).
 
 The PMT bulb faces downwards in the bottom glass hemisphere, secured in high-strength 
 silicone gel to a depth sufficient to surround the photocathode area.  
 The gel provides both good optical coupling and mechanical support for the
 whole assembly of PMT and circuit boards. The gel thickness between the PMT
-envelope and glass sphere is approximately \unit[1]cm.   
+envelope and glass sphere is approximately \qty{1}{cm}.   
 Originally the gel was supplied from General Electric as RTV6136-D1,
 and later as a similar formulation from Quantum Silicones (Virginia, USA).  
-It is optically clear with transmission of 97\% at \unit[400]nm, 91\% at \unit[340]nm, and 65\% at \unit[300]nm
+It is optically clear with transmission of 97\% at \qty{400}{nm}, 91\% at \qty{340}{nm}, and 65\% at \qty{300}{nm}
 (normal incidence).  The refractive index is 1.41, yielding less than 0.1\% reflection as light
 passes from the sphere glass into the gel and then into the PMT envelope.
 The characteristics of the cured gel are specified to remain stable in the
@@ -194,10 +194,10 @@ non-deployed DOMs reveals no indication of cracks (``crazing'') after more than 
 years, and studies of the long-term optical efficiency of deployed DOMs
 reveal no measurable aging effects (section~\ref{sec:optical_stability}).  
 
-To reduce effects of the ambient South Pole magnetic field (\unit[550]mG, $17^\circ$
+To reduce effects of the ambient South Pole magnetic field (\qty{550}{mG}, $17^\circ$
 from vertical) on the PMT collection efficiency, a mu-metal cage surrounds the PMT bulb up to
-the neck.  It was constructed as a wire mesh with typical wire spacing \unit[66]mm and
-wire diameter \unit[1]mm, blocking about 4\% of the incident light,
+the neck.  It was constructed as a wire mesh with typical wire spacing \qty{66}{mm} and
+wire diameter \qty{1}{mm}, blocking about 4\% of the incident light,
 and delivered by ITEP Moscow.
 Without such a shield, this PMT exhibits 5--10\% lower
 collection efficiency, poorer single photoelectron resolution, and gain variations of 20\% depending on 
@@ -221,27 +221,27 @@ voltage generator itself.
 
 The high voltage generator is a custom encapsulated module (\#9730A) designed by
 EMCO High Voltage (California).  The maximum high voltage is
-\unit[2047]volts, specified for up to $30\,{\rm \upmu A}$ current.  The
+\qty{2047}{volts}, specified for up to $30\,{\rm \upmu A}$ current.  The
 voltage setting, in steps of 0.5~V, is controlled by the DAC
 output, and the actual voltage is monitored via a high-impedance divider and the ADC.  The output ripple
-is less than \unit[1]mV, and stability is better than \unit[1]V RMS.  Power
-consumption of the high voltage supply is less than \unit[300]mW at full
+is less than \qty{1}{mV}, and stability is better than \qty{1}{V} RMS.  Power
+consumption of the high voltage supply is less than \qty{300}{mW} at full
 load. 
 
 The generator output is carried to the PMT Base Board \cite{ICECUBE:PMT} via a high voltage
 coaxial cable.  The voltage divider, designed for low power consumption,
-presents a total resistive load of \unit[130]M$\Omega$. 
+presents a total resistive load of \qty{130}{\mega\ohm}. 
 The PMT is operated with cathode at ground potential, so the anode signal output is AC-coupled using 
 a 1:1 bifilar-wound toroid transformer mounted on the Base Board; this
 toroid was modified once during DOM production in order to reduce
 distortion of high-amplitude signals (section~\ref{sec:waveformcal}).
 The transformer secondary is then wired to the Main Board analog input with a coaxial cable.
 The single photoelectron (SPE) output waveform has been described in ref.~\cite{ICECUBE:PMT}.  
-With a \unit[100]$\Omega$ load connected to the transformer, and operating
+With a \qty{100}{\ohm} load connected to the transformer, and operating
 at standard PMT gain of $10^7$, the SPE 
-peak voltage before front-end amplification is approximately \unit[8]mV
-with a FWHM of \unit[7--8]ns.  Several effects combine to increase
-the FWHM of digitized SPE waveforms to $\sim$\unit[13]ns (peak $\sim$\unit[5]mV).
+peak voltage before front-end amplification is approximately \qty{8}{mV}
+with a FWHM of 7--8 ns.  Several effects combine to increase
+the FWHM of digitized SPE waveforms to $\sim$\qty{13}{ns} (peak $\sim$\qty{5}{mV}).
 
 \subsubsection{\label{sec:mainboard}Main Board and Delay Board}
 
@@ -272,19 +272,19 @@ component device identifier.}
 The data flow starting from the PMT is shown in figure~\ref{fig:domdataflow}.
 PMT waveforms are amplified and compared to a discriminator threshold.  Two
 discriminators are available, the SPE discriminator that is used for in-ice DOMs
-and typically set to a voltage threshold corresponding to \unit[0.25]PE,
+and typically set to a voltage threshold corresponding to \qty{0.25}{PE},
 and an MPE discriminator used for the larger-amplitude signals in IceTop.
-A discriminator crossing begins a "launch" of the high-speed waveform
+A discriminator crossing begins a ``launch'' of the high-speed waveform
 capture and digitization. Each DOM is equipped with two ATWD chips,
 and each chip is provided with three different amplifier
 gains with nominal values of 16, 2, and 0.25 in order to completely cover the 
 dynamic range of the PMT output (up to 150~mA, or 7.5~V, when saturated).  A
 fourth ATWD channel on each chip is used for calibration inputs and is not normally read out.
-The ATWD chips are configured to sample the input voltage at \unit[300]Msps
+The ATWD chips are configured to sample the input voltage at \qty{300}{Msps}
 and operate by analog storage of waveform samples in switched capacitor arrays of depth 128,
 followed by a 10-bit digitization \cite{atwd}.  In order to record the waveform starting from before the discriminator
 threshold crossing, the signal is first routed through the Delay Board.  Here a total delay of about
-\unit[75]ns is accomplished by an approximately \unit[10]m-long, \unit[0.25]mm-wide
+\qty{75}{ns} is accomplished by an approximately \qty{10}{m}-long, \qty{0.25}{mm}-wide
 serpentine copper trace embedded in the dielectric and sandwiched between
 ground planes.  The highest-gain channel is used
 for most pulses, and lower-gain recordings are also retained as needed when pulses reach 75\% of the range 
@@ -302,13 +302,13 @@ medium-, and low-gain channels are $15.7\pm0.6$, $1.79\pm0.06$, and $0.21\pm0.01
  \label{fig:domdataflow}
 \end{figure}
 
-The ATWD recording duration is \unit[427]ns.  This is sufficient for
+The ATWD recording duration is \qty{427}{ns}.  This is sufficient for
 reconstructing light produced within tens of meters of
 a DOM, but photons from farther away may arrive over a broader time
 interval due to the optical scattering of the ice.  Such distant signals are
-also lower in amplitude, and the information is captured in the 10-bit \unit[40]Msps fADC.
+also lower in amplitude, and the information is captured in the 10-bit \qty{40}{Msps} fADC.
 The fADC samples continuously, and the FPGA is programmed to save an
-interval of \unit[6.4]$\mu$s after the launch. Its amplifier provides a
+interval of \qty{6.4}{\micro\second} after the launch. Its amplifier provides a
 dynamic range comparable to the high-gain ATWD channel, but has extra pulse shaping to accommodate the lower
 sampling speed. An example of a digitized waveform with multiple pulses is shown in
 figure~\ref{fig:mpe_waveform}.
@@ -330,7 +330,7 @@ computers.   The amount of
 information included in a hit depends on whether a signal was also detected in one of the neighboring DOMs.
 In case of an isolated signal (no coincidence), only a time stamp and brief charge summary are sent, and
 the digitization process is aborted.  Conversely, when a nearest or next-to-nearest neighbor DOM 
-also signals a launch within $\pm$\unit[1]$\mu$s (local coincidence), the full waveform is compressed
+also signals a launch within $\pm$\qty{1}{\micro\second} (local coincidence), the full waveform is compressed
 and included in the hit record.  The LC signaling operates via digital pulse codes sent on
 the extra wire pairs described in section~\ref{sec:penetrator}.
 
@@ -380,11 +380,11 @@ variety of calibration purposes~\cite{IC3:SC,Aartsen:2013rt}, including:
 The standard Flasher Board is
 included in every DOM except the ``color DOMs''
 described below. It is an annular board fitted with 12 LEDs (ETG-5UV405-30)
-specified with output wavelength \unit[$405\pm5$]nm.  Laboratory
+specified with output wavelength $405\pm5$ nm.  Laboratory
 measurements with sample DOMs yield a peak at
-\unit[399]nm and spectral width \unit[14]nm (FWHM) when measured at
+\qty{399}{nm} and spectral width \qty{14}{nm} (FWHM) when measured at
 $-20^{\circ}$~C, where the peak wavelength is shifted by 
-\unit[$-1$]nm compared to room temperature~\cite{Aartsen:2013rt}.
+\qty{-1}{nm} compared to room temperature~\cite{Aartsen:2013rt}.
 The LEDs are arranged in six pairs, evenly spaced around the board
 with a 60$^{\circ}$ separation between adjacent pairs. One LED in each pair
 is pointed downward at an angle of 10.7$^{\circ}$; after refraction through the DOM glass and into
@@ -413,14 +413,14 @@ combination of the 12, by setting bits in a configuration parameter.
 The photon output of each LED depends on the width and
 amplitude of the driving current pulse, which are controlled as common
 values for all enabled LEDs in each DOM (figure~\ref{fig:flasheroutput}).  
-The pulse width parameter controls the width up to a maximum of \unit[70]{ns}; 
-for sufficiently short driving current pulses the light output narrows to \unit[6]{ns} (FWHM) with
-10\% afterglow decaying over \unit[15--20]{ns}. The brightness parameter (0--127) controls the driving voltage between
-$4.5$ and \unit[15]{V}, which yields a peak current up to
-\unit[300]{mA} through the LED and current-limiting resistor.
+The pulse width parameter controls the width up to a maximum of \qty{70}{ns}; 
+for sufficiently short driving current pulses the light output narrows to \qty{6}{ns} (FWHM) with
+10\% afterglow decaying over 15--20 ns. The brightness parameter (0--127) controls the driving voltage between
+$4.5$ and \qty{15}{V}, which yields a peak current up to
+\qty{300}{mA} through the LED and current-limiting resistor.
 By varying brightness and width settings as well as the number of LEDs enabled, DOMs can generate flashes
 from $10^6$ to $1.4\times10^{11}$ photons, similar to the total light from
-neutrino interaction showers between \unit[7]GeV and \unit[1]PeV energy.
+neutrino interaction showers between \qty{7}{GeV} and \qty{1}{PeV} energy.
 The low end of this dynamic range requires fine tuning of driving
 parameters in order to operate LEDs very close to threshold.
 
@@ -443,7 +443,7 @@ by enabling from 1 to 12 individual LEDs per DOM.}
 The LED current waveforms are recorded in an auxiliary ATWD channel, supplying
 a rising edge time that also establishes the onset of the optical pulse (after a known
 turn-on delay).
-The repetition rate is programmable up to \unit[610]{Hz}.
+The repetition rate is programmable up to \qty{610}{Hz}.
 Although flashers can be
 operated in multiple DOMs in the same run, the DAQ does not support
 time-synchronized flashing of LEDs on different DOMs, so coincident flasher

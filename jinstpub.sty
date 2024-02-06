@@ -16,7 +16,7 @@
 %
 % This work consists of the file jinstpub.sty.
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{jinstpub}[2015/08/05 v.1.0 r763]
+\ProvidesPackage{jinstpub}[2020/09/18 v.1.1638]
 
 
 \gdef\@fpheader{Prepared for submission to JINST}
@@ -38,7 +38,6 @@
 \SetMathAlphabet{\mathfrak}{bold}{U}{euf}{b}{n}
 \RequirePackage[zerostyle=e]{newtxtt}
 \RequirePackage{amsmath}
-\RequirePackage{amssymb}
 \RequirePackage{graphicx}
 \ifnatbibsort\RequirePackage[numbers,sort&compress]{natbib}\else\RequirePackage[numbers,compress]{natbib}\fi
 \RequirePackage[colorlinks=true
@@ -234,7 +233,7 @@
 % Keywords
 \if!\@keywords!\else\noindent{\textsc{Keywords:}} \@keywords\afterKeywordsSpace\fi
 % Arxivnumber
-\if!\@arxivnumber!\else\noindent{\textsc{ArXiv ePrint}}: \href{http://arxiv.org/abs/\@arxivnumber}{\@arxivnumber}\afterArxivSpace\fi
+\if!\@arxivnumber!\else\noindent{\textsc{ArXiv ePrint}}: \href{https://arxiv.org/abs/\@arxivnumber}{\@arxivnumber}\afterArxivSpace\fi
 % Dedication
 \if!\@dedicated!\else\vbox{\small\it\raggedleft\@dedicated}\afterDedicatedSpace\fi
 %
@@ -352,10 +351,10 @@
                                    {1.75ex \@plus1ex \@minus.2ex}%
                                    {-1em}%
                                    {\normalfont\normalsize\bfseries}}
-\renewcommand\subparagraph{\@startsection{subparagraph}{5}{\parindent}%
+\renewcommand\subparagraph{\@startsection{subparagraph}{5}{\z@}%
                                    {1.75ex \@plus1ex \@minus .2ex}%
                                    {-1em}%
-                                   {\normalfont\normalsize\bfseries}}
+                                   {\normalfont\normalsize\itshape}}
 
 
 %Caption of figure and table
